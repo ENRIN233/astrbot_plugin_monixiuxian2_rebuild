@@ -1,0 +1,176 @@
+{
+  "cultivation": {
+    "max_cultivation_minutes": 1440,
+    "comment": "闭关时长上限（分钟），24小时=1440分钟"
+  },
+  "combat": {
+    "duel_cooldown": 300,
+    "spar_cooldown": 60,
+    "boss_crit_rate": 30,
+    "crit_damage_multiplier": 1.5,
+    "comment": "战斗冷却（秒）和暴击配置"
+  },
+  "bank": {
+    "daily_interest_rate": 0.001,
+    "max_deposit": 1000000000,
+    "loan_interest_rate": 0.005,
+    "loan_duration_days": 7,
+    "max_loan_amount": 100000000,
+    "min_loan_amount": 100000,
+    "breakthrough_loan_rate": 0.008,
+    "breakthrough_loan_duration": 3,
+    "comment": "银行配置：日利率、存款上限、贷款配置"
+  },
+  "dual_cultivation": {
+    "cooldown": 3600,
+    "exp_bonus": 0.1,
+    "request_expire": 300,
+    "comment": "双修配置：冷却时间（秒）、修为加成比例、请求过期时间"
+  },
+  "spirit_eye": {
+    "spawn_interval": 7200,
+    "types": {
+      "1": {
+        "name": "下品灵眼",
+        "exp_per_hour": 500,
+        "spawn_rate": 50
+      },
+      "2": {
+        "name": "中品灵眼",
+        "exp_per_hour": 2000,
+        "spawn_rate": 30
+      },
+      "3": {
+        "name": "上品灵眼",
+        "exp_per_hour": 8000,
+        "spawn_rate": 15
+      },
+      "4": {
+        "name": "极品灵眼",
+        "exp_per_hour": 30000,
+        "spawn_rate": 5
+      }
+    },
+    "comment": "灵眼配置：生成间隔（秒）、类型配置"
+  },
+  "rift": {
+    "default_duration": 1800,
+    "drop_tables": {
+      "1": [
+        {
+          "name": "灵草",
+          "weight": 50,
+          "min": 2,
+          "max": 5
+        }
+      ],
+      "2": [
+        {
+          "name": "灵草",
+          "weight": 50,
+          "min": 3,
+          "max": 7
+        }
+      ],
+      "3": [
+        {
+          "name": "灵草",
+          "weight": 50,
+          "min": 5,
+          "max": 12
+        }
+      ]
+    },
+    "pill_drop_tables": {
+      "1": [
+        {
+          "name": "三品凝神增益丹",
+          "weight": 100,
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "2": [
+        {
+          "name": "三品凝神增益丹",
+          "weight": 50,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "name": "四品破境增益丹",
+          "weight": 40,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "name": "五品渡劫增益丹",
+          "weight": 10,
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "3": [
+        {
+          "name": "四品破境增益丹",
+          "weight": 40,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "name": "五品渡劫增益丹",
+          "weight": 30,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "name": "六品破境增益丹",
+          "weight": 20,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "name": "七品化神增益丹",
+          "weight": 10,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    "pill_drop_chance": {
+      "1": 3,
+      "2": 5,
+      "3": 10
+    },
+    "equipment_drop": {
+      "drop_chance": {"1": 2, "2": 5, "3": 10, "4": 15, "5": 20},
+      "max_item_level": {"1": 12, "2": 22, "3": 35, "4": 35, "5": 35},
+      "level_match_half_life": 5.0,
+      "weapon_armor_ratio": 50,
+      "rank_level_map": {
+        "凡品": 0,
+        "灵品": 10,
+        "地品": 12,
+        "天品": 13,
+        "皇品": 16,
+        "帝品": 22,
+        "道品": 28,
+        "仙品": 32,
+        "混元先天": 35
+      },
+      "rank_base_weight": {
+        "凡品": 1000,
+        "灵品": 300,
+        "地品": 100,
+        "天品": 30,
+        "皇品": 10,
+        "帝品": 3,
+        "道品": 1,
+        "仙品": 0.3,
+        "混元先天": 0.1
+      },
+      "comment_rank_base_weight": "品级基础权重：控制各品级在掉落池中的相对概率，不依赖 shop_weight"
+    },
+    "comment": "秘境配置：探索时长（秒）、掉落表、丹药掉落概率、装备掉落配置"
+  }
+}
