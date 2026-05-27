@@ -1412,6 +1412,60 @@ function renderAdventure() {
         }
     });
 
+    // ====== Bounty (悬赏令) ======
+    const bounties = DATA.bounty_templates || {};
+
+    html += '<h3 class="section-title">悬赏令</h3>';
+    html += '<div class="info-box">悬赏任务通过对应标签的活动累计进度：巡山/云游/猎魔等历练路线提供不同"冒险标签"，秘境探索也能推进探索类悬赏。</div>';
+
+    // Difficulties
+    if (bounties.difficulties) {
+        html += '<h4 style="color:var(--text-secondary);margin:16px 0 8px;font-size:14px">难度等级</h4>';
+        const bdHeaders = ['难度', '名称', '灵石倍率', '修为倍率', '最低境界'];
+        const bdRows = Object.entries(bounties.difficulties).map(([key, d]) => [
+            esc(key),
+            `<strong>${esc(d.name || '-')}</strong>`,
+            `<span data-sortvalue="${d.stone_scale || 1}">${d.stone_scale || 1}x</span>`,
+            `<span data-sortvalue="${d.exp_scale || 1}">${d.exp_scale || 1}x</span>`,
+            `<span data-sortvalue="${d.min_level || 0}">level_index ${d.min_level || 0}</span>`
+        ]);
+        html += createTable(bdHeaders, bdRows);
+    }
+
+    // Templates
+    if (bounties.templates && bounties.templates.length) {
+        html += '<h4 style="color:var(--text-secondary);margin:16px 0 8px;font-size:14px">任务模板</h4>';
+        const btHeaders = ['任务', '类别', '难度', '目标数', '时间限制', '灵石奖励', '修为奖励', '权重'];
+        const btRows = bounties.templates.map(t => [
+            `<strong>${esc(t.name || '-')}</strong><br><span style="font-size:11px;color:var(--text-muted)">${esc(t.description || '')}</span>`,
+            esc(t.category || '-'),
+            esc(t.difficulty || '-'),
+            `${t.min_target || 0}~${t.max_target || 0}`,
+            `<span data-sortvalue="${t.time_limit || 0}">${fmtDuration(t.time_limit)}</span>`,
+            `<span data-sortvalue="${t.reward?.stone || 0}">${formatNum(t.reward?.stone || 0)}</span>`,
+            `<span data-sortvalue="${t.reward?.exp || 0}">${formatNum(t.reward?.exp || 0)}</span>`,
+            `<span data-sortvalue="${t.weight || 0}">${t.weight || 0}</span>`
+        ]);
+        html += createTable(btHeaders, btRows);
+    }
+
+    // Item tables
+    if (bounties.item_tables) {
+        html += '<h4 style="color:var(--text-secondary);margin:16px 0 8px;font-size:14px">悬赏奖励掉落表</h4>';
+        Object.entries(bounties.item_tables).forEach(([table, drops]) => {
+            html += `<p style="color:var(--cyan);margin:10px 0 4px;font-size:13px;font-weight:500">${esc(table)}</p>`;
+            if (Array.isArray(drops)) {
+                const biHeaders = ['物品', '权重', '数量'];
+                const biRows = drops.map(d => [
+                    esc(d.name || d.item || '-'),
+                    `<span data-sortvalue="${d.weight || 0}">${d.weight || '-'}</span>`,
+                    d.min !== undefined ? `${d.min}~${d.max}` : '-'
+                ]);
+                html += createTable(biHeaders, biRows);
+            }
+        });
+    }
+
     page.innerHTML = html;
     makeTableSortable(page);
 }
