@@ -294,6 +294,7 @@ function renderLevelTable(type) {
 
 function renderPills() {
     const page = document.getElementById('page-pills');
+    page.classList.add('scroll-wide');
     page.innerHTML = `
         <h2 class="page-title">丹药系统</h2>
         <div class="sub-tabs" id="pills-tabs">
@@ -1342,6 +1343,7 @@ function renderAlchemy() {
 
 function renderAdventure() {
     const page = document.getElementById('page-adventure');
+    page.classList.add('scroll-wide');
     const config = DATA.adventure_config || {};
     const routes = config.routes || [];
     const eventGroups = config.event_groups || {};

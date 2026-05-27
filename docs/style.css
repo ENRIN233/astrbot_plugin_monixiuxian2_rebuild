@@ -908,12 +908,25 @@ body::before {
     .system-grid { grid-template-columns: 1fr; }
     .config-grid { grid-template-columns: 1fr; }
 
-    /* Tables: allow horizontal scroll, no forced nowrap on all cells */
+    /* Tables: allow horizontal scroll */
     .table-wrapper {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
+    /* Default: wrap text for narrow tables (levels, combat, etc.) */
     .data-table td { white-space: normal; word-break: break-all; }
+
+    /* Wide tables (pills, adventure): keep nowrap for compact rows, scroll horizontally */
+    .scroll-wide .data-table td {
+        white-space: nowrap;
+        word-break: normal;
+        padding: 7px 10px;
+        font-size: 12px;
+    }
+    .scroll-wide .data-table th {
+        padding: 8px 10px;
+        font-size: 10.5px;
+    }
 
     /* Page title */
     .page-title { font-size: 20px; margin-bottom: 20px; }
