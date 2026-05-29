@@ -525,8 +525,6 @@ class ShopManager:
             attrs = []
             if data.get('exp_multiplier', 0) > 0:
                 attrs.append(f"修炼效率+{data['exp_multiplier']:.1%}")
-            if data.get('spiritual_qi', 0) > 0:
-                attrs.append(f"灵气+{data['spiritual_qi']}")
             if data.get('magic_damage', 0) > 0:
                 attrs.append(f"法伤+{data['magic_damage']}")
             if data.get('physical_damage', 0) > 0:
@@ -679,7 +677,7 @@ class ShopManager:
             for key, label in [
                 ('physical_damage', '物伤'), ('magic_damage', '法伤'),
                 ('physical_defense', '物防'), ('magic_defense', '法防'),
-                ('spiritual_qi', '灵气'), ('mental_power', '精神力'),
+                ('mental_power', '精神力'),
             ]:
                 val = data.get(key, 0)
                 if val:

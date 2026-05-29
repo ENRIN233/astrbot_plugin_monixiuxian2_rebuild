@@ -21,16 +21,20 @@ class BountyHandlers:
         bounties = await self.bounty_mgr.get_bounty_list(player)
 
         lines = ["📜 悬赏令 · 今日委托", "━━━━━━━━━━━━━━━"]
-        for b in bounties:
+        for i, b in enumerate(bounties, 1):
             reward = b.get("reward", {})
-            lines.append(
-                f"[{b['id']}] {b['name']}（{b.get('difficulty_name', '未知')}·{b.get('category', '任务')}）\n"
+            tech = b.get("technique_reward")
+            line = (
+                f"[{i}] {b['name']}（{b.get('difficulty_name', '未知')}·{b.get('category', '任务')}）\n"
                 f"  - 时限：{b.get('time_limit', 0) // 60} 分钟（到时限后自动完成）\n"
-                f"  - 奖励：{reward.get('stone', 0):,} 灵石 + {reward.get('exp', 0):,} 修为\n"
-                f"  - 说明：{b.get('description', '')}"
+                f"  - 奖励：{reward.get('stone', 0):,} 灵石 + {reward.get('exp', 0):,} 修为"
             )
+            if tech:
+                line += f"\n  - 功法奖励：【{tech['rank']}】{tech['name']}（+{int(tech['exp_multiplier']*100-100)}%修炼）"
+            line += f"\n  - 说明：{b.get('description', '')}"
+            lines.append(line)
         lines.append("━━━━━━━━━━━━━━━")
-        lines.append("💡 使用 /接取悬赏 <编号> 接取任务（每日限1次）")
+        lines.append(f"💡 使用 /接取悬赏 <编号> 接取任务（每日限{self.bounty_mgr.DAILY_BOUNTY_LIMIT}次）")
 
         yield event.plain_result("\n".join(lines))
     

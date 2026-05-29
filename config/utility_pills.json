@@ -1553,16 +1553,16 @@
   {
     "id": "util_117",
     "name": "伐体丹",
-    "description": "永久降低所有属性-30%，但提升修炼速度+200%",
+    "description": "永久降低所有战斗属性-10%，但提升修炼速度+200%",
     "rank": "天品",
     "subtype": "permanent_attribute",
     "required_level_index": 13,
     "price": 15000000,
     "effect_type": "permanent",
-    "physical_damage_multiplier": -0.3,
-    "magic_damage_multiplier": -0.3,
-    "physical_defense_multiplier": -0.3,
-    "magic_defense_multiplier": -0.3,
+    "physical_damage_multiplier": -0.1,
+    "magic_damage_multiplier": -0.1,
+    "physical_defense_multiplier": -0.1,
+    "magic_defense_multiplier": -0.1,
     "cultivation_multiplier": 2.0,
     "shop_weight": 100
   },
@@ -1898,5 +1898,18 @@
       "heal_hp_pct": 0.0
     },
     "shop_weight": 500
+  },
+  {
+    "id": "util_168",
+    "name": "龙精虎猛丹",
+    "description": "服用后今日双修次数+1，且下一次双修获得的修为翻倍（双方修为之和的2%），每日最多服用2颗",
+    "rank": "帝品",
+    "subtype": "dual_cultivation_boost",
+    "required_level_index": 16,
+    "price": 3000000,
+    "effect_type": "temporary",
+    "dual_cultivation_exp_bonus": 1.0,
+    "shop_weight": 30,
+    "duration_minutes": 0
   }
 ]

@@ -4,9 +4,14 @@ from astrbot_plugin_monixiuxian2.data.migration import MIGRATION_TASKS, LATEST_D
 
 
 @pytest.mark.asyncio
-async def test_latest_version_is_21():
-    assert LATEST_DB_VERSION == 21
+async def test_latest_version_is_26():
+    assert LATEST_DB_VERSION == 26
     assert 21 in MIGRATION_TASKS
+    assert 22 in MIGRATION_TASKS
+    assert 23 in MIGRATION_TASKS
+    assert 24 in MIGRATION_TASKS
+    assert 25 in MIGRATION_TASKS
+    assert 26 in MIGRATION_TASKS
 
 
 @pytest.mark.asyncio

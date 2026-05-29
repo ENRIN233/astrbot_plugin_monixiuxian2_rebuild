@@ -5,7 +5,7 @@ from typing import Dict, Callable, Awaitable
 from astrbot.api import logger
 from ..config_manager import ConfigManager
 
-LATEST_DB_VERSION = 21  # v21: 玩家交易系统（trades + consignment_listings 表）
+LATEST_DB_VERSION = 26  # v26: 灵眼改为修炼效率加成
 
 MIGRATION_TASKS: Dict[int, Callable[[aiosqlite.Connection, ConfigManager], Awaitable[None]]] = {}
 
@@ -95,13 +95,14 @@ async def _ensure_table_integrity(conn: aiosqlite.Connection):
         await conn.execute("""
             CREATE TABLE IF NOT EXISTS blessed_lands (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id TEXT NOT NULL UNIQUE,
+                user_id TEXT NOT NULL,
                 land_type INTEGER NOT NULL DEFAULT 1,
                 land_name TEXT NOT NULL DEFAULT '小洞天',
                 level INTEGER NOT NULL DEFAULT 1,
                 exp_bonus REAL NOT NULL DEFAULT 0.05,
                 gold_per_hour INTEGER NOT NULL DEFAULT 100,
-                last_collect_time INTEGER NOT NULL DEFAULT 0
+                last_collect_time INTEGER NOT NULL DEFAULT 0,
+                UNIQUE(user_id, land_type)
             )
         """)
         await conn.execute("CREATE INDEX IF NOT EXISTS idx_blessed_lands_user ON blessed_lands(user_id)")
@@ -124,7 +125,8 @@ async def _ensure_table_integrity(conn: aiosqlite.Connection):
             CREATE TABLE IF NOT EXISTS dual_cultivation (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id TEXT NOT NULL UNIQUE,
-                last_dual_time INTEGER NOT NULL DEFAULT 0
+                daily_count INTEGER NOT NULL DEFAULT 0,
+                daily_date TEXT NOT NULL DEFAULT ''
             )
         """)
         await conn.execute("CREATE INDEX IF NOT EXISTS idx_dual_user ON dual_cultivation(user_id)")
@@ -147,7 +149,7 @@ async def _ensure_table_integrity(conn: aiosqlite.Connection):
         await conn.execute("CREATE INDEX IF NOT EXISTS idx_spirit_eyes_owner ON spirit_eyes(owner_id)")
         import time
         now = int(time.time())
-        for eye in [(1, "下品灵眼", 500, now), (1, "下品灵眼", 500, now), (2, "中品灵眼", 2000, now)]:
+        for eye in [(1, "下品灵眼", 15, now), (1, "下品灵眼", 15, now), (2, "中品灵眼", 25, now)]:
             await conn.execute(
                 "INSERT INTO spirit_eyes (eye_type, eye_name, exp_per_hour, spawn_time) VALUES (?, ?, ?, ?)",
                 eye
@@ -200,6 +202,29 @@ async def _ensure_table_integrity(conn: aiosqlite.Connection):
                 repaired.append("spirit_eyes.last_collect_time")
             except Exception:
                 pass
+
+    # 检查 rifts 表是否有数据（新安装时 _create_all_tables_v2 不插入秘境数据）
+    if "rifts" in existing_tables and "rifts" not in repaired:
+        async with conn.execute("SELECT COUNT(*) FROM rifts") as cursor:
+            rift_count = (await cursor.fetchone())[0]
+        if rift_count == 0:
+            import json
+            default_rifts = [
+                (1, "青云秘境", 1, 0, json.dumps({"exp": [500, 1500], "gold": [200, 800]})),
+                (2, "落日峡谷", 2, 3, json.dumps({"exp": [1500, 4000], "gold": [500, 2000]})),
+                (3, "万妖洞", 3, 6, json.dumps({"exp": [3000, 8000], "gold": [1000, 5000]})),
+                (4, "玄冰地宫", 4, 10, json.dumps({"exp": [5000, 15000], "gold": [2000, 10000]})),
+                (5, "上古遗迹", 5, 15, json.dumps({"exp": [10000, 30000], "gold": [5000, 20000]})),
+            ]
+            for rift in default_rifts:
+                try:
+                    await conn.execute(
+                        "INSERT OR IGNORE INTO rifts (rift_id, rift_name, rift_level, required_level, rewards) VALUES (?, ?, ?, ?, ?)",
+                        rift
+                    )
+                except Exception:
+                    pass
+            repaired.append("rifts(默认数据)")
 
     if repaired:
         await conn.commit()
@@ -754,7 +779,8 @@ async def _create_all_tables_v2(conn: aiosqlite.Connection):
         CREATE TABLE IF NOT EXISTS dual_cultivation (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id TEXT NOT NULL UNIQUE,
-            last_dual_time INTEGER NOT NULL DEFAULT 0
+            daily_count INTEGER NOT NULL DEFAULT 0,
+            daily_date TEXT NOT NULL DEFAULT ''
         )
     """)
     await conn.execute("CREATE INDEX IF NOT EXISTS idx_dual_user ON dual_cultivation(user_id)")
@@ -775,13 +801,13 @@ async def _create_all_tables_v2(conn: aiosqlite.Connection):
     """)
     await conn.execute("CREATE INDEX IF NOT EXISTS idx_spirit_eyes_owner ON spirit_eyes(owner_id)")
 
-    # 插入初始灵眼
+    # 插入初始灵眼（exp_per_hour 存储修炼效率百分比整数）
     import time
     now = int(time.time())
     initial_eyes = [
-        (1, "下品灵眼", 500, now),
-        (1, "下品灵眼", 500, now),
-        (2, "中品灵眼", 2000, now),
+        (1, "下品灵眼", 15, now),
+        (1, "下品灵眼", 15, now),
+        (2, "中品灵眼", 25, now),
     ]
     for eye in initial_eyes:
         await conn.execute(
@@ -903,7 +929,21 @@ async def _migrate_to_v12(conn: aiosqlite.Connection, config_manager: ConfigMana
             rewards TEXT NOT NULL DEFAULT '{}'
         )
     """)
-    
+    # 插入默认秘境数据
+    import json as _json
+    _default_rifts = [
+        (1, "青云秘境", 1, 0, _json.dumps({"exp": [500, 1500], "gold": [200, 800]})),
+        (2, "落日峡谷", 2, 3, _json.dumps({"exp": [1500, 4000], "gold": [500, 2000]})),
+        (3, "万妖洞", 3, 6, _json.dumps({"exp": [3000, 8000], "gold": [1000, 5000]})),
+        (4, "玄冰地宫", 4, 10, _json.dumps({"exp": [5000, 15000], "gold": [2000, 10000]})),
+        (5, "上古遗迹", 5, 15, _json.dumps({"exp": [10000, 30000], "gold": [5000, 20000]})),
+    ]
+    for _rift in _default_rifts:
+        await conn.execute(
+            "INSERT OR IGNORE INTO rifts (rift_id, rift_name, rift_level, required_level, rewards) VALUES (?, ?, ?, ?, ?)",
+            _rift
+        )
+
     logger.info("创建传承信息表...")
     await conn.execute("""
         CREATE TABLE IF NOT EXISTS impart_info (
@@ -1070,7 +1110,8 @@ async def _migrate_to_v16(conn: aiosqlite.Connection, config_manager: ConfigMana
         CREATE TABLE IF NOT EXISTS dual_cultivation (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id TEXT NOT NULL UNIQUE,
-            last_dual_time INTEGER NOT NULL DEFAULT 0
+            daily_count INTEGER NOT NULL DEFAULT 0,
+            daily_date TEXT NOT NULL DEFAULT ''
         )
     """)
     await conn.execute("CREATE INDEX IF NOT EXISTS idx_dual_user ON dual_cultivation(user_id)")
@@ -1090,13 +1131,13 @@ async def _migrate_to_v16(conn: aiosqlite.Connection, config_manager: ConfigMana
     """)
     await conn.execute("CREATE INDEX IF NOT EXISTS idx_spirit_eyes_owner ON spirit_eyes(owner_id)")
     
-    # 插入初始灵眼
+    # 插入初始灵眼（exp_per_hour 存储修炼效率百分比整数）
     import time
     now = int(time.time())
     initial_eyes = [
-        (1, "下品灵眼", 500, now),
-        (1, "下品灵眼", 500, now),
-        (2, "中品灵眼", 2000, now),
+        (1, "下品灵眼", 15, now),
+        (1, "下品灵眼", 15, now),
+        (2, "中品灵眼", 25, now),
     ]
     for eye in initial_eyes:
         await conn.execute(
@@ -1338,3 +1379,152 @@ async def _migrate_to_v22(conn: aiosqlite.Connection, config_manager: ConfigMana
 
     await conn.commit()
     logger.info("v22迁移完成：永久丹药服用次数追踪")
+
+
+@migration(23)
+async def _migrate_to_v23(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """迁移到v23 - 双修系统改为每日次数上限（3次/天）"""
+    logger.info("开始迁移到v23：双修系统每日次数上限")
+
+    # 添加每日次数字段
+    try:
+        await conn.execute("ALTER TABLE dual_cultivation ADD COLUMN daily_count INTEGER NOT NULL DEFAULT 0")
+    except Exception:
+        pass
+    try:
+        await conn.execute("ALTER TABLE dual_cultivation ADD COLUMN daily_date TEXT NOT NULL DEFAULT ''")
+    except Exception:
+        pass
+
+    # 尝试移除旧的冷却时间字段（SQLite < 3.35.0 不支持 DROP COLUMN，忽略错误）
+    try:
+        await conn.execute("ALTER TABLE dual_cultivation DROP COLUMN last_dual_time")
+    except Exception:
+        pass
+
+    await conn.commit()
+    logger.info("v23迁移完成：双修系统每日次数上限")
+
+
+@migration(24)
+async def _migrate_to_v24(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """迁移到v24 - 战斗公式重设计 + 突破属性重平衡
+
+    将现有玩家的突破属性从旧值映射到新值范围。
+    新公式使用 sqrt(exp)/ln(exp) 替代 exp 直接计算，数值范围完全不同。
+    """
+    logger.info("开始迁移到v24：战斗公式重设计 + 突破属性重平衡")
+
+    # 旧/新累积目标值（按 level_index 排列）
+    # 格式: (level_index, old_phy_dmg, new_phy_dmg, old_phy_def, new_phy_def, old_mp, new_mp, old_ls, new_ls)
+    RANK_DATA = [
+        (0,  0,      0,      0,      0,      0,      0,      0,      0),
+        (10, 90,     100,    45,     50,     450,    200,    60,     60),
+        (12, 210,    300,    105,    100,    1050,   600,    90,     90),
+        (13, 340,    600,    170,    200,    1700,   1200,   130,    150),
+        (16, 1290,   1200,   645,    350,    6450,   2400,   290,    300),
+        (22, 15990,  2500,   7995,   500,    79950,  5000,   1200,   800),
+        (28, 179990, 4500,   89995,  700,    899950, 9000,   4600,   2500),
+        (32, 999990, 7500,   499995, 900,    4999950,15000,  10100,  5000),
+        (35, 3499990,12000,  1749995,1200,   17499950,24000, 19100,  10000),
+    ]
+
+    def interpolate_stat(level_index, stat_idx_old, stat_idx_new):
+        """在两个 rank 边界之间线性插值"""
+        for i in range(len(RANK_DATA) - 1):
+            li0 = RANK_DATA[i][0]
+            li1 = RANK_DATA[i + 1][0]
+            if li0 <= level_index <= li1:
+                old0, new0 = RANK_DATA[i][stat_idx_old], RANK_DATA[i][stat_idx_new]
+                old1, new1 = RANK_DATA[i + 1][stat_idx_old], RANK_DATA[i + 1][stat_idx_new]
+                if li1 == li0:
+                    pct = 0
+                else:
+                    pct = (level_index - li0) / (li1 - li0)
+                old_val = old0 + pct * (old1 - old0)
+                new_val = new0 + pct * (new1 - new0)
+                return old_val, new_val
+        # 超出范围
+        return RANK_DATA[-1][stat_idx_old], RANK_DATA[-1][stat_idx_new]
+
+    def map_value(current_val, level_index, stat_idx_old, stat_idx_new):
+        """将当前属性值从旧范围映射到新范围"""
+        old_target, new_target = interpolate_stat(level_index, stat_idx_old, stat_idx_new)
+        if old_target <= 0:
+            return 0
+        ratio = current_val / old_target
+        return max(0, int(new_target * ratio))
+
+    # 获取所有玩家
+    try:
+        async with conn.execute("SELECT user_id, level_index, physical_damage, magic_damage, physical_defense, magic_defense, mental_power, lifespan FROM players") as cursor:
+            players = await cursor.fetchall()
+    except Exception as e:
+        logger.warning(f"v24迁移：无法读取玩家数据: {e}")
+        return
+
+    migrated = 0
+    for row in players:
+        user_id, level_idx, phy_dmg, mag_dmg, phy_def, mag_def, mp, ls = row
+
+        new_phy_dmg = map_value(phy_dmg, level_idx, 1, 1)  # old_phy_dmg=col1, new_phy_dmg=col1... wait
+
+        # stat indices: old=(1,3,5,7), new=(2,4,6,8)
+        new_phy_dmg = map_value(phy_dmg, level_idx, 1, 2)
+        new_mag_dmg = map_value(mag_dmg, level_idx, 1, 2)  # same range as phy_dmg
+        new_phy_def = map_value(phy_def, level_idx, 3, 4)
+        new_mag_def = map_value(mag_def, level_idx, 3, 4)  # same range as phy_def
+        new_mp = map_value(mp, level_idx, 5, 6)
+        new_ls = map_value(ls, level_idx, 7, 8)
+
+        await conn.execute(
+            """UPDATE players SET physical_damage=?, magic_damage=?, physical_defense=?,
+               magic_defense=?, mental_power=?, lifespan=? WHERE user_id=?""",
+            (new_phy_dmg, new_mag_dmg, new_phy_def, new_mag_def, new_mp, new_ls, user_id)
+        )
+        migrated += 1
+
+    await conn.commit()
+    logger.info(f"v24迁移完成：已重映射 {migrated} 名玩家的突破属性")
+
+
+@migration(25)
+async def _migrate_to_v25(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """迁移到v25 - 洞天福地可拥有多个（每种各一个）"""
+    logger.info("开始迁移到v25：洞天福地多持有")
+
+    # SQLite 不支持直接修改 UNIQUE 约束，需要重建表
+    await conn.execute("ALTER TABLE blessed_lands RENAME TO blessed_lands_old")
+    await conn.execute("""
+        CREATE TABLE blessed_lands (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id TEXT NOT NULL,
+            land_type INTEGER NOT NULL DEFAULT 1,
+            land_name TEXT NOT NULL DEFAULT '小洞天',
+            level INTEGER NOT NULL DEFAULT 1,
+            exp_bonus REAL NOT NULL DEFAULT 0.05,
+            gold_per_hour INTEGER NOT NULL DEFAULT 100,
+            last_collect_time INTEGER NOT NULL DEFAULT 0,
+            UNIQUE(user_id, land_type)
+        )
+    """)
+    await conn.execute("INSERT INTO blessed_lands SELECT * FROM blessed_lands_old")
+    await conn.execute("DROP TABLE blessed_lands_old")
+    await conn.execute("CREATE INDEX IF NOT EXISTS idx_blessed_lands_user ON blessed_lands(user_id)")
+    await conn.commit()
+    logger.info("v25迁移完成：洞天福地可拥有多个")
+
+@migration(26)
+async def _migrate_to_v26(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """迁移到v26 - 灵眼改为修炼效率加成"""
+    logger.info("开始迁移到v26：灵眼改为修炼效率加成")
+
+    # 将旧的 exp_per_hour 值映射为新的修炼效率百分比
+    # eye_type 1: 500 -> 15%, 2: 2000 -> 25%, 3: 8000 -> 35%, 4: 30000 -> 50%
+    await conn.execute("UPDATE spirit_eyes SET exp_per_hour = 15 WHERE eye_type = 1")
+    await conn.execute("UPDATE spirit_eyes SET exp_per_hour = 25 WHERE eye_type = 2")
+    await conn.execute("UPDATE spirit_eyes SET exp_per_hour = 35 WHERE eye_type = 3")
+    await conn.execute("UPDATE spirit_eyes SET exp_per_hour = 50 WHERE eye_type = 4")
+
+    await conn.commit()
+    logger.info("v26迁移完成：灵眼已改为修炼效率加成")

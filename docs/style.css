@@ -372,6 +372,15 @@ body::before {
 .rank-神品 { background: rgba(255,87,34,0.12); color: var(--rank-shenpin); border-color: rgba(255,87,34,0.2); }
 .rank-混元先天 { background: rgba(0,229,255,0.1); color: var(--rank-hunyuan); border-color: rgba(0,229,255,0.2); }
 
+.special-attrs {
+    font-size: 12px;
+    color: var(--cyan);
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 /* ===================== Sub-tabs ===================== */
 .sub-tabs {
     display: flex;

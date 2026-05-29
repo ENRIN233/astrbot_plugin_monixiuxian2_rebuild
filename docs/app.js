@@ -29,13 +29,23 @@ function formatPercent(n) {
     return (n * 100).toFixed(0) + '%';
 }
 
+function formatSpecialAttrs(w) {
+    const parts = [];
+    if (w.dodge_rate) parts.push('闪避' + w.dodge_rate + '%');
+    if (w.crit_resist) parts.push('抗会心' + w.crit_resist + '%');
+    if (w.reflect_pct) parts.push('反伤' + w.reflect_pct + '%');
+    if (w.block_value) parts.push('格挡' + w.block_value);
+    if (w.hp_regen_pct) parts.push('回复' + w.hp_regen_pct + '%');
+    return parts.length ? parts.join('、') : '-';
+}
+
 function rankClass(rank) {
     if (!rank) return '';
     return 'rank-' + rank;
 }
 
 function rankOrder(rank) {
-    const order = ['凡品','灵品','珍品','圣品','地品','天品','皇品','帝品','道品','仙品','神品','混元先天'];
+    const order = ['凡品','灵品','地品','天品','皇品','帝品','道品','仙品','混元先天'];
     const idx = order.indexOf(rank);
     return idx >= 0 ? idx : 99;
 }
@@ -47,6 +57,15 @@ function esc(str) {
 
 function makeRankBadge(rank) {
     return `<span class="rank-badge ${rankClass(rank)}">${esc(rank)}</span>`;
+}
+
+function levelName(idx) {
+    const levels = DATA.level_config || [];
+    const bodyLevels = DATA.body_level_config || [];
+    const names = [];
+    if (idx < levels.length) names.push(levels[idx].level_name);
+    if (idx < bodyLevels.length && bodyLevels[idx]?.level_name !== levels[idx]?.level_name) names.push(bodyLevels[idx].level_name);
+    return names.join(' / ') || 'Lv' + idx;
 }
 
 function fmtDuration(seconds) {
@@ -232,8 +251,8 @@ function renderOverview() {
         </div>
         <h3 class="section-title">品阶体系</h3>
         <div class="info-box">
-            凡品 → 灵品 → 珍品 → 圣品 → 地品 → 天品 → 皇品 → 帝品 → 道品 → 仙品 → 神品 → 混元先天<br>
-            共 <strong>12</strong> 个品阶，覆盖从凡人到混元先天的全部修仙之路。
+            凡品 → 灵品 → 地品 → 天品 → 皇品 → 帝品 → 道品 → 仙品 → 混元先天<br>
+            共 <strong>9</strong> 个品阶，覆盖从凡人到混元先天的全部修仙之路。
         </div>
     `;
 }
@@ -328,15 +347,6 @@ function renderPillTab(tab) {
 
 function renderBreakthroughPills(container) {
     const pills = DATA.pills || [];
-    const levels = DATA.level_config || [];
-    const bodyLevels = DATA.body_level_config || [];
-
-    function levelName(idx) {
-        const names = [];
-        if (idx < levels.length) names.push(levels[idx].level_name);
-        if (idx < bodyLevels.length && bodyLevels[idx].level_name !== levels[idx]?.level_name) names.push(bodyLevels[idx].level_name);
-        return names.join(' / ') || '未知';
-    }
 
     const headers = ['ID', '名称', '品阶', '价格', '突破路径', '突破加成', '最高成功率'];
     const rows = pills.map(p => {
@@ -360,16 +370,6 @@ function renderBreakthroughPills(container) {
 
 function renderExpPills(container) {
     const pills = DATA.exp_pills || [];
-    const levels = DATA.level_config || [];
-    const bodyLevels = DATA.body_level_config || [];
-
-    function levelName(idx) {
-        const names = [];
-        if (idx < levels.length) names.push(levels[idx].level_name);
-        if (idx < bodyLevels.length && bodyLevels[idx].level_name !== levels[idx]?.level_name) names.push(bodyLevels[idx].level_name);
-        return names.join(' / ') || '未知';
-    }
-
     const headers = ['ID', '名称', '品阶', '价格', '修为增益', '最低境界'];
     const rows = pills.map(p => [
         `<code>${esc(p.id)}</code>`,
@@ -544,7 +544,7 @@ function showPillDetail(pill, type) {
         if (pill.max_success_rate) fields.push(modalField('最高成功率', formatRate(pill.max_success_rate)));
     } else if (type === 'exp') {
         if (pill.exp_gain) fields.push(modalField('修为增益', '+' + formatNum(pill.exp_gain)));
-        if (pill.required_level_index !== undefined) fields.push(modalField('最低境界', 'level_index ' + pill.required_level_index));
+        if (pill.required_level_index !== undefined) fields.push(modalField('最低境界', levelName(pill.required_level_index)));
     } else {
         if (pill.effect_type) fields.push(modalField('效果类型', pill.effect_type));
         if (pill.subtype) fields.push(modalField('子类型', pill.subtype));
@@ -642,7 +642,7 @@ function renderWeapons(container) {
     sortedCats.forEach(cat => {
         const group = categories[cat];
         html += `<h3 class="section-title">${esc(cat)}类武器 (${group.length}把)</h3>`;
-        const headers = ['名称', '品阶', '价格', '物伤', '法伤', '物防', '法防', '精神力'];
+        const headers = ['名称', '品阶', '价格', '物伤', '法伤', '物防', '法防', '精神力', '特殊属性'];
         const rows = group.map(w => [
             `<strong>${esc(w.name)}</strong>`,
             makeRankBadge(w.rank),
@@ -651,14 +651,15 @@ function renderWeapons(container) {
             `<span data-sortvalue="${w.magic_damage || 0}">${w.magic_damage || 0}</span>`,
             `<span data-sortvalue="${w.physical_defense || 0}">${w.physical_defense || 0}</span>`,
             `<span data-sortvalue="${w.magic_defense || 0}">${w.magic_defense || 0}</span>`,
-            `<span data-sortvalue="${w.mental_power || 0}">${w.mental_power || 0}</span>`
+            `<span data-sortvalue="${w.mental_power || 0}">${w.mental_power || 0}</span>`,
+            `<span class="special-attrs">${formatSpecialAttrs(w)}</span>`
         ]);
         html += createTable(headers, rows, { onRowClick: true });
     });
 
     if (armors.length) {
         html += `<h3 class="section-title">防具 (${armors.length}件)</h3>`;
-        const headers = ['名称', '品阶', '价格', '物防', '法防', '物伤', '法伤', '精神力'];
+        const headers = ['名称', '品阶', '价格', '物防', '法防', '物伤', '法伤', '精神力', '特殊属性'];
         const rows = armors.map(a => [
             `<strong>${esc(a.name)}</strong>`,
             makeRankBadge(a.rank),
@@ -667,7 +668,8 @@ function renderWeapons(container) {
             `<span data-sortvalue="${a.magic_defense || 0}">${a.magic_defense || 0}</span>`,
             `<span data-sortvalue="${a.physical_damage || 0}">${a.physical_damage || 0}</span>`,
             `<span data-sortvalue="${a.magic_damage || 0}">${a.magic_damage || 0}</span>`,
-            `<span data-sortvalue="${a.mental_power || 0}">${a.mental_power || 0}</span>`
+            `<span data-sortvalue="${a.mental_power || 0}">${a.mental_power || 0}</span>`,
+            `<span class="special-attrs">${formatSpecialAttrs(a)}</span>`
         ]);
         html += createTable(headers, rows);
     }
@@ -720,12 +722,17 @@ function showWeaponDetail(w) {
     if (attrHtml) html += modalSection('基础属性', attrHtml);
 
     let combatHtml = '';
-    if (w.atk_bonus) combatHtml += modalField('攻击加成', `+${w.atk_bonus}`);
-    if (w.crit_rate) combatHtml += modalField('暴击率', `+${formatRate(w.crit_rate)}`);
-    if (w.crit_damage) combatHtml += modalField('暴击伤害', `+${formatRate(w.crit_damage)}`);
-    if (w.armor_pen) combatHtml += modalField('穿透', `+${w.armor_pen}`);
-    if (w.double_hit) combatHtml += modalField('连击', `+${formatRate(w.double_hit)}`);
-    if (w.lifesteal) combatHtml += modalField('吸血', `+${formatRate(w.lifesteal)}`);
+    if (w.atk_bonus) combatHtml += modalField('攻击加成', `+${formatPercent(w.atk_bonus)}`);
+    if (w.crit_rate) combatHtml += modalField('暴击率', `+${w.crit_rate}%`);
+    if (w.crit_damage) combatHtml += modalField('暴击伤害', `${formatRate(w.crit_damage)}`);
+    if (w.armor_pen) combatHtml += modalField('穿透', `+${w.armor_pen}%`);
+    if (w.double_hit) combatHtml += modalField('连击', `+${w.double_hit}%`);
+    if (w.lifesteal) combatHtml += modalField('吸血', `+${w.lifesteal}%`);
+    if (w.dodge_rate) combatHtml += modalField('闪避率', `+${w.dodge_rate}%`);
+    if (w.crit_resist) combatHtml += modalField('暴击抗性', `+${w.crit_resist}%`);
+    if (w.reflect_pct) combatHtml += modalField('反伤', `+${w.reflect_pct}%`);
+    if (w.block_value) combatHtml += modalField('格挡值', `+${w.block_value}`);
+    if (w.hp_regen_pct) combatHtml += modalField('生命回复', `+${w.hp_regen_pct}%`);
     if (combatHtml) html += modalSection('战斗属性', combatHtml);
 
     if (w.shop_weight !== undefined) html += modalSection('其他', modalField('商店权重', w.shop_weight));
@@ -775,14 +782,12 @@ function renderTechniques(container) {
 }
 
 function renderTechniqueTable(techs, isMain) {
-    const headers = ['名称', '品阶', '修为倍率', '灵气加成', '气血加成', '最低境界', '价格'];
+    const headers = ['名称', '品阶', '修炼加成', '最低境界', '价格'];
     const rows = techs.map(t => [
         `<strong>${esc(t.name)}</strong>`,
         makeRankBadge(t.rank || ''),
-        `<span data-sortvalue="${t.exp_multiplier || 0}">${t.exp_multiplier ? (t.exp_multiplier * 100).toFixed(1) + '%' : '-'}</span>`,
-        `<span data-sortvalue="${t.spiritual_qi || 0}">${t.spiritual_qi || 0}</span>`,
-        `<span data-sortvalue="${t.blood_qi || 0}">${t.blood_qi || 0}</span>`,
-        `level_index ${t.required_level_index || 0}`,
+        `<span data-sortvalue="${t.exp_multiplier || 0}">${t.exp_multiplier ? '+' + ((t.exp_multiplier - 1) * 100).toFixed(0) + '%' : '-'}</span>`,
+        t.required_level_index ? levelName(t.required_level_index) : '-',
         `<span data-sortvalue="${t.price || 0}">${formatNum(t.price || 0)}</span>`
     ]);
     return createTable(headers, rows, { emptyText: '暂无心法数据' });
@@ -799,7 +804,7 @@ function renderRings(container) {
         `<strong>${esc(r.name)}</strong>`,
         makeRankBadge(r.rank || ''),
         `<span data-sortvalue="${r.capacity || 0}">${r.capacity || 0} 格</span>`,
-        `level_index ${r.required_level_index || 0}`,
+        r.required_level_index !== undefined ? levelName(r.required_level_index) : '-',
         `<span data-sortvalue="${r.price || 0}">${formatNum(r.price || 0)}</span>`
     ]);
 
@@ -876,6 +881,11 @@ function renderCombat() {
         ['<span class="num-cyan">double_hit</span>', '连击率', '装备（武器属性）'],
         ['<span class="num-green">lifesteal</span>', '吸血率', '装备（武器属性）'],
         ['<span class="num-gold">atk_bonus</span>', '攻击加成', '装备（武器属性）'],
+        ['<span class="num-cyan">dodge_rate</span>', '闪避率', '装备（防具属性）'],
+        ['<span class="num-cyan">crit_resist</span>', '暴击抗性', '装备（防具属性）'],
+        ['<span class="num-red">reflect_pct</span>', '反伤百分比', '装备（防具属性）'],
+        ['<span class="num-green">block_value</span>', '格挡值', '装备（防具属性）'],
+        ['<span class="num-green">hp_regen_pct</span>', '生命回复百分比', '装备（防具属性）'],
     ];
     html += createTable(attrHeaders, attrRows, { sortable: false });
 
@@ -887,7 +897,7 @@ function renderCombat() {
     html += '<strong>Boss</strong>：挑战世界Boss，按伤害排名发放奖励，Boss有暴击加成。';
     html += '</div>';
 
-    // Equipment combat stats
+    // Equipment combat stats - weapons
     const weapons = (DATA.weapons || []).filter(w => w.type === 'weapon');
     const withCrit = weapons.filter(w => w.crit_rate || w.crit_damage || w.armor_pen || w.double_hit || w.lifesteal);
     if (withCrit.length) {
@@ -896,13 +906,31 @@ function renderCombat() {
         const wRows = withCrit.map(w => [
             `<strong>${esc(w.name)}</strong>`,
             makeRankBadge(w.rank),
-            `<span data-sortvalue="${w.crit_rate || 0}">${w.crit_rate ? formatRate(w.crit_rate) : '-'}</span>`,
+            `<span data-sortvalue="${w.crit_rate || 0}">${w.crit_rate ? w.crit_rate + '%' : '-'}</span>`,
             `<span data-sortvalue="${w.crit_damage || 0}">${w.crit_damage ? formatRate(w.crit_damage) : '-'}</span>`,
-            `<span data-sortvalue="${w.armor_pen || 0}">${w.armor_pen || '-'}</span>`,
-            `<span data-sortvalue="${w.double_hit || 0}">${w.double_hit ? formatRate(w.double_hit) : '-'}</span>`,
-            `<span data-sortvalue="${w.lifesteal || 0}">${w.lifesteal ? formatRate(w.lifesteal) : '-'}</span>`
+            `<span data-sortvalue="${w.armor_pen || 0}">${w.armor_pen ? w.armor_pen + '%' : '-'}</span>`,
+            `<span data-sortvalue="${w.double_hit || 0}">${w.double_hit ? w.double_hit + '%' : '-'}</span>`,
+            `<span data-sortvalue="${w.lifesteal || 0}">${w.lifesteal ? w.lifesteal + '%' : '-'}</span>`
         ]);
         html += createTable(wHeaders, wRows);
+    }
+
+    // Armor with special attributes
+    const armors = (DATA.weapons || []).filter(w => w.type === 'armor');
+    const withSpecial = armors.filter(a => a.dodge_rate || a.crit_resist || a.reflect_pct || a.block_value || a.hp_regen_pct);
+    if (withSpecial.length) {
+        html += '<h3 class="section-title">含特殊属性的防具 (' + withSpecial.length + '件)</h3>';
+        const aHeaders = ['名称', '品阶', '闪避', '抗会心', '反伤', '格挡', '回复'];
+        const aRows = withSpecial.map(a => [
+            `<strong>${esc(a.name)}</strong>`,
+            makeRankBadge(a.rank),
+            `<span data-sortvalue="${a.dodge_rate || 0}">${a.dodge_rate ? formatRate(a.dodge_rate) : '-'}</span>`,
+            `<span data-sortvalue="${a.crit_resist || 0}">${a.crit_resist ? a.crit_resist + '%' : '-'}</span>`,
+            `<span data-sortvalue="${a.reflect_pct || 0}">${a.reflect_pct ? a.reflect_pct + '%' : '-'}</span>`,
+            `<span data-sortvalue="${a.block_value || 0}">${a.block_value || '-'}</span>`,
+            `<span data-sortvalue="${a.hp_regen_pct || 0}">${a.hp_regen_pct ? a.hp_regen_pct + '%' : '-'}</span>`
+        ]);
+        html += createTable(aHeaders, aRows);
     }
 
     page.innerHTML = html;
@@ -924,10 +952,10 @@ function renderSystems() {
     const cult = config.cultivation || {};
     html += `<div class="system-card">
         <h3>修炼系统</h3>
-        <p>通过闭关修炼积累修为值，提升境界。支持双修加成、修炼加速丹、心法倍率等。</p>
+        <p>通过闭关修炼积累修为值，提升境界。支持双修加成、修炼加速丹、心法倍率、灵眼加成、洞天福地等。</p>
         <ul class="detail-list">
-            <li><span>闭关时长上限</span><span>${fmtDuration((cult.max_cultivation_minutes || 1440) * 60)}</span></li>
-            <li><span>修炼公式</span><span>修为 = 基础 &times; 倍率 &times; 时间</span></li>
+            <li><span>闭关时长上限</span><span>${fmtDuration((cult.max_cultivation_minutes || 21600) * 60)}</span></li>
+            <li><span>修炼公式</span><span>修为 = 基础 × 根速 × (1+心法) × 丹药 × (1+灵眼) × (1+福地)</span></li>
         </ul>
     </div>`;
 
@@ -951,10 +979,11 @@ function renderSystems() {
     const dual = config.dual_cultivation || {};
     html += `<div class="system-card">
         <h3>双修系统</h3>
-        <p>两位修士结为道侣共同修炼，获得额外修为加成。</p>
+        <p>两位修士结为道侣共同修炼，双方各获得双方修为之和的1%。可服用龙精虎猛丹使下次双修修为翻倍。</p>
         <ul class="detail-list">
+            <li><span>每日上限</span><span>${dual.max_per_day || 3} 次</span></li>
             <li><span>冷却时间</span><span>${fmtDuration(dual.cooldown || 3600)}</span></li>
-            <li><span>修为加成</span><span>${((dual.exp_bonus || 0.1) * 100).toFixed(0)}%</span></li>
+            <li><span>修为公式</span><span>双方各获得 (A修为+B修为) × 1%</span></li>
             <li><span>请求有效期</span><span>${fmtDuration(dual.request_expire || 300)}</span></li>
         </ul>
     </div>`;
@@ -964,10 +993,10 @@ function renderSystems() {
     const eyeTypes = eye.types || {};
     html += `<div class="system-card">
         <h3>灵眼系统</h3>
-        <p>定时在群内刷新灵眼，修士抢占后持续获得修为。灵眼品阶越高收益越大。</p>
+        <p>定时在群内刷新灵眼，修士抢占后提升闭关修炼效率。灵眼品阶越高加成越大。</p>
         <ul class="detail-list">
             <li><span>刷新间隔</span><span>${fmtDuration(eye.spawn_interval || 7200)}</span></li>
-            ${Object.values(eyeTypes).map(t => `<li><span>${esc(t.name)}</span><span>${formatNum(t.exp_per_hour || 0)}/时 (概率${t.spawn_rate || 0}%)</span></li>`).join('')}
+            ${Object.values(eyeTypes).map(t => `<li><span>${esc(t.name)}</span><span>修炼效率+${((t.cultivation_bonus || 0) * 100).toFixed(0)}%（概率${t.spawn_rate || 0}%）</span></li>`).join('')}
         </ul>
     </div>`;
 
@@ -1006,10 +1035,12 @@ function renderSystems() {
     // Bounty
     html += `<div class="system-card">
         <h3>悬赏系统</h3>
-        <p>接取悬赏任务完成目标，获取灵石和修为奖励。难度越高奖励越丰厚。</p>
+        <p>每日可选3个悬赏任务，完成后获取灵石、修为及随机功法奖励。功法奖励在列出时已预判。</p>
         <ul class="detail-list">
-            <li><span>难度等级</span><span>F / E / D / C 级</span></li>
+            <li><span>每日限制</span><span>3 次</span></li>
+            <li><span>难度等级</span><span>简单 / 普通 / 困难 / 精英</span></li>
             <li><span>任务类型</span><span>巡山 / 采集 / 猎杀 / 探险</span></li>
+            <li><span>功法掉落</span><span>动态爆率，按品阶权重随机</span></li>
         </ul>
     </div>`;
 
@@ -1100,199 +1131,254 @@ function renderCommands() {
     const page = document.getElementById('page-commands');
 
     let html = '<h2 class="page-title">指令大全</h2>';
-    html += '<div class="info-box">共收录 <strong>80+</strong> 条游戏指令，按系统分类整理。指令前缀默认为 <strong>#</strong> 或 <strong>/</strong>，具体以机器人配置为准。</div>';
+    html += '<div class="info-box">共收录 <strong>121</strong> 条游戏指令，按系统分类整理。指令前缀默认为 <strong>#</strong> 或 <strong>/</strong>，具体以机器人配置为准。</div>';
 
     const groups = [
         {
-            title: '基础系统',
+            title: '基础操作',
             icon: '◈',
             cmds: [
-                ['#修仙状态', '查看当前修炼状态、境界、属性'],
-                ['#签到', '每日签到获取灵石和修为奖励'],
-                ['#背包', '查看背包中的物品'],
-                ['#商店', '打开商店购买物品'],
-                ['#购买 [物品名]', '购买指定物品'],
-                ['#使用 [物品名]', '使用背包中的物品'],
-                ['#个人信息', '查看详细个人属性面板'],
-                ['#转世', '重置修为重新开始（保留部分属性）'],
-                ['#改名 [新名号]', '修改修士名号'],
+                ['我要修仙 [灵修/体修]', '创建角色，选择修炼路线'],
+                ['我的信息', '查看境界、修为、战力等完整信息面板'],
+                ['签到', '每日领取灵石和修为奖励'],
+                ['我的装备', '查看已装备的武器/防具/心法'],
+                ['修仙帮助', '查看帮助信息'],
+                ['改道号 <名称>', '修改你的仙道称号'],
+                ['弃道重修', '删除角色并清空数据（7天冷却）'],
+                ['重铸灵根', '花费25万灵石重新随机灵根'],
             ]
         },
         {
-            title: '修炼系统',
+            title: '修炼突破',
             icon: '▲',
             cmds: [
-                ['#闭关 [时长]', '开始闭关修炼，积累修为'],
-                ['#出关', '提前结束闭关'],
-                ['#吃丹 [丹药名]', '服用丹药（每次最多2颗永久丹）'],
-                ['#突破', '尝试突破到下一个境界'],
-                ['#修炼加速', '使用修炼加速丹'],
-                ['#心法列表', '查看已学习的心法'],
-                ['#装备心法 [名]', '装备指定心法'],
+                ['闭关', '开始闭关修炼，离线也能积累修为'],
+                ['出关', '结算闭关时间，获取对应修为'],
+                ['突破信息', '查看当前境界突破条件、成功率与风险'],
+                ['突破 [丹药名]', '尝试突破，可服用丹药提高成功率'],
             ]
         },
         {
-            title: '战斗系统',
-            icon: '✦',
-            cmds: [
-                ['#决斗 @某人', '向其他玩家发起决斗'],
-                ['#切磋 @某人', '友好切磋比武'],
-                ['#挑战Boss', '挑战世界Boss'],
-                ['#Boss排行', '查看Boss伤害排行'],
-                ['#战斗记录', '查看最近战斗记录'],
-            ]
-        },
-        {
-            title: '丹药系统',
-            icon: '●',
-            cmds: [
-                ['#丹药列表', '查看所有可用丹药'],
-                ['#丹药品阶 [品阶名]', '按品阶筛选丹药'],
-                ['#吃丹 [名称]', '服用指定丹药'],
-                ['#炼丹 [配方名]', '使用配方炼制丹药'],
-                ['#炼丹配方', '查看可用炼丹配方'],
-                ['#我的丹药', '查看背包中的丹药'],
-            ]
-        },
-        {
-            title: '装备系统',
+            title: '装备与物品',
             icon: '⚔',
             cmds: [
-                ['#装备', '查看当前装备'],
-                ['#装备武器 [名]', '装备指定武器'],
-                ['#装备防具 [名]', '装备指定防具'],
-                ['#卸下装备 [部位]', '卸下指定部位装备'],
-                ['#装备列表', '查看可装备物品'],
-                ['#储物戒', '查看储物戒'],
+                ['装备 <名>', '从储物戒装备到身上'],
+                ['卸下 <名>', '卸下装备放回储物戒'],
+                ['丹药背包', '查看拥有的丹药及效果'],
+                ['服用丹药 <名>', '使用丹药获得增益效果'],
+                ['丹药信息 <名>', '查看指定丹药的详细信息'],
+                ['物品信息 <名称>', '查看任意物品的具体效果与获取途径'],
+                ['查看 <名称>', '查看物品详情'],
             ]
         },
         {
-            title: '冒险系统',
-            icon: '❧',
+            title: '商店系统',
+            icon: '●',
             cmds: [
-                ['#冒险', '查看可选冒险路线'],
-                ['#冒险出发 [路线名]', '出发前往指定路线冒险'],
-                ['#冒险状态', '查看当前冒险进度'],
-                ['#冒险奖励', '领取冒险完成奖励'],
-                ['#秘境', '查看秘境信息'],
-                ['#探索秘境 [等级]', '进入指定等级秘境'],
+                ['丹阁', '丹药专卖（破境丹/修为丹/功能丹）'],
+                ['器阁', '装备专卖（武器/防具/饰品）'],
+                ['百宝阁', '综合商店（功法/材料/杂物）'],
+                ['购买 <物品名> [数量]', '从当前商店购买物品'],
+            ]
+        },
+        {
+            title: '储物戒',
+            icon: '◈',
+            cmds: [
+                ['储物戒', '查看储物空间和物品（分类显示）'],
+                ['存入 <物品名> [数量]', '存入物品到储物戒'],
+                ['取出 <物品名> [数量]', '从储物戒取出物品'],
+                ['取出所有 <分类>', '批量取出指定分类（材料/装备/功法/其他）'],
+                ['搜索物品 <关键词>', '模糊搜索储物戒物品'],
+                ['更换储物戒 <名称>', '升级储物戒（需支付灵石）'],
+                ['丢弃 <物品名>', '丢弃储物戒中的物品'],
+                ['赠予 <@某人> <物品> [数量]', '将物品赠送给其他玩家'],
+                ['接收', '接收他人赠送的物品'],
+                ['拒绝', '拒收他人赠送的物品'],
             ]
         },
         {
             title: '宗门系统',
             icon: '♚',
             cmds: [
-                ['#创建宗门 [名称]', '创建新宗门'],
-                ['#加入宗门 [名称]', '申请加入宗门'],
-                ['#退出宗门', '退出当前宗门'],
-                ['#宗门信息', '查看宗门详情'],
-                ['#宗门成员', '查看宗门成员列表'],
-                ['#宗门战', '发起或参与宗门战'],
-                ['#宗门任务', '查看宗门任务'],
-                ['#宗门贡献', '查看个人宗门贡献'],
+                ['创建宗门 <名>', '消耗灵石创建宗门'],
+                ['加入宗门 <名>', '申请加入已有宗门'],
+                ['退出宗门', '退出当前宗门'],
+                ['我的宗门', '查看宗门信息和成员列表'],
+                ['宗门列表', '查看所有宗门排名'],
+                ['宗门捐献 <数量>', '捐献灵石增加宗门建设度'],
+                ['踢出成员 <@某人>', '宗主踢出宗门成员'],
+                ['宗主传位 <@某人>', '将宗主之位传给他人'],
+                ['宗门任务', '查看并执行宗门任务'],
+                ['职位变更 <@某人> <职位>', '变更成员在宗门中的职位'],
             ]
         },
         {
-            title: '悬赏系统',
-            icon: '⚑',
+            title: '战斗竞技',
+            icon: '✦',
             cmds: [
-                ['#悬赏', '查看可接取的悬赏任务'],
-                ['#接悬赏 [任务名]', '接取指定悬赏任务'],
-                ['#悬赏进度', '查看当前悬赏进度'],
-                ['#提交悬赏', '提交完成的悬赏任务'],
-            ]
-        },
-        {
-            title: '银行系统',
-            icon: '◆',
-            cmds: [
-                ['#存款 [金额]', '存入灵石到银行'],
-                ['#取款 [金额]', '从银行取出灵石'],
-                ['#余额', '查看银行余额和利息'],
-                ['#贷款 [金额]', '申请贷款'],
-                ['#还款', '偿还贷款'],
-                ['#突破贷', '申请突破专项贷款'],
-            ]
-        },
-        {
-            title: '双修系统',
-            icon: '♥',
-            cmds: [
-                ['#双修 @某人', '向其他玩家发起双修请求'],
-                ['#接受双修', '接受双修请求'],
-                ['#拒绝双修', '拒绝双修请求'],
-                ['#道侣', '查看当前道侣信息'],
-                ['#解除道侣', '解除道侣关系'],
-            ]
-        },
-        {
-            title: '灵田系统',
-            icon: '✿',
-            cmds: [
-                ['#灵田', '查看灵田状态'],
-                ['#种植 [种子名]', '种植灵草'],
-                ['#浇水', '为灵田浇水'],
-                ['#收获', '收获成熟的灵草'],
-                ['#灵田商店', '购买种子和工具'],
-            ]
-        },
-        {
-            title: '灵眼系统',
-            icon: '◎',
-            cmds: [
-                ['#灵眼', '查看当前灵眼信息'],
-                ['#抢占灵眼', '抢占出现的灵眼'],
-                ['#灵眼状态', '查看灵眼占领状态'],
-            ]
-        },
-        {
-            title: '交易系统',
-            icon: '⇄',
-            cmds: [
-                ['#交易 @某人', '发起交易请求'],
-                ['#寄售 [物品] [价格]', '将物品上架寄售行'],
-                ['#寄售行', '浏览寄售行物品'],
-                ['#购买寄售 [ID]', '购买寄售行物品'],
-                ['#我的寄售', '查看我的寄售物品'],
-                ['#下架 [ID]', '下架寄售物品'],
-            ]
-        },
-        {
-            title: '福地系统',
-            icon: '⛰',
-            cmds: [
-                ['#福地', '查看可占领福地'],
-                ['#占领福地 [名]', '占领指定福地'],
-                ['#福地收益', '领取福地收益'],
-                ['#放弃福地', '放弃当前福地'],
-            ]
-        },
-        {
-            title: '传功系统',
-            icon: '☀',
-            cmds: [
-                ['#传功 @某人', '向其他玩家传功'],
-                ['#接受传功', '接受传功请求'],
+                ['决斗 <@某人>', '生死之战，败者损修为'],
+                ['切磋 <@某人>', '友好切磋，无损失'],
+                ['世界Boss', '查看当前Boss信息和血量'],
+                ['挑战Boss', '挑战世界Boss获取丰厚奖励'],
+                ['生成Boss', '手动刷新世界Boss（管理员）'],
             ]
         },
         {
             title: '排行榜',
             icon: '♛',
             cmds: [
-                ['#排行榜', '查看修为排行榜'],
-                ['#灵石排行', '查看灵石排行榜'],
-                ['#战力排行', '查看战力排行榜'],
+                ['境界排行', '查看境界排行榜'],
+                ['战力排行', '查看战力排行榜'],
+                ['灵石排行', '查看灵石排行榜'],
+                ['宗门排行', '查看宗门排行榜'],
+                ['存款排行', '查看银行存款排行榜'],
+                ['贡献排行', '查看宗门贡献排行榜'],
             ]
         },
         {
-            title: '其他',
-            icon: '⌘',
+            title: '历练系统',
+            icon: '❧',
             cmds: [
-                ['#帮助', '查看帮助信息'],
-                ['#修仙设置', '打开设置面板'],
-                ['#重置数据', '重置个人数据（慎用）'],
-                ['#修仙版本', '查看插件版本'],
-                ['#反馈 [内容]', '提交反馈'],
+                ['开始历练 <路线名>', '巡山问道/云游四方/猎魔肃清/九死一生'],
+                ['历练状态', '查看当前路线进度与剩余时间'],
+                ['完成历练', '领取路线奖励与奇遇掉落'],
+                ['历练信息', '查看各路线风险、可玩性与收益说明'],
+            ]
+        },
+        {
+            title: '秘境探索',
+            icon: '◎',
+            cmds: [
+                ['探索秘境', '进入今日秘境（每日限1次）'],
+                ['完成探索', '领取秘境奖励'],
+                ['退出秘境', '放弃探索（无奖励）'],
+            ]
+        },
+        {
+            title: '炼丹系统',
+            icon: '●',
+            cmds: [
+                ['丹药配方', '查看炼丹配方及成功率'],
+                ['炼丹 <配方ID>', '炼制丹药（成功后存入丹药背包）'],
+            ]
+        },
+        {
+            title: '传承系统',
+            icon: '☀',
+            cmds: [
+                ['传承信息', '查看传承给你的属性加成'],
+                ['传承挑战 <@某人>', '争夺对方传承加成'],
+                ['传承排行', '查看传承排行榜'],
+            ]
+        },
+        {
+            title: '灵石银行',
+            icon: '◆',
+            cmds: [
+                ['银行', '查看存款余额和待领利息'],
+                ['存灵石 <数量>', '存入灵石，开始计息'],
+                ['取灵石 <数量>', '取出存款'],
+                ['领取利息', '每日可领一次利息'],
+                ['贷款 <数量>', '申请灵石贷款'],
+                ['还款 <数量>', '偿还贷款本息'],
+                ['银行流水', '查看历史交易记录'],
+                ['突破贷款', '申请突破专项贷款'],
+            ]
+        },
+        {
+            title: '悬赏任务',
+            icon: '⚑',
+            cmds: [
+                ['悬赏令', '查看当期多难度悬赏任务'],
+                ['接取悬赏 <编号>', '接取指定悬赏任务'],
+                ['悬赏状态', '查看任务进度、剩余时间和奖励'],
+                ['完成悬赏', '提交任务领取灵石/修为/掉落'],
+                ['放弃悬赏', '取消当前任务（触发冷却）'],
+            ]
+        },
+        {
+            title: '洞天福地',
+            icon: '⛰',
+            cmds: [
+                ['我的洞天', '查看洞天信息和修炼加成'],
+                ['购买洞天 <1-5>', '1:小洞天 2:中洞天 3:大洞天 4:福地 5:洞天福地'],
+                ['升级洞天', '提升修炼加成比例'],
+            ]
+        },
+        {
+            title: '灵田种植',
+            icon: '✿',
+            cmds: [
+                ['我的灵田', '查看灵田和种植情况'],
+                ['开垦灵田', '花费2,000,000灵石开垦灵田'],
+                ['种植 <灵草名>', '种植灵草'],
+                ['收获', '收获成熟的灵草获取修为'],
+                ['升级灵田', '增加种植格数'],
+            ]
+        },
+        {
+            title: '双修系统',
+            icon: '♥',
+            cmds: [
+                ['双修 <@某人>', '向对方发起双修请求'],
+                ['接受双修', '接受双修，双方各获修为奖励'],
+                ['拒绝双修', '拒绝对方的双修请求'],
+            ]
+        },
+        {
+            title: '天地灵眼',
+            icon: '◎',
+            cmds: [
+                ['灵眼信息', '查看灵眼及可抢占列表'],
+                ['抢占灵眼 <ID>', '占据无主灵眼提升闭关效率'],
+                ['释放灵眼', '释放已占据的灵眼'],
+            ]
+        },
+        {
+            title: '玩家交易',
+            icon: '⇄',
+            cmds: [
+                ['交易 @某人', '在当前群发起交易请求'],
+                ['接受交易', '接受他人发来的交易请求'],
+                ['拒绝交易', '拒绝交易请求'],
+                ['添加物品 <名称> [数量]', '把物品放入交易栏'],
+                ['添加灵石 <数量>', '把灵石放入交易托管'],
+                ['移除物品 <名称>', '取回放入交易栏的物品'],
+                ['查看交易', '查看双方放入的物品和灵石'],
+                ['确认交易', '确认当前交易'],
+                ['取消交易', '取消交易'],
+            ]
+        },
+        {
+            title: '寄售行',
+            icon: '⇄',
+            cmds: [
+                ['寄售 <物品名> <价格> [数量]', '上架物品（5%手续费）'],
+                ['寄售行 [页码]', '浏览全局寄售行'],
+                ['购买寄售 <编号>', '一口价购买指定编号物品'],
+                ['我的寄售', '查看自己当前所有在售物品'],
+                ['下架寄售 <编号>', '主动下架在售物品'],
+            ]
+        },
+        {
+            title: '管理员指令',
+            icon: '⚙',
+            cmds: [
+                ['禁用物品 <名称>', '禁止玩家使用指定物品'],
+                ['启用物品 <名称>', '解除物品的禁用状态'],
+                ['禁用列表', '查看当前所有被禁用的物品'],
+                ['GM指令帮助', '查看GM管理员指令帮助'],
+                ['GM加灵石 <目标> <数量>', '为目标玩家增加灵石'],
+                ['GM扣灵石 <目标> <数量>', '扣除目标玩家灵石'],
+                ['GM加修为 <目标> <数量>', '为目标玩家增加修为'],
+                ['GM设置境界 <目标> <等级>', '设置目标玩家境界等级'],
+                ['GM加物品 <目标> <物品名> [数量]', '向目标储物戒添加物品'],
+                ['GM扣物品 <目标> <物品名> [数量]', '从目标储物戒移除物品'],
+                ['GM加丹药 <目标> <丹药名> [数量]', '向目标丹药背包添加丹药'],
+                ['GM扣丹药 <目标> <丹药名> [数量]', '从目标丹药背包移除丹药'],
+                ['GM查看玩家 <目标>', '查看目标玩家完整信息'],
+                ['GM刷新秘境', '强制刷新秘境并重置所有玩家探索次数'],
             ]
         }
     ];
@@ -1322,7 +1408,7 @@ function renderAlchemy() {
         const matStr = Object.entries(materials).map(([name, qty]) => `${name} x${qty}`).join('，');
         return [
             `<strong>${esc(r.name)}</strong>`,
-            `level_index ${r.level_required || 0}`,
+            r.level_required !== undefined ? levelName(r.level_required) : '-',
             esc(matStr || '-'),
             `<span data-sortvalue="${r.success_rate || 0}">${r.success_rate || 0}%</span>`
         ];
@@ -1429,7 +1515,7 @@ function renderAdventure() {
             `<strong>${esc(d.name || '-')}</strong>`,
             `<span data-sortvalue="${d.stone_scale || 1}">${d.stone_scale || 1}x</span>`,
             `<span data-sortvalue="${d.exp_scale || 1}">${d.exp_scale || 1}x</span>`,
-            `<span data-sortvalue="${d.min_level || 0}">level_index ${d.min_level || 0}</span>`
+            `<span data-sortvalue="${d.min_level || 0}">${levelName(d.min_level || 0)}</span>`
         ]);
         html += createTable(bdHeaders, bdRows);
     }

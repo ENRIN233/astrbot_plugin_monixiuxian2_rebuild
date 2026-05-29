@@ -153,41 +153,39 @@ class RiftManager:
         today = self._get_today_str()
         await self.db.ext.set_system_config(f"rift_daily_{user_id}", today)
 
-    # -------- 指令处理 --------
+    # -------- GM 指令 --------
 
-    async def list_rifts(self) -> Tuple[bool, str]:
-        """显示今日秘境"""
-        if not self._is_open_now():
-            return False, (
-                f"🌀 秘境尚未开放\n"
-                f"━━━━━━━━━━━━━━━\n"
-                f"开放时间：{self.open_hour_start}:00 ~ {self.open_hour_end}:00\n"
-                f"每日随机开放一个秘境，每人限探索一次"
-            )
+    async def force_refresh_rift(self) -> Tuple[bool, str, Optional[Dict]]:
+        """GM强制刷新秘境：重置所有玩家探索次数并重新选秘境"""
+        # 清除所有玩家的每日探索标记
+        cleared = await self.db.ext.clear_system_configs_by_prefix("rift_daily_")
 
+        # 清除今日秘境记录，强制重新选取
+        await self.db.ext.set_system_config("rift_today", "")
+
+        # 重新选取今日秘境
         rift_def = await self._get_today_rift()
         if not rift_def:
-            return False, "❌ 未配置秘境数据，请联系管理员。"
-        rift = await self.db.ext.get_rift_by_id(rift_def["id"])
-        if not rift:
-            return False, "❌ 秘境数据异常，请联系管理员。"
+            return False, "❌ 未配置秘境数据，刷新失败。", None
 
+        rift = await self.db.ext.get_rift_by_id(rift_def["id"])
+        rift_name = rift.rift_name if rift else rift_def.get("name", "未知秘境")
         duration = rift_def.get("duration", 1800)
-        remaining = self._open_remaining_minutes()
 
         msg = (
-            f"🌀 今日秘境\n"
+            f"✅ 秘境已强制刷新！\n"
             f"━━━━━━━━━━━━━━━\n"
-            f"【{rift.rift_name}】(ID:{rift.rift_id})\n"
-            f"  探索时长：{duration // 60} 分钟\n"
-            f"  每人每日限探索 1 次\n"
+            f"今日秘境：【{rift_name}】\n"
+            f"探索时长：{duration // 60} 分钟\n"
+            f"已重置 {cleared} 名玩家的探索次数\n"
             f"━━━━━━━━━━━━━━━\n"
-            f"⏳ 今日剩余开放时间：{remaining} 分钟\n"
-            f"💡 使用 /探索秘境 {rift.rift_id} 进入"
+            f"⏰ 开放时间：12:00 ~ 18:00"
         )
-        return True, msg
+        return True, msg, rift_def
 
-    async def enter_rift(self, user_id: str, rift_id: int) -> Tuple[bool, str]:
+    # -------- 指令处理 --------
+
+    async def enter_rift(self, user_id: str) -> Tuple[bool, str]:
         """进入秘境"""
         # 检查开放时间
         if not self._is_open_now():
@@ -215,13 +213,12 @@ class RiftManager:
             if user_cd.type != UserStatus.IDLE:
                 return False, f"❌ 你当前正{UserStatus.get_name(user_cd.type)}，无法探索秘境！"
 
-            # 检查今日开放的秘境
+            # 获取今日开放的秘境
             today_rift = await self._get_today_rift()
             if not today_rift:
                 return False, "❌ 未配置秘境数据，请联系管理员。"
-            if rift_id != today_rift["id"]:
-                return False, f"❌ 今日开放的秘境是【{today_rift['name']}】(ID:{today_rift['id']})，不是该秘境。"
 
+            rift_id = today_rift["id"]
             rift = await self.db.ext.get_rift_by_id(rift_id)
             if not rift:
                 return False, "❌ 秘境数据异常！"

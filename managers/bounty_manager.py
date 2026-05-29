@@ -52,7 +52,22 @@ class BountyManager:
         }
     }
 
-    def __init__(self, db: DataBase, storage_ring_manager: Optional["StorageRingManager"] = None):
+    # 功法掉落品阶配置
+    TECHNIQUE_RANK_ORDER = ["凡品", "灵品", "地品", "天品", "皇品", "帝品", "道品", "仙品", "混元先天"]
+    TECHNIQUE_RANK_LEVEL = {
+        "凡品": 0, "灵品": 10, "地品": 12, "天品": 13,
+        "皇品": 16, "帝品": 22, "道品": 28, "仙品": 32, "混元先天": 35,
+    }
+    TECHNIQUE_BASE_WEIGHT = {
+        "凡品": 1000, "灵品": 400, "地品": 150, "天品": 60,
+        "皇品": 20, "帝品": 8, "道品": 3, "仙品": 1, "混元先天": 0.3,
+    }
+    TECHNIQUE_DROP_CHANCE = {"easy": 10, "normal": 20, "hard": 35, "elite": 50}
+    TECHNIQUE_HALF_LIFE = 5.0
+    DAILY_BOUNTY_LIMIT = 3
+
+    def __init__(self, db: DataBase, storage_ring_manager: Optional["StorageRingManager"] = None,
+                 items_data: Optional[Dict[str, dict]] = None):
         self.db = db
         self.storage_ring_manager = storage_ring_manager
         self._bounty_cache: Dict[str, Dict] = {}
@@ -61,6 +76,8 @@ class BountyManager:
         self.templates_by_diff: Dict[str, List[dict]] = {}
         self.item_tables: Dict[str, List[dict]] = {}
         self.adventure_tag_meta: Dict[str, Dict[str, int]] = {}
+        self._technique_pool: Dict[str, List[tuple]] = {}  # rank -> [(name, item_cfg), ...]
+        self.items_data = items_data or {}
         self.reload_config()
 
     # -------- 配置 --------
@@ -78,6 +95,76 @@ class BountyManager:
             self.templates_by_diff.setdefault(tpl_copy["difficulty"], []).append(tpl_copy)
         logger.info(f"悬赏配置加载完成：{len(self.templates_by_id)} 条模板")
         self._load_adventure_meta()
+        self._build_technique_pool()
+
+    def _build_technique_pool(self):
+        """从 items_data 构建功法池，按品阶分桶"""
+        self._technique_pool = {}
+        for name, item_cfg in self.items_data.items():
+            if item_cfg.get("type") != "main_technique":
+                continue
+            rank = item_cfg.get("rank", "凡品")
+            self._technique_pool.setdefault(rank, []).append((name, item_cfg))
+        total = sum(len(v) for v in self._technique_pool.values())
+        logger.info(f"功法池构建完成：{total} 个功法，覆盖 {len(self._technique_pool)} 个品阶")
+
+    def _roll_bounty_technique(self, player: Player, difficulty: str) -> Optional[dict]:
+        """预判功法掉落：概率检定 + 动态加权选一个"""
+        drop_chance = self.TECHNIQUE_DROP_CHANCE.get(difficulty, 10)
+        if random.randint(1, 100) > drop_chance:
+            return None
+
+        player_rank = self._get_player_rank(player.level_index)
+        player_rank_idx = self.TECHNIQUE_RANK_ORDER.index(player_rank) if player_rank in self.TECHNIQUE_RANK_ORDER else 0
+
+        candidates = []
+        for rank, pool in self._technique_pool.items():
+            if not pool:
+                continue
+            rank_weight = self.TECHNIQUE_BASE_WEIGHT.get(rank, 1.0)
+            if rank_weight <= 0:
+                continue
+            rank_level = self.TECHNIQUE_RANK_LEVEL.get(rank, 0)
+            rank_idx = self.TECHNIQUE_RANK_ORDER.index(rank) if rank in self.TECHNIQUE_RANK_ORDER else 0
+            gap = rank_idx - player_rank_idx
+
+            if gap <= 0:
+                level_diff = player.level_index - rank_level
+                factor = 0.5 ** (level_diff / self.TECHNIQUE_HALF_LIFE)
+            elif gap == 1:
+                factor = 0.1
+            else:
+                factor = 0.01
+
+            adjusted = rank_weight * factor
+            if adjusted > 0.001:
+                candidates.append((rank, pool, adjusted))
+
+        if not candidates:
+            return None
+
+        total_weight = sum(w for _, _, w in candidates)
+        roll = random.uniform(0, total_weight)
+        cumulative = 0.0
+        chosen_rank, chosen_pool, _ = candidates[0]
+        for rank, pool, weight in candidates:
+            cumulative += weight
+            if roll <= cumulative:
+                chosen_rank, chosen_pool = rank, pool
+                break
+
+        name, cfg = random.choice(chosen_pool)
+        return {"name": name, "rank": chosen_rank, "exp_multiplier": cfg.get("exp_multiplier", 1.0)}
+
+    @staticmethod
+    def _get_player_rank(level_index: int) -> str:
+        sorted_ranks = sorted(
+            BountyManager.TECHNIQUE_RANK_LEVEL.items(), key=lambda x: x[1], reverse=True
+        )
+        for rank, level in sorted_ranks:
+            if level_index >= level:
+                return rank
+        return "凡品"
 
     def _load_config_file(self) -> dict:
         if self.CONFIG_FILE.exists():
@@ -122,16 +209,22 @@ class BountyManager:
         }
 
     async def get_bounty_list(self, player: Player) -> List[dict]:
-        """获取悬赏列表"""
+        """获取悬赏列表（固定3条，允许重复模板）"""
         cached = self._get_cached_bounties(player.user_id)
         if cached:
             return cached
 
         plan = self._get_difficulty_plan(player.level_index)
         bounties: List[dict] = []
-        for diff in plan:
+        seen_ids: Dict[int, int] = {}  # template_id -> occurrence count
+        for _ in range(3):
+            diff = random.choice(plan)
             entry = self._build_bounty_entry(diff, player)
             if entry:
+                tid = entry["id"]
+                occ = seen_ids.get(tid, 0)
+                seen_ids[tid] = occ + 1
+                entry["slot"] = f"{tid}_{occ}"  # unique key for duplicate templates
                 bounties.append(entry)
 
         self._set_cached_bounties(player.user_id, bounties)
@@ -167,6 +260,7 @@ class BountyManager:
         reward = self._calculate_reward(template, diff_cfg, player, target)
         progress_tags = [str(tag).lower() for tag in template.get("progress_tags", [])]
         time_limit = self._calculate_time_limit(template, target)
+        technique_reward = self._roll_bounty_technique(player, difficulty)
         return {
             "id": template["id"],
             "name": template["name"],
@@ -178,7 +272,8 @@ class BountyManager:
             "reward": reward,
             "time_limit": time_limit,
             "progress_tags": progress_tags,
-            "item_table": template.get("item_table", "gather")
+            "item_table": template.get("item_table", "gather"),
+            "technique_reward": technique_reward
         }
 
     def _calculate_reward(self, template: dict, diff_cfg: dict, player: Player, target: int) -> Dict[str, int]:
@@ -212,21 +307,19 @@ class BountyManager:
         if bounty_id <= 0:
             return False, "无效的悬赏编号。"
 
-        template = self.templates_by_id.get(bounty_id)
-        if not template:
-            return False, "该悬赏已失效，请刷新列表。"
-
-        diff_key = template.get("difficulty", "easy")
-        diff_cfg = self.difficulties.get(diff_key, {})
         cached_bounties = self._get_cached_bounties(player.user_id)
         cached = None
         if cached_bounties:
-            cached = next((b for b in cached_bounties if b["id"] == bounty_id), None)
+            # 优先按位置匹配（1/2/3），再按模板ID匹配
+            if 1 <= bounty_id <= len(cached_bounties):
+                cached = cached_bounties[bounty_id - 1]
+            else:
+                cached = next((b for b in cached_bounties if b["id"] == bounty_id), None)
         if not cached:
             return False, "⚠️ 悬赏列表已刷新，请先发送 /悬赏令 重新查看后再接取。"
 
         now = int(time.time())
-        time_limit = cached.get("time_limit", template.get("time_limit", 3600))
+        time_limit = cached.get("time_limit", 3600)
 
         await self.db.conn.execute("BEGIN IMMEDIATE")
         try:
@@ -253,19 +346,20 @@ class BountyManager:
                 parts = daily_data.split("|")
                 if len(parts) == 2 and parts[0] == today:
                     daily_count = int(parts[1])
-            if daily_count >= 1:
+            if daily_count >= self.DAILY_BOUNTY_LIMIT:
                 await self.db.conn.rollback()
-                return False, "你今日已接取过悬赏，明日再来。"
+                return False, f"你今日已接取{self.DAILY_BOUNTY_LIMIT}次悬赏，明日再来。"
 
             expire_time = now + time_limit
             rewards_json = json.dumps({
                 "stone": cached["reward"]["stone"],
                 "exp": cached["reward"]["exp"],
-                "difficulty": diff_key,
-                "difficulty_name": cached.get("difficulty_name", diff_key),
+                "difficulty": cached.get("difficulty", "easy"),
+                "difficulty_name": cached.get("difficulty_name", ""),
                 "item_table": cached.get("item_table"),
                 "description": cached.get("description", ""),
-                "progress_tags": cached.get("progress_tags", [])
+                "progress_tags": cached.get("progress_tags", []),
+                "technique_reward": cached.get("technique_reward")
             }, ensure_ascii=False)
 
             await self.db.conn.execute(
@@ -278,9 +372,9 @@ class BountyManager:
                 """,
                 (
                     player.user_id,
-                    bounty_id,
-                    template["name"],
-                    cached.get("category", template.get("category", "任务")),
+                    cached.get("id", bounty_id),
+                    cached.get("name", "悬赏"),
+                    cached.get("category", "任务"),
                     cached["count"],
                     rewards_json,
                     now,
@@ -297,12 +391,13 @@ class BountyManager:
             await self.db.conn.rollback()
             raise
 
+        remaining = self.DAILY_BOUNTY_LIMIT - new_count
         return True, (
             f"🎯 接取悬赏成功！\n"
-            f"任务：{template['name']}（{cached.get('difficulty_name', diff_key)}）\n"
+            f"任务：{cached.get('name', '悬赏')}（{cached.get('difficulty_name', '')}）\n"
             f"奖励：{cached['reward']['stone']:,} 灵石 + {cached['reward']['exp']:,} 修为\n"
             f"时限：{time_limit // 60} 分钟（到时限后可领取奖励）\n"
-            f"今日剩余接取次数：{2 - new_count}"
+            f"今日剩余接取次数：{remaining}"
 
         )
 
@@ -393,14 +488,26 @@ class BountyManager:
             except Exception:
                 logger.warning("悬赏物品奖励发放异常", exc_info=True)
 
+        # 功法掉落
+        tech_msg = ""
         rewards = json.loads(active["rewards"])
+        tech_reward = rewards.get("technique_reward")
+        if tech_reward and self.storage_ring_manager:
+            tech_name = tech_reward["name"]
+            tech_rank = tech_reward.get("rank", "")
+            success, _ = await self.storage_ring_manager.store_item(player, tech_name, 1, silent=True)
+            if success:
+                tech_msg = f"\n\n📖 获得功法：【{tech_rank}】{tech_name}"
+            else:
+                tech_msg = f"\n\n📖 功法【{tech_rank}】{tech_name}（储物戒已满，丢失）"
+
         diff_name = rewards.get("difficulty_name", rewards.get("difficulty", "未知"))
         return True, (
             f"✅ 悬赏完成（{diff_name}）！\n"
             f"任务：{active['bounty_name']}\n"
             f"━━━━━━━━━━━━━━━\n"
             f"获得灵石：+{rewards.get('stone', 0):,}\n"
-            f"获得修为：+{rewards.get('exp', 0):,}{item_msg}"
+            f"获得修为：+{rewards.get('exp', 0):,}{item_msg}{tech_msg}"
         )
 
     async def abandon_bounty(self, player: Player) -> Tuple[bool, str]:

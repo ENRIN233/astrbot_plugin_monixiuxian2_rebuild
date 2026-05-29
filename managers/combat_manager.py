@@ -5,6 +5,7 @@
 """
 
 import random
+import math
 from typing import Tuple, Dict, Optional, List
 from dataclasses import dataclass, field
 
@@ -27,6 +28,10 @@ def load_equipment_bonus(player, config_manager) -> dict:
     if player.weapon and player.weapon in config_manager.weapons_data:
         wdata = config_manager.weapons_data[player.weapon]
         bonus["atk_pct"] += wdata.get("atk_bonus", 0.0)
+        bonus["atk"] += wdata.get("physical_damage", 0)
+        bonus["atk"] += wdata.get("magic_damage", 0)
+        bonus["defense"] += wdata.get("physical_defense", 0)
+        bonus["defense"] += wdata.get("magic_defense", 0)
         for attr in WEAPON_SPECIAL_ATTRS:
             val = wdata.get(attr, 0)
             if val:
@@ -60,7 +65,9 @@ class CombatStats:
     mp: int  # 当前真元
     max_mp: int  # 最大真元
     atk: int  # 攻击力
-    defense: int = 0  # 防御力
+    defense: int = 0  # 总防御力（旧兼容）
+    base_def: float = 0.0  # 经验基础防御（用于双层减伤）
+    equip_def: int = 0  # 装备+突破防御（用于双层减伤）
     crit_rate: int = 0  # 会心率（百分比）
     exp: int = 0  # 修为（用于计算攻击力）
     # 新增属性
@@ -80,18 +87,14 @@ class CombatManager:
 
     @staticmethod
     def calculate_hp_mp(experience: int, hp_buff: float = 0.0, mp_buff: float = 0.0) -> Tuple[int, int]:
-        base_hp = experience // 2
-        base_mp = experience
-        hp = int(base_hp * (1 + hp_buff))
-        mp = int(base_mp * (1 + mp_buff))
+        hp = max(200, int(max(0, experience) ** 0.50 * 2 * (1 + hp_buff)) + 200)
+        mp = max(10, int(max(0, experience) ** 0.50 * 1 * (1 + mp_buff)))
         return hp, mp
 
     @staticmethod
-    def calculate_atk(experience: int, atkpractice: int = 0, atk_buff: float = 0.0) -> int:
-        base_atk = experience // 10
-        practice_bonus = atkpractice * 0.04
-        total_atk = int(base_atk * (1 + practice_bonus + atk_buff))
-        return max(total_atk, 1)
+    def calculate_base_atk(experience: int) -> int:
+        """计算经验基础攻击力（不含装备/突破加成）"""
+        return max(1, int(max(0, experience) ** 0.42))
 
     @classmethod
     def execute_attack(
@@ -127,15 +130,17 @@ class CombatManager:
         if is_double_hit:
             damage = damage // 2  # 连击伤害减半
 
-        # 4. 无视防御
-        effective_def = defender.defense
+        # 4. 双层减伤
+        base_def = defender.base_def  # ln(exp+1) * 10
+        equip_def = math.log(defender.equip_def + 1) * 20 if defender.equip_def > 0 else 0
+        # 穿甲影响装备防御层
         if attacker.armor_pen > 0:
-            effective_def = int(defender.defense * (1 - attacker.armor_pen / 100))
-
-        # 5. 减伤
-        if effective_def > 0:
-            reduction = effective_def / (effective_def + 100)
-            damage = max(1, int(damage * (1 - reduction)))
+            equip_def = equip_def * (1 - attacker.armor_pen / 100)
+        base_reduction = base_def / (base_def + 500) if base_def > 0 else 0
+        equip_reduction = equip_def / (equip_def + 200) if equip_def > 0 else 0
+        total_reduction = 1 - (1 - base_reduction) * (1 - equip_reduction)
+        if total_reduction > 0:
+            damage = max(1, int(damage * (1 - total_reduction)))
 
         # 6. 格挡
         if defender.block_value > 0 and not is_crit:  # 暴击无视格挡

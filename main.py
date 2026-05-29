@@ -7,13 +7,13 @@ from astrbot.api.event import AstrMessageEvent, filter
 from .data import DataBase, MigrationManager
 from .config_manager import ConfigManager
 from .handlers import (
-    MiscHandler, PlayerHandler, EquipmentHandler, BreakthroughHandler, 
+    MiscHandler, PlayerHandler, EquipmentHandler, BreakthroughHandler,
     PillHandler, ShopHandler, StorageRingHandler,
     SectHandlers, BossHandlers, CombatHandlers, RankingHandlers,
     RiftHandlers, AdventureHandlers, AlchemyHandlers, ImpartHandlers,
     NicknameHandler, BankHandlers, BountyHandlers, ImpartPkHandlers,
     BlessedLandHandlers, SpiritFarmHandlers, DualCultivationHandlers, SpiritEyeHandlers,
-    TradeHandler, ConsignmentHandler,
+    TradeHandler, ConsignmentHandler, GMHandlers,
 )
 from .managers import (
     CombatManager, SectManager, BossManager, RiftManager, 
@@ -97,7 +97,6 @@ CMD_DUEL = "决斗"
 CMD_SPAR = "切磋"
 
 # 秘境系统指令
-CMD_RIFT_LIST = "秘境列表"
 CMD_RIFT_EXPLORE = "探索秘境"
 CMD_RIFT_COMPLETE = "完成探索"
 CMD_RIFT_EXIT = "退出秘境"
@@ -159,7 +158,6 @@ CMD_DUAL_CULT_REJECT = "拒绝双修"
 # Phase 4: 灵眼
 CMD_SPIRIT_EYE_INFO = "灵眼信息"
 CMD_SPIRIT_EYE_CLAIM = "抢占灵眼"
-CMD_SPIRIT_EYE_COLLECT = "灵眼收取"
 CMD_SPIRIT_EYE_RELEASE = "释放灵眼"
 
 # 玩家交易系统
@@ -181,11 +179,25 @@ CMD_CONSIGN_MY = "我的寄售"
 CMD_CONSIGN_CANCEL = "下架寄售"
 
 CMD_REBIRTH = "弃道重修"
+CMD_REROLL_ROOT = "重铸灵根"
 
 # 管理员指令
 CMD_DISABLE_ITEM = "禁用物品"
 CMD_ENABLE_ITEM = "启用物品"
 CMD_LIST_DISABLED = "禁用列表"
+
+# GM指令
+CMD_GM_HELP = "GM指令帮助"
+CMD_GM_ADD_GOLD = "GM加灵石"
+CMD_GM_SUB_GOLD = "GM扣灵石"
+CMD_GM_ADD_EXP = "GM加修为"
+CMD_GM_SET_LEVEL = "GM设置境界"
+CMD_GM_ADD_ITEM = "GM加物品"
+CMD_GM_SUB_ITEM = "GM扣物品"
+CMD_GM_ADD_PILL = "GM加丹药"
+CMD_GM_SUB_PILL = "GM扣丹药"
+CMD_GM_VIEW_PLAYER = "GM查看玩家"
+CMD_GM_REFRESH_RIFT = "GM刷新秘境"
 
 class XiuXianPlugin(Star):
     """修仙插件 - 文字修仙游戏"""
@@ -237,7 +249,7 @@ class XiuXianPlugin(Star):
         
         # Phase 2: 灵石银行和悬赏令
         self.bank_mgr = BankManager(self.db, self.config)
-        self.bounty_mgr = BountyManager(self.db, self.storage_ring_mgr)
+        self.bounty_mgr = BountyManager(self.db, self.storage_ring_mgr, self.config_manager.items_data)
         self.bank_handlers = BankHandlers(self.db, self.bank_mgr)
         self.bounty_handlers = BountyHandlers(self.db, self.bounty_mgr)
         
@@ -250,7 +262,7 @@ class XiuXianPlugin(Star):
         self.blessed_land_handlers = BlessedLandHandlers(self.db, self.blessed_land_mgr)
         self.spirit_farm_mgr = SpiritFarmManager(self.db, self.storage_ring_mgr)
         self.spirit_farm_handlers = SpiritFarmHandlers(self.db, self.spirit_farm_mgr)
-        self.dual_cult_mgr = DualCultivationManager(self.db)
+        self.dual_cult_mgr = DualCultivationManager(self.db, self.pill_handler.pill_manager)
         self.dual_cult_handlers = DualCultivationHandlers(self.db, self.dual_cult_mgr)
         self.spirit_eye_mgr = SpiritEyeManager(self.db)
         self.spirit_eye_handlers = SpiritEyeHandlers(self.db, self.spirit_eye_mgr)
@@ -260,6 +272,7 @@ class XiuXianPlugin(Star):
         self.consignment_mgr = None
         self.trade_handler = None
         self.consignment_handler = None
+        self.gm_handlers = GMHandlers(self.db)
         
         self.boss_task = None # Boss生成任务
         self.loan_check_task = None # 贷款逾期检查任务
@@ -267,6 +280,7 @@ class XiuXianPlugin(Star):
         self.bounty_check_task = None  # 悬赏过期检查任务
         self.consignment_check_task = None  # 寄售过期检查任务
         self.trade_check_task = None  # 交易超时检查任务
+        self.rift_daily_task = None  # 秘境每日广播任务
 
         access_control_config = self.config.get("ACCESS_CONTROL", {})
         self.whitelist_groups = [str(g) for g in access_control_config.get("WHITELIST_GROUPS", [])]
@@ -334,6 +348,7 @@ class XiuXianPlugin(Star):
         self.bounty_check_task = asyncio.create_task(self._schedule_bounty_check())
         self.consignment_check_task = asyncio.create_task(self._schedule_consignment_check())
         self.trade_check_task = asyncio.create_task(self._schedule_trade_check())
+        self.rift_daily_task = asyncio.create_task(self._schedule_rift_daily())
         
         logger.info("【修仙插件】已加载。")
 
@@ -350,6 +365,8 @@ class XiuXianPlugin(Star):
             self.consignment_check_task.cancel()
         if self.trade_check_task:
             self.trade_check_task.cancel()
+        if self.rift_daily_task:
+            self.rift_daily_task.cancel()
         await self.db.close()
         logger.info("【修仙插件】已卸载。")
         
@@ -476,6 +493,86 @@ class XiuXianPlugin(Star):
                         logger.warning(f"【修仙插件】Boss击杀广播发送失败 (群{group_id}): {e}")
         except Exception as e:
             logger.error(f"【修仙插件】Boss击杀广播异常: {e}")
+
+    async def _schedule_rift_daily(self):
+        """秘境每日定时广播任务 - 每天12:00自动选择并广播今日秘境"""
+        from datetime import datetime, timedelta
+
+        retry_count = 0
+        max_retry_delay = 3600
+
+        while True:
+            try:
+                await self.db.ensure_connection()
+
+                # 计算距离下一个12:00的秒数
+                now = datetime.now()
+                noon_today = now.replace(hour=12, minute=0, second=0, microsecond=0)
+                if now >= noon_today:
+                    target = noon_today + timedelta(days=1)
+                else:
+                    target = noon_today
+
+                delta = (target - now).total_seconds()
+                logger.info(f"【修仙插件】秘境广播将在 {int(delta)} 秒后（{target.strftime('%Y-%m-%d %H:%M')}）执行")
+                await asyncio.sleep(delta)
+
+                # 选中今日秘境并广播
+                rift_def = await self.rift_mgr._get_today_rift()
+                if rift_def:
+                    logger.info(f"【修仙插件】今日秘境已开放: {rift_def['name']}")
+                    await self._broadcast_rift_open(rift_def)
+                else:
+                    logger.warning("【修仙插件】秘境广播失败：未配置秘境数据")
+
+                retry_count = 0
+
+            except asyncio.CancelledError:
+                break
+            except Exception as e:
+                logger.error(f"秘境广播任务异常: {e}")
+                retry_count += 1
+                delay = min(60 * (2 ** retry_count), max_retry_delay)
+                logger.info(f"【修仙插件】秘境广播任务将在 {delay} 秒后重试（第{retry_count}次）")
+                await asyncio.sleep(delay)
+
+    async def _broadcast_rift_open(self, rift_def: dict):
+        """广播秘境开放消息到所有白名单群聊"""
+        from astrbot.api.event import MessageChain
+
+        if not self.whitelist_groups:
+            logger.debug("【修仙插件】未配置白名单群聊，跳过秘境广播")
+            return
+
+        rift_name = rift_def.get("name", "未知秘境")
+        duration = rift_def.get("duration", 1800)
+
+        broadcast_msg = (
+            f"🌀 秘境已开放！\n"
+            f"━━━━━━━━━━━━━━━\n"
+            f"今日秘境：【{rift_name}】\n"
+            f"探索时长：{duration // 60} 分钟\n"
+            f"每人每日限探索 1 次\n"
+            f"━━━━━━━━━━━━━━━\n"
+            f"⏰ 开放时间：12:00 ~ 18:00\n"
+            f"💡 使用 /探索秘境 进入"
+        )
+
+        message_chain = MessageChain().message(broadcast_msg)
+
+        try:
+            platforms = self.context.platform_manager.get_insts()
+            for platform in platforms:
+                platform_name = platform.meta().name if hasattr(platform, 'meta') and callable(platform.meta) else "unknown"
+                for group_id in self.whitelist_groups:
+                    umo = f"{platform_name}:GroupMessage:{group_id}"
+                    try:
+                        await self.context.send_message(umo, message_chain)
+                        logger.debug(f"【修仙插件】秘境广播已发送到群 {group_id}")
+                    except Exception as e:
+                        logger.warning(f"【修仙插件】秘境广播发送失败 (群{group_id}): {e}")
+        except Exception as e:
+            logger.error(f"【修仙插件】秘境广播异常: {e}")
 
     async def _schedule_loan_check(self):
         """贷款逾期检查定时任务（每小时检查一次，支持指数退避）"""
@@ -689,6 +786,12 @@ class XiuXianPlugin(Star):
     @require_whitelist
     async def handle_rebirth(self, event: AstrMessageEvent, confirm: str = ""):
         async for r in self.player_handler.handle_rebirth(event, confirm):
+            yield r
+
+    @filter.command(CMD_REROLL_ROOT, "重铸灵根（25万灵石）")
+    @require_whitelist
+    async def handle_reroll_root(self, event: AstrMessageEvent):
+        async for r in self.player_handler.handle_reroll_root(event):
             yield r
 
     @filter.command(CMD_START_CULTIVATION, "开始闭关修炼")
@@ -1022,16 +1125,10 @@ class XiuXianPlugin(Star):
             yield r
 
     # ===== 秘境指令 =====
-    @filter.command(CMD_RIFT_LIST, "查看秘境列表")
-    @require_whitelist
-    async def handle_rift_list(self, event: AstrMessageEvent):
-        async for r in self.rift_handlers.handle_rift_list(event):
-            yield r
-
     @filter.command(CMD_RIFT_EXPLORE, "探索秘境")
     @require_whitelist
-    async def handle_rift_explore(self, event: AstrMessageEvent, rift_id: int = 0):
-        async for r in self.rift_handlers.handle_rift_explore(event, rift_id):
+    async def handle_rift_explore(self, event: AstrMessageEvent):
+        async for r in self.rift_handlers.handle_rift_explore(event):
             yield r
 
     @filter.command(CMD_RIFT_COMPLETE, "完成秘境探索")
@@ -1210,8 +1307,8 @@ class XiuXianPlugin(Star):
 
     @filter.command(CMD_BLESSED_LAND_UPGRADE, "升级洞天")
     @require_whitelist
-    async def handle_blessed_land_upgrade(self, event: AstrMessageEvent):
-        async for r in self.blessed_land_handlers.handle_upgrade(event):
+    async def handle_blessed_land_upgrade(self, event: AstrMessageEvent, land_type: int = 0):
+        async for r in self.blessed_land_handlers.handle_upgrade(event, land_type):
             yield r
 
     # ===== Phase 4: 灵田 =====
@@ -1275,12 +1372,6 @@ class XiuXianPlugin(Star):
     @require_whitelist
     async def handle_spirit_eye_claim(self, event: AstrMessageEvent, eye_id: int = 0):
         async for r in self.spirit_eye_handlers.handle_claim(event, eye_id):
-            yield r
-
-    @filter.command(CMD_SPIRIT_EYE_COLLECT, "收取灵眼产出")
-    @require_whitelist
-    async def handle_spirit_eye_collect(self, event: AstrMessageEvent):
-        async for r in self.spirit_eye_handlers.handle_collect(event):
             yield r
 
     @filter.command(CMD_SPIRIT_EYE_RELEASE, "释放灵眼")
@@ -1426,3 +1517,121 @@ class XiuXianPlugin(Star):
         for i, name in enumerate(disabled, 1):
             lines.append(f"  {i}. {name}")
         yield event.plain_result("\n".join(lines))
+
+    # ===== GM管理员指令 =====
+
+    @filter.command(CMD_GM_HELP, "GM指令帮助")
+    async def handle_gm_help(self, event: AstrMessageEvent):
+        if not self._check_boss_admin(event):
+            yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
+            return
+        msg = await self.gm_handlers.handle_help()
+        yield event.plain_result(msg)
+
+    @filter.command(CMD_GM_ADD_GOLD, "GM增加灵石")
+    async def handle_gm_add_gold(self, event: AstrMessageEvent, args: str = ""):
+        if not self._check_boss_admin(event):
+            yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
+            return
+        target_id, extra = self._gm_parse_target(args)
+        msg = await self.gm_handlers.handle_add_gold(target_id, extra)
+        yield event.plain_result(msg)
+
+    @filter.command(CMD_GM_SUB_GOLD, "GM扣除灵石")
+    async def handle_gm_sub_gold(self, event: AstrMessageEvent, args: str = ""):
+        if not self._check_boss_admin(event):
+            yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
+            return
+        target_id, extra = self._gm_parse_target(args)
+        msg = await self.gm_handlers.handle_sub_gold(target_id, extra)
+        yield event.plain_result(msg)
+
+    @filter.command(CMD_GM_ADD_EXP, "GM增加修为")
+    async def handle_gm_add_exp(self, event: AstrMessageEvent, args: str = ""):
+        if not self._check_boss_admin(event):
+            yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
+            return
+        target_id, extra = self._gm_parse_target(args)
+        msg = await self.gm_handlers.handle_add_exp(target_id, extra)
+        yield event.plain_result(msg)
+
+    @filter.command(CMD_GM_SET_LEVEL, "GM设置境界")
+    async def handle_gm_set_level(self, event: AstrMessageEvent, args: str = ""):
+        if not self._check_boss_admin(event):
+            yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
+            return
+        target_id, extra = self._gm_parse_target(args)
+        msg = await self.gm_handlers.handle_set_level(target_id, extra)
+        yield event.plain_result(msg)
+
+    @filter.command(CMD_GM_ADD_ITEM, "GM添加物品")
+    async def handle_gm_add_item(self, event: AstrMessageEvent, args: str = ""):
+        if not self._check_boss_admin(event):
+            yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
+            return
+        target_id, extra = self._gm_parse_target(args)
+        msg = await self.gm_handlers.handle_add_item(target_id, extra)
+        yield event.plain_result(msg)
+
+    @filter.command(CMD_GM_SUB_ITEM, "GM扣除物品")
+    async def handle_gm_sub_item(self, event: AstrMessageEvent, args: str = ""):
+        if not self._check_boss_admin(event):
+            yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
+            return
+        target_id, extra = self._gm_parse_target(args)
+        msg = await self.gm_handlers.handle_sub_item(target_id, extra)
+        yield event.plain_result(msg)
+
+    @filter.command(CMD_GM_ADD_PILL, "GM添加丹药")
+    async def handle_gm_add_pill(self, event: AstrMessageEvent, args: str = ""):
+        if not self._check_boss_admin(event):
+            yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
+            return
+        target_id, extra = self._gm_parse_target(args)
+        msg = await self.gm_handlers.handle_add_pill(target_id, extra)
+        yield event.plain_result(msg)
+
+    @filter.command(CMD_GM_SUB_PILL, "GM扣除丹药")
+    async def handle_gm_sub_pill(self, event: AstrMessageEvent, args: str = ""):
+        if not self._check_boss_admin(event):
+            yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
+            return
+        target_id, extra = self._gm_parse_target(args)
+        msg = await self.gm_handlers.handle_sub_pill(target_id, extra)
+        yield event.plain_result(msg)
+
+    @filter.command(CMD_GM_VIEW_PLAYER, "GM查看玩家")
+    async def handle_gm_view_player(self, event: AstrMessageEvent, args: str = ""):
+        if not self._check_boss_admin(event):
+            yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
+            return
+        target_id, extra = self._gm_parse_target(args)
+        msg = await self.gm_handlers.handle_view_player(target_id)
+        yield event.plain_result(msg)
+
+    @filter.command(CMD_GM_REFRESH_RIFT, "GM强制刷新秘境")
+    async def handle_gm_refresh_rift(self, event: AstrMessageEvent):
+        if not self._check_boss_admin(event):
+            yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
+            return
+        success, msg, rift_def = await self.rift_mgr.force_refresh_rift()
+        yield event.plain_result(msg)
+        if success and rift_def:
+            await self._broadcast_rift_open(rift_def)
+
+    def _gm_parse_target(self, args: str) -> tuple:
+        """从GM指令参数中解析目标QQ号和剩余参数"""
+        import re
+        if not args:
+            return "", ""
+        # 提取@格式
+        at_match = re.search(r'\[CQ:at,qq=(\d+)\]', args)
+        if at_match:
+            target_id = at_match.group(1)
+            extra = args[at_match.end():].strip()
+            return target_id, extra
+        # 提取纯数字QQ号（5-12位）
+        num_match = re.match(r'\s*(\d{5,12})\s*(.*)', args)
+        if num_match:
+            return num_match.group(1), num_match.group(2).strip()
+        return "", args.strip()

@@ -1,6 +1,7 @@
 # core/pill_manager.py
 
 import time
+from datetime import datetime, timezone
 from typing import Dict, List, Optional, Tuple
 from astrbot.api import logger
 
@@ -141,6 +142,16 @@ class PillManager:
             # 回生丹
             return await self._use_resurrection_pill(player, pill_name, pill_data)
         elif effect_type == "temporary":
+            # 双修丹药每日限2颗
+            if subtype == "dual_cultivation_boost":
+                today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+                if player.last_daily_reset != today:
+                    player.set_daily_pill_usage({})
+                    player.last_daily_reset = today
+                daily_usage = player.get_daily_pill_usage()
+                pill_id = pill_data.get("id", "")
+                if daily_usage.get(pill_id, 0) >= 2:
+                    return False, f"❌ 龙精虎猛丹每日最多服用2颗！"
             # 临时效果丹药
             return await self._use_temporary_pill(player, pill_name, pill_data)
         elif effect_type == "permanent":
@@ -227,7 +238,7 @@ class PillManager:
             "physical_defense_multiplier", "magic_defense_multiplier",
             "lifespan_cost_per_minute", "lifespan_regen_per_minute",
             "spiritual_qi_regen_per_minute", "blood_qi_regen_per_minute", "blood_qi_cost_per_minute",
-            "breakthrough_bonus"
+            "breakthrough_bonus", "dual_cultivation_exp_bonus"
         ]
         for key in effect_keys:
             if key in pill_data:
@@ -244,6 +255,13 @@ class PillManager:
         if inventory[pill_name] <= 0:
             del inventory[pill_name]
         player.set_pills_inventory(inventory)
+
+        # 记录每日使用次数（用于限制特定丹药每日用量）
+        if effect.get("subtype") == "dual_cultivation_boost":
+            daily_usage = player.get_daily_pill_usage()
+            pill_id = pill_data.get("id", "")
+            daily_usage[pill_id] = daily_usage.get(pill_id, 0) + 1
+            player.set_daily_pill_usage(daily_usage)
 
         await self.db.update_player(player)
 
@@ -311,12 +329,17 @@ class PillManager:
             else:
                 effect_desc.append(f"突破成功率{bonus:.0%}")
 
+        if "dual_cultivation_exp_bonus" in pill_data:
+            bonus = pill_data["dual_cultivation_exp_bonus"]
+            effect_desc.append(f"双修次数+1、双修修为+{bonus:.0%}")
+
         effects_str = "、".join(effect_desc) if effect_desc else "特殊效果"
+        duration_desc = f"⏱️ 持续时间：{duration_minutes}分钟\n" if duration_minutes > 0 else ""
 
         return True, (
             f"✨ 服用【{pill_name}】成功！\n"
             f"━━━━━━━━━━━━━━━\n"
-            f"⏱️ 持续时间：{duration_minutes}分钟\n"
+            f"{duration_desc}"
             f"🎯 效果：{effects_str}\n"
             f"━━━━━━━━━━━━━━━"
         )
@@ -403,6 +426,21 @@ class PillManager:
                 permanent_gains[level_key]["cultivation_multiplier"] = 0
             permanent_gains[level_key]["cultivation_multiplier"] += cult_mult
             gains_applied["修炼速度"] = f"{cult_mult:+.0%}"
+
+        # 处理战斗属性倍率（永久）
+        combat_mult_fields = {
+            "physical_damage_multiplier": "物伤",
+            "magic_damage_multiplier": "法伤",
+            "physical_defense_multiplier": "物防",
+            "magic_defense_multiplier": "法防",
+        }
+        for field_key, field_name in combat_mult_fields.items():
+            if field_key in pill_data:
+                mult = pill_data[field_key]
+                if field_key not in permanent_gains[level_key]:
+                    permanent_gains[level_key][field_key] = 0
+                permanent_gains[level_key][field_key] += mult
+                gains_applied[field_name] = f"永久{mult:+.0%}"
 
         # 处理突破死亡概率降低
         if "death_protection_multiplier" in pill_data:
@@ -649,6 +687,14 @@ class PillManager:
             level_gains = permanent_gains[level_key]
             if "cultivation_multiplier" in level_gains:
                 multipliers["cultivation_speed"] += level_gains["cultivation_multiplier"]
+            if "physical_damage_multiplier" in level_gains:
+                multipliers["physical_damage"] += level_gains["physical_damage_multiplier"]
+            if "magic_damage_multiplier" in level_gains:
+                multipliers["magic_damage"] += level_gains["magic_damage_multiplier"]
+            if "physical_defense_multiplier" in level_gains:
+                multipliers["physical_defense"] += level_gains["physical_defense_multiplier"]
+            if "magic_defense_multiplier" in level_gains:
+                multipliers["magic_defense"] += level_gains["magic_defense_multiplier"]
 
         # 确保倍率不为负
         for key in multipliers:
@@ -694,6 +740,26 @@ class PillManager:
 
         if len(remaining_effects) != len(effects):
             player.set_active_pill_effects(remaining_effects)
+            await self.db.update_player(player)
+
+    async def get_dual_cultivation_bonus(self, player: Player) -> float:
+        """获取双修丹药加成值（0 或 1.0，不叠加）"""
+        effects = player.get_active_pill_effects()
+        current_time = int(time.time())
+        for effect in effects:
+            expiry_time = effect.get("expiry_time", 0)
+            if expiry_time > 0 and current_time >= expiry_time:
+                continue
+            if effect.get("subtype") == "dual_cultivation_boost":
+                return 1.0
+        return 0.0
+
+    async def consume_dual_cultivation_bonus(self, player: Player):
+        """双修完成后移除双修丹药效果"""
+        effects = player.get_active_pill_effects()
+        remaining = [e for e in effects if e.get("subtype") != "dual_cultivation_boost"]
+        if len(remaining) != len(effects):
+            player.set_active_pill_effects(remaining)
             await self.db.update_player(player)
 
     async def add_pill_to_inventory(self, player: Player, pill_name: str, count: int = 1):

@@ -347,7 +347,9 @@ class CultivationManager:
         player: Player,
         minutes: int,
         technique_bonus: float = 0.0,
-        pill_multipliers: Optional[Dict[str, float]] = None
+        pill_multipliers: Optional[Dict[str, float]] = None,
+        spirit_eye_bonus: float = 0.0,
+        land_bonus: float = 0.0
     ) -> int:
         """计算闭关修炼获得的修为
 
@@ -355,6 +357,8 @@ class CultivationManager:
             player: 玩家对象
             minutes: 闭关时长（分钟）
             technique_bonus: 心法提供的修为倍率加成（来自主修心法的exp_multiplier）
+            spirit_eye_bonus: 灵眼修炼效率加成（如 0.15 表示 +15%）
+            land_bonus: 洞天福地修炼效率加成（如 0.5 表示 +50%）
 
         Returns:
             int: 获得的修为值
@@ -370,8 +374,8 @@ class CultivationManager:
         if pill_multipliers:
             cultivation_pill_bonus = pill_multipliers.get("cultivation_speed", 1.0)
 
-        # 计算总修为倍率：灵根倍率 * (1 + 心法倍率) * 丹药倍率
-        total_multiplier = root_speed * (1.0 + technique_bonus) * cultivation_pill_bonus
+        # 计算总修为倍率：灵根倍率 * (1 + 心法倍率) * 丹药倍率 * (1 + 灵眼加成) * (1 + 洞天加成)
+        total_multiplier = root_speed * (1.0 + technique_bonus) * cultivation_pill_bonus * (1.0 + spirit_eye_bonus) * (1.0 + land_bonus)
 
         # 计算总修为：基础修为 * 时长 * 总倍率
         total_exp = int(base_exp * minutes * total_multiplier)
@@ -380,6 +384,7 @@ class CultivationManager:
             f"玩家 {player.user_id} 闭关 {minutes} 分钟，"
             f"基础修为 {base_exp}，灵根倍率 {root_speed}，"
             f"心法加成 {technique_bonus:.2%}，丹药倍率 {cultivation_pill_bonus:.2f}，"
+            f"灵眼加成 {spirit_eye_bonus:.2%}，洞天加成 {land_bonus:.2%}，"
             f"获得修为 {total_exp}"
         )
         return total_exp

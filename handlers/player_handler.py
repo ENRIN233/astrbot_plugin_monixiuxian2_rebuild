@@ -16,7 +16,9 @@ CMD_PLAYER_INFO = "我的信息"
 CMD_START_CULTIVATION = "闭关"
 CMD_END_CULTIVATION = "出关"
 CMD_CHECK_IN = "签到"
+CMD_REROLL_ROOT = "重铸灵根"
 REBIRTH_COOLDOWN = 7 * 24 * 3600
+REROLL_ROOT_COST = 250000
 
 __all__ = ["PlayerHandler"]
 
@@ -133,12 +135,11 @@ class PlayerHandler:
 
         # 文本模式 (完整信息显示)
         
-        # 获取战力（综合攻防）
-        combat_power = (
-            int(total_attrs['physical_damage']) + int(total_attrs['magic_damage']) +
-            int(total_attrs['physical_defense']) + int(total_attrs['magic_defense']) +
-            int(total_attrs['mental_power']) // 10
-        )
+        # 获取战力（与战斗公式一致）
+        base_atk = int(max(0, player.experience) ** 0.42)
+        breakthrough_atk = int(total_attrs['physical_damage']) + int(total_attrs['magic_damage'])
+        breakthrough_def = int(total_attrs['physical_defense']) + int(total_attrs['magic_defense'])
+        combat_power = base_atk + breakthrough_atk + breakthrough_def + int(total_attrs['mental_power']) // 10
         
         # 获取宗门信息
         sect_name = "无宗门"
@@ -188,6 +189,45 @@ class PlayerHandler:
             f"  寿命：{player.lifespan}\n"
             f"  精神力：{total_attrs['mental_power']}\n"
         )
+
+        # 计算修炼效率
+        root_speed = self.cultivation_manager.get_spiritual_root_speed(player)
+        technique_bonus = 0.0
+        for item in equipped_items:
+            if item.item_type == "main_technique":
+                technique_bonus = item.exp_multiplier
+                break
+        cultivation_pill_bonus = pill_multipliers.get("cultivation_speed", 1.0)
+        spirit_eye_bonus = 0.0
+        my_eye = await self.db.ext.get_user_spirit_eye(player.user_id)
+        if my_eye:
+            spirit_eye_bonus = my_eye.get("exp_per_hour", 0) / 100.0
+        # 洞天加成
+        land_bonus = 0.0
+        async with self.db.conn.execute(
+            "SELECT SUM(exp_bonus) FROM blessed_lands WHERE user_id = ?",
+            (player.user_id,)
+        ) as cursor:
+            row = await cursor.fetchone()
+            if row and row[0]:
+                land_bonus = row[0]
+        total_efficiency = root_speed * (1.0 + technique_bonus) * cultivation_pill_bonus * (1.0 + spirit_eye_bonus) * (1.0 + land_bonus)
+
+        reply_msg += (
+            f"\n"
+            f"【修炼效率】\n"
+            f"  灵根倍率：x{root_speed:.1f}\n"
+        )
+        if technique_bonus > 0:
+            reply_msg += f"  心法加成：+{technique_bonus:.0%}\n"
+        if cultivation_pill_bonus != 1.0:
+            reply_msg += f"  丹药加成：x{cultivation_pill_bonus:.2f}\n"
+        if spirit_eye_bonus > 0:
+            eye_name = my_eye["eye_name"] if my_eye else "灵眼"
+            reply_msg += f"  灵眼加成：+{spirit_eye_bonus:.0%}（{eye_name}）\n"
+        if land_bonus > 0:
+            reply_msg += f"  洞天加成：+{land_bonus:.0%}\n"
+        reply_msg += f"  总效率：x{total_efficiency:.2f}\n"
         
         # 根据修炼类型添加不同属性
         if player.cultivation_type == "体修":
@@ -306,11 +346,8 @@ class PlayerHandler:
             yield event.plain_result("道友闭关时间不足1分钟，未获得修为。请继续闭关修炼。")
             return
 
-        # 闭关时长上限根据境界调整（基础24小时，每提升一个大境界增加6小时）
-        # level_index: 0-8练气, 9-17筑基, 18-26金丹, 27-35元婴, 36-44化神, 45-53炼虚, 54-62合体, 63-71大乘, 72+渡劫
-        base_minutes = 1440  # 24小时
-        realm_bonus = (player.level_index // 9) * 360  # 每个大境界增加6小时
-        MAX_CULTIVATION_MINUTES = base_minutes + realm_bonus
+        # 闭关时长上限：15天
+        MAX_CULTIVATION_MINUTES = 21600  # 15天 = 360小时
         effective_minutes = min(duration_minutes, MAX_CULTIVATION_MINUTES)
         exceeded_time = duration_minutes > MAX_CULTIVATION_MINUTES
 
@@ -334,12 +371,30 @@ class PlayerHandler:
                     technique_bonus = item.exp_multiplier
                     break
 
+        # 获取灵眼修炼效率加成
+        spirit_eye_bonus = 0.0
+        my_eye = await self.db.ext.get_user_spirit_eye(player.user_id)
+        if my_eye:
+            spirit_eye_bonus = my_eye.get("exp_per_hour", 0) / 100.0
+
+        # 获取洞天福地修炼效率加成
+        land_bonus = 0.0
+        async with self.db.conn.execute(
+            "SELECT SUM(exp_bonus) FROM blessed_lands WHERE user_id = ?",
+            (player.user_id,)
+        ) as cursor:
+            row = await cursor.fetchone()
+            if row and row[0]:
+                land_bonus = row[0]
+
         # 计算获得的修为（使用有效时长）
         gained_exp = self.cultivation_manager.calculate_cultivation_exp(
             player,
             effective_minutes,
             technique_bonus,
-            pill_multipliers
+            pill_multipliers,
+            spirit_eye_bonus,
+            land_bonus
         )
 
         # 更新玩家数据
@@ -361,8 +416,8 @@ class PlayerHandler:
         # 超时提示
         exceed_msg = ""
         if exceeded_time:
-            effective_hours = MAX_CULTIVATION_MINUTES // 60
-            exceed_msg = f"\n⚠️ 闭关超过{effective_hours}小时，仅计算前{effective_hours}小时修为"
+            exceed_days = MAX_CULTIVATION_MINUTES // 1440
+            exceed_msg = f"\n⚠️ 闭关超过{exceed_days}天，仅计算前{exceed_days}天修为"
 
         reply_msg = (
             "🌟 道友出关成功！\n"
@@ -468,4 +523,34 @@ class PlayerHandler:
             "━━━━━━━━━━━━━━━\n"
             "可立即使用「我要修仙」重新踏上仙途。\n"
             "（7天内不可再次重修）"
+        )
+
+    @player_required
+    async def handle_reroll_root(self, player: Player, event: AstrMessageEvent):
+        """重铸灵根"""
+        if player.gold < REROLL_ROOT_COST:
+            yield event.plain_result(
+                f"❌ 灵石不足！重铸灵根需要 {REROLL_ROOT_COST:,} 灵石。\n"
+                f"当前灵石：{player.gold:,}"
+            )
+            return
+
+        old_root = player.spiritual_root
+        old_root_name = old_root.replace("灵根", "")
+        old_desc = self.cultivation_manager._get_root_description(old_root_name)
+
+        player.gold -= REROLL_ROOT_COST
+        new_root = self.cultivation_manager._get_random_spiritual_root()
+        player.spiritual_root = f"{new_root}灵根"
+        await self.db.update_player(player)
+
+        new_desc = self.cultivation_manager._get_root_description(new_root)
+
+        yield event.plain_result(
+            "✨ 重铸灵根成功！\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"旧灵根：{old_root}（{old_desc}）\n"
+            f"新灵根：{player.spiritual_root}（{new_desc}）\n"
+            f"消耗灵石：{REROLL_ROOT_COST:,}\n"
+            f"当前灵石：{player.gold:,}"
         )

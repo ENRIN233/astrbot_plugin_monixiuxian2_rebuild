@@ -601,7 +601,18 @@ class DatabaseExtended:
             (key, value, int(time.time()), value, int(time.time()))
         )
         await self.conn.commit()
-    
+
+    async def clear_system_configs_by_prefix(self, prefix: str) -> int:
+        """删除所有以指定前缀开头的系统配置，返回删除条数"""
+        await self.ensure_system_config_table()
+        async with self.conn.execute(
+            "DELETE FROM system_config WHERE key LIKE ?",
+            (f"{prefix}%",)
+        ) as cursor:
+            deleted = cursor.rowcount
+        await self.conn.commit()
+        return deleted
+
     # ===== 赠予请求系统 CRUD =====
     
     async def create_pending_gift(self, receiver_id: str, sender_id: str, sender_name: str,

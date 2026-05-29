@@ -27,6 +27,7 @@ from .dual_cultivation_handlers import DualCultivationHandlers
 from .spirit_eye_handlers import SpiritEyeHandlers
 from .trade_handler import TradeHandler
 from .consignment_handler import ConsignmentHandler
+from .gm_handlers import GMHandlers
 
 __all__ = [
     "PlayerHandler",
@@ -55,4 +56,5 @@ __all__ = [
     "SpiritEyeHandlers",
     "TradeHandler",
     "ConsignmentHandler",
+    "GMHandlers",
 ]

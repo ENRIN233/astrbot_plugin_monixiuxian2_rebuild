@@ -31,13 +31,7 @@ class SpiritEyeHandlers:
         
         success, msg = await self.mgr.claim_spirit_eye(player, eye_id)
         yield event.plain_result(msg)
-    
-    @player_required
-    async def handle_collect(self, player: Player, event: AstrMessageEvent):
-        """收取灵眼收益"""
-        success, msg = await self.mgr.collect_spirit_eye(player)
-        yield event.plain_result(msg)
-    
+
     @player_required
     async def handle_release(self, player: Player, event: AstrMessageEvent):
         """释放灵眼"""

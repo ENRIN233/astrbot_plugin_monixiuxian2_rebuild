@@ -94,26 +94,39 @@ class CombatHandlers:
         return load_equipment_bonus(player, self.config_manager)
 
     async def _prepare_combat_stats(self, user_id: str) -> CombatStats:
+        import math
         player = await self.db.get_player_by_id(user_id)
         if not player:
             return None
-        
+
         # 获取基础属性
-        # 注意：这里我们重新计算属性以确保即时性，特别是Buff
         impart_info = await self.db.ext.get_impart_info(user_id)
         hp_buff = impart_info.impart_hp_per if impart_info else 0.0
         mp_buff = impart_info.impart_mp_per if impart_info else 0.0
         atk_buff = impart_info.impart_atk_per if impart_info else 0.0
-        
-        # 计算属性
+
+        # 计算HP/MP（新公式）
         hp, mp = self.combat_mgr.calculate_hp_mp(player.experience, hp_buff, mp_buff)
-        base_atk = self.combat_mgr.calculate_atk(player.experience, player.atkpractice, atk_buff)
 
-        # 加上装备加成（武器为百分比加成 + 特殊属性）
+        # 计算基础攻击力（新公式：exp^0.35）
+        base_atk = self.combat_mgr.calculate_base_atk(player.experience)
+
+        # 装备加成
         equip_bonus = self._calculate_equipment_bonus(player)
-        final_atk = int(base_atk * (1 + equip_bonus["atk_pct"])) + equip_bonus["atk"]
 
-        # 更新Player对象（可选，为了持久化）
+        # 突破攻击（物伤+法伤）
+        breakthrough_atk = player.physical_damage + player.magic_damage
+
+        # 最终ATK = 经验基数*(1+武器%) + 突破攻击 + 武器攻击
+        final_atk = int(base_atk * (1 + equip_bonus["atk_pct"] + atk_buff)) + breakthrough_atk + equip_bonus["atk"]
+
+        # 双层防御
+        # 第一层：经验基础防御（ln压缩）
+        base_def = math.log(player.experience + 1) * 10
+        # 第二层：突破防御 + 装备防御（防具+武器）
+        equip_def = (player.physical_defense + player.magic_defense) + equip_bonus["defense"]
+
+        # 更新Player对象
         player.hp = hp
         player.mp = mp
         player.atk = final_atk
@@ -130,7 +143,9 @@ class CombatHandlers:
             mp=mp,
             max_mp=mp,
             atk=final_atk,
-            defense=equip_bonus["defense"],
+            defense=equip_def,
+            base_def=base_def,
+            equip_def=equip_def,
             crit_rate=crit_rate_buff + equip_bonus.get("crit_rate", 0),
             exp=player.experience,
             crit_damage=max(1.5, equip_bonus.get("crit_damage", 0)),

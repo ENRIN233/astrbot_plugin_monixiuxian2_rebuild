@@ -43,7 +43,7 @@ class BlessedLandHandlers:
         yield event.plain_result(msg)
     
     @player_required
-    async def handle_upgrade(self, player: Player, event: AstrMessageEvent):
+    async def handle_upgrade(self, player: Player, event: AstrMessageEvent, land_type: int = 0):
         """升级洞天"""
-        success, msg = await self.mgr.upgrade_blessed_land(player)
+        success, msg = await self.mgr.upgrade_blessed_land(player, land_type)
         yield event.plain_result(msg)

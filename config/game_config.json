@@ -1,7 +1,7 @@
 {
   "cultivation": {
-    "max_cultivation_minutes": 1440,
-    "comment": "闭关时长上限（分钟），24小时=1440分钟"
+    "max_cultivation_minutes": 21600,
+    "comment": "闭关时长上限（分钟），15天=21600分钟"
   },
   "combat": {
     "duel_cooldown": 300,
@@ -22,36 +22,36 @@
     "comment": "银行配置：日利率、存款上限、贷款配置"
   },
   "dual_cultivation": {
-    "cooldown": 3600,
-    "exp_bonus": 0.1,
+    "max_per_day": 3,
+    "exp_bonus": 0.01,
     "request_expire": 300,
-    "comment": "双修配置：冷却时间（秒）、修为加成比例、请求过期时间"
+    "comment": "双修配置：每日上限次数、双方修为之和的百分比、请求过期时间"
   },
   "spirit_eye": {
     "spawn_interval": 7200,
     "types": {
       "1": {
         "name": "下品灵眼",
-        "exp_per_hour": 500,
+        "cultivation_bonus": 0.15,
         "spawn_rate": 50
       },
       "2": {
         "name": "中品灵眼",
-        "exp_per_hour": 2000,
+        "cultivation_bonus": 0.25,
         "spawn_rate": 30
       },
       "3": {
         "name": "上品灵眼",
-        "exp_per_hour": 8000,
+        "cultivation_bonus": 0.35,
         "spawn_rate": 15
       },
       "4": {
         "name": "极品灵眼",
-        "exp_per_hour": 30000,
+        "cultivation_bonus": 0.50,
         "spawn_rate": 5
       }
     },
-    "comment": "灵眼配置：生成间隔（秒）、类型配置"
+    "comment": "灵眼配置：生成间隔（秒）、修炼效率加成比例、刷新概率"
   },
   "rift": {
     "default_duration": 1800,

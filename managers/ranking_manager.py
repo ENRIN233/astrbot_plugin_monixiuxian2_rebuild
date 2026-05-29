@@ -117,13 +117,12 @@ class RankingManager:
             
             # 排行榜显示基础战力，不含临时丹药效果（更公平）
             total_attrs = player.get_total_attributes(equipped_items, None)
-            
-            # 战力 = 物伤 + 法伤 + 物防 + 法防 + 精神力/10
-            combat_power = (
-                int(total_attrs['physical_damage']) + int(total_attrs['magic_damage']) +
-                int(total_attrs['physical_defense']) + int(total_attrs['magic_defense']) +
-                int(total_attrs['mental_power']) // 10
-            )
+
+            # 战力（与战斗公式一致）
+            base_atk = int(max(0, player.experience) ** 0.42)
+            breakthrough_atk = int(total_attrs['physical_damage']) + int(total_attrs['magic_damage'])
+            breakthrough_def = int(total_attrs['physical_defense']) + int(total_attrs['magic_defense'])
+            combat_power = base_atk + breakthrough_atk + breakthrough_def + int(total_attrs['mental_power']) // 10
             player_power.append((player, combat_power, total_attrs))
         
         # 按战力排序

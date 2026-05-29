@@ -182,7 +182,10 @@ ATK：{atk}
         if player.hp == 0 or player.mp == 0:
             # 如果没有初始化战斗属性，先计算
             hp, mp = self.combat_mgr.calculate_hp_mp(player.experience, hp_buff, mp_buff)
-            atk = self.combat_mgr.calculate_atk(player.experience, player.atkpractice, atk_buff)
+            base_atk = self.combat_mgr.calculate_base_atk(player.experience)
+            breakthrough_atk = player.physical_damage + player.magic_damage
+            equip = load_equipment_bonus(player, self.config_manager)
+            atk = int(base_atk * (1 + equip.get("atk_pct", 0) + atk_buff)) + breakthrough_atk + equip.get("atk", 0)
             player.hp = hp
             player.mp = mp
             player.atk = atk
@@ -194,17 +197,24 @@ ATK：{atk}
             atk = player.atk
         
         # 创建玩家战斗属性（含装备加成）
+        import math
         equip = load_equipment_bonus(player, self.config_manager)
+        sq = math.sqrt(max(0, player.experience))
+        base_def = math.log(player.experience + 1) * 10
+        breakthrough_def = player.physical_defense + player.magic_defense
+        equip_def_total = breakthrough_def + equip["defense"]
 
         player_stats = CombatStats(
             user_id=user_id,
             name=player.user_name if player.user_name else f"道友{user_id[:6]}",
             hp=hp,
-            max_hp=int(player.experience * (1 + hp_buff) // 2),
+            max_hp=max(200, int(max(0, player.experience) ** 0.50 * 2 * (1 + hp_buff)) + 200),
             mp=mp,
-            max_mp=int(player.experience * (1 + mp_buff)),
+            max_mp=max(10, int(max(0, player.experience) ** 0.50 * 1 * (1 + mp_buff))),
             atk=atk,
-            defense=equip["defense"],
+            defense=equip_def_total,
+            base_def=base_def,
+            equip_def=equip_def_total,
             crit_rate=int(crit_rate_buff * 100) + equip.get("crit_rate", 0),
             exp=player.experience,
             crit_damage=max(1.5, equip.get("crit_damage", 0)),
