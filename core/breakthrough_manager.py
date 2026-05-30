@@ -247,13 +247,20 @@ class BreakthroughManager:
 
         else:
             # 突破失败 - 判断是否死亡
+            import json as _json
             death_probability_range = self.config.get("VALUES", {}).get(
                 "BREAKTHROUGH_DEATH_PROBABILITY",
                 [0.01, 0.1]  # 默认1%-10%死亡概率
             )
+            # AstrBot可能将list存储为JSON字符串
+            if isinstance(death_probability_range, str):
+                try:
+                    death_probability_range = _json.loads(death_probability_range)
+                except (ValueError, TypeError):
+                    death_probability_range = [0.01, 0.1]
 
             # 随机一个死亡概率
-            death_rate = random.uniform(death_probability_range[0], death_probability_range[1])
+            death_rate = random.uniform(float(death_probability_range[0]), float(death_probability_range[1]))
             death_rate = max(0.0, min(1.0, death_rate * death_rate_multiplier))
             died = random.random() < death_rate
 
@@ -312,21 +319,38 @@ class BreakthroughManager:
                 return False, death_msg, True
 
             else:
-                # 突破失败但未死亡 - 扣除部分修为
-                exp_penalty = int(player.experience * 0.1)  # 扣除10%修为
-                player.experience = max(0, player.experience - exp_penalty)
+                # 突破失败但未死亡 - 随机扣除0.1%~1%修为
+                penalty_rate = random.uniform(0.001, 0.01)
+                exp_penalty = max(1, int(int(player.experience) * penalty_rate))
+                player.experience = max(0, int(player.experience) - exp_penalty)
 
                 await self.db.update_player(player)
+
+                # 随机失败描述
+                fail_scenes = [
+                    f"你感受到天地间一股无形的阻力，境界壁垒纹丝不动。",
+                    f"体内灵气在经脉中逆行，你急忙收功，吐出一口浊气。",
+                    f"差一步便能触及更高境界，却在最后一刻功亏一篑。",
+                    f"天地法则如同铜墙铁壁，你的领悟还差了一丝火候。",
+                    f"突破之际心魔侵扰，你不得不强行中断，气息紊乱。",
+                    f"灵力汇聚于丹田即将突破，却被一股莫名的力量冲散。",
+                ]
+                scene = random.choice(fail_scenes)
 
                 fail_msg = (
                     f"❌ 突破失败 ❌\n"
                     f"━━━━━━━━━━━━━━━\n"
                     f"{rate_info}\n"
                     f"━━━━━━━━━━━━━━━\n"
-                    f"突破【{next_level_name}】失败，但幸运地保住了性命\n"
-                    f"修为受损，损失了 {exp_penalty} 点修为\n"
-                    f"当前修为：{player.experience}\n"
-                    f"请继续修炼，再接再厉！"
+                    f"突破【{next_level_name}】失败\n"
+                    f"\n"
+                    f"{scene}\n"
+                    f"\n"
+                    f"修为受损：-{exp_penalty}（{penalty_rate:.2%}）\n"
+                    f"当前修为：{player.experience:,}\n"
+                    f"━━━━━━━━━━━━━━━\n"
+                    f"道途坎坷，百折不挠方能证道。\n"
+                    f"请继续修炼，来日再战！"
                 )
 
                 logger.info(

@@ -381,6 +381,12 @@ body::before {
     text-overflow: ellipsis;
 }
 
+.level-req {
+    font-size: 12px;
+    color: var(--gold);
+    white-space: nowrap;
+}
+
 /* ===================== Sub-tabs ===================== */
 .sub-tabs {
     display: flex;

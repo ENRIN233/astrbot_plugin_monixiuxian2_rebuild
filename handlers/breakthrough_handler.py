@@ -106,7 +106,7 @@ class BreakthroughHandler:
                 f"【突破说明】\n",
                 f"• 使用命令：{CMD_BREAKTHROUGH} 或 {CMD_BREAKTHROUGH} [破境丹名称]\n",
                 f"• 突破成功：境界提升，肉身更强\n",
-                f"• 突破失败：损失10%修为，有概率死亡\n",
+                f"• 突破失败：损失0.1%~1%修为，有概率死亡\n",
                 f"• 死亡后：所有数据清除，需重新入仙途\n",
                 f"=" * 28
             ])
@@ -116,7 +116,7 @@ class BreakthroughHandler:
                 f"【突破说明】\n",
                 f"• 使用命令：{CMD_BREAKTHROUGH} 或 {CMD_BREAKTHROUGH} [破境丹名称]\n",
                 f"• 突破成功：境界提升，实力大增\n",
-                f"• 突破失败：损失10%修为，有概率死亡\n",
+                f"• 突破失败：损失0.1%~1%修为，有概率死亡\n",
                 f"• 死亡后：所有数据清除，需重新入仙途\n",
                 f"=" * 28
             ])

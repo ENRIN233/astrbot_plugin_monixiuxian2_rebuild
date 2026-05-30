@@ -642,10 +642,11 @@ function renderWeapons(container) {
     sortedCats.forEach(cat => {
         const group = categories[cat];
         html += `<h3 class="section-title">${esc(cat)}类武器 (${group.length}把)</h3>`;
-        const headers = ['名称', '品阶', '价格', '物伤', '法伤', '物防', '法防', '精神力', '特殊属性'];
+        const headers = ['名称', '品阶', '需求境界', '价格', '物伤', '法伤', '物防', '法防', '精神力', '特殊属性'];
         const rows = group.map(w => [
             `<strong>${esc(w.name)}</strong>`,
             makeRankBadge(w.rank),
+            `<span class="level-req">${esc(w.required_level_name || '-')}</span>`,
             `<span data-sortvalue="${w.price || 0}">${formatNum(w.price || 0)}</span>`,
             `<span data-sortvalue="${w.physical_damage || 0}">${w.physical_damage || 0}</span>`,
             `<span data-sortvalue="${w.magic_damage || 0}">${w.magic_damage || 0}</span>`,
@@ -659,10 +660,11 @@ function renderWeapons(container) {
 
     if (armors.length) {
         html += `<h3 class="section-title">防具 (${armors.length}件)</h3>`;
-        const headers = ['名称', '品阶', '价格', '物防', '法防', '物伤', '法伤', '精神力', '特殊属性'];
+        const headers = ['名称', '品阶', '需求境界', '价格', '物防', '法防', '物伤', '法伤', '精神力', '特殊属性'];
         const rows = armors.map(a => [
             `<strong>${esc(a.name)}</strong>`,
             makeRankBadge(a.rank),
+            `<span class="level-req">${esc(a.required_level_name || '-')}</span>`,
             `<span data-sortvalue="${a.price || 0}">${formatNum(a.price || 0)}</span>`,
             `<span data-sortvalue="${a.physical_defense || 0}">${a.physical_defense || 0}</span>`,
             `<span data-sortvalue="${a.magic_defense || 0}">${a.magic_defense || 0}</span>`,
@@ -709,6 +711,7 @@ function showWeaponDetail(w) {
         modalField('名称', `<strong>${esc(w.name)}</strong>`) +
         modalField('品阶', makeRankBadge(w.rank)) +
         modalField('类别', esc(w.weapon_category || '-')) +
+        modalField('需求境界', `<span class="level-req">${esc(w.required_level_name || '-')}</span>`) +
         modalField('价格', `<span class="num-gold">${formatNum(w.price || 0)} 灵石</span>`) +
         modalField('描述', esc(w.description || '-'))
     );
@@ -1035,9 +1038,9 @@ function renderSystems() {
     // Bounty
     html += `<div class="system-card">
         <h3>悬赏系统</h3>
-        <p>每日可选3个悬赏任务，完成后获取灵石、修为及随机功法奖励。功法奖励在列出时已预判。</p>
+        <p>每日可选2个悬赏任务，完成后获取灵石、修为及随机功法奖励。功法奖励在列出时已预判。</p>
         <ul class="detail-list">
-            <li><span>每日限制</span><span>3 次</span></li>
+            <li><span>每日限制</span><span>2 次</span></li>
             <li><span>难度等级</span><span>简单 / 普通 / 困难 / 精英</span></li>
             <li><span>任务类型</span><span>巡山 / 采集 / 猎杀 / 探险</span></li>
             <li><span>功法掉落</span><span>动态爆率，按品阶权重随机</span></li>

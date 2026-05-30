@@ -193,8 +193,8 @@ class AdventureManager:
             parts = daily_data.split("|")
             if len(parts) == 2 and parts[0] == today:
                 daily_count = int(parts[1])
-        if daily_count >= 3:
-            return False, "你今日已完成3次历练，明日再来。"
+        if daily_count >= 2:
+            return False, "你今日已完成2次历练，明日再来。"
 
         duration = route.get("duration", 3600)
         scheduled_time = now + duration
@@ -214,7 +214,7 @@ class AdventureManager:
             hint.append(f"建议境界：{route['min_level']} 阶以上")
         if fatigue:
             hint.append(f"（该路线完成后需要休整 {fatigue // 60} 分钟）")
-        hint.append(f"今日历练次数：{new_count}/3")
+        hint.append(f"今日历练次数：{new_count}/2")
 
         return True, "\n".join(hint)
 

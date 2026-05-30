@@ -219,8 +219,8 @@ class GMHandlers:
         text = text.strip()
         if not text:
             return "", 1
-        # 尝试 "物品名 数量" 格式
-        m = re.match(r'^(.+?)\s+(\d+)$', text)
+        # 从末尾提取数量：匹配 "物品名 数量" 格式
+        m = re.search(r'^(.+?)\s+(\d+)\s*$', text, re.DOTALL)
         if m:
             return m.group(1).strip(), int(m.group(2))
         # 只有物品名，默认数量1

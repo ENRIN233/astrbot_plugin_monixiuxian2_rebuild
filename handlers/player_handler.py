@@ -6,6 +6,7 @@ from astrbot.api.event import AstrMessageEvent
 from astrbot.api import AstrBotConfig
 from ..data import DataBase
 from ..core import CultivationManager, PillManager
+from ..managers.spirit_eye_manager import SpiritEyeManager
 from ..models import Player
 from ..models_extended import UserStatus
 from ..config_manager import ConfigManager
@@ -25,12 +26,13 @@ __all__ = ["PlayerHandler"]
 class PlayerHandler:
     """玩家基础信息处理器 - 支持灵修/体修选择"""
 
-    def __init__(self, db: DataBase, config: AstrBotConfig, config_manager: ConfigManager):
+    def __init__(self, db: DataBase, config: AstrBotConfig, config_manager: ConfigManager, spirit_eye_mgr: SpiritEyeManager):
         self.db = db
         self.config = config
         self.config_manager = config_manager
         self.cultivation_manager = CultivationManager(config, config_manager)
         self.pill_manager = PillManager(self.db, self.config_manager)
+        self.spirit_eye_mgr = spirit_eye_mgr
 
     async def handle_start_xiuxian(self, event: AstrMessageEvent, cultivation_type: str = ""):
         """处理创建角色
@@ -199,7 +201,7 @@ class PlayerHandler:
                 break
         cultivation_pill_bonus = pill_multipliers.get("cultivation_speed", 1.0)
         spirit_eye_bonus = 0.0
-        my_eye = await self.db.ext.get_user_spirit_eye(player.user_id)
+        my_eye = await self.spirit_eye_mgr.get_user_spirit_eye(player.user_id)
         if my_eye:
             spirit_eye_bonus = my_eye.get("exp_per_hour", 0) / 100.0
         # 洞天加成
@@ -373,7 +375,7 @@ class PlayerHandler:
 
         # 获取灵眼修炼效率加成
         spirit_eye_bonus = 0.0
-        my_eye = await self.db.ext.get_user_spirit_eye(player.user_id)
+        my_eye = await self.spirit_eye_mgr.get_user_spirit_eye(player.user_id)
         if my_eye:
             spirit_eye_bonus = my_eye.get("exp_per_hour", 0) / 100.0
 

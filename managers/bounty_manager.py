@@ -64,7 +64,7 @@ class BountyManager:
     }
     TECHNIQUE_DROP_CHANCE = {"easy": 10, "normal": 20, "hard": 35, "elite": 50}
     TECHNIQUE_HALF_LIFE = 5.0
-    DAILY_BOUNTY_LIMIT = 3
+    DAILY_BOUNTY_LIMIT = 2
 
     def __init__(self, db: DataBase, storage_ring_manager: Optional["StorageRingManager"] = None,
                  items_data: Optional[Dict[str, dict]] = None):
@@ -267,7 +267,7 @@ class BountyManager:
             "category": template.get("category", "任务"),
             "difficulty": difficulty,
             "difficulty_name": diff_cfg.get("name", difficulty),
-            "description": template.get("description", ""),
+            "description": random.choice(template["descriptions"]) if template.get("descriptions") else template.get("description", ""),
             "count": target,
             "reward": reward,
             "time_limit": time_limit,

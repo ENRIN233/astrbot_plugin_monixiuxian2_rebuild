@@ -2,6 +2,7 @@ import asyncio
 from functools import wraps
 from pathlib import Path
 from astrbot.api import logger, AstrBotConfig
+from astrbot.api.all import At
 from astrbot.api.star import Context, Star, StarTools
 from astrbot.api.event import AstrMessageEvent, filter
 from .data import DataBase, MigrationManager
@@ -216,7 +217,8 @@ class XiuXianPlugin(Star):
         self.db = DataBase(str(db_path))
 
         self.misc_handler = MiscHandler(self.db)
-        self.player_handler = PlayerHandler(self.db, self.config, self.config_manager)
+        self.spirit_eye_mgr = SpiritEyeManager(self.db)
+        self.player_handler = PlayerHandler(self.db, self.config, self.config_manager, self.spirit_eye_mgr)
         self.equipment_handler = EquipmentHandler(self.db, self.config_manager)
         self.breakthrough_handler = BreakthroughHandler(self.db, self.config_manager, self.config)
         self.pill_handler = PillHandler(self.db, self.config_manager)
@@ -264,7 +266,6 @@ class XiuXianPlugin(Star):
         self.spirit_farm_handlers = SpiritFarmHandlers(self.db, self.spirit_farm_mgr)
         self.dual_cult_mgr = DualCultivationManager(self.db, self.pill_handler.pill_manager)
         self.dual_cult_handlers = DualCultivationHandlers(self.db, self.dual_cult_mgr)
-        self.spirit_eye_mgr = SpiritEyeManager(self.db)
         self.spirit_eye_handlers = SpiritEyeHandlers(self.db, self.spirit_eye_mgr)
 
         # 玩家交易系统：manager 在 initialize() 中创建（需要 db.conn）
@@ -1533,7 +1534,7 @@ class XiuXianPlugin(Star):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
             return
-        target_id, extra = self._gm_parse_target(args)
+        target_id, extra = self._gm_parse_target(args, event)
         msg = await self.gm_handlers.handle_add_gold(target_id, extra)
         yield event.plain_result(msg)
 
@@ -1542,7 +1543,7 @@ class XiuXianPlugin(Star):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
             return
-        target_id, extra = self._gm_parse_target(args)
+        target_id, extra = self._gm_parse_target(args, event)
         msg = await self.gm_handlers.handle_sub_gold(target_id, extra)
         yield event.plain_result(msg)
 
@@ -1551,7 +1552,7 @@ class XiuXianPlugin(Star):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
             return
-        target_id, extra = self._gm_parse_target(args)
+        target_id, extra = self._gm_parse_target(args, event)
         msg = await self.gm_handlers.handle_add_exp(target_id, extra)
         yield event.plain_result(msg)
 
@@ -1560,7 +1561,7 @@ class XiuXianPlugin(Star):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
             return
-        target_id, extra = self._gm_parse_target(args)
+        target_id, extra = self._gm_parse_target(args, event)
         msg = await self.gm_handlers.handle_set_level(target_id, extra)
         yield event.plain_result(msg)
 
@@ -1569,7 +1570,7 @@ class XiuXianPlugin(Star):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
             return
-        target_id, extra = self._gm_parse_target(args)
+        target_id, extra = self._gm_parse_target(args, event)
         msg = await self.gm_handlers.handle_add_item(target_id, extra)
         yield event.plain_result(msg)
 
@@ -1578,7 +1579,7 @@ class XiuXianPlugin(Star):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
             return
-        target_id, extra = self._gm_parse_target(args)
+        target_id, extra = self._gm_parse_target(args, event)
         msg = await self.gm_handlers.handle_sub_item(target_id, extra)
         yield event.plain_result(msg)
 
@@ -1587,7 +1588,7 @@ class XiuXianPlugin(Star):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
             return
-        target_id, extra = self._gm_parse_target(args)
+        target_id, extra = self._gm_parse_target(args, event)
         msg = await self.gm_handlers.handle_add_pill(target_id, extra)
         yield event.plain_result(msg)
 
@@ -1596,7 +1597,7 @@ class XiuXianPlugin(Star):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
             return
-        target_id, extra = self._gm_parse_target(args)
+        target_id, extra = self._gm_parse_target(args, event)
         msg = await self.gm_handlers.handle_sub_pill(target_id, extra)
         yield event.plain_result(msg)
 
@@ -1605,7 +1606,7 @@ class XiuXianPlugin(Star):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
             return
-        target_id, extra = self._gm_parse_target(args)
+        target_id, extra = self._gm_parse_target(args, event)
         msg = await self.gm_handlers.handle_view_player(target_id)
         yield event.plain_result(msg)
 
@@ -1619,19 +1620,44 @@ class XiuXianPlugin(Star):
         if success and rift_def:
             await self._broadcast_rift_open(rift_def)
 
-    def _gm_parse_target(self, args: str) -> tuple:
-        """从GM指令参数中解析目标QQ号和剩余参数"""
+    def _gm_parse_target(self, args: str, event: AstrMessageEvent = None) -> tuple:
+        """从GM指令参数中解析目标QQ号和剩余参数（始终从完整消息提取）"""
         import re
-        if not args:
+        # 优先从消息链中提取@目标
+        if event and hasattr(event, "message_obj") and event.message_obj:
+            message_chain = getattr(event.message_obj, "message", []) or []
+            for component in message_chain:
+                if isinstance(component, At):
+                    target_id = None
+                    for attr in ("qq", "target", "uin", "user_id"):
+                        target_id = getattr(component, attr, None)
+                        if target_id:
+                            break
+                    if target_id:
+                        # @目标：从完整消息中去掉GM命令前缀和@引用，剩余作为参数
+                        extra = ""
+                        if event and hasattr(event, "get_message_str"):
+                            full_msg = event.get_message_str() or ""
+                            m = re.match(r'GM\S+\s+(.*)', full_msg, re.DOTALL)
+                            if m:
+                                raw = m.group(1)
+                                # 去掉各种@引用格式: [At:xxx] [CQ:at,qq=xxx] 纯数字QQ
+                                raw = re.sub(r'\[At:\d+\]', '', raw)
+                                raw = re.sub(r'\[CQ:at,qq=\d+\]', '', raw)
+                                raw = re.sub(r'\b\d{5,12}\b', '', raw, count=1)
+                                extra = raw.strip()
+                        return str(target_id).lstrip("@"), extra
+        # 无@目标：始终从完整消息提取，避免args只含第一个词的问题
+        full_msg = ""
+        if event and hasattr(event, "get_message_str"):
+            full_msg = event.get_message_str() or ""
+            m_prefix = re.match(r'GM\S+\s+(.*)', full_msg, re.DOTALL)
+            if m_prefix:
+                full_msg = m_prefix.group(1)
+        if not full_msg:
             return "", ""
-        # 提取@格式
-        at_match = re.search(r'\[CQ:at,qq=(\d+)\]', args)
-        if at_match:
-            target_id = at_match.group(1)
-            extra = args[at_match.end():].strip()
-            return target_id, extra
-        # 提取纯数字QQ号（5-12位）
-        num_match = re.match(r'\s*(\d{5,12})\s*(.*)', args)
+        # 提取纯数字QQ号（5-12位）+ 剩余参数
+        num_match = re.match(r'\s*(\d{5,12})\s*(.*)', full_msg, re.DOTALL)
         if num_match:
             return num_match.group(1), num_match.group(2).strip()
-        return "", args.strip()
+        return "", full_msg.strip()

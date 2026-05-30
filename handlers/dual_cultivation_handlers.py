@@ -1,6 +1,7 @@
 # handlers/dual_cultivation_handlers.py
 """双修处理器"""
 import re
+from astrbot.api.all import At
 from astrbot.api.event import AstrMessageEvent
 from ..data import DataBase
 from ..managers.dual_cultivation_manager import DualCultivationManager
@@ -20,7 +21,7 @@ class DualCultivationHandlers:
     @player_required
     async def handle_dual_request(self, player: Player, event: AstrMessageEvent, target: str = ""):
         """发起双修"""
-        target_id = self._extract_user_id(target)
+        target_id = self._extract_user_id(target, event)
         if not target_id:
             yield event.plain_result(
                 "💕 双修系统\n"
@@ -47,13 +48,19 @@ class DualCultivationHandlers:
         success, msg = await self.mgr.reject_request(player.user_id)
         yield event.plain_result(msg)
     
-    def _extract_user_id(self, msg: str) -> str:
-        """提取用户ID"""
+    def _extract_user_id(self, msg: str, event: AstrMessageEvent = None) -> str:
+        """提取用户ID（支持At组件和纯数字QQ号）"""
+        # 优先从消息链中提取@目标
+        if event and hasattr(event, "message_obj") and event.message_obj:
+            message_chain = getattr(event.message_obj, "message", []) or []
+            for component in message_chain:
+                if isinstance(component, At):
+                    for attr in ("qq", "target", "uin", "user_id"):
+                        val = getattr(component, attr, None)
+                        if val:
+                            return str(val).lstrip("@")
         if not msg:
             return ""
-        at_match = re.search(r'\[CQ:at,qq=(\d+)\]', msg)
-        if at_match:
-            return at_match.group(1)
         num_match = re.search(r'(\d{5,12})', msg)
         if num_match:
             return num_match.group(1)

@@ -13,7 +13,8 @@
     "mental_power": 5,
     "price": 320000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "sword_002",
@@ -29,7 +30,8 @@
     "mental_power": 8,
     "price": 500000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "sword_003",
@@ -45,7 +47,8 @@
     "mental_power": 25,
     "price": 4070000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_004",
@@ -61,7 +64,8 @@
     "mental_power": 30,
     "price": 4150000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_005",
@@ -77,7 +81,8 @@
     "mental_power": 60,
     "price": 14650000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_006",
@@ -94,7 +99,8 @@
     "price": 36220000,
     "shop_weight": 30,
     "atk_bonus": 0.16,
-    "crit_damage": 1.56
+    "crit_damage": 1.56,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_007",
@@ -112,7 +118,8 @@
     "shop_weight": 10,
     "atk_bonus": 0.18,
     "crit_damage": 1.73,
-    "crit_rate": 3
+    "crit_rate": 3,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_008",
@@ -130,7 +137,8 @@
     "shop_weight": 3,
     "atk_bonus": 0.2,
     "armor_pen": 3,
-    "crit_damage": 1.68
+    "crit_damage": 1.68,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_009",
@@ -148,7 +156,8 @@
     "shop_weight": 1,
     "atk_bonus": 0.22,
     "double_hit": 3,
-    "armor_pen": 5
+    "armor_pen": 5,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_010",
@@ -165,7 +174,8 @@
     "price": 2615000000,
     "shop_weight": 0.3,
     "atk_bonus": 0.25,
-    "lifesteal": 3
+    "lifesteal": 3,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_011",
@@ -183,7 +193,8 @@
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
     "crit_rate": 13,
-    "double_hit": 8
+    "double_hit": 8,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "sword_012",
@@ -201,7 +212,8 @@
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
     "crit_rate": 9,
-    "double_hit": 8
+    "double_hit": 8,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "blade_001",
@@ -217,7 +229,8 @@
     "mental_power": 3,
     "price": 360000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "blade_002",
@@ -233,7 +246,8 @@
     "mental_power": 5,
     "price": 530000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "blade_003",
@@ -249,7 +263,8 @@
     "mental_power": 20,
     "price": 4260000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "blade_004",
@@ -265,7 +280,8 @@
     "mental_power": 25,
     "price": 4370000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "blade_005",
@@ -281,7 +297,8 @@
     "mental_power": 50,
     "price": 15260000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "blade_006",
@@ -298,7 +315,8 @@
     "price": 37800000,
     "shop_weight": 30,
     "atk_bonus": 0.16,
-    "crit_rate": 2
+    "crit_rate": 2,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "blade_007",
@@ -316,7 +334,8 @@
     "shop_weight": 10,
     "atk_bonus": 0.18,
     "crit_damage": 1.64,
-    "armor_pen": 2
+    "armor_pen": 2,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "blade_008",
@@ -334,7 +353,8 @@
     "shop_weight": 3,
     "atk_bonus": 0.2,
     "armor_pen": 6,
-    "lifesteal": 3
+    "lifesteal": 3,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "blade_009",
@@ -352,7 +372,8 @@
     "shop_weight": 1,
     "atk_bonus": 0.22,
     "crit_rate": 10,
-    "lifesteal": 6
+    "lifesteal": 6,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "blade_010",
@@ -370,7 +391,8 @@
     "shop_weight": 0.3,
     "atk_bonus": 0.25,
     "double_hit": 5,
-    "lifesteal": 7
+    "lifesteal": 7,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "blade_011",
@@ -387,7 +409,8 @@
     "price": 5142000000,
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
-    "crit_damage": 2.34
+    "crit_damage": 2.34,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "blade_012",
@@ -404,7 +427,8 @@
     "price": 5513000000,
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
-    "lifesteal": 6
+    "lifesteal": 6,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "broadsword_001",
@@ -420,7 +444,8 @@
     "mental_power": 2,
     "price": 440000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "broadsword_002",
@@ -436,7 +461,8 @@
     "mental_power": 3,
     "price": 600000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "broadsword_003",
@@ -452,7 +478,8 @@
     "mental_power": 15,
     "price": 4630000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "broadsword_004",
@@ -468,7 +495,8 @@
     "mental_power": 18,
     "price": 5180000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "broadsword_005",
@@ -484,7 +512,8 @@
     "mental_power": 40,
     "price": 17090000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "broadsword_006",
@@ -501,7 +530,8 @@
     "price": 42520000,
     "shop_weight": 30,
     "atk_bonus": 0.16,
-    "crit_damage": 1.58
+    "crit_damage": 1.58,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "broadsword_007",
@@ -519,7 +549,8 @@
     "shop_weight": 10,
     "atk_bonus": 0.18,
     "crit_rate": 6,
-    "crit_damage": 1.69
+    "crit_damage": 1.69,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "broadsword_008",
@@ -537,7 +568,8 @@
     "shop_weight": 3,
     "atk_bonus": 0.2,
     "crit_rate": 8,
-    "lifesteal": 2
+    "lifesteal": 2,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "broadsword_009",
@@ -555,7 +587,8 @@
     "shop_weight": 1,
     "atk_bonus": 0.22,
     "crit_rate": 6,
-    "armor_pen": 7
+    "armor_pen": 7,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "broadsword_010",
@@ -572,7 +605,8 @@
     "price": 3117000000,
     "shop_weight": 0.3,
     "atk_bonus": 0.25,
-    "armor_pen": 12
+    "armor_pen": 12,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "broadsword_011",
@@ -589,7 +623,8 @@
     "price": 6102000000,
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
-    "double_hit": 6
+    "double_hit": 6,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "broadsword_012",
@@ -606,7 +641,8 @@
     "price": 6536000000,
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
-    "crit_damage": 2.5
+    "crit_damage": 2.5,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "qin_001",
@@ -622,7 +658,8 @@
     "mental_power": 10,
     "price": 410000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "qin_002",
@@ -638,7 +675,8 @@
     "mental_power": 15,
     "price": 640000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "qin_003",
@@ -654,7 +692,8 @@
     "mental_power": 40,
     "price": 4440000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "qin_004",
@@ -670,7 +709,8 @@
     "mental_power": 45,
     "price": 5000000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "qin_005",
@@ -686,7 +726,8 @@
     "mental_power": 85,
     "price": 16180000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "qin_006",
@@ -704,7 +745,8 @@
     "shop_weight": 30,
     "atk_bonus": 0.16,
     "crit_damage": 1.55,
-    "crit_rate": 3
+    "crit_rate": 3,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "qin_007",
@@ -722,7 +764,8 @@
     "shop_weight": 10,
     "atk_bonus": 0.18,
     "crit_rate": 5,
-    "armor_pen": 4
+    "armor_pen": 4,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "qin_008",
@@ -740,7 +783,8 @@
     "shop_weight": 3,
     "atk_bonus": 0.2,
     "lifesteal": 5,
-    "armor_pen": 3
+    "armor_pen": 3,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "qin_009",
@@ -757,7 +801,8 @@
     "price": 768000000,
     "shop_weight": 1,
     "atk_bonus": 0.22,
-    "double_hit": 2
+    "double_hit": 2,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "qin_010",
@@ -775,7 +820,8 @@
     "shop_weight": 0.3,
     "atk_bonus": 0.25,
     "crit_rate": 9,
-    "double_hit": 3
+    "double_hit": 3,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "qin_011",
@@ -793,7 +839,8 @@
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
     "crit_rate": 8,
-    "lifesteal": 6
+    "lifesteal": 6,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "qin_012",
@@ -811,7 +858,8 @@
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
     "lifesteal": 8,
-    "crit_rate": 13
+    "crit_rate": 13,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "dagger_001",
@@ -827,7 +875,8 @@
     "mental_power": 12,
     "price": 560000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "dagger_002",
@@ -843,7 +892,8 @@
     "mental_power": 18,
     "price": 760000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "dagger_003",
@@ -859,7 +909,8 @@
     "mental_power": 45,
     "price": 5560000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "dagger_004",
@@ -875,7 +926,8 @@
     "mental_power": 50,
     "price": 5810000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "dagger_005",
@@ -891,7 +943,8 @@
     "mental_power": 95,
     "price": 18620000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "dagger_006",
@@ -909,7 +962,8 @@
     "shop_weight": 30,
     "atk_bonus": 0.16,
     "crit_damage": 1.61,
-    "crit_rate": 3
+    "crit_rate": 3,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "dagger_007",
@@ -927,7 +981,8 @@
     "shop_weight": 10,
     "atk_bonus": 0.18,
     "crit_rate": 5,
-    "armor_pen": 3
+    "armor_pen": 3,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "dagger_008",
@@ -944,7 +999,8 @@
     "price": 276000000,
     "shop_weight": 3,
     "atk_bonus": 0.2,
-    "crit_rate": 8
+    "crit_rate": 8,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "dagger_009",
@@ -962,7 +1018,8 @@
     "shop_weight": 1,
     "atk_bonus": 0.22,
     "double_hit": 3,
-    "armor_pen": 9
+    "armor_pen": 9,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "dagger_010",
@@ -980,7 +1037,8 @@
     "shop_weight": 0.3,
     "atk_bonus": 0.25,
     "lifesteal": 4,
-    "armor_pen": 10
+    "armor_pen": 10,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "dagger_011",
@@ -997,7 +1055,8 @@
     "price": 6195000000,
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
-    "crit_damage": 2.38
+    "crit_damage": 2.38,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "dagger_012",
@@ -1015,7 +1074,8 @@
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
     "lifesteal": 5,
-    "crit_rate": 15
+    "crit_rate": 15,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "talisman_001",
@@ -1031,7 +1091,8 @@
     "mental_power": 8,
     "price": 460000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "talisman_002",
@@ -1047,7 +1108,8 @@
     "mental_power": 12,
     "price": 650000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "talisman_003",
@@ -1063,7 +1125,8 @@
     "mental_power": 35,
     "price": 4930000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "talisman_004",
@@ -1079,7 +1142,8 @@
     "mental_power": 38,
     "price": 5410000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "talisman_005",
@@ -1095,7 +1159,8 @@
     "mental_power": 75,
     "price": 16790000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "talisman_006",
@@ -1112,7 +1177,8 @@
     "price": 42520000,
     "shop_weight": 30,
     "atk_bonus": 0.16,
-    "crit_damage": 1.59
+    "crit_damage": 1.59,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "talisman_007",
@@ -1130,7 +1196,8 @@
     "shop_weight": 10,
     "atk_bonus": 0.18,
     "crit_damage": 1.72,
-    "armor_pen": 2
+    "armor_pen": 2,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "talisman_008",
@@ -1147,7 +1214,8 @@
     "price": 252000000,
     "shop_weight": 3,
     "atk_bonus": 0.2,
-    "armor_pen": 7
+    "armor_pen": 7,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "talisman_009",
@@ -1164,7 +1232,8 @@
     "price": 798000000,
     "shop_weight": 1,
     "atk_bonus": 0.22,
-    "armor_pen": 8
+    "armor_pen": 8,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "talisman_010",
@@ -1181,7 +1250,8 @@
     "price": 3010000000,
     "shop_weight": 0.3,
     "atk_bonus": 0.25,
-    "double_hit": 5
+    "double_hit": 5,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "talisman_011",
@@ -1198,7 +1268,8 @@
     "price": 5761000000,
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
-    "double_hit": 5
+    "double_hit": 5,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "talisman_012",
@@ -1215,7 +1286,8 @@
     "price": 6195000000,
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
-    "armor_pen": 14
+    "armor_pen": 14,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "cauldron_001",
@@ -1231,7 +1303,8 @@
     "mental_power": 6,
     "price": 470000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "cauldron_002",
@@ -1247,7 +1320,8 @@
     "mental_power": 8,
     "price": 670000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "cauldron_003",
@@ -1263,7 +1337,8 @@
     "mental_power": 25,
     "price": 4930000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "cauldron_004",
@@ -1279,7 +1354,8 @@
     "mental_power": 28,
     "price": 5560000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "cauldron_005",
@@ -1295,7 +1371,8 @@
     "mental_power": 55,
     "price": 17270000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "cauldron_006",
@@ -1312,7 +1389,8 @@
     "price": 44490000,
     "shop_weight": 30,
     "atk_bonus": 0.16,
-    "crit_rate": 4
+    "crit_rate": 4,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "cauldron_007",
@@ -1330,7 +1408,8 @@
     "shop_weight": 10,
     "atk_bonus": 0.18,
     "crit_damage": 1.74,
-    "crit_rate": 3
+    "crit_rate": 3,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "cauldron_008",
@@ -1347,7 +1426,8 @@
     "price": 264000000,
     "shop_weight": 3,
     "atk_bonus": 0.2,
-    "crit_damage": 1.8
+    "crit_damage": 1.8,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "cauldron_009",
@@ -1364,7 +1444,8 @@
     "price": 835000000,
     "shop_weight": 1,
     "atk_bonus": 0.22,
-    "crit_damage": 1.78
+    "crit_damage": 1.78,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "cauldron_010",
@@ -1381,7 +1462,8 @@
     "price": 3151000000,
     "shop_weight": 0.3,
     "atk_bonus": 0.25,
-    "crit_rate": 10
+    "crit_rate": 10,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "cauldron_011",
@@ -1399,7 +1481,8 @@
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
     "crit_rate": 10,
-    "armor_pen": 14
+    "armor_pen": 14,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "cauldron_012",
@@ -1416,7 +1499,8 @@
     "price": 6443000000,
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
-    "lifesteal": 7
+    "lifesteal": 7,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "staff_001",
@@ -1432,7 +1516,8 @@
     "mental_power": 5,
     "price": 390000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "staff_002",
@@ -1448,7 +1533,8 @@
     "mental_power": 7,
     "price": 600000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "staff_003",
@@ -1464,7 +1550,8 @@
     "mental_power": 22,
     "price": 4670000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "staff_004",
@@ -1480,7 +1567,8 @@
     "mental_power": 25,
     "price": 5220000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "staff_005",
@@ -1496,7 +1584,8 @@
     "mental_power": 50,
     "price": 16790000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "staff_006",
@@ -1514,7 +1603,8 @@
     "shop_weight": 30,
     "atk_bonus": 0.16,
     "crit_rate": 5,
-    "crit_damage": 1.58
+    "crit_damage": 1.58,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "staff_007",
@@ -1531,7 +1621,8 @@
     "price": 82730000,
     "shop_weight": 10,
     "atk_bonus": 0.18,
-    "armor_pen": 3
+    "armor_pen": 3,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "staff_008",
@@ -1548,7 +1639,8 @@
     "price": 252000000,
     "shop_weight": 3,
     "atk_bonus": 0.2,
-    "lifesteal": 4
+    "lifesteal": 4,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "staff_009",
@@ -1565,7 +1657,8 @@
     "price": 798000000,
     "shop_weight": 1,
     "atk_bonus": 0.22,
-    "crit_rate": 7
+    "crit_rate": 7,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "staff_010",
@@ -1583,7 +1676,8 @@
     "shop_weight": 0.3,
     "atk_bonus": 0.25,
     "armor_pen": 10,
-    "lifesteal": 5
+    "lifesteal": 5,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "staff_011",
@@ -1600,7 +1694,8 @@
     "price": 5947000000,
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
-    "lifesteal": 6
+    "lifesteal": 6,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "staff_012",
@@ -1617,7 +1712,8 @@
     "price": 6319000000,
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
-    "crit_damage": 2.13
+    "crit_damage": 2.13,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "spear_001",
@@ -1633,7 +1729,8 @@
     "mental_power": 6,
     "price": 410000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "spear_002",
@@ -1649,7 +1746,8 @@
     "mental_power": 10,
     "price": 640000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "spear_003",
@@ -1665,7 +1763,8 @@
     "mental_power": 28,
     "price": 4810000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "spear_004",
@@ -1681,7 +1780,8 @@
     "mental_power": 32,
     "price": 5330000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "spear_005",
@@ -1697,7 +1797,8 @@
     "mental_power": 62,
     "price": 16970000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "spear_006",
@@ -1714,7 +1815,8 @@
     "price": 43310000,
     "shop_weight": 30,
     "atk_bonus": 0.16,
-    "crit_damage": 1.59
+    "crit_damage": 1.59,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "spear_007",
@@ -1732,7 +1834,8 @@
     "shop_weight": 10,
     "atk_bonus": 0.18,
     "crit_rate": 5,
-    "crit_damage": 1.61
+    "crit_damage": 1.61,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "spear_008",
@@ -1750,7 +1853,8 @@
     "shop_weight": 3,
     "atk_bonus": 0.2,
     "crit_rate": 8,
-    "crit_damage": 1.81
+    "crit_damage": 1.81,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "spear_009",
@@ -1768,7 +1872,8 @@
     "shop_weight": 1,
     "atk_bonus": 0.22,
     "crit_rate": 5,
-    "lifesteal": 6
+    "lifesteal": 6,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "spear_010",
@@ -1786,7 +1891,8 @@
     "shop_weight": 0.3,
     "atk_bonus": 0.25,
     "crit_rate": 10,
-    "lifesteal": 5
+    "lifesteal": 5,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "spear_011",
@@ -1803,7 +1909,8 @@
     "price": 5916000000,
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
-    "lifesteal": 6
+    "lifesteal": 6,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "spear_012",
@@ -1821,7 +1928,8 @@
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
     "double_hit": 4,
-    "armor_pen": 13
+    "armor_pen": 13,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "brush_001",
@@ -1837,7 +1945,8 @@
     "mental_power": 12,
     "price": 500000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "brush_002",
@@ -1853,7 +1962,8 @@
     "mental_power": 18,
     "price": 750000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.1,
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "brush_003",
@@ -1869,7 +1979,8 @@
     "mental_power": 45,
     "price": 5260000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "brush_004",
@@ -1885,7 +1996,8 @@
     "mental_power": 50,
     "price": 5960000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "brush_005",
@@ -1901,7 +2013,8 @@
     "mental_power": 95,
     "price": 18310000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "brush_006",
@@ -1919,7 +2032,8 @@
     "shop_weight": 30,
     "atk_bonus": 0.16,
     "crit_damage": 1.57,
-    "crit_rate": 2
+    "crit_rate": 2,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "brush_007",
@@ -1937,7 +2051,8 @@
     "shop_weight": 10,
     "atk_bonus": 0.18,
     "armor_pen": 3,
-    "crit_damage": 1.67
+    "crit_damage": 1.67,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "brush_008",
@@ -1954,7 +2069,8 @@
     "price": 271000000,
     "shop_weight": 3,
     "atk_bonus": 0.2,
-    "lifesteal": 3
+    "lifesteal": 3,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "brush_009",
@@ -1972,7 +2088,8 @@
     "shop_weight": 1,
     "atk_bonus": 0.22,
     "armor_pen": 8,
-    "crit_damage": 1.96
+    "crit_damage": 1.96,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "brush_010",
@@ -1990,7 +2107,8 @@
     "shop_weight": 0.3,
     "atk_bonus": 0.25,
     "double_hit": 3,
-    "armor_pen": 10
+    "armor_pen": 10,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "brush_011",
@@ -2008,7 +2126,8 @@
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
     "crit_damage": 2.42,
-    "crit_rate": 12
+    "crit_rate": 12,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "brush_012",
@@ -2025,7 +2144,8 @@
     "price": 6659000000,
     "shop_weight": 0.1,
     "atk_bonus": 0.28,
-    "lifesteal": 6
+    "lifesteal": 6,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "sword_013",
@@ -2044,7 +2164,8 @@
     "_source": "nonebot",
     "_source_id": "7001",
     "weapon_category": "剑",
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_014",
@@ -2063,7 +2184,8 @@
     "_source": "nonebot",
     "_source_id": "7002",
     "weapon_category": "剑",
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_015",
@@ -2082,7 +2204,8 @@
     "_source": "nonebot",
     "_source_id": "7003",
     "weapon_category": "剑",
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_016",
@@ -2101,7 +2224,8 @@
     "_source": "nonebot",
     "_source_id": "7011",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "化神期中期 / 玄体境中期"
   },
   {
     "id": "sword_017",
@@ -2120,7 +2244,8 @@
     "_source": "nonebot",
     "_source_id": "7012",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "化神期中期 / 玄体境中期"
   },
   {
     "id": "sword_018",
@@ -2139,7 +2264,8 @@
     "_source": "nonebot",
     "_source_id": "7013",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "化神期中期 / 玄体境中期"
   },
   {
     "id": "sword_019",
@@ -2158,7 +2284,8 @@
     "_source": "nonebot",
     "_source_id": "7021",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "化神期中期 / 玄体境中期"
   },
   {
     "id": "sword_020",
@@ -2177,7 +2304,8 @@
     "_source": "nonebot",
     "_source_id": "7022",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "化神期中期 / 玄体境中期"
   },
   {
     "id": "sword_021",
@@ -2196,7 +2324,8 @@
     "_source": "nonebot",
     "_source_id": "7023",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "化神期中期 / 玄体境中期"
   },
   {
     "id": "sword_022",
@@ -2215,7 +2344,8 @@
     "_source": "nonebot",
     "_source_id": "7031",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "化神期中期 / 玄体境中期"
   },
   {
     "id": "sword_023",
@@ -2234,7 +2364,8 @@
     "_source": "nonebot",
     "_source_id": "7032",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "化神期中期 / 玄体境中期"
   },
   {
     "id": "sword_024",
@@ -2253,7 +2384,8 @@
     "_source": "nonebot",
     "_source_id": "7033",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.14,
+    "required_level_name": "化神期中期 / 玄体境中期"
   },
   {
     "id": "sword_025",
@@ -2274,7 +2406,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.16,
     "crit_rate": 5,
-    "crit_damage": 1.62
+    "crit_damage": 1.62,
+    "required_level_name": "大乘期后期 / 神体境后期"
   },
   {
     "id": "sword_026",
@@ -2294,7 +2427,8 @@
     "_source_id": "7042",
     "weapon_category": "剑",
     "atk_bonus": 0.16,
-    "crit_rate": 4
+    "crit_rate": 4,
+    "required_level_name": "大乘期后期 / 神体境后期"
   },
   {
     "id": "sword_027",
@@ -2314,7 +2448,8 @@
     "_source_id": "7043",
     "weapon_category": "剑",
     "atk_bonus": 0.16,
-    "crit_rate": 4
+    "crit_rate": 4,
+    "required_level_name": "大乘期后期 / 神体境后期"
   },
   {
     "id": "sword_028",
@@ -2335,7 +2470,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.16,
     "crit_damage": 1.58,
-    "crit_rate": 2
+    "crit_rate": 2,
+    "required_level_name": "大乘期后期 / 神体境后期"
   },
   {
     "id": "sword_029",
@@ -2355,7 +2491,8 @@
     "_source_id": "7052",
     "weapon_category": "剑",
     "atk_bonus": 0.16,
-    "crit_damage": 1.61
+    "crit_damage": 1.61,
+    "required_level_name": "大乘期后期 / 神体境后期"
   },
   {
     "id": "sword_030",
@@ -2376,7 +2513,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.16,
     "crit_rate": 5,
-    "crit_damage": 1.59
+    "crit_damage": 1.59,
+    "required_level_name": "大乘期后期 / 神体境后期"
   },
   {
     "id": "sword_031",
@@ -2397,7 +2535,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.16,
     "crit_rate": 5,
-    "crit_damage": 1.63
+    "crit_damage": 1.63,
+    "required_level_name": "大乘期后期 / 神体境后期"
   },
   {
     "id": "sword_032",
@@ -2418,7 +2557,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.16,
     "crit_damage": 1.6,
-    "crit_rate": 3
+    "crit_rate": 3,
+    "required_level_name": "大乘期后期 / 神体境后期"
   },
   {
     "id": "sword_033",
@@ -2438,7 +2578,8 @@
     "_source_id": "7063",
     "weapon_category": "剑",
     "atk_bonus": 0.16,
-    "crit_rate": 2
+    "crit_rate": 2,
+    "required_level_name": "大乘期后期 / 神体境后期"
   },
   {
     "id": "sword_034",
@@ -2458,7 +2599,8 @@
     "_source_id": "7071",
     "weapon_category": "剑",
     "atk_bonus": 0.16,
-    "crit_rate": 2
+    "crit_rate": 2,
+    "required_level_name": "大乘期后期 / 神体境后期"
   },
   {
     "id": "sword_035",
@@ -2479,7 +2621,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.16,
     "crit_rate": 5,
-    "crit_damage": 1.62
+    "crit_damage": 1.62,
+    "required_level_name": "大乘期后期 / 神体境后期"
   },
   {
     "id": "sword_036",
@@ -2499,7 +2642,8 @@
     "_source_id": "7073",
     "weapon_category": "剑",
     "atk_bonus": 0.16,
-    "crit_rate": 3
+    "crit_rate": 3,
+    "required_level_name": "大乘期后期 / 神体境后期"
   },
   {
     "id": "sword_037",
@@ -2520,7 +2664,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.18,
     "armor_pen": 3,
-    "crit_damage": 1.65
+    "crit_damage": 1.65,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_038",
@@ -2541,7 +2686,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.18,
     "armor_pen": 3,
-    "crit_damage": 1.68
+    "crit_damage": 1.68,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_039",
@@ -2562,7 +2708,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.18,
     "crit_rate": 4,
-    "crit_damage": 1.66
+    "crit_damage": 1.66,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_040",
@@ -2583,7 +2730,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.18,
     "crit_damage": 1.66,
-    "crit_rate": 6
+    "crit_rate": 6,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_041",
@@ -2603,7 +2751,8 @@
     "_source_id": "7092",
     "weapon_category": "剑",
     "atk_bonus": 0.18,
-    "crit_damage": 1.62
+    "crit_damage": 1.62,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_042",
@@ -2623,7 +2772,8 @@
     "_source_id": "7093",
     "weapon_category": "剑",
     "atk_bonus": 0.18,
-    "crit_rate": 3
+    "crit_rate": 3,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_043",
@@ -2644,7 +2794,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.2,
     "armor_pen": 7,
-    "lifesteal": 2
+    "lifesteal": 2,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_044",
@@ -2665,7 +2816,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.2,
     "armor_pen": 5,
-    "crit_damage": 1.69
+    "crit_damage": 1.69,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_045",
@@ -2685,7 +2837,8 @@
     "_source_id": "7097",
     "weapon_category": "剑",
     "atk_bonus": 0.2,
-    "crit_rate": 8
+    "crit_rate": 8,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_046",
@@ -2705,7 +2858,8 @@
     "_source_id": "11001",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "double_hit": 5
+    "double_hit": 5,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_047",
@@ -2725,7 +2879,8 @@
     "_source_id": "11002",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_damage": 2.18
+    "crit_damage": 2.18,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_048",
@@ -2745,7 +2900,8 @@
     "_source_id": "11003",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "lifesteal": 4
+    "lifesteal": 4,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_049",
@@ -2766,7 +2922,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "crit_damage": 1.87,
-    "crit_rate": 12
+    "crit_rate": 12,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_050",
@@ -2786,7 +2943,8 @@
     "_source_id": "11005",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "armor_pen": 5
+    "armor_pen": 5,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_051",
@@ -2806,7 +2964,8 @@
     "_source_id": "11006",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_damage": 1.89
+    "crit_damage": 1.89,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_052",
@@ -2827,7 +2986,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "crit_damage": 1.82,
-    "lifesteal": 4
+    "lifesteal": 4,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_053",
@@ -2847,7 +3007,8 @@
     "_source_id": "11008",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "lifesteal": 3
+    "lifesteal": 3,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_054",
@@ -2867,7 +3028,8 @@
     "_source_id": "11009",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_rate": 8
+    "crit_rate": 8,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_055",
@@ -2888,7 +3050,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "crit_damage": 1.89,
-    "double_hit": 6
+    "double_hit": 6,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_056",
@@ -2909,7 +3072,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "crit_damage": 2.07,
-    "crit_rate": 8
+    "crit_rate": 8,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_057",
@@ -2930,7 +3094,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "lifesteal": 4,
-    "armor_pen": 5
+    "armor_pen": 5,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_058",
@@ -2950,7 +3115,8 @@
     "_source_id": "11013",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "double_hit": 3
+    "double_hit": 3,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_059",
@@ -2970,7 +3136,8 @@
     "_source_id": "11014",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_damage": 1.92
+    "crit_damage": 1.92,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_060",
@@ -2990,7 +3157,8 @@
     "_source_id": "7098",
     "weapon_category": "剑",
     "atk_bonus": 0.2,
-    "crit_rate": 8
+    "crit_rate": 8,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_061",
@@ -3011,7 +3179,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.2,
     "lifesteal": 4,
-    "armor_pen": 5
+    "armor_pen": 5,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_062",
@@ -3031,7 +3200,8 @@
     "_source_id": "13001",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "lifesteal": 3
+    "lifesteal": 3,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_063",
@@ -3052,7 +3222,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "armor_pen": 5,
-    "double_hit": 5
+    "double_hit": 5,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_064",
@@ -3072,7 +3243,8 @@
     "_source_id": "13003",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "armor_pen": 6
+    "armor_pen": 6,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_065",
@@ -3093,7 +3265,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "crit_damage": 1.98,
-    "armor_pen": 6
+    "armor_pen": 6,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_066",
@@ -3113,7 +3286,8 @@
     "_source_id": "8000",
     "weapon_category": "剑",
     "atk_bonus": 0.2,
-    "lifesteal": 2
+    "lifesteal": 2,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_067",
@@ -3133,7 +3307,8 @@
     "_source_id": "7090",
     "weapon_category": "剑",
     "atk_bonus": 0.2,
-    "crit_damage": 1.79
+    "crit_damage": 1.79,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_068",
@@ -3154,7 +3329,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.2,
     "lifesteal": 3,
-    "crit_damage": 1.73
+    "crit_damage": 1.73,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_069",
@@ -3175,7 +3351,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "crit_rate": 12,
-    "crit_damage": 1.88
+    "crit_damage": 1.88,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_070",
@@ -3195,7 +3372,8 @@
     "_source_id": "7085",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_rate": 7
+    "crit_rate": 7,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_071",
@@ -3215,7 +3393,8 @@
     "_source_id": "15453",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "armor_pen": 6
+    "armor_pen": 6,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_072",
@@ -3235,7 +3414,8 @@
     "_source_id": "15454",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "armor_pen": 5
+    "armor_pen": 5,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_073",
@@ -3256,7 +3436,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "armor_pen": 9,
-    "crit_damage": 1.96
+    "crit_damage": 1.96,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_074",
@@ -3277,7 +3458,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "double_hit": 3,
-    "crit_rate": 8
+    "crit_rate": 8,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_075",
@@ -3298,7 +3480,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "armor_pen": 8,
-    "lifesteal": 3
+    "lifesteal": 3,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_076",
@@ -3318,7 +3501,8 @@
     "_source_id": "15458",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_rate": 10
+    "crit_rate": 10,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_077",
@@ -3338,7 +3522,8 @@
     "_source_id": "15459",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "lifesteal": 6
+    "lifesteal": 6,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_078",
@@ -3359,7 +3544,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "crit_damage": 1.95,
-    "double_hit": 6
+    "double_hit": 6,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_079",
@@ -3379,7 +3565,8 @@
     "_source_id": "15461",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_damage": 2.17
+    "crit_damage": 2.17,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_080",
@@ -3400,7 +3587,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "crit_damage": 1.87,
-    "crit_rate": 8
+    "crit_rate": 8,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_081",
@@ -3421,7 +3609,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "crit_damage": 2.13,
-    "lifesteal": 3
+    "lifesteal": 3,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_082",
@@ -3441,7 +3630,8 @@
     "_source_id": "15464",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_rate": 12
+    "crit_rate": 12,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_083",
@@ -3462,7 +3652,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "armor_pen": 8,
-    "crit_rate": 8
+    "crit_rate": 8,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_084",
@@ -3483,7 +3674,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "double_hit": 3,
-    "armor_pen": 7
+    "armor_pen": 7,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_085",
@@ -3500,7 +3692,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102001"
+    "_source_id": "102001",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_086",
@@ -3517,7 +3710,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102002"
+    "_source_id": "102002",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_087",
@@ -3534,7 +3728,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102003"
+    "_source_id": "102003",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_088",
@@ -3551,7 +3746,8 @@
     "price": 280000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102004"
+    "_source_id": "102004",
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "sword_089",
@@ -3568,7 +3764,8 @@
     "price": 280000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102005"
+    "_source_id": "102005",
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "sword_090",
@@ -3585,7 +3782,8 @@
     "price": 280000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102006"
+    "_source_id": "102006",
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "sword_091",
@@ -3602,7 +3800,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102011"
+    "_source_id": "102011",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_092",
@@ -3619,7 +3818,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102012"
+    "_source_id": "102012",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_093",
@@ -3636,7 +3836,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102013"
+    "_source_id": "102013",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_094",
@@ -3653,7 +3854,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102014"
+    "_source_id": "102014",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_095",
@@ -3670,7 +3872,8 @@
     "price": 4440000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102015"
+    "_source_id": "102015",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_096",
@@ -3687,7 +3890,8 @@
     "price": 4960000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102016"
+    "_source_id": "102016",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_097",
@@ -3704,7 +3908,8 @@
     "price": 5480000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102021"
+    "_source_id": "102021",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_098",
@@ -3721,7 +3926,8 @@
     "price": 6000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102022"
+    "_source_id": "102022",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_099",
@@ -3738,7 +3944,8 @@
     "price": 6000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102023"
+    "_source_id": "102023",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_100",
@@ -3755,7 +3962,8 @@
     "price": 6000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102024"
+    "_source_id": "102024",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_101",
@@ -3772,7 +3980,8 @@
     "price": 6520000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102025"
+    "_source_id": "102025",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_102",
@@ -3789,7 +3998,8 @@
     "price": 6520000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "102026"
+    "_source_id": "102026",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_103",
@@ -3808,7 +4018,8 @@
     "_source": "nonebot",
     "_source_id": "102031",
     "crit_resist": 5,
-    "dodge_rate": 1
+    "dodge_rate": 1,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_104",
@@ -3827,7 +4038,8 @@
     "_source": "nonebot",
     "_source_id": "102032",
     "dodge_rate": 1,
-    "crit_resist": 3
+    "crit_resist": 3,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_105",
@@ -3845,7 +4057,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "102033",
-    "dodge_rate": 3
+    "dodge_rate": 3,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_106",
@@ -3863,7 +4076,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "102034",
-    "dodge_rate": 2
+    "dodge_rate": 2,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_107",
@@ -3881,7 +4095,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "102035",
-    "crit_resist": 5
+    "crit_resist": 5,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_108",
@@ -3900,7 +4115,8 @@
     "_source": "nonebot",
     "_source_id": "102036",
     "dodge_rate": 1,
-    "crit_resist": 5
+    "crit_resist": 5,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_109",
@@ -3918,7 +4134,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "102041",
-    "reflect_pct": 4
+    "reflect_pct": 4,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_110",
@@ -3936,7 +4153,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "102042",
-    "dodge_rate": 4
+    "dodge_rate": 4,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_111",
@@ -3954,7 +4172,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "102043",
-    "dodge_rate": 4
+    "dodge_rate": 4,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_112",
@@ -3972,7 +4191,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "102044",
-    "reflect_pct": 2
+    "reflect_pct": 2,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_113",
@@ -3991,7 +4211,8 @@
     "_source": "nonebot",
     "_source_id": "102045",
     "reflect_pct": 5,
-    "crit_resist": 5
+    "crit_resist": 5,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_114",
@@ -4009,7 +4230,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "102046",
-    "reflect_pct": 5
+    "reflect_pct": 5,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_115",
@@ -4028,7 +4250,8 @@
     "_source": "nonebot",
     "_source_id": "102051",
     "reflect_pct": 2,
-    "dodge_rate": 2
+    "dodge_rate": 2,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_116",
@@ -4046,7 +4269,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "102052",
-    "dodge_rate": 4
+    "dodge_rate": 4,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_117",
@@ -4064,7 +4288,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "102053",
-    "reflect_pct": 4
+    "reflect_pct": 4,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_118",
@@ -4083,7 +4308,8 @@
     "_source": "nonebot",
     "_source_id": "102054",
     "reflect_pct": 4,
-    "crit_resist": 5
+    "crit_resist": 5,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_119",
@@ -4102,7 +4328,8 @@
     "_source": "nonebot",
     "_source_id": "102055",
     "dodge_rate": 2,
-    "reflect_pct": 3
+    "reflect_pct": 3,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_120",
@@ -4120,7 +4347,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "102056",
-    "crit_resist": 4
+    "crit_resist": 4,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_121",
@@ -4139,7 +4367,8 @@
     "_source": "nonebot",
     "_source_id": "102061",
     "dodge_rate": 4,
-    "crit_resist": 7
+    "crit_resist": 7,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_122",
@@ -4158,7 +4387,8 @@
     "_source": "nonebot",
     "_source_id": "102062",
     "reflect_pct": 5,
-    "block_value": 42
+    "block_value": 42,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_123",
@@ -4176,7 +4406,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "102063",
-    "dodge_rate": 4
+    "dodge_rate": 4,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_124",
@@ -4194,7 +4425,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "102064",
-    "dodge_rate": 5
+    "dodge_rate": 5,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_125",
@@ -4213,7 +4445,8 @@
     "_source": "nonebot",
     "_source_id": "102065",
     "block_value": 41,
-    "reflect_pct": 3
+    "reflect_pct": 3,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_126",
@@ -4231,7 +4464,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "102066",
-    "crit_resist": 8
+    "crit_resist": 8,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_127",
@@ -4250,7 +4484,8 @@
     "_source": "nonebot",
     "_source_id": "121101",
     "crit_resist": 8,
-    "dodge_rate": 4
+    "dodge_rate": 4,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_128",
@@ -4269,7 +4504,8 @@
     "_source": "nonebot",
     "_source_id": "121102",
     "reflect_pct": 7,
-    "hp_regen_pct": 1.13
+    "hp_regen_pct": 1.13,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_129",
@@ -4288,7 +4524,8 @@
     "_source": "nonebot",
     "_source_id": "121103",
     "reflect_pct": 6,
-    "hp_regen_pct": 0.68
+    "hp_regen_pct": 0.68,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_130",
@@ -4306,7 +4543,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "121104",
-    "dodge_rate": 4
+    "dodge_rate": 4,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_131",
@@ -4325,7 +4563,8 @@
     "_source": "nonebot",
     "_source_id": "121105",
     "dodge_rate": 4,
-    "crit_resist": 10
+    "crit_resist": 10,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_132",
@@ -4343,7 +4582,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "121106",
-    "block_value": 145
+    "block_value": 145,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_133",
@@ -4361,7 +4601,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "121111",
-    "hp_regen_pct": 1.38
+    "hp_regen_pct": 1.38,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_134",
@@ -4379,7 +4620,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "121112",
-    "block_value": 114
+    "block_value": 114,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_135",
@@ -4397,7 +4639,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "121113",
-    "block_value": 69
+    "block_value": 69,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_136",
@@ -4416,7 +4659,8 @@
     "_source": "nonebot",
     "_source_id": "121114",
     "reflect_pct": 4,
-    "block_value": 58
+    "block_value": 58,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_137",
@@ -4435,7 +4679,8 @@
     "_source": "nonebot",
     "_source_id": "121115",
     "block_value": 90,
-    "hp_regen_pct": 0.55
+    "hp_regen_pct": 0.55,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_138",
@@ -4454,7 +4699,8 @@
     "_source": "nonebot",
     "_source_id": "121116",
     "block_value": 91,
-    "dodge_rate": 6
+    "dodge_rate": 6,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_139",
@@ -4473,7 +4719,8 @@
     "_source": "nonebot",
     "_source_id": "121121",
     "dodge_rate": 3,
-    "hp_regen_pct": 1.71
+    "hp_regen_pct": 1.71,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_140",
@@ -4492,7 +4739,8 @@
     "_source": "nonebot",
     "_source_id": "121122",
     "reflect_pct": 5,
-    "hp_regen_pct": 1.97
+    "hp_regen_pct": 1.97,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_141",
@@ -4511,7 +4759,8 @@
     "_source": "nonebot",
     "_source_id": "121123",
     "hp_regen_pct": 1.67,
-    "reflect_pct": 4
+    "reflect_pct": 4,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_142",
@@ -4529,7 +4778,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "121124",
-    "crit_resist": 11
+    "crit_resist": 11,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_143",
@@ -4548,7 +4798,8 @@
     "_source": "nonebot",
     "_source_id": "121125",
     "crit_resist": 9,
-    "block_value": 243
+    "block_value": 243,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_144",
@@ -4566,7 +4817,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "121126",
-    "reflect_pct": 5
+    "reflect_pct": 5,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_145",
@@ -4585,7 +4837,8 @@
     "_source": "nonebot",
     "_source_id": "121131",
     "reflect_pct": 4,
-    "hp_regen_pct": 1.35
+    "hp_regen_pct": 1.35,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_146",
@@ -4603,7 +4856,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "121132",
-    "dodge_rate": 7
+    "dodge_rate": 7,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_147",
@@ -4621,7 +4875,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "121133",
-    "hp_regen_pct": 1.01
+    "hp_regen_pct": 1.01,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_148",
@@ -4640,7 +4895,8 @@
     "_source": "nonebot",
     "_source_id": "121134",
     "hp_regen_pct": 1.4,
-    "block_value": 207
+    "block_value": 207,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_149",
@@ -4658,7 +4914,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "121142",
-    "crit_resist": 7
+    "crit_resist": 7,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_150",
@@ -4677,7 +4934,8 @@
     "_source": "nonebot",
     "_source_id": "121143",
     "crit_resist": 11,
-    "reflect_pct": 7
+    "reflect_pct": 7,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_151",
@@ -4696,7 +4954,8 @@
     "_source": "nonebot",
     "_source_id": "121144",
     "dodge_rate": 3,
-    "block_value": 171
+    "block_value": 171,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_153",
@@ -4713,7 +4972,8 @@
     "price": 6000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "6001"
+    "_source_id": "6001",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_154",
@@ -4730,7 +4990,8 @@
     "price": 14650000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "6011"
+    "_source_id": "6011",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_155",
@@ -4749,7 +5010,8 @@
     "_source": "nonebot",
     "_source_id": "6021",
     "dodge_rate": 2,
-    "crit_resist": 2
+    "crit_resist": 2,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_156",
@@ -4767,7 +5029,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "6031",
-    "crit_resist": 3
+    "crit_resist": 3,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_157",
@@ -4785,7 +5048,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "6041",
-    "dodge_rate": 1
+    "dodge_rate": 1,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_158",
@@ -4804,7 +5068,8 @@
     "_source": "nonebot",
     "_source_id": "6051",
     "reflect_pct": 5,
-    "crit_resist": 6
+    "crit_resist": 6,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_159",
@@ -4822,7 +5087,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "6061",
-    "crit_resist": 3
+    "crit_resist": 3,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_160",
@@ -4840,7 +5106,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "6071",
-    "crit_resist": 7
+    "crit_resist": 7,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_161",
@@ -4859,7 +5126,8 @@
     "_source": "nonebot",
     "_source_id": "6081",
     "crit_resist": 5,
-    "reflect_pct": 4
+    "reflect_pct": 4,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_162",
@@ -4877,7 +5145,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "6091",
-    "crit_resist": 7
+    "crit_resist": 7,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_163",
@@ -4897,7 +5166,8 @@
     "_source_id": "6092",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_rate": 6
+    "crit_rate": 6,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_164",
@@ -4918,7 +5188,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "lifesteal": 3,
-    "armor_pen": 8
+    "armor_pen": 8,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_165",
@@ -4939,7 +5210,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.2,
     "armor_pen": 5,
-    "lifesteal": 3
+    "lifesteal": 3,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_166",
@@ -4958,7 +5230,8 @@
     "_source": "nonebot",
     "_source_id": "11051",
     "hp_regen_pct": 1.36,
-    "block_value": 216
+    "block_value": 216,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_168",
@@ -4978,7 +5251,8 @@
     "_source_id": "11053",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "double_hit": 6
+    "double_hit": 6,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_170",
@@ -4996,7 +5270,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "11055",
-    "crit_resist": 8
+    "crit_resist": 8,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_171",
@@ -5016,7 +5291,8 @@
     "_source_id": "12001",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "lifesteal": 7
+    "lifesteal": 7,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_172",
@@ -5036,7 +5312,8 @@
     "_source_id": "12002",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "armor_pen": 7
+    "armor_pen": 7,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_173",
@@ -5056,7 +5333,8 @@
     "_source_id": "12003",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "lifesteal": 6
+    "lifesteal": 6,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_174",
@@ -5077,7 +5355,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "lifesteal": 6,
-    "double_hit": 5
+    "double_hit": 5,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_175",
@@ -5098,7 +5377,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "armor_pen": 11,
-    "crit_rate": 12
+    "crit_rate": 12,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_176",
@@ -5119,7 +5399,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "crit_rate": 9,
-    "armor_pen": 7
+    "armor_pen": 7,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_177",
@@ -5139,7 +5420,8 @@
     "_source_id": "12007",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_rate": 7
+    "crit_rate": 7,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_178",
@@ -5160,7 +5442,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "double_hit": 5,
-    "lifesteal": 7
+    "lifesteal": 7,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_179",
@@ -5180,7 +5463,8 @@
     "_source_id": "6099",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "armor_pen": 7
+    "armor_pen": 7,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_180",
@@ -5200,7 +5484,8 @@
     "_source_id": "15500",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "lifesteal": 3
+    "lifesteal": 3,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_181",
@@ -5221,7 +5506,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "double_hit": 5,
-    "crit_rate": 9
+    "crit_rate": 9,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_182",
@@ -5241,7 +5527,8 @@
     "_source_id": "15502",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_damage": 1.94
+    "crit_damage": 1.94,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_183",
@@ -5261,7 +5548,8 @@
     "_source_id": "15503",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_damage": 2.19
+    "crit_damage": 2.19,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_184",
@@ -5282,7 +5570,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "lifesteal": 4,
-    "crit_damage": 1.98
+    "crit_damage": 1.98,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_185",
@@ -5302,7 +5591,8 @@
     "_source_id": "15505",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "double_hit": 4
+    "double_hit": 4,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_186",
@@ -5323,7 +5613,8 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "crit_damage": 2.1,
-    "crit_rate": 8
+    "crit_rate": 8,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_187",
@@ -5341,7 +5632,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15507",
-    "hp_regen_pct": 1.45
+    "hp_regen_pct": 1.45,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_188",
@@ -5361,7 +5653,8 @@
     "_source_id": "15508",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_damage": 2.11
+    "crit_damage": 2.11,
+    "required_level_name": "混元大罗金仙"
   },
   {
     "id": "sword_189",
@@ -5379,7 +5672,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15509",
-    "reflect_pct": 4
+    "reflect_pct": 4,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_191",
@@ -5396,7 +5690,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103001"
+    "_source_id": "103001",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_192",
@@ -5413,7 +5708,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103002"
+    "_source_id": "103002",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_193",
@@ -5430,7 +5726,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103003"
+    "_source_id": "103003",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_194",
@@ -5447,7 +5744,8 @@
     "price": 280000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103004"
+    "_source_id": "103004",
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "sword_195",
@@ -5464,7 +5762,8 @@
     "price": 280000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103005"
+    "_source_id": "103005",
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "sword_196",
@@ -5481,7 +5780,8 @@
     "price": 280000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103006"
+    "_source_id": "103006",
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "sword_197",
@@ -5498,7 +5798,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103011"
+    "_source_id": "103011",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_198",
@@ -5515,7 +5816,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103012"
+    "_source_id": "103012",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_199",
@@ -5532,7 +5834,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103013"
+    "_source_id": "103013",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_200",
@@ -5549,7 +5852,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103014"
+    "_source_id": "103014",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_201",
@@ -5566,7 +5870,8 @@
     "price": 4440000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103015"
+    "_source_id": "103015",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_202",
@@ -5583,7 +5888,8 @@
     "price": 4960000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103016"
+    "_source_id": "103016",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_203",
@@ -5600,7 +5906,8 @@
     "price": 5480000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103021"
+    "_source_id": "103021",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_204",
@@ -5617,7 +5924,8 @@
     "price": 6000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103022"
+    "_source_id": "103022",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_205",
@@ -5634,7 +5942,8 @@
     "price": 6000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103023"
+    "_source_id": "103023",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_206",
@@ -5651,7 +5960,8 @@
     "price": 6000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103024"
+    "_source_id": "103024",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_207",
@@ -5668,7 +5978,8 @@
     "price": 6520000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103025"
+    "_source_id": "103025",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_208",
@@ -5685,7 +5996,8 @@
     "price": 6520000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103026"
+    "_source_id": "103026",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_209",
@@ -5702,7 +6014,8 @@
     "price": 14650000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "103031"
+    "_source_id": "103031",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_210",
@@ -5720,7 +6033,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "103032",
-    "dodge_rate": 1
+    "dodge_rate": 1,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_211",
@@ -5739,7 +6053,8 @@
     "_source": "nonebot",
     "_source_id": "103033",
     "dodge_rate": 1,
-    "crit_resist": 5
+    "crit_resist": 5,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_212",
@@ -5758,7 +6073,8 @@
     "_source": "nonebot",
     "_source_id": "103034",
     "dodge_rate": 3,
-    "crit_resist": 2
+    "crit_resist": 2,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_213",
@@ -5776,7 +6092,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "103035",
-    "dodge_rate": 2
+    "dodge_rate": 2,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_214",
@@ -5794,7 +6111,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "103036",
-    "dodge_rate": 3
+    "dodge_rate": 3,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_215",
@@ -5813,7 +6131,8 @@
     "_source": "nonebot",
     "_source_id": "103041",
     "dodge_rate": 1,
-    "crit_resist": 4
+    "crit_resist": 4,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_216",
@@ -5832,7 +6151,8 @@
     "_source": "nonebot",
     "_source_id": "103042",
     "dodge_rate": 2,
-    "crit_resist": 5
+    "crit_resist": 5,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_217",
@@ -5851,7 +6171,8 @@
     "_source": "nonebot",
     "_source_id": "103043",
     "dodge_rate": 1,
-    "crit_resist": 3
+    "crit_resist": 3,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_218",
@@ -5870,7 +6191,8 @@
     "_source": "nonebot",
     "_source_id": "103044",
     "crit_resist": 3,
-    "dodge_rate": 1
+    "dodge_rate": 1,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_219",
@@ -5888,7 +6210,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "103045",
-    "dodge_rate": 2
+    "dodge_rate": 2,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_220",
@@ -5906,7 +6229,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "103046",
-    "dodge_rate": 2
+    "dodge_rate": 2,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_221",
@@ -5924,7 +6248,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "103051",
-    "reflect_pct": 2
+    "reflect_pct": 2,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_222",
@@ -5943,7 +6268,8 @@
     "_source": "nonebot",
     "_source_id": "103052",
     "reflect_pct": 3,
-    "crit_resist": 7
+    "crit_resist": 7,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_223",
@@ -5961,7 +6287,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "103053",
-    "reflect_pct": 5
+    "reflect_pct": 5,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_224",
@@ -5979,7 +6306,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "103054",
-    "crit_resist": 5
+    "crit_resist": 5,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_225",
@@ -5998,7 +6326,8 @@
     "_source": "nonebot",
     "_source_id": "103055",
     "crit_resist": 4,
-    "dodge_rate": 4
+    "dodge_rate": 4,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_226",
@@ -6016,7 +6345,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "103056",
-    "dodge_rate": 2
+    "dodge_rate": 2,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_227",
@@ -6034,7 +6364,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "103061",
-    "crit_resist": 7
+    "crit_resist": 7,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_228",
@@ -6053,7 +6384,8 @@
     "_source": "nonebot",
     "_source_id": "103062",
     "crit_resist": 4,
-    "dodge_rate": 3
+    "dodge_rate": 3,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_229",
@@ -6072,7 +6404,8 @@
     "_source": "nonebot",
     "_source_id": "103063",
     "reflect_pct": 5,
-    "dodge_rate": 4
+    "dodge_rate": 4,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_230",
@@ -6091,7 +6424,8 @@
     "_source": "nonebot",
     "_source_id": "103064",
     "dodge_rate": 4,
-    "crit_resist": 3
+    "crit_resist": 3,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_231",
@@ -6109,7 +6443,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "103065",
-    "crit_resist": 5
+    "crit_resist": 5,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_232",
@@ -6127,7 +6462,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "103066",
-    "crit_resist": 6
+    "crit_resist": 6,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_233",
@@ -6146,7 +6482,8 @@
     "_source": "nonebot",
     "_source_id": "131101",
     "dodge_rate": 6,
-    "block_value": 94
+    "block_value": 94,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_234",
@@ -6165,7 +6502,8 @@
     "_source": "nonebot",
     "_source_id": "131102",
     "dodge_rate": 5,
-    "crit_resist": 10
+    "crit_resist": 10,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_235",
@@ -6184,7 +6522,8 @@
     "_source": "nonebot",
     "_source_id": "131103",
     "reflect_pct": 3,
-    "dodge_rate": 3
+    "dodge_rate": 3,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_236",
@@ -6203,7 +6542,8 @@
     "_source": "nonebot",
     "_source_id": "131104",
     "reflect_pct": 6,
-    "block_value": 99
+    "block_value": 99,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_237",
@@ -6221,7 +6561,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "131105",
-    "crit_resist": 6
+    "crit_resist": 6,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_238",
@@ -6239,7 +6580,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "131106",
-    "reflect_pct": 4
+    "reflect_pct": 4,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_239",
@@ -6258,7 +6600,8 @@
     "_source": "nonebot",
     "_source_id": "131111",
     "crit_resist": 10,
-    "hp_regen_pct": 1.31
+    "hp_regen_pct": 1.31,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_240",
@@ -6277,7 +6620,8 @@
     "_source": "nonebot",
     "_source_id": "131112",
     "block_value": 83,
-    "crit_resist": 9
+    "crit_resist": 9,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_241",
@@ -6296,7 +6640,8 @@
     "_source": "nonebot",
     "_source_id": "131113",
     "block_value": 137,
-    "hp_regen_pct": 1.15
+    "hp_regen_pct": 1.15,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_242",
@@ -6314,7 +6659,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "131114",
-    "block_value": 78
+    "block_value": 78,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_243",
@@ -6332,7 +6678,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "131115",
-    "crit_resist": 9
+    "crit_resist": 9,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_244",
@@ -6351,7 +6698,8 @@
     "_source": "nonebot",
     "_source_id": "131116",
     "block_value": 141,
-    "reflect_pct": 3
+    "reflect_pct": 3,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_245",
@@ -6370,7 +6718,8 @@
     "_source": "nonebot",
     "_source_id": "131121",
     "reflect_pct": 4,
-    "block_value": 140
+    "block_value": 140,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_246",
@@ -6388,7 +6737,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "131122",
-    "reflect_pct": 5
+    "reflect_pct": 5,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_247",
@@ -6407,7 +6757,8 @@
     "_source": "nonebot",
     "_source_id": "131123",
     "crit_resist": 7,
-    "block_value": 247
+    "block_value": 247,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_248",
@@ -6425,7 +6776,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "131124",
-    "crit_resist": 10
+    "crit_resist": 10,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_249",
@@ -6443,7 +6795,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "131125",
-    "crit_resist": 11
+    "crit_resist": 11,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_250",
@@ -6462,7 +6815,8 @@
     "_source": "nonebot",
     "_source_id": "131126",
     "block_value": 94,
-    "hp_regen_pct": 1.38
+    "hp_regen_pct": 1.38,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_251",
@@ -6481,7 +6835,8 @@
     "_source": "nonebot",
     "_source_id": "131131",
     "reflect_pct": 5,
-    "hp_regen_pct": 1.08
+    "hp_regen_pct": 1.08,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_252",
@@ -6500,7 +6855,8 @@
     "_source": "nonebot",
     "_source_id": "131132",
     "reflect_pct": 6,
-    "dodge_rate": 4
+    "dodge_rate": 4,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_253",
@@ -6519,7 +6875,8 @@
     "_source": "nonebot",
     "_source_id": "131133",
     "reflect_pct": 8,
-    "block_value": 203
+    "block_value": 203,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_254",
@@ -6537,7 +6894,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "131134",
-    "dodge_rate": 4
+    "dodge_rate": 4,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_255",
@@ -6555,7 +6913,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "131142",
-    "block_value": 189
+    "block_value": 189,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_256",
@@ -6573,7 +6932,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "131143",
-    "dodge_rate": 7
+    "dodge_rate": 7,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_257",
@@ -6592,7 +6952,8 @@
     "_source": "nonebot",
     "_source_id": "131144",
     "dodge_rate": 4,
-    "reflect_pct": 5
+    "reflect_pct": 5,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_259",
@@ -6609,7 +6970,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105001"
+    "_source_id": "105001",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_260",
@@ -6626,7 +6988,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105002"
+    "_source_id": "105002",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_261",
@@ -6643,7 +7006,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105003"
+    "_source_id": "105003",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_262",
@@ -6660,7 +7024,8 @@
     "price": 280000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105004"
+    "_source_id": "105004",
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "sword_263",
@@ -6677,7 +7042,8 @@
     "price": 280000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105005"
+    "_source_id": "105005",
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "sword_264",
@@ -6694,7 +7060,8 @@
     "price": 280000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105006"
+    "_source_id": "105006",
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "sword_265",
@@ -6711,7 +7078,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105011"
+    "_source_id": "105011",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_266",
@@ -6728,7 +7096,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105012"
+    "_source_id": "105012",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_267",
@@ -6745,7 +7114,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105013"
+    "_source_id": "105013",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_268",
@@ -6762,7 +7132,8 @@
     "price": 4070000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105014"
+    "_source_id": "105014",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_269",
@@ -6779,7 +7150,8 @@
     "price": 4440000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105015"
+    "_source_id": "105015",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_270",
@@ -6796,7 +7168,8 @@
     "price": 4960000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105016"
+    "_source_id": "105016",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_271",
@@ -6813,7 +7186,8 @@
     "price": 5480000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105021"
+    "_source_id": "105021",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_272",
@@ -6830,7 +7204,8 @@
     "price": 6000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105022"
+    "_source_id": "105022",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_273",
@@ -6847,7 +7222,8 @@
     "price": 6000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105023"
+    "_source_id": "105023",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_274",
@@ -6864,7 +7240,8 @@
     "price": 6000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105024"
+    "_source_id": "105024",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_275",
@@ -6881,7 +7258,8 @@
     "price": 6520000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105025"
+    "_source_id": "105025",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_276",
@@ -6898,7 +7276,8 @@
     "price": 6520000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105026"
+    "_source_id": "105026",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_277",
@@ -6915,7 +7294,8 @@
     "price": 14650000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "105031"
+    "_source_id": "105031",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_278",
@@ -6933,7 +7313,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "105032",
-    "dodge_rate": 3
+    "dodge_rate": 3,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_279",
@@ -6951,7 +7332,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "105033",
-    "dodge_rate": 3
+    "dodge_rate": 3,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_280",
@@ -6970,7 +7352,8 @@
     "_source": "nonebot",
     "_source_id": "105034",
     "crit_resist": 3,
-    "dodge_rate": 2
+    "dodge_rate": 2,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_281",
@@ -6989,7 +7372,8 @@
     "_source": "nonebot",
     "_source_id": "105035",
     "dodge_rate": 1,
-    "crit_resist": 2
+    "crit_resist": 2,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_282",
@@ -7007,7 +7391,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "105036",
-    "crit_resist": 4
+    "crit_resist": 4,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_283",
@@ -7026,7 +7411,8 @@
     "_source": "nonebot",
     "_source_id": "105041",
     "crit_resist": 5,
-    "dodge_rate": 2
+    "dodge_rate": 2,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_284",
@@ -7044,7 +7430,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "105042",
-    "dodge_rate": 1
+    "dodge_rate": 1,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_285",
@@ -7062,7 +7449,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "105043",
-    "crit_resist": 3
+    "crit_resist": 3,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_286",
@@ -7081,7 +7469,8 @@
     "_source": "nonebot",
     "_source_id": "105044",
     "dodge_rate": 1,
-    "crit_resist": 2
+    "crit_resist": 2,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_287",
@@ -7100,7 +7489,8 @@
     "_source": "nonebot",
     "_source_id": "105045",
     "dodge_rate": 3,
-    "crit_resist": 4
+    "crit_resist": 4,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_288",
@@ -7118,7 +7508,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "105046",
-    "dodge_rate": 3
+    "dodge_rate": 3,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_289",
@@ -7136,7 +7527,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "105051",
-    "crit_resist": 6
+    "crit_resist": 6,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_290",
@@ -7154,7 +7546,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "105052",
-    "crit_resist": 7
+    "crit_resist": 7,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_291",
@@ -7173,7 +7566,8 @@
     "_source": "nonebot",
     "_source_id": "105053",
     "dodge_rate": 3,
-    "crit_resist": 6
+    "crit_resist": 6,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_292",
@@ -7192,7 +7586,8 @@
     "_source": "nonebot",
     "_source_id": "105054",
     "reflect_pct": 4,
-    "crit_resist": 7
+    "crit_resist": 7,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_293",
@@ -7211,7 +7606,8 @@
     "_source": "nonebot",
     "_source_id": "105055",
     "dodge_rate": 3,
-    "crit_resist": 7
+    "crit_resist": 7,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_294",
@@ -7229,7 +7625,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "105056",
-    "reflect_pct": 3
+    "reflect_pct": 3,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_295",
@@ -7247,7 +7644,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "105061",
-    "reflect_pct": 5
+    "reflect_pct": 5,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_296",
@@ -7265,7 +7663,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "105062",
-    "reflect_pct": 4
+    "reflect_pct": 4,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_297",
@@ -7284,7 +7683,8 @@
     "_source": "nonebot",
     "_source_id": "105063",
     "reflect_pct": 3,
-    "crit_resist": 4
+    "crit_resist": 4,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_298",
@@ -7303,7 +7703,8 @@
     "_source": "nonebot",
     "_source_id": "105064",
     "dodge_rate": 4,
-    "reflect_pct": 3
+    "reflect_pct": 3,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_299",
@@ -7321,7 +7722,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "105065",
-    "reflect_pct": 3
+    "reflect_pct": 3,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_300",
@@ -7340,7 +7742,8 @@
     "_source": "nonebot",
     "_source_id": "105066",
     "dodge_rate": 2,
-    "crit_resist": 7
+    "crit_resist": 7,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_301",
@@ -7359,7 +7762,8 @@
     "_source": "nonebot",
     "_source_id": "151101",
     "block_value": 50,
-    "crit_resist": 5
+    "crit_resist": 5,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_302",
@@ -7377,7 +7781,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "151102",
-    "crit_resist": 6
+    "crit_resist": 6,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_303",
@@ -7395,7 +7800,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "151103",
-    "block_value": 93
+    "block_value": 93,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_304",
@@ -7414,7 +7820,8 @@
     "_source": "nonebot",
     "_source_id": "151104",
     "crit_resist": 8,
-    "block_value": 121
+    "block_value": 121,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_305",
@@ -7432,7 +7839,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "151105",
-    "hp_regen_pct": 1.48
+    "hp_regen_pct": 1.48,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_306",
@@ -7451,7 +7859,8 @@
     "_source": "nonebot",
     "_source_id": "151106",
     "crit_resist": 6,
-    "block_value": 91
+    "block_value": 91,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_307",
@@ -7469,7 +7878,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "151111",
-    "reflect_pct": 7
+    "reflect_pct": 7,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_308",
@@ -7487,7 +7897,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "151112",
-    "crit_resist": 8
+    "crit_resist": 8,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_309",
@@ -7506,7 +7917,8 @@
     "_source": "nonebot",
     "_source_id": "151113",
     "block_value": 52,
-    "dodge_rate": 6
+    "dodge_rate": 6,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_310",
@@ -7524,7 +7936,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "151114",
-    "hp_regen_pct": 1.43
+    "hp_regen_pct": 1.43,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_311",
@@ -7542,7 +7955,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "151115",
-    "block_value": 58
+    "block_value": 58,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_312",
@@ -7560,7 +7974,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "151116",
-    "dodge_rate": 4
+    "dodge_rate": 4,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_313",
@@ -7579,7 +7994,8 @@
     "_source": "nonebot",
     "_source_id": "151121",
     "crit_resist": 7,
-    "reflect_pct": 5
+    "reflect_pct": 5,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_314",
@@ -7597,7 +8013,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "151122",
-    "block_value": 85
+    "block_value": 85,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_315",
@@ -7615,7 +8032,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "151123",
-    "dodge_rate": 7
+    "dodge_rate": 7,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_316",
@@ -7633,7 +8051,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "151124",
-    "block_value": 164
+    "block_value": 164,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_317",
@@ -7651,7 +8070,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "151125",
-    "crit_resist": 11
+    "crit_resist": 11,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_318",
@@ -7670,7 +8090,8 @@
     "_source": "nonebot",
     "_source_id": "151126",
     "block_value": 109,
-    "crit_resist": 9
+    "crit_resist": 9,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_319",
@@ -7688,7 +8109,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "151131",
-    "block_value": 96
+    "block_value": 96,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_320",
@@ -7707,7 +8129,8 @@
     "_source": "nonebot",
     "_source_id": "151132",
     "dodge_rate": 6,
-    "crit_resist": 10
+    "crit_resist": 10,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_321",
@@ -7725,7 +8148,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "151133",
-    "hp_regen_pct": 1.14
+    "hp_regen_pct": 1.14,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_322",
@@ -7743,7 +8167,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "151134",
-    "crit_resist": 7
+    "crit_resist": 7,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_323",
@@ -7761,7 +8186,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "151142",
-    "reflect_pct": 8
+    "reflect_pct": 8,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_324",
@@ -7780,7 +8206,8 @@
     "_source": "nonebot",
     "_source_id": "151143",
     "dodge_rate": 4,
-    "crit_resist": 6
+    "crit_resist": 6,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_325",
@@ -7799,7 +8226,8 @@
     "_source": "nonebot",
     "_source_id": "151144",
     "reflect_pct": 4,
-    "hp_regen_pct": 1.24
+    "hp_regen_pct": 1.24,
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_336",
@@ -7816,7 +8244,8 @@
     "price": 4520000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "101014"
+    "_source_id": "101014",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_343",
@@ -7833,7 +8262,8 @@
     "price": 7150000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "101025"
+    "_source_id": "101025",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_455",
@@ -7852,7 +8282,8 @@
     "_source": "nonebot",
     "_source_id": "141132",
     "dodge_rate": 5,
-    "hp_regen_pct": 0.58
+    "hp_regen_pct": 0.58,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_462",
@@ -7869,7 +8300,8 @@
     "price": 3330000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106001"
+    "_source_id": "106001",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_463",
@@ -7886,7 +8318,8 @@
     "price": 3330000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106002"
+    "_source_id": "106002",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_464",
@@ -7903,7 +8336,8 @@
     "price": 3330000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106003"
+    "_source_id": "106003",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_465",
@@ -7920,7 +8354,8 @@
     "price": 210000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106004"
+    "_source_id": "106004",
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "sword_466",
@@ -7937,7 +8372,8 @@
     "price": 210000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106005"
+    "_source_id": "106005",
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "sword_467",
@@ -7954,7 +8390,8 @@
     "price": 210000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106006"
+    "_source_id": "106006",
+    "required_level_name": "炼气期一层 / 锻体期一层"
   },
   {
     "id": "sword_468",
@@ -7971,7 +8408,8 @@
     "price": 4000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106011"
+    "_source_id": "106011",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_469",
@@ -7988,7 +8426,8 @@
     "price": 4000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106012"
+    "_source_id": "106012",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_470",
@@ -8005,7 +8444,8 @@
     "price": 4000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106013"
+    "_source_id": "106013",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_471",
@@ -8022,7 +8462,8 @@
     "price": 4630000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106014"
+    "_source_id": "106014",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_472",
@@ -8039,7 +8480,8 @@
     "price": 4630000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106015"
+    "_source_id": "106015",
+    "required_level_name": "筑基期初期 / 铜皮境初期"
   },
   {
     "id": "sword_473",
@@ -8056,7 +8498,8 @@
     "price": 5260000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106016"
+    "_source_id": "106016",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_474",
@@ -8073,7 +8516,8 @@
     "price": 5890000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106021"
+    "_source_id": "106021",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_475",
@@ -8090,7 +8534,8 @@
     "price": 6520000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106022"
+    "_source_id": "106022",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_476",
@@ -8107,7 +8552,8 @@
     "price": 6520000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106023"
+    "_source_id": "106023",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_477",
@@ -8124,7 +8570,8 @@
     "price": 6520000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106024"
+    "_source_id": "106024",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_478",
@@ -8141,7 +8588,8 @@
     "price": 7150000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106025"
+    "_source_id": "106025",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_479",
@@ -8158,7 +8606,8 @@
     "price": 7150000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "106026"
+    "_source_id": "106026",
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_480",
@@ -8177,7 +8626,8 @@
     "_source": "nonebot",
     "_source_id": "106031",
     "dodge_rate": 2,
-    "crit_resist": 5
+    "crit_resist": 5,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_481",
@@ -8195,7 +8645,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "106032",
-    "crit_resist": 5
+    "crit_resist": 5,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_482",
@@ -8213,7 +8664,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "106033",
-    "dodge_rate": 1
+    "dodge_rate": 1,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_483",
@@ -8231,7 +8683,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "106034",
-    "dodge_rate": 2
+    "dodge_rate": 2,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_484",
@@ -8250,7 +8703,8 @@
     "_source": "nonebot",
     "_source_id": "106035",
     "dodge_rate": 3,
-    "crit_resist": 3
+    "crit_resist": 3,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_485",
@@ -8269,7 +8723,8 @@
     "_source": "nonebot",
     "_source_id": "106036",
     "dodge_rate": 3,
-    "crit_resist": 3
+    "crit_resist": 3,
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_486",
@@ -8288,7 +8743,8 @@
     "_source": "nonebot",
     "_source_id": "106041",
     "crit_resist": 6,
-    "dodge_rate": 2
+    "dodge_rate": 2,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_487",
@@ -8306,7 +8762,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "106042",
-    "crit_resist": 7
+    "crit_resist": 7,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_488",
@@ -8324,7 +8781,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "106043",
-    "crit_resist": 6
+    "crit_resist": 6,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_489",
@@ -8343,7 +8801,8 @@
     "_source": "nonebot",
     "_source_id": "106044",
     "crit_resist": 4,
-    "dodge_rate": 3
+    "dodge_rate": 3,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_490",
@@ -8361,7 +8820,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "106045",
-    "reflect_pct": 4
+    "reflect_pct": 4,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_491",
@@ -8380,7 +8840,8 @@
     "_source": "nonebot",
     "_source_id": "106046",
     "crit_resist": 4,
-    "reflect_pct": 3
+    "reflect_pct": 3,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_492",
@@ -8398,7 +8859,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "106051",
-    "reflect_pct": 5
+    "reflect_pct": 5,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_493",
@@ -8417,7 +8879,8 @@
     "_source": "nonebot",
     "_source_id": "106052",
     "dodge_rate": 3,
-    "reflect_pct": 3
+    "reflect_pct": 3,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_494",
@@ -8436,7 +8899,8 @@
     "_source": "nonebot",
     "_source_id": "106053",
     "crit_resist": 6,
-    "dodge_rate": 3
+    "dodge_rate": 3,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_495",
@@ -8455,7 +8919,8 @@
     "_source": "nonebot",
     "_source_id": "106054",
     "reflect_pct": 2,
-    "crit_resist": 7
+    "crit_resist": 7,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_496",
@@ -8473,7 +8938,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "106055",
-    "crit_resist": 4
+    "crit_resist": 4,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_497",
@@ -8491,7 +8957,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "106056",
-    "crit_resist": 6
+    "crit_resist": 6,
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_498",
@@ -8509,7 +8976,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "106061",
-    "block_value": 76
+    "block_value": 76,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_499",
@@ -8527,7 +8995,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "106062",
-    "reflect_pct": 4
+    "reflect_pct": 4,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_500",
@@ -8545,7 +9014,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "106063",
-    "dodge_rate": 2
+    "dodge_rate": 2,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_501",
@@ -8564,7 +9034,8 @@
     "_source": "nonebot",
     "_source_id": "106064",
     "reflect_pct": 5,
-    "dodge_rate": 5
+    "dodge_rate": 5,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_502",
@@ -8583,7 +9054,8 @@
     "_source": "nonebot",
     "_source_id": "106065",
     "dodge_rate": 2,
-    "block_value": 63
+    "block_value": 63,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_503",
@@ -8602,7 +9074,8 @@
     "_source": "nonebot",
     "_source_id": "106066",
     "reflect_pct": 3,
-    "crit_resist": 6
+    "crit_resist": 6,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_504",
@@ -8620,7 +9093,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161101",
-    "reflect_pct": 6
+    "reflect_pct": 6,
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_505",
@@ -8638,7 +9112,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161102",
-    "block_value": 59
+    "block_value": 59,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_506",
@@ -8656,7 +9131,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161103",
-    "crit_resist": 10
+    "crit_resist": 10,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_507",
@@ -8674,7 +9150,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161104",
-    "hp_regen_pct": 1.36
+    "hp_regen_pct": 1.36,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_508",
@@ -8693,7 +9170,8 @@
     "_source": "nonebot",
     "_source_id": "161105",
     "crit_resist": 6,
-    "reflect_pct": 5
+    "reflect_pct": 5,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_509",
@@ -8711,7 +9189,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161106",
-    "block_value": 95
+    "block_value": 95,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_510",
@@ -8729,7 +9208,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161111",
-    "block_value": 143
+    "block_value": 143,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_511",
@@ -8748,7 +9228,8 @@
     "_source": "nonebot",
     "_source_id": "161112",
     "crit_resist": 7,
-    "dodge_rate": 3
+    "dodge_rate": 3,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_512",
@@ -8766,7 +9247,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161113",
-    "block_value": 105
+    "block_value": 105,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_513",
@@ -8784,7 +9266,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161114",
-    "reflect_pct": 5
+    "reflect_pct": 5,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_514",
@@ -8803,7 +9286,8 @@
     "_source": "nonebot",
     "_source_id": "161115",
     "dodge_rate": 6,
-    "crit_resist": 6
+    "crit_resist": 6,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_515",
@@ -8821,7 +9305,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161116",
-    "dodge_rate": 5
+    "dodge_rate": 5,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_516",
@@ -8840,7 +9325,8 @@
     "_source": "nonebot",
     "_source_id": "161121",
     "crit_resist": 10,
-    "block_value": 135
+    "block_value": 135,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_517",
@@ -8858,7 +9344,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161122",
-    "crit_resist": 8
+    "crit_resist": 8,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_518",
@@ -8876,7 +9363,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161123",
-    "dodge_rate": 4
+    "dodge_rate": 4,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_519",
@@ -8894,7 +9382,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161124",
-    "crit_resist": 6
+    "crit_resist": 6,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_520",
@@ -8912,7 +9401,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161125",
-    "dodge_rate": 3
+    "dodge_rate": 3,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_521",
@@ -8930,7 +9420,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161126",
-    "block_value": 111
+    "block_value": 111,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_522",
@@ -8949,7 +9440,8 @@
     "_source": "nonebot",
     "_source_id": "161131",
     "crit_resist": 8,
-    "block_value": 62
+    "block_value": 62,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_523",
@@ -8967,7 +9459,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161132",
-    "hp_regen_pct": 0.76
+    "hp_regen_pct": 0.76,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_524",
@@ -8986,7 +9479,8 @@
     "_source": "nonebot",
     "_source_id": "161133",
     "hp_regen_pct": 1.24,
-    "reflect_pct": 7
+    "reflect_pct": 7,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_525",
@@ -9004,7 +9498,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161134",
-    "hp_regen_pct": 0.68
+    "hp_regen_pct": 0.68,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_526",
@@ -9022,7 +9517,8 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "161142",
-    "reflect_pct": 4
+    "reflect_pct": 4,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_527",
@@ -9041,7 +9537,8 @@
     "_source": "nonebot",
     "_source_id": "161143",
     "dodge_rate": 4,
-    "block_value": 90
+    "block_value": 90,
+    "required_level_name": "大乘期初期 / 神体境初期"
   },
   {
     "id": "sword_528",
@@ -9059,7 +9556,8 @@
     "shop_weight": 0.5,
     "_source": "native",
     "dodge_rate": 5,
-    "crit_resist": 8
+    "crit_resist": 8,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "sword_529",
@@ -9077,7 +9575,8 @@
     "shop_weight": 0.5,
     "_source": "native",
     "reflect_pct": 5,
-    "block_value": 1000
+    "block_value": 1000,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "sword_530",
@@ -9095,7 +9594,8 @@
     "shop_weight": 0.5,
     "_source": "native",
     "crit_resist": 10,
-    "hp_regen_pct": 1.5
+    "hp_regen_pct": 1.5,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "sword_531",
@@ -9113,7 +9613,8 @@
     "shop_weight": 0.5,
     "_source": "native",
     "dodge_rate": 7,
-    "reflect_pct": 5
+    "reflect_pct": 5,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "sword_532",
@@ -9131,7 +9632,8 @@
     "shop_weight": 0.5,
     "_source": "native",
     "hp_regen_pct": 2.0,
-    "block_value": 800
+    "block_value": 800,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "sword_533",
@@ -9149,7 +9651,8 @@
     "shop_weight": 0.5,
     "_source": "native",
     "dodge_rate": 6,
-    "crit_resist": 9
+    "crit_resist": 9,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "sword_534",
@@ -9167,7 +9670,8 @@
     "shop_weight": 0.5,
     "_source": "native",
     "reflect_pct": 8,
-    "block_value": 1200
+    "block_value": 1200,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "sword_535",
@@ -9185,7 +9689,8 @@
     "shop_weight": 0.5,
     "_source": "native",
     "crit_resist": 12,
-    "hp_regen_pct": 1.8
+    "hp_regen_pct": 1.8,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "sword_536",
@@ -9203,7 +9708,8 @@
     "shop_weight": 0.5,
     "_source": "native",
     "dodge_rate": 8,
-    "reflect_pct": 6
+    "reflect_pct": 6,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   },
   {
     "id": "sword_537",
@@ -9221,6 +9727,7 @@
     "shop_weight": 0.5,
     "_source": "native",
     "block_value": 1500,
-    "hp_regen_pct": 2.0
+    "hp_regen_pct": 2.0,
+    "required_level_name": "混元大罗金仙 / 混元无极体"
   }
 ]
