@@ -182,12 +182,20 @@ class ShopHandler:
                 if success:
                     type_name = {"weapon": "武器", "armor": "防具", "main_technique": "心法", "technique": "功法", "accessory": "饰品"}.get(item_type, "装备")
                     result_lines.append(f"成功购买{type_name}【{target_item['name']}】x{quantity}，已存入储物戒。")
+                    req_level = target_item.get('data', {}).get('required_level_index', 0)
+                    if req_level > 0:
+                        level_name = self.shop_manager._format_required_level(req_level)
+                        result_lines.append(f"  装备需求境界: {level_name}")
                 else:
                     result_lines.append(f"成功购买【{target_item['name']}】x{quantity}。")
                     result_lines.append(f"⚠️ 存入储物戒失败：{msg}")
             elif item_type in ['pill', 'exp_pill', 'utility_pill']:
                 await self.pill_manager.add_pill_to_inventory(player, target_item['name'], count=quantity)
                 result_lines.append(f"成功购买【{target_item['name']}】x{quantity}，已添加到背包。")
+                req_level = target_item.get('data', {}).get('required_level_index', 0)
+                if req_level > 0:
+                    level_name = self.shop_manager._format_required_level(req_level)
+                    result_lines.append(f"  使用需求境界: {level_name}")
             elif item_type == 'legacy_pill':
                 success, message = await self._apply_legacy_pill_effects(player, target_item, quantity)
                 if not success:

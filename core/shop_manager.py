@@ -405,8 +405,16 @@ class ShopManager:
             # 获取物品效果描述
             effect_desc = self._get_item_effect_short(item)
             effect_line = f"\n   效果: {effect_desc}" if effect_desc else ""
-            
-            lines.append(f"{i}. [{item['rank']}] {item['name']} ({type_label}){discount_text}\n   价格: {item['price']} 灵石 {stock_text}{effect_line}\n")
+
+            # 境界需求
+            data = item.get('data', {})
+            req_level = data.get('required_level_index', 0) if isinstance(data, dict) else 0
+            level_line = ""
+            if req_level > 0:
+                level_name = self._format_required_level(req_level)
+                level_line = f"\n   需求境界: {level_name}"
+
+            lines.append(f"{i}. [{item['rank']}] {item['name']} ({type_label}){discount_text}\n   价格: {item['price']} 灵石 {stock_text}{effect_line}{level_line}\n")
 
         if refresh_hours > 0 and last_refresh:
             remaining = (last_refresh + refresh_hours * 3600) - int(time.time())
