@@ -84,8 +84,8 @@ class SpiritFarmManager:
             "可种植：灵草、血灵草、冰心草、火焰花、九叶灵芝"
         )
     
-    async def plant_herb(self, player: Player, herb_name: str) -> Tuple[bool, str]:
-        """种植灵草"""
+    async def plant_herb(self, player: Player, herb_name: str, quantity: int = 1) -> Tuple[bool, str]:
+        """种植灵草（支持批量）"""
         if herb_name not in SPIRIT_HERBS:
             herbs_list = "、".join(SPIRIT_HERBS.keys())
             return False, f"❌ 未知的灵草。可种植：{herbs_list}"
@@ -109,32 +109,59 @@ class SpiritFarmManager:
         level_config = FARM_LEVELS.get(farm["level"], FARM_LEVELS[1])
         max_slots = level_config["slots"]
         crops = farm["crops"]
-        
-        if len(crops) >= max_slots:
+
+        # 计算可用空位
+        available_slots = max_slots - len(crops)
+
+        if available_slots <= 0:
             return False, f"❌ 灵田已满！最多种植 {max_slots} 株。"
-        
-        # 种植
+
+        # 确定实际种植数量
+        actual_quantity = min(quantity, available_slots)
+
+        # 批量种植
         plant_time = int(time.time())
         mature_time = plant_time + herb_config["grow_time"]
-        
-        crops.append({
-            "name": herb_name,
-            "plant_time": plant_time,
-            "mature_time": mature_time
-        })
-        
+
+        for i in range(actual_quantity):
+            crops.append({
+                "name": herb_name,
+                "plant_time": plant_time,
+                "mature_time": mature_time
+            })
+
+        # 单次数据库更新
         await self.db.conn.execute(
             "UPDATE spirit_farms SET crops = ? WHERE user_id = ?",
             (json.dumps(crops), player.user_id)
         )
         await self.db.conn.commit()
-        
+
         grow_hours = herb_config["grow_time"] // 3600
-        return True, (
-            f"🌱 成功种植【{herb_name}】！\n"
-            f"成熟时间：约 {grow_hours} 小时\n"
-            f"当前种植：{len(crops)}/{max_slots}"
-        )
+        remaining_slots = max_slots - len(crops)
+
+        # 根据是否全部种植成功构建消息
+        if actual_quantity == 1:
+            return True, (
+                f"🌱 成功种植【{herb_name}】！\n"
+                f"成熟时间：约 {grow_hours} 小时\n"
+                f"当前种植：{len(crops)}/{max_slots}"
+            )
+        elif actual_quantity == quantity:
+            return True, (
+                f"🌱 成功种植 {actual_quantity} 个【{herb_name}】！\n"
+                f"成熟时间：约 {grow_hours} 小时\n"
+                f"当前种植：{len(crops)}/{max_slots}\n"
+                f"剩余空位：{remaining_slots} 个"
+            )
+        else:
+            return True, (
+                f"🌱 成功种植 {actual_quantity} 个【{herb_name}】！\n"
+                f"（请求 {quantity} 个，空位不足）\n"
+                f"成熟时间：约 {grow_hours} 小时\n"
+                f"当前种植：{len(crops)}/{max_slots}\n"
+                f"剩余空位：{remaining_slots} 个"
+            )
     
     async def harvest(self, player: Player) -> Tuple[bool, str]:
         """收获灵草"""

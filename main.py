@@ -256,7 +256,7 @@ class XiuXianPlugin(Star):
         self.bounty_handlers = BountyHandlers(self.db, self.bounty_mgr)
         
         # Phase 3: 传承PK
-        self.impart_pk_mgr = ImpartPkManager(self.db, self.combat_mgr)
+        self.impart_pk_mgr = ImpartPkManager(self.db, self.combat_mgr, self.config_manager)
         self.impart_pk_handlers = ImpartPkHandlers(self.db, self.impart_pk_mgr)
         
         # Phase 4: 扩展功能
@@ -843,7 +843,7 @@ class XiuXianPlugin(Star):
         async for r in self.breakthrough_handler.handle_breakthrough(event, pill_name):
             yield r
 
-    @filter.command(CMD_USE_PILL, "服用丹药")
+    @filter.command(CMD_USE_PILL, "服用丹药 [数量]")
     @require_whitelist
     async def handle_use_pill(self, event: AstrMessageEvent, pill_name: str = ""):
         async for r in self.pill_handler.handle_use_pill(event, pill_name):
@@ -1325,7 +1325,7 @@ class XiuXianPlugin(Star):
         async for r in self.spirit_farm_handlers.handle_create_farm(event):
             yield r
 
-    @filter.command(CMD_SPIRIT_FARM_PLANT, "种植灵草")
+    @filter.command(CMD_SPIRIT_FARM_PLANT, "种植灵草 [数量]")
     @require_whitelist
     async def handle_spirit_farm_plant(self, event: AstrMessageEvent, herb_name: str = ""):
         async for r in self.spirit_farm_handlers.handle_plant(event, herb_name):
@@ -1621,7 +1621,7 @@ class XiuXianPlugin(Star):
             await self._broadcast_rift_open(rift_def)
 
     def _gm_parse_target(self, args: str, event: AstrMessageEvent = None) -> tuple:
-        """从GM指令参数中解析目标QQ号和剩余参数（始终从完整消息提取）"""
+        """从GM指令参数中解析目标QQ号和剩余参数（从消息链组件提取，避免@格式问题）"""
         import re
         # 优先从消息链中提取@目标
         if event and hasattr(event, "message_obj") and event.message_obj:
@@ -1634,18 +1634,17 @@ class XiuXianPlugin(Star):
                         if target_id:
                             break
                     if target_id:
-                        # @目标：从完整消息中去掉GM命令前缀和@引用，剩余作为参数
-                        extra = ""
-                        if event and hasattr(event, "get_message_str"):
-                            full_msg = event.get_message_str() or ""
-                            m = re.match(r'GM\S+\s+(.*)', full_msg, re.DOTALL)
-                            if m:
-                                raw = m.group(1)
-                                # 去掉各种@引用格式: [At:xxx] [CQ:at,qq=xxx] 纯数字QQ
-                                raw = re.sub(r'\[At:\d+\]', '', raw)
-                                raw = re.sub(r'\[CQ:at,qq=\d+\]', '', raw)
-                                raw = re.sub(r'\b\d{5,12}\b', '', raw, count=1)
-                                extra = raw.strip()
+                        # 从消息链的 Plain 组件中拼接文本，跳过 At 组件
+                        # 这样不会包含 @nickname(qq) 格式的文本
+                        parts = []
+                        for comp in message_chain:
+                            t = getattr(comp, "text", None)
+                            if t and not isinstance(comp, At):
+                                parts.append(t)
+                        full_text = " ".join(parts).strip()
+                        # 去掉GM命令前缀
+                        m = re.match(r'GM\S+\s+(.*)', full_text, re.DOTALL)
+                        extra = m.group(1).strip() if m else ""
                         return str(target_id).lstrip("@"), extra
         # 无@目标：始终从完整消息提取，避免args只含第一个词的问题
         full_msg = ""

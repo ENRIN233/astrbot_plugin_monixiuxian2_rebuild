@@ -3,7 +3,7 @@ import re
 import time
 from astrbot.api.event import AstrMessageEvent
 from astrbot.api.all import *
-from ..managers.combat_manager import CombatManager, CombatStats, load_equipment_bonus
+from ..managers.combat_manager import CombatManager, CombatStats
 from ..data.data_manager import DataBase
 from .utils import player_required
 from ..models import Player
@@ -89,75 +89,18 @@ class CombatHandlers:
             return match.group(1)
         return None
 
-    def _calculate_equipment_bonus(self, player) -> dict:
-        """计算装备提供的属性加成（委托给共享函数）"""
-        return load_equipment_bonus(player, self.config_manager)
-
     async def _prepare_combat_stats(self, user_id: str) -> CombatStats:
-        import math
         player = await self.db.get_player_by_id(user_id)
         if not player:
             return None
 
-        # 获取基础属性
         impart_info = await self.db.ext.get_impart_info(user_id)
-        hp_buff = impart_info.impart_hp_per if impart_info else 0.0
-        mp_buff = impart_info.impart_mp_per if impart_info else 0.0
-        atk_buff = impart_info.impart_atk_per if impart_info else 0.0
+        stats = CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
 
-        # 计算HP/MP（新公式）
-        hp, mp = self.combat_mgr.calculate_hp_mp(player.experience, hp_buff, mp_buff)
-
-        # 计算基础攻击力（新公式：exp^0.35）
-        base_atk = self.combat_mgr.calculate_base_atk(player.experience)
-
-        # 装备加成
-        equip_bonus = self._calculate_equipment_bonus(player)
-
-        # 突破攻击（物伤+法伤）
-        breakthrough_atk = player.physical_damage + player.magic_damage
-
-        # 最终ATK = 经验基数*(1+武器%) + 突破攻击 + 武器攻击
-        final_atk = int(base_atk * (1 + equip_bonus["atk_pct"] + atk_buff)) + breakthrough_atk + equip_bonus["atk"]
-
-        # 双层防御
-        # 第一层：经验基础防御（ln压缩）
-        base_def = math.log(player.experience + 1) * 10
-        # 第二层：突破防御 + 装备防御（防具+武器）
-        equip_def = (player.physical_defense + player.magic_defense) + equip_bonus["defense"]
-
-        # 更新Player对象
-        player.hp = hp
-        player.mp = mp
-        player.atk = final_atk
+        # 持久化更新后的 HP/MP/ATK
         await self.db.update_player(player)
 
-        # 会心率：装备 + 传承buff
-        crit_rate_buff = int((impart_info.impart_know_per if impart_info else 0) * 100)
-
-        return CombatStats(
-            user_id=user_id,
-            name=player.user_name if player.user_name else f"道友{user_id}",
-            hp=hp,
-            max_hp=hp,
-            mp=mp,
-            max_mp=mp,
-            atk=final_atk,
-            defense=equip_def,
-            base_def=base_def,
-            equip_def=equip_def,
-            crit_rate=crit_rate_buff + equip_bonus.get("crit_rate", 0),
-            exp=player.experience,
-            crit_damage=max(1.5, equip_bonus.get("crit_damage", 0)),
-            armor_pen=equip_bonus.get("armor_pen", 0),
-            lifesteal=equip_bonus.get("lifesteal", 0),
-            double_hit=equip_bonus.get("double_hit", 0),
-            dodge_rate=equip_bonus.get("dodge_rate", 0),
-            crit_resist=equip_bonus.get("crit_resist", 0),
-            reflect_pct=equip_bonus.get("reflect_pct", 0),
-            block_value=equip_bonus.get("block_value", 0),
-            hp_regen_pct=equip_bonus.get("hp_regen_pct", 0.0),
-        )
+        return stats
 
     async def handle_duel(self, event: AstrMessageEvent, target: str):
         """决斗 (消耗气血)"""

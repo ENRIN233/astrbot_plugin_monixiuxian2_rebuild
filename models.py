@@ -30,6 +30,9 @@ class Item:
 
     # 心法专属属性
     exp_multiplier: float = 0.0  # 修为倍率加成（仅心法有效）
+    breakthrough_bonus: float = 0.0  # 突破成功率加成（如 0.02 = +2%）
+    atk_bonus: int = 0  # 攻击力固定加成
+    hp_bonus: float = 0.0  # 生命值百分比加成（如 0.05 = +5%）
 
     def get_attribute_display(self) -> str:
         """获取属性加成的显示文本"""
@@ -46,6 +49,12 @@ class Item:
             attrs.append(f"精神力+{self.mental_power}")
         if self.exp_multiplier > 0:
             attrs.append(f"修为倍率+{self.exp_multiplier:.1%}")
+        if self.breakthrough_bonus > 0:
+            attrs.append(f"突破成功率+{self.breakthrough_bonus:.1%}")
+        if self.atk_bonus > 0:
+            attrs.append(f"攻击力+{self.atk_bonus}")
+        if self.hp_bonus > 0:
+            attrs.append(f"生命值+{self.hp_bonus:.1%}")
         return "、".join(attrs) if attrs else "无属性加成"
 
 @dataclass
@@ -230,6 +239,9 @@ class Player:
             "physical_defense": self.physical_defense,
             "mental_power": self.mental_power,
             "exp_multiplier": 0.0,  # 基础修为倍率为0，只来自心法
+            "breakthrough_bonus": 0.0,  # 突破成功率加成
+            "atk_bonus": 0,  # 攻击力加成
+            "hp_bonus": 0.0,  # 生命值加成
         }
 
         # 叠加装备属性
@@ -243,6 +255,9 @@ class Player:
             # 心法专属属性
             if item.item_type == "main_technique":
                 total["exp_multiplier"] += item.exp_multiplier
+                total["breakthrough_bonus"] += item.breakthrough_bonus
+                total["atk_bonus"] += item.atk_bonus
+                total["hp_bonus"] += item.hp_bonus
 
         # 应用丹药倍率效果
         if pill_multipliers:

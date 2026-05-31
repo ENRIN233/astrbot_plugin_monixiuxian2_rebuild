@@ -30,7 +30,14 @@ class BountyHandlers:
                 f"  - 奖励：{reward.get('stone', 0):,} 灵石 + {reward.get('exp', 0):,} 修为"
             )
             if tech:
-                line += f"\n  - 功法奖励：【{tech['rank']}】{tech['name']}（+{int(tech['exp_multiplier']*100-100)}%修炼）"
+                tech_desc = f"+{int(tech['exp_multiplier']*100-100)}%修炼"
+                if tech.get('breakthrough_bonus', 0) > 0:
+                    tech_desc += f" +{int(tech['breakthrough_bonus']*100)}%突破"
+                if tech.get('atk_bonus', 0) > 0:
+                    tech_desc += f" +{tech['atk_bonus']}攻"
+                if tech.get('hp_bonus', 0) > 0:
+                    tech_desc += f" +{int(tech['hp_bonus']*100)}%生命"
+                line += f"\n  - 功法奖励：【{tech['rank']}】{tech['name']}（{tech_desc}）"
             line += f"\n  - 说明：{b.get('description', '')}"
             lines.append(line)
         lines.append("━━━━━━━━━━━━━━━")

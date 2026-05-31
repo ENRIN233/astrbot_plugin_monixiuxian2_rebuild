@@ -760,10 +760,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.5）",
     "exp_multiplier": 1.06,
-    "price": 0,
+    "price": 800000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9001"
+    "_source_id": "9001",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5001": {
     "id": 5001,
@@ -773,10 +776,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.5）",
     "exp_multiplier": 1.07,
-    "price": 0,
+    "price": 850000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9002"
+    "_source_id": "9002",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5002": {
     "id": 5002,
@@ -786,10 +792,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.5）",
     "exp_multiplier": 1.06,
-    "price": 0,
+    "price": 800000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9003"
+    "_source_id": "9003",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5003": {
     "id": 5003,
@@ -799,10 +808,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.5）",
     "exp_multiplier": 1.09,
-    "price": 0,
+    "price": 950000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9004"
+    "_source_id": "9004",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5004": {
     "id": 5004,
@@ -812,10 +824,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.5）",
     "exp_multiplier": 1.09,
-    "price": 0,
+    "price": 950000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9005"
+    "_source_id": "9005",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5005": {
     "id": 5005,
@@ -825,10 +840,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.4）",
     "exp_multiplier": 1.09,
-    "price": 0,
+    "price": 950000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9011"
+    "_source_id": "9011",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5006": {
     "id": 5006,
@@ -838,10 +856,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.6）",
     "exp_multiplier": 1.06,
-    "price": 0,
+    "price": 800000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9012"
+    "_source_id": "9012",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5007": {
     "id": 5007,
@@ -851,10 +872,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.1）",
     "exp_multiplier": 1.08,
-    "price": 0,
+    "price": 900000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9013"
+    "_source_id": "9013",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5008": {
     "id": 5008,
@@ -864,10 +888,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.3）",
     "exp_multiplier": 1.07,
-    "price": 0,
+    "price": 850000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9014"
+    "_source_id": "9014",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5009": {
     "id": 5009,
@@ -877,10 +904,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.6）",
     "exp_multiplier": 1.06,
-    "price": 0,
+    "price": 800000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9100"
+    "_source_id": "9100",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5010": {
     "id": 5010,
@@ -890,10 +920,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.6）",
     "exp_multiplier": 1.06,
-    "price": 0,
+    "price": 800000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9099"
+    "_source_id": "9099",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5011": {
     "id": 5011,
@@ -903,10 +936,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.4）",
     "exp_multiplier": 1.06,
-    "price": 0,
+    "price": 800000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9102"
+    "_source_id": "9102",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5012": {
     "id": 5012,
@@ -916,10 +952,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.4）",
     "exp_multiplier": 1.09,
-    "price": 0,
+    "price": 950000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9103"
+    "_source_id": "9103",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5013": {
     "id": 5013,
@@ -929,10 +968,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.7）",
     "exp_multiplier": 1.09,
-    "price": 0,
+    "price": 950000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9104"
+    "_source_id": "9104",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5014": {
     "id": 5014,
@@ -942,10 +984,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.7）",
     "exp_multiplier": 1.05,
-    "price": 0,
+    "price": 750000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9201"
+    "_source_id": "9201",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5015": {
     "id": 5015,
@@ -955,10 +1000,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.75）",
     "exp_multiplier": 1.05,
-    "price": 0,
+    "price": 750000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9202"
+    "_source_id": "9202",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5016": {
     "id": 5016,
@@ -968,10 +1016,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.7）",
     "exp_multiplier": 1.08,
-    "price": 0,
+    "price": 900000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9203"
+    "_source_id": "9203",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5017": {
     "id": 5017,
@@ -981,10 +1032,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.7）",
     "exp_multiplier": 1.06,
-    "price": 0,
+    "price": 800000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9204"
+    "_source_id": "9204",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5018": {
     "id": 5018,
@@ -994,10 +1048,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.7）",
     "exp_multiplier": 1.07,
-    "price": 0,
+    "price": 850000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9301"
+    "_source_id": "9301",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5019": {
     "id": 5019,
@@ -1007,10 +1064,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.7）",
     "exp_multiplier": 1.08,
-    "price": 0,
+    "price": 900000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9302"
+    "_source_id": "9302",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5020": {
     "id": 5020,
@@ -1020,10 +1080,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.65）",
     "exp_multiplier": 1.08,
-    "price": 0,
+    "price": 900000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9303"
+    "_source_id": "9303",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5021": {
     "id": 5021,
@@ -1033,10 +1096,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.55）",
     "exp_multiplier": 1.06,
-    "price": 0,
+    "price": 800000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9304"
+    "_source_id": "9304",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5022": {
     "id": 5022,
@@ -1046,10 +1112,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.85）",
     "exp_multiplier": 1.08,
-    "price": 0,
+    "price": 900000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9400"
+    "_source_id": "9400",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5023": {
     "id": 5023,
@@ -1059,10 +1128,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.85）",
     "exp_multiplier": 1.08,
-    "price": 0,
+    "price": 900000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9401"
+    "_source_id": "9401",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5024": {
     "id": 5024,
@@ -1072,10 +1144,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.85）",
     "exp_multiplier": 1.07,
-    "price": 0,
+    "price": 850000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9402"
+    "_source_id": "9402",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5025": {
     "id": 5025,
@@ -1085,10 +1160,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.85）",
     "exp_multiplier": 1.08,
-    "price": 0,
+    "price": 900000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9403"
+    "_source_id": "9403",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5026": {
     "id": 5026,
@@ -1098,10 +1176,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.9）",
     "exp_multiplier": 1.06,
-    "price": 0,
+    "price": 800000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9404"
+    "_source_id": "9404",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5027": {
     "id": 5027,
@@ -1111,10 +1192,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.9）",
     "exp_multiplier": 1.07,
-    "price": 0,
+    "price": 850000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9500"
+    "_source_id": "9500",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5028": {
     "id": 5028,
@@ -1124,10 +1208,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.9）",
     "exp_multiplier": 1.1,
-    "price": 0,
+    "price": 1000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9501"
+    "_source_id": "9501",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5029": {
     "id": 5029,
@@ -1137,10 +1224,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.95）",
     "exp_multiplier": 1.09,
-    "price": 0,
+    "price": 950000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9502"
+    "_source_id": "9502",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5030": {
     "id": 5030,
@@ -1150,10 +1240,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.95, crit_buff=0.1）",
     "exp_multiplier": 1.08,
-    "price": 0,
+    "price": 900000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9503"
+    "_source_id": "9503",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5031": {
     "id": 5031,
@@ -1163,10 +1256,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1）",
     "exp_multiplier": 1.09,
-    "price": 0,
+    "price": 950000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9504"
+    "_source_id": "9504",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5032": {
     "id": 5032,
@@ -1176,10 +1272,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.95）",
     "exp_multiplier": 1.08,
-    "price": 0,
+    "price": 900000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9600"
+    "_source_id": "9600",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5033": {
     "id": 5033,
@@ -1189,10 +1288,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.95）",
     "exp_multiplier": 1.05,
-    "price": 0,
+    "price": 750000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9601"
+    "_source_id": "9601",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5034": {
     "id": 5034,
@@ -1202,10 +1304,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.95）",
     "exp_multiplier": 1.08,
-    "price": 0,
+    "price": 900000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9602"
+    "_source_id": "9602",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5035": {
     "id": 5035,
@@ -1215,10 +1320,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.95）",
     "exp_multiplier": 1.1,
-    "price": 0,
+    "price": 1000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9603"
+    "_source_id": "9603",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5036": {
     "id": 5036,
@@ -1228,10 +1336,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=0.95）",
     "exp_multiplier": 1.06,
-    "price": 0,
+    "price": 800000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9604"
+    "_source_id": "9604",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5037": {
     "id": 5037,
@@ -1241,10 +1352,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.2）",
     "exp_multiplier": 1.07,
-    "price": 0,
+    "price": 850000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9700"
+    "_source_id": "9700",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5038": {
     "id": 5038,
@@ -1254,10 +1368,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.1）",
     "exp_multiplier": 1.09,
-    "price": 0,
+    "price": 950000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9701"
+    "_source_id": "9701",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5039": {
     "id": 5039,
@@ -1267,10 +1384,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.1）",
     "exp_multiplier": 1.07,
-    "price": 0,
+    "price": 850000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9702"
+    "_source_id": "9702",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5040": {
     "id": 5040,
@@ -1280,10 +1400,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.1）",
     "exp_multiplier": 1.07,
-    "price": 0,
+    "price": 850000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9703"
+    "_source_id": "9703",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5041": {
     "id": 5041,
@@ -1293,10 +1416,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.15）",
     "exp_multiplier": 1.06,
-    "price": 0,
+    "price": 800000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9704"
+    "_source_id": "9704",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5042": {
     "id": 5042,
@@ -1306,10 +1432,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.2）",
     "exp_multiplier": 1.09,
-    "price": 0,
+    "price": 950000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9800"
+    "_source_id": "9800",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5043": {
     "id": 5043,
@@ -1319,10 +1448,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.2）",
     "exp_multiplier": 1.09,
-    "price": 0,
+    "price": 950000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9900"
+    "_source_id": "9900",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5044": {
     "id": 5044,
@@ -1332,10 +1464,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.3）",
     "exp_multiplier": 1.06,
-    "price": 0,
+    "price": 800000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9801"
+    "_source_id": "9801",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5045": {
     "id": 5045,
@@ -1345,10 +1480,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.2）",
     "exp_multiplier": 1.07,
-    "price": 0,
+    "price": 850000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9802"
+    "_source_id": "9802",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5046": {
     "id": 5046,
@@ -1358,10 +1496,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.3）",
     "exp_multiplier": 1.1,
-    "price": 0,
+    "price": 1000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9803"
+    "_source_id": "9803",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5047": {
     "id": 5047,
@@ -1371,10 +1512,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.3）",
     "exp_multiplier": 1.05,
-    "price": 0,
+    "price": 750000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9804"
+    "_source_id": "9804",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5048": {
     "id": 5048,
@@ -1384,10 +1528,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.4）",
     "exp_multiplier": 1.06,
-    "price": 0,
+    "price": 800000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9901"
+    "_source_id": "9901",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5049": {
     "id": 5049,
@@ -1397,10 +1544,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.5, two_buff=2）",
     "exp_multiplier": 1.07,
-    "price": 0,
+    "price": 850000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9903"
+    "_source_id": "9903",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5050": {
     "id": 5050,
@@ -1410,10 +1560,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.5, two_buff=2）",
     "exp_multiplier": 1.06,
-    "price": 0,
+    "price": 800000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9902"
+    "_source_id": "9902",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5051": {
     "id": 5051,
@@ -1423,10 +1576,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.5, crit_buff=0.15, def_buff=0.15, two_buff=2）",
     "exp_multiplier": 1.08,
-    "price": 0,
+    "price": 900000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9910"
+    "_source_id": "9910",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5052": {
     "id": 5052,
@@ -1436,10 +1592,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.5, crit_buff=0.2, critatk=0.3, two_buff=2）",
     "exp_multiplier": 1.09,
-    "price": 0,
+    "price": 950000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9911"
+    "_source_id": "9911",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5053": {
     "id": 5053,
@@ -1449,10 +1608,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.6, crit_buff=0.15, def_buff=0.1, critatk=0.2, two_buff=3）",
     "exp_multiplier": 1.1,
-    "price": 0,
+    "price": 1000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9913"
+    "_source_id": "9913",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5054": {
     "id": 5054,
@@ -1462,10 +1624,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.65, crit_buff=0.1, reap_buff=1, critatk=0.25, two_buff=3）",
     "exp_multiplier": 1.09,
-    "price": 0,
+    "price": 950000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9914"
+    "_source_id": "9914",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5055": {
     "id": 5055,
@@ -1478,7 +1643,10 @@
     "price": 100000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9915"
+    "_source_id": "9915",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5056": {
     "id": 5056,
@@ -1491,7 +1659,10 @@
     "price": 100000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9916"
+    "_source_id": "9916",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5057": {
     "id": 5057,
@@ -1501,10 +1672,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.7, crit_buff=0.1, def_buff=0.28, critatk=0.35, two_buff=3）",
     "exp_multiplier": 1.06,
-    "price": 0,
+    "price": 800000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9917"
+    "_source_id": "9917",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5058": {
     "id": 5058,
@@ -1514,10 +1688,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.85, def_buff=0.1, reap_buff=5, two_buff=5）",
     "exp_multiplier": 1.07,
-    "price": 0,
+    "price": 850000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9920"
+    "_source_id": "9920",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5059": {
     "id": 5059,
@@ -1527,10 +1704,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.8, crit_buff=0.4, reap_buff=1, critatk=0.2, two_buff=5）",
     "exp_multiplier": 1.08,
-    "price": 0,
+    "price": 900000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9921"
+    "_source_id": "9921",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5060": {
     "id": 5060,
@@ -1543,7 +1723,10 @@
     "price": 100000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9922"
+    "_source_id": "9922",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5061": {
     "id": 5061,
@@ -1556,7 +1739,10 @@
     "price": 100000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9923"
+    "_source_id": "9923",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5062": {
     "id": 5062,
@@ -1566,10 +1752,13 @@
     "required_level_index": 0,
     "description": "（原效果: ratebuff=1.9, crit_buff=0.2, def_buff=0.1, critatk=0.3, two_buff=5）",
     "exp_multiplier": 1.09,
-    "price": 0,
+    "price": 950000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9924"
+    "_source_id": "9924",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5063": {
     "id": 5063,
@@ -1582,7 +1771,10 @@
     "price": 1342105,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9925"
+    "_source_id": "9925",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5064": {
     "id": 5064,
@@ -1595,7 +1787,10 @@
     "price": 1394736,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9926"
+    "_source_id": "9926",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5065": {
     "id": 5065,
@@ -1608,7 +1803,10 @@
     "price": 1500000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9930"
+    "_source_id": "9930",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5066": {
     "id": 5066,
@@ -1621,7 +1819,10 @@
     "price": 32241379,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9931"
+    "_source_id": "9931",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5067": {
     "id": 5067,
@@ -1634,7 +1835,10 @@
     "price": 1447368,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9932"
+    "_source_id": "9932",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5068": {
     "id": 5068,
@@ -1647,7 +1851,10 @@
     "price": 100000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9933"
+    "_source_id": "9933",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5069": {
     "id": 5069,
@@ -1660,7 +1867,10 @@
     "price": 100000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9934"
+    "_source_id": "9934",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5070": {
     "id": 5070,
@@ -1673,7 +1883,10 @@
     "price": 2833333,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15355"
+    "_source_id": "15355",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5071": {
     "id": 5071,
@@ -1686,7 +1899,10 @@
     "price": 100000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15356"
+    "_source_id": "15356",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5072": {
     "id": 5072,
@@ -1699,7 +1915,10 @@
     "price": 100000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15359"
+    "_source_id": "15359",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5073": {
     "id": 5073,
@@ -1712,7 +1931,10 @@
     "price": 100000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15550"
+    "_source_id": "15550",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5074": {
     "id": 5074,
@@ -1725,7 +1947,10 @@
     "price": 100000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15551"
+    "_source_id": "15551",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5075": {
     "id": 5075,
@@ -1738,7 +1963,10 @@
     "price": 100000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15552"
+    "_source_id": "15552",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5076": {
     "id": 5076,
@@ -1751,7 +1979,10 @@
     "price": 100000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15553"
+    "_source_id": "15553",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5077": {
     "id": 5077,
@@ -1764,7 +1995,10 @@
     "price": 100000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15554"
+    "_source_id": "15554",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5078": {
     "id": 5078,
@@ -1777,7 +2011,10 @@
     "price": 100000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15555"
+    "_source_id": "15555",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5079": {
     "id": 5079,
@@ -1790,7 +2027,10 @@
     "price": 100000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15556"
+    "_source_id": "15556",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5080": {
     "id": 5080,
@@ -1803,7 +2043,10 @@
     "price": 1500000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15557"
+    "_source_id": "15557",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5081": {
     "id": 5081,
@@ -1816,7 +2059,10 @@
     "price": 1500000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15558"
+    "_source_id": "15558",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5082": {
     "id": 5082,
@@ -1829,7 +2075,10 @@
     "price": 1500000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15559"
+    "_source_id": "15559",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5083": {
     "id": 5083,
@@ -1842,7 +2091,10 @@
     "price": 1500000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15560"
+    "_source_id": "15560",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5084": {
     "id": 5084,
@@ -1855,7 +2107,10 @@
     "price": 1500000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15358"
+    "_source_id": "15358",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5085": {
     "id": 5085,
@@ -1868,7 +2123,10 @@
     "price": 5833333,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9935"
+    "_source_id": "9935",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5086": {
     "id": 5086,
@@ -1881,7 +2139,10 @@
     "price": 6250000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9938"
+    "_source_id": "9938",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5087": {
     "id": 5087,
@@ -1894,7 +2155,10 @@
     "price": 1500000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9928"
+    "_source_id": "9928",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5088": {
     "id": 5088,
@@ -1907,7 +2171,10 @@
     "price": 33103448,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9936"
+    "_source_id": "9936",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5089": {
     "id": 5089,
@@ -1920,7 +2187,10 @@
     "price": 33965517,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9937"
+    "_source_id": "9937",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5090": {
     "id": 5090,
@@ -1933,7 +2203,10 @@
     "price": 34827586,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "9927"
+    "_source_id": "9927",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5091": {
     "id": 5091,
@@ -1946,7 +2219,10 @@
     "price": 35689655,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30501"
+    "_source_id": "30501",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5092": {
     "id": 5092,
@@ -1959,7 +2235,10 @@
     "price": 36551724,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30502"
+    "_source_id": "30502",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5093": {
     "id": 5093,
@@ -1972,7 +2251,10 @@
     "price": 37413793,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30503"
+    "_source_id": "30503",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5094": {
     "id": 5094,
@@ -1985,7 +2267,10 @@
     "price": 38275862,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30504"
+    "_source_id": "30504",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5095": {
     "id": 5095,
@@ -1998,7 +2283,10 @@
     "price": 39137931,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30505"
+    "_source_id": "30505",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5096": {
     "id": 5096,
@@ -2011,7 +2299,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15357"
+    "_source_id": "15357",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5097": {
     "id": 5097,
@@ -2024,7 +2315,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30601"
+    "_source_id": "30601",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5098": {
     "id": 5098,
@@ -2037,7 +2331,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30602"
+    "_source_id": "30602",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5099": {
     "id": 5099,
@@ -2050,7 +2347,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "15561"
+    "_source_id": "15561",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5100": {
     "id": 5100,
@@ -2063,7 +2363,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30603"
+    "_source_id": "30603",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5101": {
     "id": 5101,
@@ -2076,7 +2379,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30604"
+    "_source_id": "30604",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5102": {
     "id": 5102,
@@ -2089,7 +2395,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30605"
+    "_source_id": "30605",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5103": {
     "id": 5103,
@@ -2102,7 +2411,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30641"
+    "_source_id": "30641",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5104": {
     "id": 5104,
@@ -2115,7 +2427,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30642"
+    "_source_id": "30642",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5105": {
     "id": 5105,
@@ -2128,7 +2443,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30608"
+    "_source_id": "30608",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5106": {
     "id": 5106,
@@ -2141,7 +2459,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30643"
+    "_source_id": "30643",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5107": {
     "id": 5107,
@@ -2154,7 +2475,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30644"
+    "_source_id": "30644",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5108": {
     "id": 5108,
@@ -2167,7 +2491,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30645"
+    "_source_id": "30645",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5109": {
     "id": 5109,
@@ -2180,7 +2507,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30646"
+    "_source_id": "30646",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5110": {
     "id": 5110,
@@ -2193,7 +2523,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30647"
+    "_source_id": "30647",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5111": {
     "id": 5111,
@@ -2203,10 +2536,13 @@
     "required_level_index": 0,
     "description": "（原效果: two_buff=9999999）",
     "exp_multiplier": 1.08,
-    "price": 0,
+    "price": 900000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "88888"
+    "_source_id": "88888",
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 50,
+    "hp_bonus": 0.05
   },
   "5112": {
     "id": 5112,
@@ -2219,7 +2555,10 @@
     "price": 500000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "88899"
+    "_source_id": "88899",
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 80,
+    "hp_bonus": 0.08
   },
   "5113": {
     "id": 5113,
@@ -2232,7 +2571,10 @@
     "price": 6666666,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "901001"
+    "_source_id": "901001",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5114": {
     "id": 5114,
@@ -2245,7 +2587,10 @@
     "price": 7083333,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "901011"
+    "_source_id": "901011",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5115": {
     "id": 5115,
@@ -2258,7 +2603,10 @@
     "price": 3000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30701"
+    "_source_id": "30701",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5116": {
     "id": 5116,
@@ -2271,7 +2619,10 @@
     "price": 3166666,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30702"
+    "_source_id": "30702",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5117": {
     "id": 5117,
@@ -2284,7 +2635,10 @@
     "price": 7500000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30703"
+    "_source_id": "30703",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5118": {
     "id": 5118,
@@ -2297,7 +2651,10 @@
     "price": 3333333,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30704"
+    "_source_id": "30704",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5119": {
     "id": 5119,
@@ -2310,7 +2667,10 @@
     "price": 7916666,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30705"
+    "_source_id": "30705",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5120": {
     "id": 5120,
@@ -2323,7 +2683,10 @@
     "price": 1500000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30706"
+    "_source_id": "30706",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5121": {
     "id": 5121,
@@ -2336,7 +2699,10 @@
     "price": 1500000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "30707"
+    "_source_id": "30707",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5122": {
     "id": 5122,
@@ -2349,7 +2715,10 @@
     "price": 3500000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930001"
+    "_source_id": "930001",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5123": {
     "id": 5123,
@@ -2362,7 +2731,10 @@
     "price": 8333333,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930002"
+    "_source_id": "930002",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5124": {
     "id": 5124,
@@ -2375,7 +2747,10 @@
     "price": 8750000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930003"
+    "_source_id": "930003",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5125": {
     "id": 5125,
@@ -2388,7 +2763,10 @@
     "price": 3666666,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930004"
+    "_source_id": "930004",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5126": {
     "id": 5126,
@@ -2401,7 +2779,10 @@
     "price": 3833333,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930005"
+    "_source_id": "930005",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5127": {
     "id": 5127,
@@ -2414,7 +2795,10 @@
     "price": 4000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930006"
+    "_source_id": "930006",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5128": {
     "id": 5128,
@@ -2427,7 +2811,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930007"
+    "_source_id": "930007",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5129": {
     "id": 5129,
@@ -2440,7 +2827,10 @@
     "price": 4166666,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930008"
+    "_source_id": "930008",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5130": {
     "id": 5130,
@@ -2453,7 +2843,10 @@
     "price": 4333333,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930010"
+    "_source_id": "930010",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5131": {
     "id": 5131,
@@ -2466,7 +2859,10 @@
     "price": 4500000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930011"
+    "_source_id": "930011",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5132": {
     "id": 5132,
@@ -2479,7 +2875,10 @@
     "price": 4666666,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930012"
+    "_source_id": "930012",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5133": {
     "id": 5133,
@@ -2492,7 +2891,10 @@
     "price": 9166666,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930013"
+    "_source_id": "930013",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5134": {
     "id": 5134,
@@ -2505,7 +2907,10 @@
     "price": 9583333,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930014"
+    "_source_id": "930014",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5135": {
     "id": 5135,
@@ -2518,7 +2923,10 @@
     "price": 4833333,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930015"
+    "_source_id": "930015",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5136": {
     "id": 5136,
@@ -2531,7 +2939,10 @@
     "price": 5000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930016"
+    "_source_id": "930016",
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 120,
+    "hp_bonus": 0.12
   },
   "5137": {
     "id": 5137,
@@ -2544,7 +2955,10 @@
     "price": 5000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930017"
+    "_source_id": "930017",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5138": {
     "id": 5138,
@@ -2557,7 +2971,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930018"
+    "_source_id": "930018",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5139": {
     "id": 5139,
@@ -2570,7 +2987,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930019"
+    "_source_id": "930019",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5140": {
     "id": 5140,
@@ -2583,7 +3003,10 @@
     "price": 5000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930020"
+    "_source_id": "930020",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5141": {
     "id": 5141,
@@ -2596,7 +3019,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930021"
+    "_source_id": "930021",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5142": {
     "id": 5142,
@@ -2609,7 +3035,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930022"
+    "_source_id": "930022",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5143": {
     "id": 5143,
@@ -2622,7 +3051,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930023"
+    "_source_id": "930023",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5144": {
     "id": 5144,
@@ -2635,7 +3067,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930024"
+    "_source_id": "930024",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5145": {
     "id": 5145,
@@ -2648,7 +3083,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930025"
+    "_source_id": "930025",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5146": {
     "id": 5146,
@@ -2661,7 +3099,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930026"
+    "_source_id": "930026",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5147": {
     "id": 5147,
@@ -2674,7 +3115,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930027"
+    "_source_id": "930027",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5148": {
     "id": 5148,
@@ -2687,7 +3131,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930028"
+    "_source_id": "930028",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5149": {
     "id": 5149,
@@ -2700,7 +3147,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930029"
+    "_source_id": "930029",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5150": {
     "id": 5150,
@@ -2713,7 +3163,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930030"
+    "_source_id": "930030",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5151": {
     "id": 5151,
@@ -2726,7 +3179,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930031"
+    "_source_id": "930031",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5152": {
     "id": 5152,
@@ -2739,7 +3195,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930032"
+    "_source_id": "930032",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5153": {
     "id": 5153,
@@ -2752,7 +3211,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930033"
+    "_source_id": "930033",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5154": {
     "id": 5154,
@@ -2765,7 +3227,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930034"
+    "_source_id": "930034",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5155": {
     "id": 5155,
@@ -2778,7 +3243,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930035"
+    "_source_id": "930035",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5156": {
     "id": 5156,
@@ -2791,7 +3259,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930036"
+    "_source_id": "930036",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5157": {
     "id": 5157,
@@ -2804,7 +3275,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930037"
+    "_source_id": "930037",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5158": {
     "id": 5158,
@@ -2817,7 +3291,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930038"
+    "_source_id": "930038",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5159": {
     "id": 5159,
@@ -2830,7 +3307,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930039"
+    "_source_id": "930039",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5160": {
     "id": 5160,
@@ -2843,7 +3323,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930040"
+    "_source_id": "930040",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5161": {
     "id": 5161,
@@ -2856,7 +3339,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930041"
+    "_source_id": "930041",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5162": {
     "id": 5162,
@@ -2869,7 +3355,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930042"
+    "_source_id": "930042",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5163": {
     "id": 5163,
@@ -2882,7 +3371,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930043"
+    "_source_id": "930043",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5164": {
     "id": 5164,
@@ -2895,7 +3387,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930044"
+    "_source_id": "930044",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5165": {
     "id": 5165,
@@ -2908,7 +3403,10 @@
     "price": 10416666,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930045"
+    "_source_id": "930045",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5166": {
     "id": 5166,
@@ -2921,7 +3419,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930046"
+    "_source_id": "930046",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5167": {
     "id": 5167,
@@ -2934,7 +3435,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930047"
+    "_source_id": "930047",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5168": {
     "id": 5168,
@@ -2947,7 +3451,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930048"
+    "_source_id": "930048",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5169": {
     "id": 5169,
@@ -2960,7 +3467,10 @@
     "price": 10833333,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930049"
+    "_source_id": "930049",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5170": {
     "id": 5170,
@@ -2973,7 +3483,10 @@
     "price": 11250000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930050"
+    "_source_id": "930050",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5171": {
     "id": 5171,
@@ -2986,7 +3499,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930051"
+    "_source_id": "930051",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5172": {
     "id": 5172,
@@ -2999,7 +3515,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930052"
+    "_source_id": "930052",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5173": {
     "id": 5173,
@@ -3012,7 +3531,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930053"
+    "_source_id": "930053",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5174": {
     "id": 5174,
@@ -3025,7 +3547,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930054"
+    "_source_id": "930054",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5175": {
     "id": 5175,
@@ -3038,7 +3563,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930055"
+    "_source_id": "930055",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5176": {
     "id": 5176,
@@ -3051,7 +3579,10 @@
     "price": 98125000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930056"
+    "_source_id": "930056",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5177": {
     "id": 5177,
@@ -3064,7 +3595,10 @@
     "price": 11666666,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930057"
+    "_source_id": "930057",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5178": {
     "id": 5178,
@@ -3077,7 +3611,10 @@
     "price": 100000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930058"
+    "_source_id": "930058",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5179": {
     "id": 5179,
@@ -3090,7 +3627,10 @@
     "price": 12083333,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930059"
+    "_source_id": "930059",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5180": {
     "id": 5180,
@@ -3103,7 +3643,10 @@
     "price": 100000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930060"
+    "_source_id": "930060",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5181": {
     "id": 5181,
@@ -3116,7 +3659,10 @@
     "price": 100000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930061"
+    "_source_id": "930061",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5182": {
     "id": 5182,
@@ -3129,7 +3675,10 @@
     "price": 100000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930062"
+    "_source_id": "930062",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5183": {
     "id": 5183,
@@ -3142,7 +3691,10 @@
     "price": 12500000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930063"
+    "_source_id": "930063",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5184": {
     "id": 5184,
@@ -3155,7 +3707,10 @@
     "price": 12916666,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930064"
+    "_source_id": "930064",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5185": {
     "id": 5185,
@@ -3168,7 +3723,10 @@
     "price": 100000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930065"
+    "_source_id": "930065",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5186": {
     "id": 5186,
@@ -3181,7 +3739,10 @@
     "price": 100000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930066"
+    "_source_id": "930066",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5187": {
     "id": 5187,
@@ -3194,7 +3755,10 @@
     "price": 13333333,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930067"
+    "_source_id": "930067",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5188": {
     "id": 5188,
@@ -3207,7 +3771,10 @@
     "price": 13750000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930068"
+    "_source_id": "930068",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5189": {
     "id": 5189,
@@ -3220,7 +3787,10 @@
     "price": 100000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930069"
+    "_source_id": "930069",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5190": {
     "id": 5190,
@@ -3233,7 +3803,10 @@
     "price": 100000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930070"
+    "_source_id": "930070",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5191": {
     "id": 5191,
@@ -3246,7 +3819,10 @@
     "price": 100000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930071"
+    "_source_id": "930071",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5192": {
     "id": 5192,
@@ -3259,7 +3835,10 @@
     "price": 100000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930072"
+    "_source_id": "930072",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5193": {
     "id": 5193,
@@ -3272,7 +3851,10 @@
     "price": 14166666,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930073"
+    "_source_id": "930073",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5194": {
     "id": 5194,
@@ -3285,7 +3867,10 @@
     "price": 100000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930074"
+    "_source_id": "930074",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5195": {
     "id": 5195,
@@ -3298,7 +3883,10 @@
     "price": 14583333,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930075"
+    "_source_id": "930075",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5196": {
     "id": 5196,
@@ -3311,7 +3899,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930076"
+    "_source_id": "930076",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5197": {
     "id": 5197,
@@ -3324,7 +3915,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930077"
+    "_source_id": "930077",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5198": {
     "id": 5198,
@@ -3337,7 +3931,10 @@
     "price": 100000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930078"
+    "_source_id": "930078",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5199": {
     "id": 5199,
@@ -3350,7 +3947,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930079"
+    "_source_id": "930079",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5200": {
     "id": 5200,
@@ -3363,7 +3963,10 @@
     "price": 100000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930080"
+    "_source_id": "930080",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5201": {
     "id": 5201,
@@ -3376,7 +3979,10 @@
     "price": 100000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930081"
+    "_source_id": "930081",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5202": {
     "id": 5202,
@@ -3389,7 +3995,10 @@
     "price": 188636363,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930082"
+    "_source_id": "930082",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5203": {
     "id": 5203,
@@ -3402,7 +4011,10 @@
     "price": 195454545,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930083"
+    "_source_id": "930083",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5204": {
     "id": 5204,
@@ -3415,7 +4027,10 @@
     "price": 15000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930084"
+    "_source_id": "930084",
+    "breakthrough_bonus": 0.08,
+    "atk_bonus": 180,
+    "hp_bonus": 0.16
   },
   "5205": {
     "id": 5205,
@@ -3428,7 +4043,10 @@
     "price": 202272727,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930085"
+    "_source_id": "930085",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5206": {
     "id": 5206,
@@ -3441,7 +4059,10 @@
     "price": 209090909,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930086"
+    "_source_id": "930086",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5207": {
     "id": 5207,
@@ -3454,7 +4075,10 @@
     "price": 215909090,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930087"
+    "_source_id": "930087",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5208": {
     "id": 5208,
@@ -3467,7 +4091,10 @@
     "price": 222727272,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930088"
+    "_source_id": "930088",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5209": {
     "id": 5209,
@@ -3480,7 +4107,10 @@
     "price": 229545454,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930089"
+    "_source_id": "930089",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5210": {
     "id": 5210,
@@ -3493,7 +4123,10 @@
     "price": 236363636,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930090"
+    "_source_id": "930090",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5211": {
     "id": 5211,
@@ -3506,7 +4139,10 @@
     "price": 243181818,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930091"
+    "_source_id": "930091",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5212": {
     "id": 5212,
@@ -3519,7 +4155,10 @@
     "price": 250000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930092"
+    "_source_id": "930092",
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 550,
+    "hp_bonus": 0.3
   },
   "5213": {
     "id": 5213,
@@ -3532,7 +4171,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930093"
+    "_source_id": "930093",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5214": {
     "id": 5214,
@@ -3545,7 +4187,10 @@
     "price": 200000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930094"
+    "_source_id": "930094",
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 700,
+    "hp_bonus": 0.35
   },
   "5215": {
     "id": 5215,
@@ -3558,7 +4203,10 @@
     "price": 200000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930095"
+    "_source_id": "930095",
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 700,
+    "hp_bonus": 0.35
   },
   "5216": {
     "id": 5216,
@@ -3571,7 +4219,10 @@
     "price": 200000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930096"
+    "_source_id": "930096",
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 700,
+    "hp_bonus": 0.35
   },
   "5217": {
     "id": 5217,
@@ -3584,7 +4235,10 @@
     "price": 200000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930097"
+    "_source_id": "930097",
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 700,
+    "hp_bonus": 0.35
   },
   "5218": {
     "id": 5218,
@@ -3597,7 +4251,10 @@
     "price": 200000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930098"
+    "_source_id": "930098",
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 700,
+    "hp_bonus": 0.35
   },
   "5219": {
     "id": 5219,
@@ -3610,7 +4267,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930099"
+    "_source_id": "930099",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5220": {
     "id": 5220,
@@ -3623,7 +4283,10 @@
     "price": 200000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930100"
+    "_source_id": "930100",
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 700,
+    "hp_bonus": 0.35
   },
   "5221": {
     "id": 5221,
@@ -3636,7 +4299,10 @@
     "price": 200000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930101"
+    "_source_id": "930101",
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 700,
+    "hp_bonus": 0.35
   },
   "5222": {
     "id": 5222,
@@ -3649,7 +4315,10 @@
     "price": 200000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930102"
+    "_source_id": "930102",
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 700,
+    "hp_bonus": 0.35
   },
   "5223": {
     "id": 5223,
@@ -3662,7 +4331,10 @@
     "price": 200000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930103"
+    "_source_id": "930103",
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 700,
+    "hp_bonus": 0.35
   },
   "5224": {
     "id": 5224,
@@ -3675,7 +4347,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930104"
+    "_source_id": "930104",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5225": {
     "id": 5225,
@@ -3688,7 +4363,10 @@
     "price": 200000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930105"
+    "_source_id": "930105",
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 700,
+    "hp_bonus": 0.35
   },
   "5226": {
     "id": 5226,
@@ -3701,7 +4379,10 @@
     "price": 200000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930106"
+    "_source_id": "930106",
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 700,
+    "hp_bonus": 0.35
   },
   "5227": {
     "id": 5227,
@@ -3714,7 +4395,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930107"
+    "_source_id": "930107",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5228": {
     "id": 5228,
@@ -3727,7 +4411,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930108"
+    "_source_id": "930108",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5229": {
     "id": 5229,
@@ -3740,7 +4427,10 @@
     "price": 200000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930109"
+    "_source_id": "930109",
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 700,
+    "hp_bonus": 0.35
   },
   "5230": {
     "id": 5230,
@@ -3753,7 +4443,10 @@
     "price": 200000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930110"
+    "_source_id": "930110",
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 700,
+    "hp_bonus": 0.35
   },
   "5231": {
     "id": 5231,
@@ -3766,7 +4459,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930111"
+    "_source_id": "930111",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5232": {
     "id": 5232,
@@ -3779,7 +4475,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930112"
+    "_source_id": "930112",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5233": {
     "id": 5233,
@@ -3792,7 +4491,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930113"
+    "_source_id": "930113",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5234": {
     "id": 5234,
@@ -3805,7 +4507,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930114"
+    "_source_id": "930114",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5235": {
     "id": 5235,
@@ -3818,7 +4523,10 @@
     "price": 200000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930115"
+    "_source_id": "930115",
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 700,
+    "hp_bonus": 0.35
   },
   "5236": {
     "id": 5236,
@@ -3831,7 +4539,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930116"
+    "_source_id": "930116",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5237": {
     "id": 5237,
@@ -3844,7 +4555,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930117"
+    "_source_id": "930117",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5238": {
     "id": 5238,
@@ -3857,7 +4571,10 @@
     "price": 200000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930118"
+    "_source_id": "930118",
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 700,
+    "hp_bonus": 0.35
   },
   "5239": {
     "id": 5239,
@@ -3870,7 +4587,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930119"
+    "_source_id": "930119",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5240": {
     "id": 5240,
@@ -3883,7 +4603,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930120"
+    "_source_id": "930120",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5241": {
     "id": 5241,
@@ -3896,7 +4619,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930121"
+    "_source_id": "930121",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5242": {
     "id": 5242,
@@ -3909,7 +4635,10 @@
     "price": 40000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930122"
+    "_source_id": "930122",
+    "breakthrough_bonus": 0.12,
+    "atk_bonus": 400,
+    "hp_bonus": 0.25
   },
   "5243": {
     "id": 5243,
@@ -3922,7 +4651,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930123"
+    "_source_id": "930123",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5244": {
     "id": 5244,
@@ -3935,7 +4667,10 @@
     "price": 10000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930124"
+    "_source_id": "930124",
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 270,
+    "hp_bonus": 0.2
   },
   "5245": {
     "id": 5245,
@@ -3948,7 +4683,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930125"
+    "_source_id": "930125",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5246": {
     "id": 5246,
@@ -3961,7 +4699,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930126"
+    "_source_id": "930126",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5247": {
     "id": 5247,
@@ -3974,7 +4715,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930127"
+    "_source_id": "930127",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5248": {
     "id": 5248,
@@ -3987,7 +4731,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930128"
+    "_source_id": "930128",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5249": {
     "id": 5249,
@@ -4000,7 +4747,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930129"
+    "_source_id": "930129",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5250": {
     "id": 5250,
@@ -4013,7 +4763,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930130"
+    "_source_id": "930130",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5251": {
     "id": 5251,
@@ -4026,7 +4779,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930131"
+    "_source_id": "930131",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5252": {
     "id": 5252,
@@ -4039,7 +4795,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930132"
+    "_source_id": "930132",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5253": {
     "id": 5253,
@@ -4052,7 +4811,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930133"
+    "_source_id": "930133",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5254": {
     "id": 5254,
@@ -4065,7 +4827,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930134"
+    "_source_id": "930134",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5255": {
     "id": 5255,
@@ -4078,7 +4843,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930135"
+    "_source_id": "930135",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5256": {
     "id": 5256,
@@ -4091,7 +4859,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930136"
+    "_source_id": "930136",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "5257": {
     "id": 5257,
@@ -4104,7 +4875,10 @@
     "price": 500000000,
     "shop_weight": 500,
     "_source": "nonebot",
-    "_source_id": "930137"
+    "_source_id": "930137",
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 800,
+    "hp_bonus": 0.4
   },
   "6000": {
     "id": 6000,

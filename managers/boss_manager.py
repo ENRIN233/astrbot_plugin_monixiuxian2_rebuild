@@ -10,7 +10,7 @@ from typing import Tuple, Dict, Optional, List, TYPE_CHECKING
 from ..data.data_manager import DataBase
 from ..models_extended import Boss, UserStatus
 from ..models import Player
-from .combat_manager import CombatManager, CombatStats, load_equipment_bonus
+from .combat_manager import CombatManager, CombatStats
 
 if TYPE_CHECKING:
     from ..core import StorageRingManager
@@ -171,64 +171,20 @@ ATK：{atk}
             return False, "❌ 你当前正忙，无法挑战Boss！", None
         
         # 4. 计算玩家战斗属性
-        # 获取buff加成
         impart_info = await self.db.ext.get_impart_info(user_id)
-        hp_buff = impart_info.impart_hp_per if impart_info else 0.0
-        mp_buff = impart_info.impart_mp_per if impart_info else 0.0
-        atk_buff = impart_info.impart_atk_per if impart_info else 0.0
-        crit_rate_buff = impart_info.impart_know_per if impart_info else 0.0
-        
-        # 计算HP/MP/ATK
+
+        # 如果没有初始化战斗属性，先计算并持久化
         if player.hp == 0 or player.mp == 0:
-            # 如果没有初始化战斗属性，先计算
-            hp, mp = self.combat_mgr.calculate_hp_mp(player.experience, hp_buff, mp_buff)
-            base_atk = self.combat_mgr.calculate_base_atk(player.experience)
-            breakthrough_atk = player.physical_damage + player.magic_damage
-            equip = load_equipment_bonus(player, self.config_manager)
-            atk = int(base_atk * (1 + equip.get("atk_pct", 0) + atk_buff)) + breakthrough_atk + equip.get("atk", 0)
-            player.hp = hp
-            player.mp = mp
-            player.atk = atk
+            player_stats = CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
             await self.db.update_player(player)
         else:
-            # 使用现有属性
-            hp = player.hp
-            mp = player.mp
-            atk = player.atk
-        
-        # 创建玩家战斗属性（含装备加成）
-        import math
-        equip = load_equipment_bonus(player, self.config_manager)
-        sq = math.sqrt(max(0, player.experience))
-        base_def = math.log(player.experience + 1) * 10
-        breakthrough_def = player.physical_defense + player.magic_defense
-        equip_def_total = breakthrough_def + equip["defense"]
+            # 使用现有属性，仅构建 CombatStats
+            player_stats = CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
+            player_stats.hp = player.hp
+            player_stats.mp = player.mp
 
-        player_stats = CombatStats(
-            user_id=user_id,
-            name=player.user_name if player.user_name else f"道友{user_id[:6]}",
-            hp=hp,
-            max_hp=max(200, int(max(0, player.experience) ** 0.50 * 2 * (1 + hp_buff)) + 200),
-            mp=mp,
-            max_mp=max(10, int(max(0, player.experience) ** 0.50 * 1 * (1 + mp_buff))),
-            atk=atk,
-            defense=equip_def_total,
-            base_def=base_def,
-            equip_def=equip_def_total,
-            crit_rate=int(crit_rate_buff * 100) + equip.get("crit_rate", 0),
-            exp=player.experience,
-            crit_damage=max(1.5, equip.get("crit_damage", 0)),
-            armor_pen=equip.get("armor_pen", 0),
-            lifesteal=equip.get("lifesteal", 0),
-            double_hit=equip.get("double_hit", 0),
-            dodge_rate=equip.get("dodge_rate", 0),
-            crit_resist=equip.get("crit_resist", 0),
-            reflect_pct=equip.get("reflect_pct", 0),
-            block_value=equip.get("block_value", 0),
-            hp_regen_pct=equip.get("hp_regen_pct", 0.0),
-        )
-        
         # 创建Boss战斗属性
+        boss_equip_def = CombatManager.convert_legacy_defense(boss.defense)
         boss_stats = CombatStats(
             user_id=str(boss.boss_id),
             name=boss.boss_name,
@@ -237,7 +193,8 @@ ATK：{atk}
             mp=boss.max_hp,  # Boss的MP等于HP
             max_mp=boss.max_hp,
             atk=boss.atk,
-            defense=boss.defense,
+            base_def=0,
+            equip_def=boss_equip_def,
             crit_rate=30,  # Boss固定30%会心率
             exp=boss.stone_reward  # 奖励存在exp字段
         )
@@ -340,7 +297,7 @@ HP：{battle_result['player_final_hp']}/{player_stats.max_hp}
 
 HP：{boss.hp}/{boss.max_hp} ({hp_percent:.1f}%)
 ATK：{boss.atk}
-防御：{boss.defense}%减伤
+防御：{boss.defense * 100 // (boss.defense + 100) if boss.defense > 0 else 0}%减伤
 
 奖励：{boss.stone_reward}灵石
 

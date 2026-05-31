@@ -84,6 +84,17 @@ class BreakthroughManager:
         if temp_bonus:
             info_lines.append(f"临时丹药加成：{temp_bonus:+.1%}")
 
+        # 新增：主修心法加成
+        technique_bonus = 0.0
+        if player.main_technique:
+            items_data = self.config_manager.items_data
+            technique_data = items_data.get(player.main_technique)
+            if technique_data:
+                technique_bonus = technique_data.get("breakthrough_bonus", 0.0)
+                if technique_bonus > 0:
+                    info_lines.append(f"主修心法加成：+{technique_bonus:.1%}")
+                    final_rate += technique_bonus
+
         # 如果使用了破境丹
         if pill_name:
             pill_data = self.config_manager.pills_data.get(pill_name)
@@ -92,7 +103,7 @@ class BreakthroughManager:
                 max_rate = pill_data.get("max_success_rate", 1.0)
 
                 # 计算加成后的成功率
-                final_rate = min(base_success_rate + temp_bonus + breakthrough_bonus, max_rate)
+                final_rate = min(base_success_rate + temp_bonus + technique_bonus + breakthrough_bonus, max_rate)
 
                 info_lines.append(f"破境丹加成：+{breakthrough_bonus:.1%}")
                 info_lines.append(f"最大成功率限制：{max_rate:.1%}")

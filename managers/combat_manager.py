@@ -65,9 +65,8 @@ class CombatStats:
     mp: int  # 当前真元
     max_mp: int  # 最大真元
     atk: int  # 攻击力
-    defense: int = 0  # 总防御力（旧兼容）
-    base_def: float = 0.0  # 经验基础防御（用于双层减伤）
-    equip_def: int = 0  # 装备+突破防御（用于双层减伤）
+    base_def: float = 0.0  # 经验基础防御（用于双层减伤第一层）
+    equip_def: int = 0  # 装备+突破防御（用于双层减伤第二层）
     crit_rate: int = 0  # 会心率（百分比）
     exp: int = 0  # 修为（用于计算攻击力）
     # 新增属性
@@ -86,8 +85,10 @@ class CombatManager:
     """战斗系统管理器"""
 
     @staticmethod
-    def calculate_hp_mp(experience: int, hp_buff: float = 0.0, mp_buff: float = 0.0) -> Tuple[int, int]:
-        hp = max(200, int(max(0, experience) ** 0.50 * 2 * (1 + hp_buff)) + 200)
+    def calculate_hp_mp(experience: int, hp_buff: float = 0.0, mp_buff: float = 0.0, hp_bonus: float = 0.0) -> Tuple[int, int]:
+        base_hp = max(200, int(max(0, experience) ** 0.50 * 2 * (1 + hp_buff)) + 200)
+        # 应用心法生命加成
+        hp = int(base_hp * (1 + hp_bonus))
         mp = max(10, int(max(0, experience) ** 0.50 * 1 * (1 + mp_buff)))
         return hp, mp
 
@@ -95,6 +96,76 @@ class CombatManager:
     def calculate_base_atk(experience: int) -> int:
         """计算经验基础攻击力（不含装备/突破加成）"""
         return max(1, int(max(0, experience) ** 0.42))
+
+    @staticmethod
+    def convert_legacy_defense(old_def: int) -> int:
+        """将旧版防御值转换为双层公式等比的 equip_def。
+
+        旧公式: old_def / (old_def + 100)
+        新公式: ln(equip_def+1)*20 / (ln(equip_def+1)*20 + 200)
+        令两者相等，推导出: equip_val = 2 * old_def → equip_def = exp(old_def / 10) - 1
+        """
+        if old_def <= 0:
+            return 0
+        return int(math.exp(old_def / 10) - 1)
+
+    @classmethod
+    def build_player_combat_stats(cls, player, impart_info, config_manager) -> 'CombatStats':
+        """从玩家数据构建 CombatStats（统一入口）"""
+        hp_buff = impart_info.impart_hp_per if impart_info else 0.0
+        mp_buff = impart_info.impart_mp_per if impart_info else 0.0
+        atk_buff = impart_info.impart_atk_per if impart_info else 0.0
+
+        # 获取主修心法加成
+        technique_hp_bonus = 0.0
+        technique_atk_bonus = 0
+        if player.main_technique:
+            items_data = config_manager.items_data
+            technique_data = items_data.get(player.main_technique)
+            if technique_data:
+                technique_hp_bonus = technique_data.get("hp_bonus", 0.0)
+                technique_atk_bonus = technique_data.get("atk_bonus", 0)
+
+        hp, mp = cls.calculate_hp_mp(player.experience, hp_buff, mp_buff, technique_hp_bonus)
+        base_atk = cls.calculate_base_atk(player.experience)
+
+        equip_bonus = load_equipment_bonus(player, config_manager)
+
+        breakthrough_atk = player.physical_damage + player.magic_damage
+        # 添加心法攻击加成
+        final_atk = int(base_atk * (1 + equip_bonus["atk_pct"] + atk_buff)) + breakthrough_atk + equip_bonus["atk"] + technique_atk_bonus
+
+        base_def = math.log(player.experience + 1) * 10
+        equip_def = (player.physical_defense + player.magic_defense) + equip_bonus["defense"]
+
+        player.hp = hp
+        player.mp = mp
+        player.atk = final_atk
+
+        crit_rate = int((impart_info.impart_know_per if impart_info else 0) * 100) + equip_bonus.get("crit_rate", 0)
+
+        return CombatStats(
+            user_id=player.user_id,
+            name=player.user_name if player.user_name else f"道友{player.user_id}",
+            hp=hp,
+            max_hp=hp,
+            mp=mp,
+            max_mp=mp,
+            atk=final_atk,
+            base_def=base_def,
+            equip_def=equip_def,
+            crit_rate=crit_rate,
+            exp=player.experience,
+            crit_damage=max(1.5, equip_bonus.get("crit_damage", 0)),
+            armor_pen=equip_bonus.get("armor_pen", 0),
+            lifesteal=equip_bonus.get("lifesteal", 0),
+            double_hit=equip_bonus.get("double_hit", 0),
+            dodge_rate=equip_bonus.get("dodge_rate", 0),
+            crit_resist=equip_bonus.get("crit_resist", 0),
+            reflect_pct=equip_bonus.get("reflect_pct", 0),
+            block_value=equip_bonus.get("block_value", 0),
+            hp_regen_pct=equip_bonus.get("hp_regen_pct", 0.0),
+        )
 
     @classmethod
     def execute_attack(
@@ -313,7 +384,7 @@ class CombatManager:
             if regen > 0:
                 combat_log.append(f"{player.name} 回复 {regen} HP")
 
-            # 玩家攻击Boss（Boss无闪避/反伤/格挡等，只用defense）
+            # 玩家攻击Boss（使用统一的 execute_attack 机制）
             result = cls.execute_attack(player, boss)
             if result["dodged"]:
                 combat_log.append(f"{player.name} 攻击未命中")
@@ -334,25 +405,8 @@ class CombatManager:
             if boss.hp <= 0:
                 break
 
-            # Boss攻击（Boss固定30会心率，无新属性）
-            is_boss_crit, boss_damage = cls._legacy_turn_attack(boss.atk, 30)
-            boss_damage = cls._legacy_damage_reduction(boss_damage, player.defense)
-            # Boss攻击也受玩家闪避/格挡影响
-            if random.randint(1, 100) <= player.dodge_rate:
-                combat_log.append(f"{boss.name} 攻击被闪避！")
-            else:
-                if player.block_value > 0 and not is_boss_crit:
-                    boss_damage = max(1, boss_damage - player.block_value)
-                player.hp -= boss_damage
-                if player.reflect_pct > 0:
-                    reflect = int(boss_damage * player.reflect_pct / 100)
-                    boss.hp -= reflect
-                    combat_log.append(f"{boss.name} 攻击造成 {boss_damage} 伤害（反伤 {reflect}）")
-                elif is_boss_crit:
-                    combat_log.append(f"{boss.name} 会心一击！造成 {boss_damage} 伤害")
-                else:
-                    combat_log.append(f"{boss.name} 攻击造成 {boss_damage} 伤害")
-            combat_log.append(f"{player.name} 剩余 HP: {max(0, player.hp)}")
+            # Boss攻击（使用统一的 execute_attack 机制）
+            cls._execute_turn(boss, player, combat_log)
             combat_log.append("")
 
         if boss.hp <= 0:
@@ -380,20 +434,3 @@ class CombatManager:
             "rounds": round_num
         }
 
-    @staticmethod
-    def _legacy_turn_attack(base_atk: int, crit_rate: int = 0, atk_buff: float = 0.0) -> Tuple[bool, int]:
-        """Boss攻击用的旧版伤害计算"""
-        damage = int(round(random.uniform(0.95, 1.05), 2) * base_atk * (1 + atk_buff))
-        is_crit = random.randint(1, 100) <= crit_rate
-        if is_crit:
-            damage = int(damage * 1.5)
-        return is_crit, damage
-
-    @staticmethod
-    def _legacy_damage_reduction(damage: int, defense: int = 0) -> int:
-        """旧版减伤（Boss用）"""
-        if defense <= 0:
-            return damage
-        reduction_rate = defense / (defense + 100)
-        final_damage = int(damage * (1 - reduction_rate))
-        return max(1, final_damage)

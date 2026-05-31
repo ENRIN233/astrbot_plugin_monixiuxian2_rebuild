@@ -785,14 +785,28 @@ function renderTechniques(container) {
 }
 
 function renderTechniqueTable(techs, isMain) {
-    const headers = ['名称', '品阶', '修炼加成', '最低境界', '价格'];
-    const rows = techs.map(t => [
-        `<strong>${esc(t.name)}</strong>`,
-        makeRankBadge(t.rank || ''),
-        `<span data-sortvalue="${t.exp_multiplier || 0}">${t.exp_multiplier ? '+' + ((t.exp_multiplier - 1) * 100).toFixed(0) + '%' : '-'}</span>`,
-        t.required_level_index ? levelName(t.required_level_index) : '-',
-        `<span data-sortvalue="${t.price || 0}">${formatNum(t.price || 0)}</span>`
-    ]);
+    const headers = isMain
+        ? ['名称', '品阶', '修炼加成', '突破成功率', '攻击力', '生命值', '最低境界', '价格']
+        : ['名称', '品阶', '修炼加成', '最低境界', '价格'];
+    const rows = techs.map(t => {
+        const base = [
+            `<strong>${esc(t.name)}</strong>`,
+            makeRankBadge(t.rank || ''),
+            `<span data-sortvalue="${t.exp_multiplier || 0}">${t.exp_multiplier ? '+' + ((t.exp_multiplier - 1) * 100).toFixed(0) + '%' : '-'}</span>`,
+        ];
+        if (isMain) {
+            base.push(
+                `<span data-sortvalue="${t.breakthrough_bonus || 0}">${t.breakthrough_bonus ? '+' + (t.breakthrough_bonus * 100).toFixed(0) + '%' : '-'}</span>`,
+                `<span data-sortvalue="${t.atk_bonus || 0}">${t.atk_bonus ? '+' + t.atk_bonus : '-'}</span>`,
+                `<span data-sortvalue="${t.hp_bonus || 0}">${t.hp_bonus ? '+' + (t.hp_bonus * 100).toFixed(0) + '%' : '-'}</span>`
+            );
+        }
+        base.push(
+            t.required_level_index ? levelName(t.required_level_index) : '-',
+            `<span data-sortvalue="${t.price || 0}">${formatNum(t.price || 0)}</span>`
+        );
+        return base;
+    });
     return createTable(headers, rows, { emptyText: '暂无心法数据' });
 }
 

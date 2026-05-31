@@ -154,7 +154,13 @@ class BountyManager:
                 break
 
         name, cfg = random.choice(chosen_pool)
-        return {"name": name, "rank": chosen_rank, "exp_multiplier": cfg.get("exp_multiplier", 1.0)}
+        return {
+            "name": name, "rank": chosen_rank,
+            "exp_multiplier": cfg.get("exp_multiplier", 1.0),
+            "breakthrough_bonus": cfg.get("breakthrough_bonus", 0.0),
+            "atk_bonus": cfg.get("atk_bonus", 0),
+            "hp_bonus": cfg.get("hp_bonus", 0.0)
+        }
 
     @staticmethod
     def _get_player_rank(level_index: int) -> str:
