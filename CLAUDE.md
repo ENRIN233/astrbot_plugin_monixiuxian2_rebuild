@@ -56,7 +56,9 @@ data/ (SQLite CRUD: data_manager.py, database_extended.py, migration.py v26)
 
 - **Spirit eye**: provides cultivation efficiency bonus (+15%/25%/35%/50%), not passive exp income. Stored as `cultivation_bonus` percentage.
 - **Dual cultivation**: both players gain 1% of the SUM of both players' experience. Dragon Tiger Pill doubles this to 2%.
-- **Techniques**: 258 main techniques across 9 ranks (凡品→混元先天), `exp_multiplier` range 1.05–2.75.
+- **Techniques**: 258 main techniques across 9 ranks (凡品→混元先天), `exp_multiplier` range 1.05–2.75. Main techniques provide 3 bonuses: `breakthrough_bonus` (success rate, 皇品+ only: 3%~15%), `atk_bonus` (flat ATK +50~800), `hp_bonus` (HP +5%~40%). Applied in `breakthrough_manager.py`, `combat_manager.py`, and displayed in `equipment_handler.py`, `shop_manager.py`, `bounty_handlers.py`.
+- **Batch pill consumption**: `/服用丹药 <name> [qty]` — respects inventory, daily limits (dual cultivation pills: 2/day), lifetime limits (permanent pills: 2/type), and 30% attribute caps. Implemented in `core/pill_manager.py`.
+- **Batch planting**: `/种植 <herb> [qty]` — respects available farm slots. Implemented in `managers/spirit_farm_manager.py`.
 - **Bounty system**: 3 daily bounties, pre-rolled technique rewards with dynamic drop rates.
 - **Equipment special attributes**: `dodge_rate`, `crit_resist`, `reflect_pct`, `block_value`, `hp_regen_pct` (percentage integers, NOT 0-1 decimals).
 - **Weapon combat attributes**: `crit_rate`, `armor_pen`, `double_hit`, `lifesteal` are percentage integers (e.g., 3 = 3%). `crit_damage` is a multiplier (e.g., 1.73 = 173%). `atk_bonus` is a decimal (e.g., 0.18 = 18%).
@@ -68,6 +70,7 @@ data/ (SQLite CRUD: data_manager.py, database_extended.py, migration.py v26)
 - Config files live in `config/` (12 JSON files). System configs auto-created from defaults on first run. Use `sync_data.py` to copy to `docs/data/` for the website SPA.
 - Use `TYPE_CHECKING` imports to avoid circular dependencies.
 - Website SPA (`docs/app.js`): reads from `docs/data/*.json`. All 9 ranks are: 凡品, 灵品, 地品, 天品, 皇品, 帝品, 道品, 仙品, 混元先天. Do NOT include 珍品/圣品/神品.
+- **`Item` dataclass bonus fields** (`models.py`): `breakthrough_bonus` (float, e.g. 0.02), `atk_bonus` (int, flat), `hp_bonus` (float, e.g. 0.05). Added to `Item` class and accumulated in `Player.get_total_attributes()` for main_technique type items.
 
 ## Release Checklist
 

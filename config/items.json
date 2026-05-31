@@ -764,7 +764,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9001",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -780,7 +780,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9002",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -796,7 +796,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9003",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -812,7 +812,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9004",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -828,7 +828,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9005",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -844,7 +844,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9011",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -860,7 +860,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9012",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -876,7 +876,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9013",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -892,7 +892,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9014",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -908,7 +908,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9100",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -924,7 +924,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9099",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -940,7 +940,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9102",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -956,7 +956,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9103",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -972,7 +972,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9104",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -988,7 +988,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9201",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1004,7 +1004,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9202",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1020,7 +1020,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9203",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1036,7 +1036,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9204",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1052,7 +1052,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9301",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1068,7 +1068,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9302",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1084,7 +1084,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9303",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1100,7 +1100,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9304",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1116,7 +1116,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9400",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1132,7 +1132,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9401",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1148,7 +1148,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9402",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1164,7 +1164,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9403",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1180,7 +1180,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9404",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1196,7 +1196,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9500",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1212,7 +1212,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9501",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1228,7 +1228,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9502",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1244,7 +1244,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9503",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1260,7 +1260,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9504",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1276,7 +1276,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9600",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1292,7 +1292,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9601",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1308,7 +1308,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9602",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1324,7 +1324,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9603",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1340,7 +1340,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9604",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1356,7 +1356,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9700",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1372,7 +1372,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9701",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1388,7 +1388,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9702",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1404,7 +1404,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9703",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1420,7 +1420,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9704",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1436,7 +1436,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9800",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1452,7 +1452,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9900",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1468,7 +1468,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9801",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1484,7 +1484,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9802",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1500,7 +1500,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9803",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1516,7 +1516,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9804",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1532,7 +1532,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9901",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1548,7 +1548,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9903",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1564,7 +1564,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9902",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1580,7 +1580,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9910",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1596,7 +1596,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9911",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1612,7 +1612,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9913",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1628,7 +1628,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9914",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1644,7 +1644,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9915",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -1660,7 +1660,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9916",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -1676,7 +1676,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9917",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1692,7 +1692,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9920",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1708,7 +1708,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9921",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1724,7 +1724,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9922",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -1740,7 +1740,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9923",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -1756,7 +1756,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9924",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -1772,7 +1772,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9925",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -1788,7 +1788,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9926",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -1804,7 +1804,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9930",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -1820,7 +1820,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9931",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -1836,7 +1836,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9932",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -1852,7 +1852,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9933",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -1868,7 +1868,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9934",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -1884,7 +1884,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15355",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -1900,7 +1900,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15356",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -1916,7 +1916,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15359",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -1932,7 +1932,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15550",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -1948,7 +1948,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15551",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -1964,7 +1964,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15552",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -1980,7 +1980,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15553",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -1996,7 +1996,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15554",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -2012,7 +2012,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15555",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -2028,7 +2028,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15556",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -2044,7 +2044,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15557",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2060,7 +2060,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15558",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2076,7 +2076,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15559",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2092,7 +2092,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15560",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2108,7 +2108,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15358",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2124,7 +2124,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9935",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -2140,7 +2140,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9938",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -2156,7 +2156,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9928",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2172,7 +2172,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9936",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -2188,7 +2188,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9937",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -2204,7 +2204,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9927",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -2220,7 +2220,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30501",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -2236,7 +2236,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30502",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -2252,7 +2252,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30503",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -2268,7 +2268,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30504",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -2284,7 +2284,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30505",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -2300,7 +2300,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15357",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -2316,7 +2316,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30601",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -2332,7 +2332,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30602",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -2348,7 +2348,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15561",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -2364,7 +2364,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30603",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -2380,7 +2380,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30604",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -2396,7 +2396,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30605",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -2412,7 +2412,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30641",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -2428,7 +2428,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30642",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -2444,7 +2444,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30608",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -2460,7 +2460,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30643",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -2476,7 +2476,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30644",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -2492,7 +2492,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30645",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -2508,7 +2508,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30646",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -2524,7 +2524,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30647",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -2540,7 +2540,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "88888",
-    "breakthrough_bonus": 0.02,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 50,
     "hp_bonus": 0.05
   },
@@ -2556,7 +2556,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "88899",
-    "breakthrough_bonus": 0.04,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 80,
     "hp_bonus": 0.08
   },
@@ -2572,7 +2572,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "901001",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -2588,7 +2588,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "901011",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -2604,7 +2604,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30701",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2620,7 +2620,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30702",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2636,7 +2636,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30703",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -2652,7 +2652,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30704",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2668,7 +2668,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30705",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -2684,7 +2684,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30706",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2700,7 +2700,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30707",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2716,7 +2716,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930001",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2732,7 +2732,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930002",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -2748,7 +2748,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930003",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -2764,7 +2764,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930004",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2780,7 +2780,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930005",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2796,7 +2796,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930006",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2812,7 +2812,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930007",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -2828,7 +2828,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930008",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2844,7 +2844,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930010",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2860,7 +2860,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930011",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2876,7 +2876,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930012",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2892,7 +2892,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930013",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -2908,7 +2908,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930014",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -2924,7 +2924,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930015",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2940,7 +2940,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930016",
-    "breakthrough_bonus": 0.06,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 120,
     "hp_bonus": 0.12
   },
@@ -2956,7 +2956,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930017",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -2972,7 +2972,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930018",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -2988,7 +2988,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930019",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -3004,7 +3004,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930020",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -3020,7 +3020,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930021",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -3036,7 +3036,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930022",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -3052,7 +3052,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930023",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -3068,7 +3068,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930024",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -3084,7 +3084,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930025",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -3100,7 +3100,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930026",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -3116,7 +3116,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930027",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -3132,7 +3132,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930028",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -3148,7 +3148,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930029",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -3164,7 +3164,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930030",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -3180,7 +3180,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930031",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -3196,7 +3196,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930032",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -3212,7 +3212,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930033",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -3228,7 +3228,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930034",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -3244,7 +3244,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930035",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -3260,7 +3260,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930036",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -3276,7 +3276,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930037",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3292,7 +3292,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930038",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3308,7 +3308,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930039",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3324,7 +3324,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930040",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3340,7 +3340,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930041",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3356,7 +3356,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930042",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3372,7 +3372,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930043",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -3388,7 +3388,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930044",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3404,7 +3404,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930045",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -3420,7 +3420,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930046",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3436,7 +3436,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930047",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3452,7 +3452,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930048",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3468,7 +3468,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930049",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -3484,7 +3484,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930050",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -3500,7 +3500,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930051",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3516,7 +3516,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930052",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3532,7 +3532,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930053",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3548,7 +3548,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930054",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3564,7 +3564,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930055",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3580,7 +3580,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930056",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3596,7 +3596,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930057",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -3612,7 +3612,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930058",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -3628,7 +3628,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930059",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -3644,7 +3644,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930060",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -3660,7 +3660,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930061",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -3676,7 +3676,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930062",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -3692,7 +3692,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930063",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -3708,7 +3708,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930064",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -3724,7 +3724,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930065",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -3740,7 +3740,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930066",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -3756,7 +3756,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930067",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -3772,7 +3772,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930068",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -3788,7 +3788,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930069",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -3804,7 +3804,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930070",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -3820,7 +3820,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930071",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -3836,7 +3836,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930072",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -3852,7 +3852,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930073",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -3868,7 +3868,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930074",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -3884,7 +3884,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930075",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -3900,7 +3900,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930076",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -3916,7 +3916,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930077",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -3932,7 +3932,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930078",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -3948,7 +3948,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930079",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -3964,7 +3964,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930080",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -3980,7 +3980,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930081",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -3996,7 +3996,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930082",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -4012,7 +4012,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930083",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -4028,7 +4028,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930084",
-    "breakthrough_bonus": 0.08,
+    "breakthrough_bonus": 0.0,
     "atk_bonus": 180,
     "hp_bonus": 0.16
   },
@@ -4044,7 +4044,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930085",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -4060,7 +4060,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930086",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -4076,7 +4076,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930087",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -4092,7 +4092,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930088",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -4108,7 +4108,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930089",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -4124,7 +4124,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930090",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -4140,7 +4140,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930091",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -4156,7 +4156,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930092",
-    "breakthrough_bonus": 0.14,
+    "breakthrough_bonus": 0.08,
     "atk_bonus": 550,
     "hp_bonus": 0.3
   },
@@ -4172,7 +4172,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930093",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -4188,7 +4188,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930094",
-    "breakthrough_bonus": 0.16,
+    "breakthrough_bonus": 0.12,
     "atk_bonus": 700,
     "hp_bonus": 0.35
   },
@@ -4204,7 +4204,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930095",
-    "breakthrough_bonus": 0.16,
+    "breakthrough_bonus": 0.12,
     "atk_bonus": 700,
     "hp_bonus": 0.35
   },
@@ -4220,7 +4220,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930096",
-    "breakthrough_bonus": 0.16,
+    "breakthrough_bonus": 0.12,
     "atk_bonus": 700,
     "hp_bonus": 0.35
   },
@@ -4236,7 +4236,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930097",
-    "breakthrough_bonus": 0.16,
+    "breakthrough_bonus": 0.12,
     "atk_bonus": 700,
     "hp_bonus": 0.35
   },
@@ -4252,7 +4252,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930098",
-    "breakthrough_bonus": 0.16,
+    "breakthrough_bonus": 0.12,
     "atk_bonus": 700,
     "hp_bonus": 0.35
   },
@@ -4268,7 +4268,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930099",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -4284,7 +4284,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930100",
-    "breakthrough_bonus": 0.16,
+    "breakthrough_bonus": 0.12,
     "atk_bonus": 700,
     "hp_bonus": 0.35
   },
@@ -4300,7 +4300,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930101",
-    "breakthrough_bonus": 0.16,
+    "breakthrough_bonus": 0.12,
     "atk_bonus": 700,
     "hp_bonus": 0.35
   },
@@ -4316,7 +4316,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930102",
-    "breakthrough_bonus": 0.16,
+    "breakthrough_bonus": 0.12,
     "atk_bonus": 700,
     "hp_bonus": 0.35
   },
@@ -4332,7 +4332,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930103",
-    "breakthrough_bonus": 0.16,
+    "breakthrough_bonus": 0.12,
     "atk_bonus": 700,
     "hp_bonus": 0.35
   },
@@ -4348,7 +4348,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930104",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -4364,7 +4364,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930105",
-    "breakthrough_bonus": 0.16,
+    "breakthrough_bonus": 0.12,
     "atk_bonus": 700,
     "hp_bonus": 0.35
   },
@@ -4380,7 +4380,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930106",
-    "breakthrough_bonus": 0.16,
+    "breakthrough_bonus": 0.12,
     "atk_bonus": 700,
     "hp_bonus": 0.35
   },
@@ -4396,7 +4396,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930107",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4412,7 +4412,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930108",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -4428,7 +4428,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930109",
-    "breakthrough_bonus": 0.16,
+    "breakthrough_bonus": 0.12,
     "atk_bonus": 700,
     "hp_bonus": 0.35
   },
@@ -4444,7 +4444,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930110",
-    "breakthrough_bonus": 0.16,
+    "breakthrough_bonus": 0.12,
     "atk_bonus": 700,
     "hp_bonus": 0.35
   },
@@ -4460,7 +4460,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930111",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4476,7 +4476,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930112",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4492,7 +4492,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930113",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4508,7 +4508,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930114",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4524,7 +4524,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930115",
-    "breakthrough_bonus": 0.16,
+    "breakthrough_bonus": 0.12,
     "atk_bonus": 700,
     "hp_bonus": 0.35
   },
@@ -4540,7 +4540,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930116",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4556,7 +4556,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930117",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4572,7 +4572,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930118",
-    "breakthrough_bonus": 0.16,
+    "breakthrough_bonus": 0.12,
     "atk_bonus": 700,
     "hp_bonus": 0.35
   },
@@ -4588,7 +4588,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930119",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4604,7 +4604,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930120",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4620,7 +4620,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930121",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -4636,7 +4636,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930122",
-    "breakthrough_bonus": 0.12,
+    "breakthrough_bonus": 0.05,
     "atk_bonus": 400,
     "hp_bonus": 0.25
   },
@@ -4652,7 +4652,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930123",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4668,7 +4668,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930124",
-    "breakthrough_bonus": 0.1,
+    "breakthrough_bonus": 0.03,
     "atk_bonus": 270,
     "hp_bonus": 0.2
   },
@@ -4684,7 +4684,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930125",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4700,7 +4700,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930126",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4716,7 +4716,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930127",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4732,7 +4732,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930128",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4748,7 +4748,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930129",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4764,7 +4764,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930130",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4780,7 +4780,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930131",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4796,7 +4796,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930132",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4812,7 +4812,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930133",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4828,7 +4828,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930134",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4844,7 +4844,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930135",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4860,7 +4860,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930136",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
@@ -4876,7 +4876,7 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930137",
-    "breakthrough_bonus": 0.18,
+    "breakthrough_bonus": 0.15,
     "atk_bonus": 800,
     "hp_bonus": 0.4
   },
