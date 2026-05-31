@@ -854,3 +854,70 @@ class DatabaseExtended:
                     "balance": row[1]
                 })
         return rankings
+
+    # ===== 玩家神通 CRUD =====
+
+    async def add_player_skill(self, user_id: str, skill_name: str) -> bool:
+        """为玩家添加一个神通，返回是否为新获得"""
+        import time
+        try:
+            await self.conn.execute(
+                "INSERT OR IGNORE INTO player_skills (user_id, skill_name, acquired_at) VALUES (?, ?, ?)",
+                (user_id, skill_name, int(time.time()))
+            )
+            await self.conn.commit()
+            return True
+        except Exception:
+            return False
+
+    async def remove_player_skill(self, user_id: str, skill_name: str) -> bool:
+        """移除玩家的一个神通"""
+        cursor = await self.conn.execute(
+            "DELETE FROM player_skills WHERE user_id = ? AND skill_name = ?",
+            (user_id, skill_name)
+        )
+        await self.conn.commit()
+        return cursor.rowcount > 0
+
+    async def get_player_skills(self, user_id: str) -> List[str]:
+        """获取玩家拥有的所有神通名称"""
+        skills = []
+        async with self.conn.execute(
+            "SELECT skill_name FROM player_skills WHERE user_id = ? ORDER BY acquired_at",
+            (user_id,)
+        ) as cursor:
+            async for row in cursor:
+                skills.append(row[0])
+        return skills
+
+    async def has_player_skill(self, user_id: str, skill_name: str) -> bool:
+        """检查玩家是否拥有指定神通"""
+        async with self.conn.execute(
+            "SELECT 1 FROM player_skills WHERE user_id = ? AND skill_name = ?",
+            (user_id, skill_name)
+        ) as cursor:
+            return await cursor.fetchone() is not None
+
+    async def get_all_skills_from_db(self) -> List[dict]:
+        """从数据库获取所有神通定义"""
+        skills = []
+        async with self.conn.execute("SELECT * FROM skills ORDER BY skill_type, rank") as cursor:
+            async for row in cursor:
+                skills.append({
+                    "skill_name": row[0],
+                    "skill_type": row[1],
+                    "rank": row[2],
+                    "required_level_index": row[3],
+                    "hpcost": row[4],
+                    "mpcost": row[5],
+                    "turncost": row[6],
+                    "rate": row[7],
+                    "atkvalue": json.loads(row[8]) if row[8] else [],
+                    "bufftype": row[9],
+                    "buffvalue": row[10],
+                    "success": row[11],
+                    "desc": row[12],
+                    "price": row[13],
+                    "shop_weight": row[14],
+                })
+        return skills

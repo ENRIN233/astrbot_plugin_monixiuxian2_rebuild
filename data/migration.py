@@ -5,7 +5,7 @@ from typing import Dict, Callable, Awaitable
 from astrbot.api import logger
 from ..config_manager import ConfigManager
 
-LATEST_DB_VERSION = 27  # v27: 神通系统
+LATEST_DB_VERSION = 28  # v28: 神通数据库表 + 玩家神通追踪
 
 MIGRATION_TASKS: Dict[int, Callable[[aiosqlite.Connection, ConfigManager], Awaitable[None]]] = {}
 
@@ -180,6 +180,41 @@ async def _ensure_table_integrity(conn: aiosqlite.Connection):
             )
         """)
         repaired.append("combat_cooldowns")
+
+    if "skills" not in existing_tables:
+        await conn.execute("""
+            CREATE TABLE IF NOT EXISTS skills (
+                skill_name TEXT PRIMARY KEY,
+                skill_type INTEGER NOT NULL DEFAULT 1,
+                rank TEXT NOT NULL DEFAULT '凡品',
+                required_level_index INTEGER NOT NULL DEFAULT 0,
+                hpcost REAL NOT NULL DEFAULT 0,
+                mpcost REAL NOT NULL DEFAULT 0,
+                turncost INTEGER NOT NULL DEFAULT 1,
+                rate INTEGER NOT NULL DEFAULT 100,
+                atkvalue TEXT NOT NULL DEFAULT '[]',
+                bufftype INTEGER NOT NULL DEFAULT 0,
+                buffvalue REAL NOT NULL DEFAULT 0,
+                success INTEGER NOT NULL DEFAULT 0,
+                desc TEXT NOT NULL DEFAULT '',
+                price INTEGER NOT NULL DEFAULT 0,
+                shop_weight INTEGER NOT NULL DEFAULT 0
+            )
+        """)
+        repaired.append("skills")
+
+    if "player_skills" not in existing_tables:
+        await conn.execute("""
+            CREATE TABLE IF NOT EXISTS player_skills (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id TEXT NOT NULL,
+                skill_name TEXT NOT NULL,
+                acquired_at INTEGER NOT NULL DEFAULT 0,
+                UNIQUE(user_id, skill_name)
+            )
+        """)
+        await conn.execute("CREATE INDEX IF NOT EXISTS idx_player_skills_user ON player_skills(user_id)")
+        repaired.append("player_skills")
 
     # 检查 user_cd 表是否缺少 extra_data 字段
     if "user_cd" in existing_tables:
@@ -838,6 +873,39 @@ async def _create_all_tables_v2(conn: aiosqlite.Connection):
             last_spar_time INTEGER NOT NULL DEFAULT 0
         )
     """)
+
+    # 创建神通定义表
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS skills (
+            skill_name TEXT PRIMARY KEY,
+            skill_type INTEGER NOT NULL DEFAULT 1,
+            rank TEXT NOT NULL DEFAULT '凡品',
+            required_level_index INTEGER NOT NULL DEFAULT 0,
+            hpcost REAL NOT NULL DEFAULT 0,
+            mpcost REAL NOT NULL DEFAULT 0,
+            turncost INTEGER NOT NULL DEFAULT 1,
+            rate INTEGER NOT NULL DEFAULT 100,
+            atkvalue TEXT NOT NULL DEFAULT '[]',
+            bufftype INTEGER NOT NULL DEFAULT 0,
+            buffvalue REAL NOT NULL DEFAULT 0,
+            success INTEGER NOT NULL DEFAULT 0,
+            desc TEXT NOT NULL DEFAULT '',
+            price INTEGER NOT NULL DEFAULT 0,
+            shop_weight INTEGER NOT NULL DEFAULT 0
+        )
+    """)
+
+    # 创建玩家神通表
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS player_skills (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id TEXT NOT NULL,
+            skill_name TEXT NOT NULL,
+            acquired_at INTEGER NOT NULL DEFAULT 0,
+            UNIQUE(user_id, skill_name)
+        )
+    """)
+    await conn.execute("CREATE INDEX IF NOT EXISTS idx_player_skills_user ON player_skills(user_id)")
 
     logger.info("数据库表已创建完成（v2 - 完整修仙系统）")
 
@@ -1537,3 +1605,82 @@ async def _migrate_to_v27(conn: aiosqlite.Connection, config_manager: ConfigMana
     await conn.execute("ALTER TABLE players ADD COLUMN shentong TEXT NOT NULL DEFAULT ''")
     await conn.commit()
     logger.info("v27迁移完成：神通系统")
+
+@migration(28)
+async def _migrate_to_v28(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """迁移到v28 - 神通数据库表 + 玩家神通追踪"""
+    logger.info("开始迁移到v28：神通数据库表")
+
+    # 技能定义表（从 skills.json 同步）
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS skills (
+            skill_name TEXT PRIMARY KEY,
+            skill_type INTEGER NOT NULL DEFAULT 1,
+            rank TEXT NOT NULL DEFAULT '凡品',
+            required_level_index INTEGER NOT NULL DEFAULT 0,
+            hpcost REAL NOT NULL DEFAULT 0,
+            mpcost REAL NOT NULL DEFAULT 0,
+            turncost INTEGER NOT NULL DEFAULT 1,
+            rate INTEGER NOT NULL DEFAULT 100,
+            atkvalue TEXT NOT NULL DEFAULT '[]',
+            bufftype INTEGER NOT NULL DEFAULT 0,
+            buffvalue REAL NOT NULL DEFAULT 0,
+            success INTEGER NOT NULL DEFAULT 0,
+            desc TEXT NOT NULL DEFAULT '',
+            price INTEGER NOT NULL DEFAULT 0,
+            shop_weight INTEGER NOT NULL DEFAULT 0
+        )
+    """)
+
+    # 玩家拥有的神通表
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS player_skills (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id TEXT NOT NULL,
+            skill_name TEXT NOT NULL,
+            acquired_at INTEGER NOT NULL DEFAULT 0,
+            UNIQUE(user_id, skill_name)
+        )
+    """)
+    await conn.execute("CREATE INDEX IF NOT EXISTS idx_player_skills_user ON player_skills(user_id)")
+
+    # 从 skills.json 同步数据到 skills 表
+    skills_data = config_manager.skills_data if config_manager else {}
+    for name, s in skills_data.items():
+        import json as _json
+        atkvalue = _json.dumps(s.get("atkvalue", []), ensure_ascii=False)
+        await conn.execute(
+            """INSERT OR REPLACE INTO skills
+            (skill_name, skill_type, rank, required_level_index, hpcost, mpcost,
+             turncost, rate, atkvalue, bufftype, buffvalue, success, desc, price, shop_weight)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (name, s.get("skill_type", 1), s.get("rank", "凡品"),
+             s.get("required_level_index", 0), s.get("hpcost", 0), s.get("mpcost", 0),
+             s.get("turncost", 1), s.get("rate", 100), atkvalue,
+             s.get("bufftype", 0), s.get("buffvalue", 0), s.get("success", 0),
+             s.get("desc", ""), s.get("price", 0), s.get("shop_weight", 0))
+        )
+
+    # 将玩家储物戒中已有的神通同步到 player_skills
+    cursor = await conn.execute("SELECT user_id, storage_ring_items FROM players")
+    rows = await cursor.fetchall()
+    import time as _time
+    now = int(_time.time())
+    synced = 0
+    for row in rows:
+        user_id = row[0]
+        items_str = row[1] or "{}"
+        try:
+            items = _json.loads(items_str)
+        except Exception:
+            continue
+        for item_name in items:
+            if item_name in skills_data:
+                await conn.execute(
+                    "INSERT OR IGNORE INTO player_skills (user_id, skill_name, acquired_at) VALUES (?, ?, ?)",
+                    (user_id, item_name, now)
+                )
+                synced += 1
+
+    await conn.commit()
+    logger.info(f"v28迁移完成：神通数据库表，已同步 {len(skills_data)} 个技能定义，{synced} 个玩家技能记录")

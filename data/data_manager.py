@@ -168,6 +168,7 @@ class DataBase:
                 armor = ?,
                 main_technique = ?,
                 techniques = ?,
+                shentong = ?,
                 hp = ?,
                 mp = ?,
                 atk = ?,
@@ -196,7 +197,8 @@ class DataBase:
                 storage_ring = ?,
                 storage_ring_items = ?,
                 daily_pill_usage = ?,
-                last_daily_reset = ?
+                last_daily_reset = ?,
+                permanent_pill_usage = ?
             WHERE user_id = ?
             """,
             (
@@ -215,6 +217,7 @@ class DataBase:
                 player.armor,
                 player.main_technique,
                 player.techniques,
+                player.shentong,
                 player.hp,
                 player.mp,
                 player.atk,
@@ -244,6 +247,7 @@ class DataBase:
                 player.storage_ring_items,
                 player.daily_pill_usage,
                 player.last_daily_reset,
+                player.permanent_pill_usage,
                 player.user_id
             )
         )
