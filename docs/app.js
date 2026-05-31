@@ -477,7 +477,8 @@ function renderUtilityPillTable(pills) {
             `<span>${esc(getPillEffectSummary(p))}</span>`
         ];
     });
-    return createTable(headers, rows);
+    const rankData = pills.map(p => p.rank);
+    return createTable(headers, rows, { rankData });
 }
 
 function getPillEffectSummary(p) {
@@ -532,7 +533,8 @@ function renderLegacyPills(container) {
         ];
     });
 
-    container.innerHTML = createTable(headers, rows);
+    const rankData = pills.map(p => p.rank || '');
+    container.innerHTML = createTable(headers, rows, { rankData });
     makeTableSortable(container);
 }
 
@@ -694,7 +696,8 @@ function renderWeapons(container) {
             `<span data-sortvalue="${a.mental_power || 0}">${a.mental_power || 0}</span>`,
             `<span class="special-attrs">${formatSpecialAttrs(a)}</span>`
         ]);
-        html += createTable(headers, rows);
+        const armorRankData = armors.map(a => a.rank);
+        html += createTable(headers, rows, { onRowClick: true, rankData: armorRankData });
     }
 
     container.innerHTML = html;
@@ -720,6 +723,10 @@ function renderWeapons(container) {
         row.addEventListener('click', () => {
             const cat = row.closest('table').previousElementSibling?.textContent || '';
             const idx = parseInt(row.dataset.row);
+            if (cat.includes('防具')) {
+                if (armors[idx]) showWeaponDetail(armors[idx]);
+                return;
+            }
             const catName = Object.keys(categories).find(c => cat.includes(c));
             if (catName) showWeaponDetail(categories[catName][idx]);
         });
@@ -832,7 +839,7 @@ function renderTechniqueTable(techs, isMain) {
         );
         return base;
     });
-    return createTable(headers, rows, { emptyText: '暂无心法数据' });
+    return createTable(headers, rows, { emptyText: '暂无心法数据', rankData: techs.map(t => t.rank || '') });
 }
 
 function renderRings(container) {
@@ -850,7 +857,8 @@ function renderRings(container) {
         `<span data-sortvalue="${r.price || 0}">${formatNum(r.price || 0)}</span>`
     ]);
 
-    container.innerHTML = createTable(headers, rows);
+    const rankData = ringArr.map(r => r.rank || '');
+    container.innerHTML = createTable(headers, rows, { rankData });
     makeTableSortable(container);
 }
 
@@ -954,7 +962,7 @@ function renderCombat() {
             `<span data-sortvalue="${w.double_hit || 0}">${w.double_hit ? w.double_hit + '%' : '-'}</span>`,
             `<span data-sortvalue="${w.lifesteal || 0}">${w.lifesteal ? w.lifesteal + '%' : '-'}</span>`
         ]);
-        html += createTable(wHeaders, wRows);
+        html += createTable(wHeaders, wRows, { rankData: withCrit.map(w => w.rank) });
     }
 
     // Armor with special attributes
@@ -972,7 +980,7 @@ function renderCombat() {
             `<span data-sortvalue="${a.block_value || 0}">${a.block_value || '-'}</span>`,
             `<span data-sortvalue="${a.hp_regen_pct || 0}">${a.hp_regen_pct ? a.hp_regen_pct + '%' : '-'}</span>`
         ]);
-        html += createTable(aHeaders, aRows);
+        html += createTable(aHeaders, aRows, { rankData: withSpecial.map(a => a.rank) });
     }
 
     page.innerHTML = html;
@@ -1700,43 +1708,51 @@ function renderSkills() {
             rows = filtered.map(s => {
                 const av = Array.isArray(s.atkvalue) ? s.atkvalue : [s.atkvalue || 0];
                 const hpStr = s.hpcost > 0 ? `${Math.round(s.hpcost * 100)}%` : '-';
-                return `<tr>
-                    <td class="item-name">${s.name}</td><td>${s.rank || '-'}</td><td>Lv${s.required_level_index || 0}</td>
+                const glowCls = getRankGlowClass(s.rank);
+                return `<tr${glowCls ? ` class="${glowCls}"` : ''}>
+                    <td class="item-name">${s.name}</td><td>${makeRankBadge(s.rank || '-')}</td><td>Lv${s.required_level_index || 0}</td>
                     <td>${av.join(', ')}</td><td>${av.length}</td><td>${s.mpcost || 0}</td><td>${hpStr}</td>
                     <td>${s.turncost || 0}</td><td>${s.rate || 100}%</td>
                 </tr>`;
             }).join('');
         } else if (typeIdx === 2) {
             headers = ['名称', '品阶', '境界', '伤害倍率', '持续', 'MP消耗', '冷却', '触发率'];
-            rows = filtered.map(s => `<tr>
-                <td class="item-name">${s.name}</td><td>${s.rank || '-'}</td><td>Lv${s.required_level_index || 0}</td>
-                <td>${s.atkvalue || 0}</td><td>${s.turncost || 0}</td><td>${s.mpcost || 0}</td>
-                <td>${s.turncost || 0}</td><td>${s.rate || 100}%</td>
-            </tr>`).join('');
+            rows = filtered.map(s => {
+                const glowCls = getRankGlowClass(s.rank);
+                return `<tr${glowCls ? ` class="${glowCls}"` : ''}>
+                    <td class="item-name">${s.name}</td><td>${makeRankBadge(s.rank || '-')}</td><td>Lv${s.required_level_index || 0}</td>
+                    <td>${s.atkvalue || 0}</td><td>${s.turncost || 0}</td><td>${s.mpcost || 0}</td>
+                    <td>${s.turncost || 0}</td><td>${s.rate || 100}%</td>
+                </tr>`;
+            }).join('');
         } else if (typeIdx === 3) {
             headers = ['名称', '品阶', '境界', '增益类型', '增益幅度', '持续', 'MP消耗', '冷却', '触发率'];
             rows = filtered.map(s => {
                 const bt = s.bufftype === 1 ? '攻击' : '防御';
                 const bv = `${Math.round((s.buffvalue || 0) * 100)}%`;
-                return `<tr>
-                    <td class="item-name">${s.name}</td><td>${s.rank || '-'}</td><td>Lv${s.required_level_index || 0}</td>
+                const glowCls = getRankGlowClass(s.rank);
+                return `<tr${glowCls ? ` class="${glowCls}"` : ''}>
+                    <td class="item-name">${s.name}</td><td>${makeRankBadge(s.rank || '-')}</td><td>Lv${s.required_level_index || 0}</td>
                     <td>${bt}</td><td>${bv}</td><td>${s.turncost || 0}</td><td>${s.mpcost || 0}</td>
                     <td>${s.turncost || 0}</td><td>${s.rate || 100}%</td>
                 </tr>`;
             }).join('');
         } else {
             headers = ['名称', '品阶', '境界', '封禁回合', '成功率', 'MP消耗', '冷却', '触发率'];
-            rows = filtered.map(s => `<tr>
-                <td class="item-name">${s.name}</td><td>${s.rank || '-'}</td><td>Lv${s.required_level_index || 0}</td>
-                <td>${s.turncost || 0}</td><td>${s.success || 50}%</td><td>${s.mpcost || 0}</td>
-                <td>${s.turncost || 0}</td><td>${s.rate || 100}%</td>
-            </tr>`).join('');
+            rows = filtered.map(s => {
+                const glowCls = getRankGlowClass(s.rank);
+                return `<tr${glowCls ? ` class="${glowCls}"` : ''}>
+                    <td class="item-name">${s.name}</td><td>${makeRankBadge(s.rank || '-')}</td><td>Lv${s.required_level_index || 0}</td>
+                    <td>${s.turncost || 0}</td><td>${s.success || 50}%</td><td>${s.mpcost || 0}</td>
+                    <td>${s.turncost || 0}</td><td>${s.rate || 100}%</td>
+                </tr>`;
+            }).join('');
         }
 
-        return `<table class="data-table">
+        return `<div class="table-wrapper"><table class="data-table">
             <thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>
             <tbody>${rows || '<tr><td colspan="99">暂无数据</td></tr>'}</tbody>
-        </table>`;
+        </table></div>`;
     }
 
     document.getElementById('skills-content').innerHTML = renderTab('attack');

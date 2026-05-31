@@ -236,6 +236,14 @@ body::before {
     text-shadow: 0 0 12px rgba(234,203,44,0.3);
 }
 
+.page-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.8;
+    letter-spacing: 1px;
+}
+
 .section-title {
     font-size: 17px;
     color: var(--cyan);
