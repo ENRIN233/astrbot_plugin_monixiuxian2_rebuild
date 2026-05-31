@@ -30,7 +30,7 @@ handlers/ (26 handler classes — command processing, async generators)
 core/ (7 modules: cultivation, equipment, breakthrough, pills, shop, storage, pill_manager)
 managers/ (18 modules: combat, sect, boss, rift, trade, consignment, bank, bounty, dual_cultivation, etc.)
     |
-data/ (SQLite CRUD: data_manager.py, database_extended.py, migration.py v27)
+data/ (SQLite CRUD: data_manager.py, database_extended.py, migration.py v28)
 ```
 
 **Data flow:** AstrBot message → `@filter.command()` route → `@require_whitelist` → handler → `@player_required` → manager logic → aiosqlite → response via async generator.
@@ -38,7 +38,7 @@ data/ (SQLite CRUD: data_manager.py, database_extended.py, migration.py v27)
 ## Key Patterns
 
 - **`@player_required` decorator** (`handlers/utils.py`): auth check + state enforcement + loan status. Used by most command handlers. Mutually exclusive states enforced via `UserStatus` enum in `models_extended.py`.
-- **`@migration(version=N)` decorator** (`data/migration.py`): register DB migrations. Current version: v27. Increment `LATEST_DB_VERSION` when adding.
+- **`@migration(version=N)` decorator** (`data/migration.py`): register DB migrations. Current version: v28. Increment `LATEST_DB_VERSION` when adding.
 - **`@require_whitelist`**: AstrBot-level group access control, applied at `main.py`.
 - **JSON-serialized fields**: complex data (techniques, pill effects, storage items) stored as JSON strings in SQLite TEXT columns, with getter/setter on `Player`/`Item` dataclasses.
 - **Transaction safety**: critical ops use `BEGIN IMMEDIATE` with rollback. Trade/consignment use conditional UPDATE for concurrent purchase safety.
