@@ -1,67 +1,87 @@
+/* ===================== 古风字体引入 ===================== */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap');
+
 /* ===================== CSS Variables ===================== */
 :root {
-    --bg-primary: #080810;
-    --bg-secondary: #0e0e1a;
-    --bg-tertiary: #161626;
-    --bg-card: #12122080;
-    --bg-card-solid: #121220;
-    --bg-hover: #1a1a30;
-    --text-primary: #eaeaf4;
-    --text-secondary: #8888aa;
-    --text-muted: #555570;
-    --gold: #d4a530;
-    --gold-light: #f0d060;
-    --gold-dim: #a07820;
-    --cyan: #40c8e0;
-    --cyan-dark: #2090a8;
-    --cyan-dim: #1a7088;
-    --red: #e05050;
-    --green: #50c870;
-    --purple: #a060e0;
-    --border: #1e1e35;
-    --border-light: #2a2a48;
-    --glow-gold: rgba(212,165,48,0.15);
-    --glow-cyan: rgba(64,200,224,0.12);
+    /* 修仙主题色 */
+    --bg-dark: #121516;
+    --bg-card: rgba(30, 41, 46, 0.85);
+    --text-main: #d3d7d4;
+    --border-color: #3d4c53;
 
-    --rank-fanpin: #808080;
-    --rank-lingpin: #4caf50;
-    --rank-zhenpin: #2196f3;
-    --rank-shengpin: #9c27b0;
+    /* 五阶发光色 */
+    --rank-mortal: #8a8c8e;
+    --rank-spirit: #16a951;
+    --rank-heaven: #f04b22;
+    --rank-god: #8d4bbb;
+    --rank-holy: #eacb2c;
+
+    /* 保留原有变量以兼容 */
+    --bg-primary: #121516;
+    --bg-secondary: #1e292e;
+    --bg-tertiary: #252f34;
+    --bg-card-solid: rgba(30, 41, 46, 0.95);
+    --bg-hover: rgba(40, 51, 56, 0.9);
+    --text-primary: #d3d7d4;
+    --text-secondary: #9ca3a0;
+    --text-muted: #6b7370;
+    --gold: #eacb2c;
+    --gold-light: #f5e07a;
+    --gold-dim: #c4a820;
+    --cyan: #5fb3b3;
+    --cyan-dark: #4a8f8f;
+    --cyan-dim: #3a7070;
+    --red: #ec5f67;
+    --green: #99c794;
+    --purple: #c594c5;
+    --border: #3d4c53;
+    --border-light: #4d5c63;
+    --glow-gold: rgba(234, 203, 44, 0.2);
+    --glow-cyan: rgba(95, 179, 179, 0.15);
+
+    --rank-fanpin: #8a8c8e;
+    --rank-lingpin: #16a951;
+    --rank-zhenpin: #5fb3b3;
+    --rank-shengpin: #c594c5;
     --rank-dipin: #a0725a;
-    --rank-tianpin: #42a5f5;
-    --rank-huangpin: #ab47bc;
-    --rank-dipin2: #ff9800;
-    --rank-daopin: #e91e63;
-    --rank-xianpin: #ffd700;
-    --rank-shenpin: #ff5722;
-    --rank-hunyuan: #00e5ff;
+    --rank-tianpin: #5fb3b3;
+    --rank-huangpin: #c594c5;
+    --rank-dipin2: #f04b22;
+    --rank-daopin: #8d4bbb;
+    --rank-xianpin: #eacb2c;
+    --rank-shenpin: #ec5f67;
+    --rank-hunyuan: #eacb2c;
 
     --sidebar-width: 250px;
-    --radius: 10px;
-    --radius-sm: 6px;
+    --radius: 2px;
+    --radius-sm: 2px;
 }
 
 /* ===================== Reset & Base ===================== */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
-    background: var(--bg-primary);
-    color: var(--text-primary);
+    font-family: 'Noto Serif SC', "SimSun", "STSong", serif;
+    background: var(--bg-dark);
+    color: var(--text-main);
     display: flex;
     min-height: 100vh;
     overflow-x: hidden;
-    line-height: 1.6;
+    line-height: 1.8;
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    background-attachment: fixed;
 }
 
-/* Subtle background pattern */
+/* 水墨晕染背景 */
 body::before {
     content: '';
     position: fixed;
     inset: 0;
     background:
-        radial-gradient(ellipse 800px 600px at 20% 20%, rgba(212,165,48,0.03), transparent),
-        radial-gradient(ellipse 600px 800px at 80% 80%, rgba(64,200,224,0.02), transparent);
+        radial-gradient(ellipse 900px 700px at 15% 15%, rgba(234,203,44,0.02), transparent),
+        radial-gradient(ellipse 700px 900px at 85% 85%, rgba(95,179,179,0.015), transparent),
+        radial-gradient(ellipse 500px 500px at 50% 50%, rgba(30,41,46,0.3), transparent);
     pointer-events: none;
     z-index: 0;
 }
@@ -70,20 +90,19 @@ body::before {
 #sidebar {
     width: var(--sidebar-width);
     min-height: 100vh;
-    background: linear-gradient(180deg, #0c0c18 0%, #10101e 100%);
-    border-right: 1px solid var(--border);
+    background: linear-gradient(180deg, #0f1315 0%, #151c1f 100%);
+    border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 100;
-    backdrop-filter: blur(10px);
 }
 
 .sidebar-header {
     padding: 28px 20px 20px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-color);
     text-align: center;
 }
 
@@ -92,29 +111,31 @@ body::before {
     height: 52px;
     margin: 0 auto 12px;
     background: linear-gradient(135deg, var(--gold), var(--gold-dim));
-    border-radius: 14px;
+    border-radius: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 24px;
     font-weight: 700;
     color: #0a0a12;
-    box-shadow: 0 4px 20px rgba(212,165,48,0.25);
+    box-shadow: 0 4px 20px rgba(234,203,44,0.3), inset 0 0 8px rgba(0,0,0,0.3);
     letter-spacing: 0;
+    font-family: 'Noto Serif SC', serif;
 }
 
 .sidebar-header h1 {
     font-size: 17px;
     color: var(--gold);
-    letter-spacing: 3px;
-    font-weight: 600;
+    letter-spacing: 5px;
+    font-weight: 700;
+    font-family: 'Noto Serif SC', serif;
 }
 
 .sidebar-header .subtitle {
     font-size: 11px;
     color: var(--text-muted);
     margin-top: 4px;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 
 .nav-list {
@@ -132,22 +153,23 @@ body::before {
     color: var(--text-secondary);
     text-decoration: none;
     font-size: 13.5px;
-    transition: all 0.25s ease;
+    transition: all 0.3s ease;
     border-left: 3px solid transparent;
     position: relative;
+    letter-spacing: 1px;
 }
 
 .nav-link:hover {
-    background: rgba(255,255,255,0.03);
+    background: rgba(234,203,44,0.03);
     color: var(--text-primary);
-    border-left-color: rgba(212,165,48,0.3);
+    border-left-color: rgba(234,203,44,0.4);
 }
 
 .nav-link.active {
     color: var(--gold);
-    background: linear-gradient(90deg, rgba(212,165,48,0.08), transparent);
+    background: linear-gradient(90deg, rgba(234,203,44,0.08), transparent);
     border-left-color: var(--gold);
-    font-weight: 500;
+    font-weight: 700;
 }
 
 .nav-icon {
@@ -161,24 +183,25 @@ body::before {
 
 .sidebar-footer {
     padding: 14px 16px;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--border-color);
 }
 
 #global-search {
     width: 100%;
     padding: 9px 14px;
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border);
-    border-radius: 8px;
+    background: rgba(18, 21, 22, 0.8);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
     color: var(--text-primary);
     font-size: 13px;
+    font-family: 'Noto Serif SC', serif;
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 #global-search:focus {
     border-color: var(--gold-dim);
-    box-shadow: 0 0 0 3px rgba(212,165,48,0.1);
+    box-shadow: 0 0 8px rgba(234,203,44,0.15);
 }
 
 #global-search::placeholder { color: var(--text-muted); }
@@ -193,11 +216,11 @@ body::before {
     z-index: 1;
 }
 
-.page { display: none; animation: fadeIn 0.3s ease; }
+.page { display: none; animation: fadeIn 0.4s ease; }
 .page.active { display: block; }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
+    from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
@@ -206,24 +229,23 @@ body::before {
     color: var(--gold);
     margin-bottom: 28px;
     padding-bottom: 14px;
-    border-bottom: 1px solid var(--border);
-    font-weight: 600;
-    letter-spacing: 1px;
-    background: linear-gradient(90deg, var(--gold), var(--gold-light));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 700;
+    letter-spacing: 4px;
+    font-family: 'Noto Serif SC', serif;
+    text-shadow: 0 0 12px rgba(234,203,44,0.3);
 }
 
 .section-title {
     font-size: 17px;
     color: var(--cyan);
     margin: 28px 0 16px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
     display: flex;
     align-items: center;
     gap: 10px;
+    font-family: 'Noto Serif SC', serif;
 }
 
 .section-title::before {
@@ -231,7 +253,7 @@ body::before {
     width: 4px;
     height: 18px;
     background: linear-gradient(180deg, var(--cyan), var(--cyan-dark));
-    border-radius: 2px;
+    border-radius: 1px;
 }
 
 /* ===================== Stat Cards ===================== */
@@ -243,15 +265,15 @@ body::before {
 }
 
 .stat-card {
-    background: linear-gradient(135deg, var(--bg-card), rgba(18,18,32,0.6));
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
     padding: 20px;
     text-align: center;
     transition: all 0.3s ease;
-    backdrop-filter: blur(8px);
     position: relative;
     overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
 }
 
 .stat-card::before {
@@ -260,16 +282,16 @@ body::before {
     top: 0;
     left: 0;
     right: 0;
-    height: 2px;
+    height: 1px;
     background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
     opacity: 0;
     transition: opacity 0.3s;
 }
 
 .stat-card:hover {
-    border-color: rgba(212,165,48,0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+    border-color: rgba(234,203,44,0.4);
+    transform: translateY(-3px);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 8px 30px rgba(234,203,44,0.08);
 }
 
 .stat-card:hover::before { opacity: 1; }
@@ -292,9 +314,10 @@ body::before {
 .table-wrapper {
     overflow-x: auto;
     margin-bottom: 24px;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    background: var(--bg-card-solid);
+    border-radius: 2px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
 }
 
 .data-table {
@@ -304,15 +327,15 @@ body::before {
 }
 
 .data-table th {
-    background: linear-gradient(180deg, #161630, #12122a);
+    background: rgba(18, 21, 22, 0.9);
     color: var(--text-secondary);
     padding: 11px 14px;
     text-align: left;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 11.5px;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    border-bottom: 2px solid var(--border);
+    letter-spacing: 1.5px;
+    border-bottom: 1px solid var(--border-color);
     cursor: pointer;
     user-select: none;
     white-space: nowrap;
@@ -334,43 +357,44 @@ body::before {
 
 .data-table td {
     padding: 10px 14px;
-    border-bottom: 1px solid rgba(30,30,53,0.6);
+    border-bottom: 1px solid rgba(61,76,83,0.4);
     white-space: nowrap;
-    transition: background 0.15s;
+    transition: background 0.2s;
 }
 
-.data-table tr:hover td { background: var(--bg-hover); }
+.data-table tr:hover td { background: rgba(234,203,44,0.03); }
 
 .data-table tr.clickable { cursor: pointer; }
-.data-table tr.clickable:hover td { background: rgba(212,165,48,0.04); }
+.data-table tr.clickable:hover td { background: rgba(234,203,44,0.05); }
 
 .data-table tr.search-match td {
-    background: rgba(212,165,48,0.08);
+    background: rgba(234,203,44,0.08);
 }
 
 /* ===================== Rank Badges ===================== */
 .rank-badge {
     display: inline-block;
     padding: 2px 9px;
-    border-radius: 5px;
+    border-radius: 2px;
     font-size: 11.5px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    font-weight: 700;
+    letter-spacing: 1px;
     border: 1px solid transparent;
+    font-family: 'Noto Serif SC', serif;
 }
 
-.rank-凡品 { background: rgba(128,128,128,0.15); color: var(--rank-fanpin); border-color: rgba(128,128,128,0.2); }
-.rank-灵品 { background: rgba(76,175,80,0.12); color: var(--rank-lingpin); border-color: rgba(76,175,80,0.2); }
-.rank-珍品 { background: rgba(33,150,243,0.12); color: var(--rank-zhenpin); border-color: rgba(33,150,243,0.2); }
-.rank-圣品 { background: rgba(156,39,176,0.12); color: var(--rank-shengpin); border-color: rgba(156,39,176,0.2); }
-.rank-地品 { background: rgba(160,114,90,0.12); color: var(--rank-dipin); border-color: rgba(160,114,90,0.2); }
-.rank-天品 { background: rgba(66,165,245,0.12); color: var(--rank-tianpin); border-color: rgba(66,165,245,0.2); }
-.rank-皇品 { background: rgba(171,71,188,0.12); color: var(--rank-huangpin); border-color: rgba(171,71,188,0.2); }
-.rank-帝品 { background: rgba(255,152,0,0.12); color: var(--rank-dipin2); border-color: rgba(255,152,0,0.2); }
-.rank-道品 { background: rgba(233,30,99,0.12); color: var(--rank-daopin); border-color: rgba(233,30,99,0.2); }
-.rank-仙品 { background: rgba(255,215,0,0.12); color: var(--rank-xianpin); border-color: rgba(255,215,0,0.2); }
-.rank-神品 { background: rgba(255,87,34,0.12); color: var(--rank-shenpin); border-color: rgba(255,87,34,0.2); }
-.rank-混元先天 { background: rgba(0,229,255,0.1); color: var(--rank-hunyuan); border-color: rgba(0,229,255,0.2); }
+.rank-凡品 { background: rgba(138,140,142,0.12); color: var(--rank-fanpin); border-color: rgba(138,140,142,0.3); }
+.rank-灵品 { background: rgba(22,169,81,0.1); color: var(--rank-lingpin); border-color: rgba(22,169,81,0.3); }
+.rank-珍品 { background: rgba(95,179,179,0.1); color: var(--rank-zhenpin); border-color: rgba(95,179,179,0.3); }
+.rank-圣品 { background: rgba(197,148,197,0.1); color: var(--rank-shengpin); border-color: rgba(197,148,197,0.3); }
+.rank-地品 { background: rgba(160,114,90,0.1); color: var(--rank-dipin); border-color: rgba(160,114,90,0.3); }
+.rank-天品 { background: rgba(95,179,179,0.1); color: var(--rank-tianpin); border-color: rgba(95,179,179,0.3); }
+.rank-皇品 { background: rgba(197,148,197,0.1); color: var(--rank-huangpin); border-color: rgba(197,148,197,0.3); }
+.rank-帝品 { background: rgba(240,75,34,0.1); color: var(--rank-dipin2); border-color: rgba(240,75,34,0.3); }
+.rank-道品 { background: rgba(141,75,187,0.1); color: var(--rank-daopin); border-color: rgba(141,75,187,0.3); }
+.rank-仙品 { background: rgba(234,203,44,0.1); color: var(--rank-xianpin); border-color: rgba(234,203,44,0.3); }
+.rank-神品 { background: rgba(236,95,103,0.1); color: var(--rank-shenpin); border-color: rgba(236,95,103,0.3); }
+.rank-混元先天 { background: rgba(234,203,44,0.08); color: var(--rank-hunyuan); border-color: rgba(234,203,44,0.3); }
 
 .special-attrs {
     font-size: 12px;
@@ -397,27 +421,29 @@ body::before {
 
 .sub-tab {
     padding: 8px 18px;
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border);
-    border-radius: 8px;
+    background: rgba(18, 21, 22, 0.8);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
     color: var(--text-secondary);
     cursor: pointer;
     font-size: 13px;
-    transition: all 0.2s ease;
-    font-weight: 500;
+    transition: all 0.3s ease;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-family: 'Noto Serif SC', serif;
 }
 
 .sub-tab:hover {
     color: var(--text-primary);
     border-color: var(--border-light);
-    background: var(--bg-hover);
+    background: rgba(234,203,44,0.03);
 }
 
 .sub-tab.active {
     color: var(--gold);
     border-color: var(--gold-dim);
-    background: rgba(212,165,48,0.06);
-    box-shadow: 0 0 0 1px rgba(212,165,48,0.1);
+    background: rgba(234,203,44,0.06);
+    box-shadow: 0 0 8px rgba(234,203,44,0.1);
 }
 
 /* ===================== Filter Bar ===================== */
@@ -433,17 +459,19 @@ body::before {
     font-size: 13px;
     color: var(--text-secondary);
     margin-right: 4px;
+    letter-spacing: 1px;
 }
 
 .filter-btn {
     padding: 5px 12px;
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border);
-    border-radius: 6px;
+    background: rgba(18, 21, 22, 0.8);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
     color: var(--text-secondary);
     cursor: pointer;
     font-size: 12px;
-    transition: all 0.15s;
+    transition: all 0.2s;
+    font-family: 'Noto Serif SC', serif;
 }
 
 .filter-btn:hover {
@@ -454,7 +482,7 @@ body::before {
 .filter-btn.active {
     color: var(--gold);
     border-color: var(--gold-dim);
-    background: rgba(212,165,48,0.06);
+    background: rgba(234,203,44,0.06);
 }
 
 /* ===================== Level Path ===================== */
@@ -498,11 +526,12 @@ body::before {
 }
 
 .config-card {
-    background: linear-gradient(135deg, var(--bg-card), rgba(18,18,32,0.5));
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
     padding: 18px;
-    transition: border-color 0.2s;
+    transition: border-color 0.3s;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
 }
 
 .config-card:hover { border-color: var(--border-light); }
@@ -512,8 +541,10 @@ body::before {
     font-size: 14px;
     margin-bottom: 12px;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-family: 'Noto Serif SC', serif;
 }
 
 .config-row {
@@ -528,20 +559,21 @@ body::before {
 
 /* ===================== Route / Adventure Cards ===================== */
 .route-card {
-    background: linear-gradient(135deg, var(--bg-card), rgba(18,18,32,0.5));
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
     padding: 18px 22px;
     margin-bottom: 14px;
-    transition: all 0.2s;
+    transition: all 0.3s;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
 }
 
 .route-card:hover {
     border-color: var(--cyan-dim);
-    box-shadow: 0 4px 20px rgba(64,200,224,0.06);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.4), 0 4px 20px rgba(95,179,179,0.08);
 }
 
-.route-card h3 { color: var(--cyan); font-size: 15px; margin-bottom: 8px; font-weight: 600; }
+.route-card h3 { color: var(--cyan); font-size: 15px; margin-bottom: 8px; font-weight: 700; letter-spacing: 1px; }
 .route-detail { font-size: 13px; color: var(--text-secondary); line-height: 1.8; }
 
 /* ===================== Number Highlights ===================== */
@@ -553,9 +585,72 @@ body::before {
 
 /* ===================== Search ===================== */
 .search-highlight {
-    background: rgba(212,165,48,0.25);
+    background: rgba(234,203,44,0.25);
     padding: 0 3px;
-    border-radius: 3px;
+    border-radius: 2px;
+}
+
+/* ===================== Item Card (古风玉简风格) ===================== */
+.item-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+}
+
+.item-card:hover {
+    transform: translateY(-3px);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.item-card .item-name {
+    writing-mode: vertical-rl;
+    float: right;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--gold);
+    padding-left: 12px;
+    margin-left: 12px;
+    border-left: 1px solid rgba(61,76,83,0.4);
+    font-family: 'Noto Serif SC', serif;
+    text-shadow: 0 0 8px rgba(234,203,44,0.2);
+}
+
+/* ===================== 五阶发光特效 ===================== */
+.rank-mortal {
+    border-color: var(--rank-mortal);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 8px rgba(138,140,142,0.2);
+}
+
+.rank-spirit {
+    border-color: var(--rank-spirit);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 12px rgba(22,169,81,0.25);
+}
+
+.rank-heaven {
+    border-color: var(--rank-heaven);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 15px rgba(240,75,34,0.3);
+}
+
+.rank-god {
+    border-color: var(--rank-god);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 18px rgba(141,75,187,0.35);
+}
+
+.rank-holy {
+    border-color: var(--rank-holy);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 22px rgba(234,203,44,0.4);
+}
+
+.rank-holy .item-name,
+.rank-holy h3,
+.rank-holy .modal-title {
+    text-shadow: 0 0 12px rgba(234,203,44,0.6), 0 0 24px rgba(234,203,44,0.3);
 }
 
 /* ===================== Formula Cards (Combat Page) ===================== */
@@ -567,12 +662,13 @@ body::before {
 }
 
 .formula-card {
-    background: linear-gradient(135deg, rgba(18,18,32,0.9), rgba(12,12,24,0.8));
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
     padding: 22px;
     position: relative;
     overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
 }
 
 .formula-card::before {
@@ -581,26 +677,28 @@ body::before {
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
+    height: 2px;
     background: linear-gradient(90deg, var(--cyan), var(--purple));
-    border-radius: 3px 3px 0 0;
+    border-radius: 0;
 }
 
 .formula-card h3 {
     color: var(--cyan);
     font-size: 15px;
     margin-bottom: 14px;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-family: 'Noto Serif SC', serif;
 }
 
 .formula-expr {
     font-family: "Cascadia Code", "Fira Code", "JetBrains Mono", monospace;
     font-size: 13.5px;
     color: var(--gold-light);
-    background: rgba(0,0,0,0.3);
+    background: rgba(0,0,0,0.4);
     padding: 12px 16px;
-    border-radius: 8px;
-    border: 1px solid rgba(212,165,48,0.1);
+    border-radius: 2px;
+    border: 1px solid rgba(234,203,44,0.1);
     margin-bottom: 10px;
     line-height: 1.7;
     word-break: break-all;
@@ -620,13 +718,15 @@ body::before {
 .cmd-group-title {
     font-size: 15px;
     color: var(--cyan);
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 12px;
     padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
     gap: 8px;
+    letter-spacing: 2px;
+    font-family: 'Noto Serif SC', serif;
 }
 
 .cmd-list {
@@ -641,10 +741,11 @@ body::before {
     gap: 10px;
     padding: 10px 14px;
     background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
     transition: border-color 0.2s;
     font-size: 13px;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
 
 .cmd-item:hover { border-color: var(--border-light); }
@@ -673,13 +774,14 @@ body::before {
 }
 
 .system-card {
-    background: linear-gradient(135deg, var(--bg-card), rgba(18,18,32,0.5));
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
     padding: 22px;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
 }
 
 .system-card::after {
@@ -688,16 +790,16 @@ body::before {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 2px;
+    height: 1px;
     background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
     opacity: 0;
     transition: opacity 0.3s;
 }
 
 .system-card:hover {
-    border-color: rgba(212,165,48,0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    border-color: rgba(234,203,44,0.3);
+    transform: translateY(-3px);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 8px 30px rgba(0,0,0,0.4);
 }
 
 .system-card:hover::after { opacity: 1; }
@@ -706,7 +808,9 @@ body::before {
     color: var(--gold);
     font-size: 16px;
     margin-bottom: 10px;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-family: 'Noto Serif SC', serif;
 }
 
 .system-card p {
@@ -727,7 +831,7 @@ body::before {
     color: var(--text-secondary);
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(30,30,53,0.4);
+    border-bottom: 1px solid rgba(61,76,83,0.3);
 }
 
 .system-card .detail-list li:last-child { border-bottom: none; }
@@ -749,22 +853,22 @@ body::before {
 .modal-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.75);
+    background: rgba(0,0,0,0.8);
     backdrop-filter: blur(4px);
 }
 
 .modal-content {
     position: relative;
-    background: linear-gradient(180deg, #141428, #0e0e1e);
+    background: linear-gradient(180deg, #1a2226, #121516);
     border: 1px solid var(--gold-dim);
-    border-radius: 14px;
+    border-radius: 2px;
     padding: 30px;
     max-width: 580px;
     width: 92%;
     max-height: 80vh;
     overflow-y: auto;
     z-index: 1;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(212,165,48,0.1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 30px rgba(234,203,44,0.08);
 }
 
 .modal-close {
@@ -786,7 +890,10 @@ body::before {
     font-size: 20px;
     color: var(--gold);
     margin-bottom: 18px;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 3px;
+    font-family: 'Noto Serif SC', serif;
+    text-shadow: 0 0 10px rgba(234,203,44,0.2);
 }
 
 .modal-section { margin-bottom: 16px; }
@@ -796,8 +903,9 @@ body::before {
     color: var(--cyan);
     margin-bottom: 8px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    font-weight: 600;
+    letter-spacing: 2px;
+    font-weight: 700;
+    font-family: 'Noto Serif SC', serif;
 }
 
 .modal-field {
@@ -814,7 +922,7 @@ body::before {
 .loading {
     position: fixed;
     inset: 0;
-    background: var(--bg-primary);
+    background: var(--bg-dark);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -828,10 +936,10 @@ body::before {
 .loading-spinner {
     width: 44px;
     height: 44px;
-    border: 3px solid var(--border);
+    border: 2px solid var(--border-color);
     border-top-color: var(--gold);
     border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+    animation: spin 1.2s linear infinite;
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -839,20 +947,21 @@ body::before {
 .loading p {
     color: var(--text-secondary);
     font-size: 14px;
-    letter-spacing: 1px;
+    letter-spacing: 3px;
+    font-family: 'Noto Serif SC', serif;
 }
 
 /* ===================== Info Box ===================== */
 .info-box {
-    background: rgba(64,200,224,0.05);
-    border: 1px solid rgba(64,200,224,0.15);
+    background: rgba(95,179,179,0.04);
+    border: 1px solid rgba(95,179,179,0.15);
     border-left: 3px solid var(--cyan);
-    border-radius: var(--radius-sm);
+    border-radius: 2px;
     padding: 14px 18px;
     margin-bottom: 20px;
     font-size: 13px;
     color: var(--text-secondary);
-    line-height: 1.7;
+    line-height: 1.8;
 }
 
 .info-box strong { color: var(--cyan); }
@@ -870,7 +979,7 @@ body::before {
         top: 0;
         flex-direction: column;
         border-right: none;
-        border-bottom: 1px solid var(--border);
+        border-bottom: 1px solid var(--border-color);
         z-index: 100;
     }
 
@@ -879,11 +988,11 @@ body::before {
         align-items: center;
         gap: 12px;
         padding: 12px 16px;
-        border-bottom: 1px solid var(--border);
+        border-bottom: 1px solid var(--border-color);
     }
     .sidebar-header h1 { font-size: 15px; }
     .sidebar-header .subtitle { margin-top: 0; font-size: 11px; }
-    .logo-icon { width: 36px; height: 36px; font-size: 18px; border-radius: 10px; margin: 0; }
+    .logo-icon { width: 36px; height: 36px; font-size: 18px; border-radius: 2px; margin: 0; }
 
     .nav-list {
         display: flex;
@@ -988,7 +1097,7 @@ body::before {
     .config-card { padding: 14px; }
 
     /* Modal */
-    .modal-content { padding: 20px; border-radius: 12px; }
+    .modal-content { padding: 20px; border-radius: 2px; }
     .modal-title { font-size: 17px; }
 }
 
@@ -1017,9 +1126,9 @@ body::before {
 }
 
 /* ===================== Scrollbar ===================== */
-::-webkit-scrollbar { width: 7px; height: 7px; }
-::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 4px; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
 /* ===================== Animations ===================== */

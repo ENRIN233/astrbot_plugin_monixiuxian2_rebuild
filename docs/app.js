@@ -50,6 +50,16 @@ function rankOrder(rank) {
     return idx >= 0 ? idx : 99;
 }
 
+function getRankGlowClass(rank) {
+    if (!rank) return '';
+    if (/后天|先天|凡品/.test(rank)) return 'rank-mortal';
+    if (/神丹|虚劫|灵品|地品/.test(rank)) return 'rank-spirit';
+    if (/神海|神劫|神变|界主|天尊|天品|皇品/.test(rank)) return 'rank-heaven';
+    if (/真神|荒神|帝品|道品/.test(rank)) return 'rank-god';
+    if (/圣人|永恒|限定|仙品|混元先天/.test(rank)) return 'rank-holy';
+    return '';
+}
+
 function esc(str) {
     if (str === null || str === undefined) return '';
     return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -123,7 +133,7 @@ function showPage(pageName) {
 // ===================== Table Helpers =====================
 
 function createTable(headers, rows, options = {}) {
-    const { sortable = true, onRowClick, emptyText = '暂无数据' } = options;
+    const { sortable = true, onRowClick, emptyText = '暂无数据', rankData } = options;
     if (rows.length === 0) {
         return `<div class="table-wrapper"><div style="padding:24px;text-align:center;color:var(--text-muted)">${emptyText}</div></div>`;
     }
@@ -135,7 +145,8 @@ function createTable(headers, rows, options = {}) {
     });
     html += '</tr></thead><tbody>';
     rows.forEach((row, ri) => {
-        const clickAttr = onRowClick ? ` class="clickable" data-row="${ri}"` : '';
+        const glowCls = rankData && rankData[ri] ? getRankGlowClass(rankData[ri]) : '';
+        const clickAttr = onRowClick ? ' class="clickable' + (glowCls ? ' ' + glowCls : '') + `" data-row="${ri}"` : (glowCls ? ` class="${glowCls}"` : '');
         html += `<tr${clickAttr}>`;
         row.forEach(cell => { html += `<td>${cell}</td>`; });
         html += '</tr>';
@@ -172,6 +183,8 @@ function makeTableSortable(container) {
 
 function showModal(title, html) {
     const modal = document.getElementById('detail-modal');
+    const content = modal.querySelector('.modal-content');
+    content.className = 'modal-content';
     document.getElementById('modal-body').innerHTML = `<div class="modal-title">${title}</div>${html}`;
     modal.classList.remove('hidden');
 }
@@ -364,7 +377,8 @@ function renderBreakthroughPills(container) {
         ];
     });
 
-    container.innerHTML = createTable(headers, rows);
+    const rankData = pills.map(p => p.rank);
+    container.innerHTML = createTable(headers, rows, { rankData });
     makeTableSortable(container);
     addPillRowClicks(container, pills, 'breakthrough');
 }
@@ -381,7 +395,8 @@ function renderExpPills(container) {
         esc(levelName(p.required_level_index))
     ]);
 
-    container.innerHTML = createTable(headers, rows);
+    const rankData = pills.map(p => p.rank);
+    container.innerHTML = createTable(headers, rows, { rankData });
     makeTableSortable(container);
     addPillRowClicks(container, pills, 'exp');
 }
@@ -565,6 +580,10 @@ function showPillDetail(pill, type) {
     if (fields.length) html += modalSection('效果属性', fields.join(''));
 
     showModal(pill.name, html);
+    const glowCls = getRankGlowClass(pill.rank);
+    if (glowCls) {
+        document.querySelector('.modal-content').classList.add(glowCls);
+    }
 }
 
 // ===================== Equipment =====================
@@ -656,7 +675,8 @@ function renderWeapons(container) {
             `<span data-sortvalue="${w.mental_power || 0}">${w.mental_power || 0}</span>`,
             `<span class="special-attrs">${formatSpecialAttrs(w)}</span>`
         ]);
-        html += createTable(headers, rows, { onRowClick: true });
+        const rankData = group.map(w => w.rank);
+        html += createTable(headers, rows, { onRowClick: true, rankData });
     });
 
     if (armors.length) {
@@ -742,6 +762,10 @@ function showWeaponDetail(w) {
     if (w.shop_weight !== undefined) html += modalSection('其他', modalField('商店权重', w.shop_weight));
 
     showModal(w.name, html);
+    const glowCls = getRankGlowClass(w.rank);
+    if (glowCls) {
+        document.querySelector('.modal-content').classList.add(glowCls);
+    }
 }
 
 function renderTechniques(container) {
