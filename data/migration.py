@@ -5,7 +5,7 @@ from typing import Dict, Callable, Awaitable
 from astrbot.api import logger
 from ..config_manager import ConfigManager
 
-LATEST_DB_VERSION = 26  # v26: 灵眼改为修炼效率加成
+LATEST_DB_VERSION = 27  # v27: 神通系统
 
 MIGRATION_TASKS: Dict[int, Callable[[aiosqlite.Connection, ConfigManager], Awaitable[None]]] = {}
 
@@ -526,7 +526,8 @@ async def _create_all_tables_v2(conn: aiosqlite.Connection):
 
             daily_pill_usage TEXT NOT NULL DEFAULT '{}',
             last_daily_reset TEXT NOT NULL DEFAULT '',
-            permanent_pill_usage TEXT NOT NULL DEFAULT '{}'
+            permanent_pill_usage TEXT NOT NULL DEFAULT '{}',
+            shentong TEXT NOT NULL DEFAULT ''
         )
     """)
 
@@ -1528,3 +1529,11 @@ async def _migrate_to_v26(conn: aiosqlite.Connection, config_manager: ConfigMana
 
     await conn.commit()
     logger.info("v26迁移完成：灵眼已改为修炼效率加成")
+
+@migration(27)
+async def _migrate_to_v27(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """迁移到v27 - 添加神通系统"""
+    logger.info("开始迁移到v27：神通系统")
+    await conn.execute("ALTER TABLE players ADD COLUMN shentong TEXT NOT NULL DEFAULT ''")
+    await conn.commit()
+    logger.info("v27迁移完成：神通系统")

@@ -91,7 +91,8 @@ async function loadAllData() {
     const files = [
         'level_config', 'body_level_config', 'pills', 'exp_pills',
         'utility_pills', 'items', 'weapons', 'storage_rings',
-        'alchemy_recipes', 'adventure_config', 'bounty_templates', 'game_config'
+        'alchemy_recipes', 'adventure_config', 'bounty_templates', 'game_config',
+        'skills'
     ];
     const promises = files.map(async f => {
         try {
@@ -1638,6 +1639,93 @@ function performSearch(query) {
     });
 }
 
+// ===================== Render Skills =====================
+
+function renderSkills() {
+    const page = document.getElementById('page-skills');
+    const skills = DATA.skills || {};
+    const skillList = Object.values(skills);
+
+    if (!skillList.length) {
+        page.innerHTML = '<h2 class="page-title">神通系统</h2><p>暂无神通数据</p>';
+        return;
+    }
+
+    const typeLabels = {1: '攻击', 2: '持续', 3: '增益', 4: '控制'};
+    const typeKeys = ['attack', 'continuous', 'buff', 'control'];
+
+    const tabs = [1, 2, 3, 4].map((t, i) => {
+        const count = skillList.filter(s => s.skill_type === t).length;
+        return `<div class="sub-tab${i === 0 ? ' active' : ''}" data-skill-tab="${typeKeys[i]}">${typeLabels[t]} (${count})</div>`;
+    }).join('');
+
+    page.innerHTML = `
+        <h2 class="page-title">神通系统</h2>
+        <p class="page-desc">战斗前装备神通，战斗中自动触发。神通消耗MP，有冷却回合和触发概率。</p>
+        <div class="sub-tabs" id="skills-tabs">${tabs}</div>
+        <div id="skills-content"></div>
+    `;
+
+    function renderTab(tabKey) {
+        const typeIdx = typeKeys.indexOf(tabKey) + 1;
+        const filtered = skillList.filter(s => s.skill_type === typeIdx).sort((a, b) => (a.required_level_index || 0) - (b.required_level_index || 0));
+
+        let headers, rows;
+        if (typeIdx === 1) {
+            headers = ['名称', '品阶', '境界', '伤害倍率', '段数', 'MP消耗', 'HP消耗', '冷却', '触发率'];
+            rows = filtered.map(s => {
+                const av = Array.isArray(s.atkvalue) ? s.atkvalue : [s.atkvalue || 0];
+                const hpStr = s.hpcost > 0 ? `${Math.round(s.hpcost * 100)}%` : '-';
+                return `<tr>
+                    <td class="item-name">${s.name}</td><td>${s.rank || '-'}</td><td>Lv${s.required_level_index || 0}</td>
+                    <td>${av.join(', ')}</td><td>${av.length}</td><td>${s.mpcost || 0}</td><td>${hpStr}</td>
+                    <td>${s.turncost || 0}</td><td>${s.rate || 100}%</td>
+                </tr>`;
+            }).join('');
+        } else if (typeIdx === 2) {
+            headers = ['名称', '品阶', '境界', '伤害倍率', '持续', 'MP消耗', '冷却', '触发率'];
+            rows = filtered.map(s => `<tr>
+                <td class="item-name">${s.name}</td><td>${s.rank || '-'}</td><td>Lv${s.required_level_index || 0}</td>
+                <td>${s.atkvalue || 0}</td><td>${s.turncost || 0}</td><td>${s.mpcost || 0}</td>
+                <td>${s.turncost || 0}</td><td>${s.rate || 100}%</td>
+            </tr>`).join('');
+        } else if (typeIdx === 3) {
+            headers = ['名称', '品阶', '境界', '增益类型', '增益幅度', '持续', 'MP消耗', '冷却', '触发率'];
+            rows = filtered.map(s => {
+                const bt = s.bufftype === 1 ? '攻击' : '防御';
+                const bv = `${Math.round((s.buffvalue || 0) * 100)}%`;
+                return `<tr>
+                    <td class="item-name">${s.name}</td><td>${s.rank || '-'}</td><td>Lv${s.required_level_index || 0}</td>
+                    <td>${bt}</td><td>${bv}</td><td>${s.turncost || 0}</td><td>${s.mpcost || 0}</td>
+                    <td>${s.turncost || 0}</td><td>${s.rate || 100}%</td>
+                </tr>`;
+            }).join('');
+        } else {
+            headers = ['名称', '品阶', '境界', '封禁回合', '成功率', 'MP消耗', '冷却', '触发率'];
+            rows = filtered.map(s => `<tr>
+                <td class="item-name">${s.name}</td><td>${s.rank || '-'}</td><td>Lv${s.required_level_index || 0}</td>
+                <td>${s.turncost || 0}</td><td>${s.success || 50}%</td><td>${s.mpcost || 0}</td>
+                <td>${s.turncost || 0}</td><td>${s.rate || 100}%</td>
+            </tr>`).join('');
+        }
+
+        return `<table class="data-table">
+            <thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>
+            <tbody>${rows || '<tr><td colspan="99">暂无数据</td></tr>'}</tbody>
+        </table>`;
+    }
+
+    document.getElementById('skills-content').innerHTML = renderTab('attack');
+
+    document.getElementById('skills-tabs').addEventListener('click', e => {
+        const tab = e.target.closest('.sub-tab');
+        if (!tab) return;
+        document.querySelectorAll('#skills-tabs .sub-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('skills-content').innerHTML = renderTab(tab.dataset.skillTab);
+    });
+}
+
 // ===================== Render Dispatcher =====================
 
 function renderPage(name) {
@@ -1651,6 +1739,7 @@ function renderPage(name) {
         case 'commands': renderCommands(); break;
         case 'alchemy': renderAlchemy(); break;
         case 'adventure': renderAdventure(); break;
+        case 'skills': renderSkills(); break;
     }
 }
 

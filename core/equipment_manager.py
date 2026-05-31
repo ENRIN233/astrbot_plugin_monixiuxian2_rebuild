@@ -16,13 +16,14 @@ class EquipmentManager:
         self.config_manager = config_manager
         self.storage_ring_manager = storage_ring_manager
 
-    def parse_item_from_name(self, item_name: str, items_data: dict, weapons_data: dict = None) -> Optional[Item]:
+    def parse_item_from_name(self, item_name: str, items_data: dict, weapons_data: dict = None, skills_data: dict = None) -> Optional[Item]:
         """从物品名称解析为Item对象
 
         Args:
             item_name: 物品名称
             items_data: 物品配置数据字典
             weapons_data: 武器配置数据字典（可选）
+            skills_data: 神通配置数据字典（可选）
 
         Returns:
             Item对象，如果未找到则返回None
@@ -36,6 +37,15 @@ class EquipmentManager:
         # 如果没找到且提供了武器配置，从武器配置中查找
         if not item_config and weapons_data:
             item_config = weapons_data.get(item_name)
+
+        # 如果还没找到且提供了神通配置，从神通配置中查找
+        if not item_config and skills_data:
+            item_config = skills_data.get(item_name)
+            if item_config:
+                # 为神通添加type标记
+                item_config = dict(item_config)
+                if "type" not in item_config:
+                    item_config["type"] = "shentong"
 
         if not item_config:
             return None
@@ -94,13 +104,14 @@ class EquipmentManager:
             hp_bonus=item_config.get("hp_bonus", 0.0)
         )
 
-    def get_equipped_items(self, player: Player, items_data: dict, weapons_data: dict = None) -> List[Item]:
+    def get_equipped_items(self, player: Player, items_data: dict, weapons_data: dict = None, skills_data: dict = None) -> List[Item]:
         """获取玩家所有已装备的物品
 
         Args:
             player: 玩家对象
             items_data: 物品配置数据字典
             weapons_data: 武器配置数据字典（可选）
+            skills_data: 神通配置数据字典（可选）
 
         Returns:
             已装备物品列表
@@ -109,26 +120,32 @@ class EquipmentManager:
 
         # 武器
         if player.weapon:
-            item = self.parse_item_from_name(player.weapon, items_data, weapons_data)
+            item = self.parse_item_from_name(player.weapon, items_data, weapons_data, skills_data)
             if item:
                 equipped.append(item)
 
         # 防具
         if player.armor:
-            item = self.parse_item_from_name(player.armor, items_data, weapons_data)
+            item = self.parse_item_from_name(player.armor, items_data, weapons_data, skills_data)
             if item:
                 equipped.append(item)
 
         # 主修心法
         if player.main_technique:
-            item = self.parse_item_from_name(player.main_technique, items_data, weapons_data)
+            item = self.parse_item_from_name(player.main_technique, items_data, weapons_data, skills_data)
             if item:
                 equipped.append(item)
 
         # 功法列表
         techniques_list = player.get_techniques_list()
         for technique_name in techniques_list:
-            item = self.parse_item_from_name(technique_name, items_data, weapons_data)
+            item = self.parse_item_from_name(technique_name, items_data, weapons_data, skills_data)
+            if item:
+                equipped.append(item)
+
+        # 神通
+        if player.shentong:
+            item = self.parse_item_from_name(player.shentong, items_data, weapons_data, skills_data)
             if item:
                 equipped.append(item)
 
@@ -237,6 +254,16 @@ class EquipmentManager:
             await self.db.update_player(player)
             return True, f"已装备功法【{item.name}】（{item.rank}）（{len(techniques_list)}/3）"
 
+        elif item.item_type == "shentong":
+            old_skill = player.shentong
+            player.shentong = item.name
+            await self.db.update_player(player)
+            if old_skill:
+                storage_msg = await self._store_old_equipment(player, old_skill)
+                return True, f"已将神通【{old_skill}】替换为【{item.name}】（{item.rank}）{storage_msg}"
+            else:
+                return True, f"已装备神通【{item.name}】（{item.rank}）"
+
         else:
             return False, f"未知的装备类型：{item.item_type}"
 
@@ -282,6 +309,15 @@ class EquipmentManager:
             player.set_techniques_list(techniques_list)
             await self.db.update_player(player)
             return True, f"已卸下功法【{slot_or_name}】"
+
+        # 卸下神通
+        if slot_or_name in ["神通", "shentong"]:
+            if not player.shentong:
+                return False, "未装备神通"
+            item_name = player.shentong
+            player.shentong = ""
+            await self.db.update_player(player)
+            return True, f"已卸下神通【{item_name}】"
 
         return False, f"未找到装备：{slot_or_name}"
 

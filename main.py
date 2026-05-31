@@ -230,8 +230,10 @@ class XiuXianPlugin(Star):
         self.storage_ring_mgr = StorageRingManager(self.db, self.config_manager)
         
         self.combat_mgr = CombatManager()
+        from .managers.skill_manager import SkillManager
+        self.skill_mgr = SkillManager(self.config_manager)
         self.sect_mgr = SectManager(self.db, self.config_manager)
-        self.boss_mgr = BossManager(self.db, self.combat_mgr, self.config_manager, self.storage_ring_mgr)
+        self.boss_mgr = BossManager(self.db, self.combat_mgr, self.config_manager, self.storage_ring_mgr, self.skill_mgr)
         self.rift_mgr = RiftManager(self.db, self.config_manager, self.storage_ring_mgr)
         self.rank_mgr = RankingManager(self.db, self.combat_mgr, self.config_manager)
         self.adventure_mgr = AdventureManager(self.db, self.storage_ring_mgr)
@@ -241,7 +243,7 @@ class XiuXianPlugin(Star):
         # 初始化新功能处理器
         self.sect_handlers = SectHandlers(self.db, self.sect_mgr)
         self.boss_handlers = BossHandlers(self.db, self.boss_mgr)
-        self.combat_handlers = CombatHandlers(self.db, self.combat_mgr, self.config_manager)
+        self.combat_handlers = CombatHandlers(self.db, self.combat_mgr, self.config_manager, self.skill_mgr)
         self.ranking_handlers = RankingHandlers(self.db, self.rank_mgr)
         self.rift_handlers = RiftHandlers(self.db, self.rift_mgr)
         self.adventure_handlers = AdventureHandlers(self.db, self.adventure_mgr)
@@ -267,6 +269,14 @@ class XiuXianPlugin(Star):
         self.dual_cult_mgr = DualCultivationManager(self.db, self.pill_handler.pill_manager)
         self.dual_cult_handlers = DualCultivationHandlers(self.db, self.dual_cult_mgr)
         self.spirit_eye_handlers = SpiritEyeHandlers(self.db, self.spirit_eye_mgr)
+
+        # 神通系统
+        from .handlers.skill_handler import SkillHandler
+        self.skill_handler = SkillHandler(
+            self.db, self.config_manager, self.skill_mgr,
+            self.equipment_handler.equipment_manager,
+            self.equipment_handler.storage_ring_manager
+        )
 
         # 玩家交易系统：manager 在 initialize() 中创建（需要 db.conn）
         self.trade_mgr = None
@@ -1123,6 +1133,38 @@ class XiuXianPlugin(Star):
     @require_whitelist
     async def handle_spar(self, event: AstrMessageEvent, target: str = ""):
         async for r in self.combat_handlers.handle_spar(event, target):
+            yield r
+
+    # ===== 神通指令 =====
+
+    @filter.command("神通列表", "查看所有神通")
+    @require_whitelist
+    async def handle_skill_list(self, event: AstrMessageEvent):
+        async for r in self.skill_handler.handle_skill_list(event):
+            yield r
+
+    @filter.command("我的神通", "查看已装备神通")
+    @require_whitelist
+    async def handle_my_skill(self, event: AstrMessageEvent):
+        async for r in self.skill_handler.handle_my_skill(event):
+            yield r
+
+    @filter.command("装备神通", "装备神通 [名称]")
+    @require_whitelist
+    async def handle_equip_skill(self, event: AstrMessageEvent, skill_name: str = ""):
+        async for r in self.skill_handler.handle_equip_skill(event, skill_name):
+            yield r
+
+    @filter.command("卸下神通", "卸下当前神通")
+    @require_whitelist
+    async def handle_unequip_skill(self, event: AstrMessageEvent):
+        async for r in self.skill_handler.handle_unequip_skill(event):
+            yield r
+
+    @filter.command("神通信息", "查看神通详情 [名称]")
+    @require_whitelist
+    async def handle_skill_info(self, event: AstrMessageEvent, skill_name: str = ""):
+        async for r in self.skill_handler.handle_skill_info(event, skill_name):
             yield r
 
     # ===== 秘境指令 =====

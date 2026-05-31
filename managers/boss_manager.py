@@ -51,11 +51,12 @@ class BossManager:
         ],
     }
     
-    def __init__(self, db: DataBase, combat_mgr: CombatManager, config_manager=None, storage_ring_manager: "StorageRingManager" = None):
+    def __init__(self, db: DataBase, combat_mgr: CombatManager, config_manager=None, storage_ring_manager: "StorageRingManager" = None, skill_manager=None):
         self.db = db
         self.combat_mgr = combat_mgr
         self.config_manager = config_manager
         self.storage_ring_manager = storage_ring_manager
+        self.skill_manager = skill_manager
         self.config = config_manager.boss_config if config_manager else {}
         self.levels = self.config.get("levels", self.BOSS_LEVELS)
     
@@ -199,8 +200,13 @@ ATK：{atk}
             exp=boss.stone_reward  # 奖励存在exp字段
         )
         
-        # 5. 开始战斗
-        battle_result = self.combat_mgr.player_vs_boss(player_stats, boss_stats)
+        # 5. 开始战斗（含神通支持）
+        player_skill = player.shentong if hasattr(player, 'shentong') and player.shentong else ""
+        battle_result = self.combat_mgr.player_vs_boss(
+            player_stats, boss_stats,
+            player_skill_name=player_skill,
+            skill_manager=self.skill_manager
+        )
         
         # 6. 处理战斗结果
         winner = battle_result["winner"]

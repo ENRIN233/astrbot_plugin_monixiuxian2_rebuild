@@ -14,10 +14,11 @@ DUEL_COOLDOWN = 300  # 决斗冷却5分钟
 SPAR_COOLDOWN = 60   # 切磋冷却1分钟
 
 class CombatHandlers:
-    def __init__(self, db: DataBase, combat_mgr: CombatManager, config_manager=None):
+    def __init__(self, db: DataBase, combat_mgr: CombatManager, config_manager=None, skill_manager=None):
         self.db = db
         self.combat_mgr = combat_mgr
         self.config_manager = config_manager
+        self.skill_manager = skill_manager
     
     async def _get_combat_cooldown(self, user_id: str) -> dict:
         """获取战斗冷却信息"""
@@ -102,6 +103,13 @@ class CombatHandlers:
 
         return stats
 
+    async def _get_player_skill(self, user_id: str) -> str:
+        """获取玩家装备的神通名称"""
+        player = await self.db.get_player_by_id(user_id)
+        if player and player.shentong:
+            return player.shentong
+        return ""
+
     async def handle_duel(self, event: AstrMessageEvent, target: str):
         """决斗 (消耗气血)"""
         user_id = event.get_sender_id()
@@ -141,7 +149,7 @@ class CombatHandlers:
         # 获取双方数据
         p1_stats = await self._prepare_combat_stats(user_id)
         p2_stats = await self._prepare_combat_stats(target_id)
-        
+
         if not p1_stats:
             yield event.plain_result("❌ 你还未踏入修仙之路")
             return
@@ -149,8 +157,16 @@ class CombatHandlers:
             yield event.plain_result("❌ 对方还未踏入修仙之路")
             return
 
+        # 获取神通
+        p1_skill = await self._get_player_skill(user_id)
+        p2_skill = await self._get_player_skill(target_id)
+
         # 战斗
-        result = self.combat_mgr.player_vs_player(p1_stats, p2_stats, combat_type=2) # 2=决斗
+        result = self.combat_mgr.player_vs_player(
+            p1_stats, p2_stats, combat_type=2,
+            p1_skill_name=p1_skill, p2_skill_name=p2_skill,
+            skill_manager=self.skill_manager
+        )
         
         # 结算（更新HP）
         await self.db.ext.update_player_hp_mp(user_id, result['player1_final_hp'], result['player1_final_mp'])
@@ -201,12 +217,19 @@ class CombatHandlers:
 
         p1_stats = await self._prepare_combat_stats(user_id)
         p2_stats = await self._prepare_combat_stats(target_id)
-        
+
         if not p1_stats or not p2_stats:
              yield event.plain_result("❌ 双方都需要踏入修仙之路")
              return
 
-        result = self.combat_mgr.player_vs_player(p1_stats, p2_stats, combat_type=1) # 1=切磋
+        p1_skill = await self._get_player_skill(user_id)
+        p2_skill = await self._get_player_skill(target_id)
+
+        result = self.combat_mgr.player_vs_player(
+            p1_stats, p2_stats, combat_type=1,
+            p1_skill_name=p1_skill, p2_skill_name=p2_skill,
+            skill_manager=self.skill_manager
+        )
         
         # 更新冷却
         await self._update_combat_cooldown(user_id, "spar")

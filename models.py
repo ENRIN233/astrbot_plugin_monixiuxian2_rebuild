@@ -81,6 +81,7 @@ class Player:
     armor: str = ""  # 防具
     main_technique: str = ""  # 主修心法
     techniques: str = "[]"  # 功法列表（JSON字符串，最多3个）
+    shentong: str = ""  # 神通（装备的技能名称，单个）
 
     # 战斗属性（HP/MP/ATK系统）
     hp: int = 0  # 当前气血值

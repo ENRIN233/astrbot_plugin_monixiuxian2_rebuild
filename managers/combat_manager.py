@@ -254,14 +254,25 @@ class CombatManager:
         cls,
         player1: CombatStats,
         player2: CombatStats,
-        combat_type: int = 1
+        combat_type: int = 1,
+        p1_skill_name: str = "",
+        p2_skill_name: str = "",
+        skill_manager=None
     ) -> Dict:
+        from .skill_manager import SkillManager, CombatSkillState, format_skill_result
+
         combat_log = []
         combat_log.append(f"☆━━━━ 战斗开始 ━━━━☆")
         combat_log.append(f"{player1.name} VS {player2.name}")
-        combat_log.append(f"{player1.name}：HP {player1.hp}/{player1.max_hp}，ATK {player1.atk}")
-        combat_log.append(f"{player2.name}：HP {player2.hp}/{player2.max_hp}，ATK {player2.atk}")
-        combat_log.append("")
+        combat_log.append(f"{player1.name}：HP {player1.hp}/{player1.max_hp}，ATK {player1.atk}，MP {player1.mp}/{player1.max_mp}")
+        combat_log.append(f"{player2.name}：HP {player2.hp}/{player2.max_hp}，ATK {player2.atk}，MP {player2.mp}/{player2.max_mp}")
+
+        has_skills = skill_manager and (p1_skill_name or p2_skill_name)
+        if has_skills:
+            p1_state = SkillManager.init_combat_state(player1.user_id)
+            p2_state = SkillManager.init_combat_state(player2.user_id)
+        else:
+            p1_state = p2_state = None
 
         round_num = 0
         max_rounds = 100
@@ -269,6 +280,19 @@ class CombatManager:
         while player1.hp > 0 and player2.hp > 0 and round_num < max_rounds:
             round_num += 1
             combat_log.append(f"-- 第 {round_num} 回合 --")
+
+            if has_skills:
+                SkillManager.tick_buffs_and_cooldowns(p1_state)
+                SkillManager.tick_buffs_and_cooldowns(p2_state)
+                # DOT结算
+                dot1 = SkillManager.apply_dot_damage(p1_state)
+                if dot1 > 0:
+                    player1.hp = max(0, player1.hp - dot1)
+                    combat_log.append(f"{player1.name} 受到持续伤害 {dot1}，剩余 HP: {player1.hp}")
+                dot2 = SkillManager.apply_dot_damage(p2_state)
+                if dot2 > 0:
+                    player2.hp = max(0, player2.hp - dot2)
+                    combat_log.append(f"{player2.name} 受到持续伤害 {dot2}，剩余 HP: {player2.hp}")
 
             # 生命回复
             regen1 = cls._apply_hp_regen(player1)
@@ -278,13 +302,22 @@ class CombatManager:
             if regen2 > 0:
                 combat_log.append(f"{player2.name} 回复 {regen2} HP")
 
+            if player1.hp <= 0 or player2.hp <= 0:
+                break
+
             # 玩家1攻击玩家2
-            attack_log, p1_won = cls._execute_turn(player1, player2, combat_log)
+            p1_won = cls._execute_turn_with_skill(
+                player1, player2, p1_skill_name, p1_state, p2_state,
+                skill_manager, combat_log
+            )
             if player2.hp <= 0:
                 break
 
             # 玩家2攻击玩家1
-            attack_log, p2_won = cls._execute_turn(player2, player1, combat_log)
+            p2_won = cls._execute_turn_with_skill(
+                player2, player1, p2_skill_name, p2_state, p1_state,
+                skill_manager, combat_log
+            )
             if player1.hp <= 0:
                 break
 
@@ -322,6 +355,78 @@ class CombatManager:
             "player2_final_mp": player2_final_mp,
             "rounds": round_num
         }
+
+    @classmethod
+    def _execute_turn_with_skill(
+        cls, attacker: CombatStats, defender: CombatStats,
+        skill_name: str, attacker_state, defender_state,
+        skill_manager, combat_log: list
+    ) -> bool:
+        """执行一回合（含技能判定），返回defender是否死亡"""
+        from .skill_manager import SkillManager, format_skill_result
+
+        # 封禁检查
+        if attacker_state and attacker_state.is_sealed:
+            combat_log.append(f"{attacker.name} 被封印，无法行动！")
+            return defender.hp <= 0
+
+        # 尝试使用技能
+        used_skill = False
+        if skill_name and skill_manager and attacker_state:
+            can_use, _ = skill_manager.check_skill_usable(
+                skill_name, attacker_state, attacker.mp, attacker.hp, attacker.max_hp
+            )
+            if can_use and skill_manager.try_activate_skill(skill_name):
+                # 应用buff到攻击者和防御者
+                orig_atk = attacker.atk
+                orig_def_base = defender.base_def
+                orig_def_equip = defender.equip_def
+                attacker.atk = SkillManager.apply_buffs_to_atk(attacker.atk, attacker_state)
+                defender.base_def, defender.equip_def = SkillManager.apply_buffs_to_def(
+                    defender.base_def, defender.equip_def, defender_state
+                )
+
+                result = skill_manager.execute_skill(
+                    skill_name, attacker, defender, attacker_state, defender_state
+                )
+                combat_log.append(format_skill_result(attacker.name, defender.name, result))
+
+                # 扣除MP
+                skill_data = skill_manager.get_skill_data(skill_name)
+                if skill_data:
+                    attacker.mp -= skill_data.get("mpcost", 0)
+                    hp_cost = skill_data.get("hpcost", 0)
+                    if hp_cost > 0:
+                        hp_loss = int(attacker.max_hp * hp_cost)
+                        attacker.hp = max(0, attacker.hp - hp_loss)
+                    if skill_data.get("turncost", 0) > 0:
+                        attacker_state.cooldowns[skill_name] = skill_data["turncost"]
+
+                # 技能造成的伤害也触发吸血/反伤
+                total_dmg = result.get("total_damage", result.get("instant_damage", 0))
+                if total_dmg > 0:
+                    if attacker.lifesteal > 0:
+                        heal = int(total_dmg * attacker.lifesteal / 100)
+                        if heal > 0:
+                            attacker.hp = min(attacker.max_hp, attacker.hp + heal)
+                    if defender.reflect_pct > 0:
+                        reflect = int(total_dmg * defender.reflect_pct / 100)
+                        if reflect > 0:
+                            attacker.hp = max(0, attacker.hp - reflect)
+
+                # 恢复原始数值
+                attacker.atk = orig_atk
+                defender.base_def = orig_def_base
+                defender.equip_def = orig_def_equip
+
+                used_skill = True
+                combat_log.append(f"{defender.name} 剩余 HP: {max(0, defender.hp)}")
+
+        # 未使用技能则普通攻击
+        if not used_skill:
+            cls._execute_turn(attacker, defender, combat_log)
+
+        return defender.hp <= 0
 
     @classmethod
     def _execute_turn(cls, attacker: CombatStats, defender: CombatStats, combat_log: list) -> Tuple[str, bool]:
@@ -362,14 +467,25 @@ class CombatManager:
     def player_vs_boss(
         cls,
         player: CombatStats,
-        boss: CombatStats
+        boss: CombatStats,
+        player_skill_name: str = "",
+        skill_manager=None
     ) -> Dict:
+        from .skill_manager import SkillManager, format_skill_result
+
         combat_log = []
         combat_log.append(f"☆━━━━ Boss战开始 ━━━━☆")
         combat_log.append(f"{player.name} 挑战 {boss.name}")
-        combat_log.append(f"{player.name}：HP {player.hp}/{player.max_hp}，ATK {player.atk}")
+        combat_log.append(f"{player.name}：HP {player.hp}/{player.max_hp}，ATK {player.atk}，MP {player.mp}/{player.max_mp}")
         combat_log.append(f"{boss.name}：HP {boss.hp}/{boss.max_hp}，ATK {boss.atk}")
         combat_log.append("")
+
+        has_skill = skill_manager and player_skill_name
+        if has_skill:
+            p_state = SkillManager.init_combat_state(player.user_id)
+            boss_state = SkillManager.init_combat_state(boss.user_id)
+        else:
+            p_state = boss_state = None
 
         round_num = 0
         max_rounds = 100
@@ -379,33 +495,87 @@ class CombatManager:
             round_num += 1
             combat_log.append(f"-- 第 {round_num} 回合 --")
 
-            # 玩家生命回复
+            if has_skill:
+                SkillManager.tick_buffs_and_cooldowns(p_state)
+                SkillManager.tick_buffs_and_cooldowns(boss_state)
+                dot = SkillManager.apply_dot_damage(p_state)
+                if dot > 0:
+                    player.hp = max(0, player.hp - dot)
+                    combat_log.append(f"{player.name} 受到持续伤害 {dot}，剩余 HP: {player.hp}")
+
             regen = cls._apply_hp_regen(player)
             if regen > 0:
                 combat_log.append(f"{player.name} 回复 {regen} HP")
 
-            # 玩家攻击Boss（使用统一的 execute_attack 机制）
-            result = cls.execute_attack(player, boss)
-            if result["dodged"]:
-                combat_log.append(f"{player.name} 攻击未命中")
-            else:
-                dmg_text = f"会心一击" if result["is_crit"] else "攻击"
-                combat_log.append(f"{player.name} 发起{dmg_text}，造成 {result['damage']} 点伤害")
-                total_damage_dealt += result["damage"]
-                if result["lifesteal_heal"] > 0:
-                    combat_log.append(f"吸血回复 {result['lifesteal_heal']} HP")
-                # 连击
-                if result["triggered_double"]:
-                    double = cls.execute_attack(player, boss, is_double_hit=True)
-                    if not double["dodged"]:
-                        combat_log.append(f"连击追加 {double['damage']} 点伤害")
-                        total_damage_dealt += double["damage"]
-            combat_log.append(f"{boss.name} 剩余 HP: {max(0, boss.hp)}")
+            if player.hp <= 0:
+                break
+
+            # 玩家攻击Boss（含技能判定）
+            used_skill = False
+            if has_skill and p_state:
+                if not p_state.is_sealed:
+                    can_use, _ = skill_manager.check_skill_usable(
+                        player_skill_name, p_state, player.mp, player.hp, player.max_hp
+                    )
+                    if can_use and skill_manager.try_activate_skill(player_skill_name):
+                        orig_atk = player.atk
+                        orig_def_base = boss.base_def
+                        orig_def_equip = boss.equip_def
+                        player.atk = SkillManager.apply_buffs_to_atk(player.atk, p_state)
+                        boss.base_def, boss.equip_def = SkillManager.apply_buffs_to_def(
+                            boss.base_def, boss.equip_def, boss_state
+                        )
+
+                        result = skill_manager.execute_skill(
+                            player_skill_name, player, boss, p_state, boss_state
+                        )
+                        combat_log.append(format_skill_result(player.name, boss.name, result))
+
+                        sd = skill_manager.get_skill_data(player_skill_name)
+                        if sd:
+                            player.mp -= sd.get("mpcost", 0)
+                            hp_cost = sd.get("hpcost", 0)
+                            if hp_cost > 0:
+                                player.hp = max(0, player.hp - int(player.max_hp * hp_cost))
+                            if sd.get("turncost", 0) > 0:
+                                p_state.cooldowns[player_skill_name] = sd["turncost"]
+
+                        total_dmg = result.get("total_damage", result.get("instant_damage", 0))
+                        total_damage_dealt += total_dmg
+                        if total_dmg > 0 and player.lifesteal > 0:
+                            heal = int(total_dmg * player.lifesteal / 100)
+                            if heal > 0:
+                                player.hp = min(player.max_hp, player.hp + heal)
+
+                        player.atk = orig_atk
+                        boss.base_def = orig_def_base
+                        boss.equip_def = orig_def_equip
+                        used_skill = True
+                        combat_log.append(f"{boss.name} 剩余 HP: {max(0, boss.hp)}")
+                else:
+                    combat_log.append(f"{player.name} 被封印，无法行动！")
+
+            if not used_skill:
+                result = cls.execute_attack(player, boss)
+                if result["dodged"]:
+                    combat_log.append(f"{player.name} 攻击未命中")
+                else:
+                    dmg_text = "会心一击" if result["is_crit"] else "攻击"
+                    combat_log.append(f"{player.name} 发起{dmg_text}，造成 {result['damage']} 点伤害")
+                    total_damage_dealt += result["damage"]
+                    if result["lifesteal_heal"] > 0:
+                        combat_log.append(f"吸血回复 {result['lifesteal_heal']} HP")
+                    if result["triggered_double"]:
+                        double = cls.execute_attack(player, boss, is_double_hit=True)
+                        if not double["dodged"]:
+                            combat_log.append(f"连击追加 {double['damage']} 点伤害")
+                            total_damage_dealt += double["damage"]
+                combat_log.append(f"{boss.name} 剩余 HP: {max(0, boss.hp)}")
 
             if boss.hp <= 0:
                 break
 
-            # Boss攻击（使用统一的 execute_attack 机制）
+            # Boss攻击
             cls._execute_turn(boss, player, combat_log)
             combat_log.append("")
 
