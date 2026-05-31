@@ -374,7 +374,8 @@ class CombatManager:
         used_skill = False
         if skill_name and skill_manager and attacker_state:
             can_use, _ = skill_manager.check_skill_usable(
-                skill_name, attacker_state, attacker.mp, attacker.hp, attacker.max_hp
+                skill_name, attacker_state, attacker.mp, attacker.hp, attacker.max_hp,
+                attacker.max_mp
             )
             if can_use and skill_manager.try_activate_skill(skill_name):
                 # 应用buff到攻击者和防御者
@@ -391,10 +392,12 @@ class CombatManager:
                 )
                 combat_log.append(format_skill_result(attacker.name, defender.name, result))
 
-                # 扣除MP
+                # 扣除MP/HP
                 skill_data = skill_manager.get_skill_data(skill_name)
                 if skill_data:
-                    attacker.mp -= skill_data.get("mpcost", 0)
+                    mp_cost = skill_data.get("mpcost", 0)
+                    if mp_cost > 0:
+                        attacker.mp -= int(attacker.max_mp * mp_cost)
                     hp_cost = skill_data.get("hpcost", 0)
                     if hp_cost > 0:
                         hp_loss = int(attacker.max_hp * hp_cost)
@@ -515,7 +518,8 @@ class CombatManager:
             if has_skill and p_state:
                 if not p_state.is_sealed:
                     can_use, _ = skill_manager.check_skill_usable(
-                        player_skill_name, p_state, player.mp, player.hp, player.max_hp
+                        player_skill_name, p_state, player.mp, player.hp, player.max_hp,
+                        player.max_mp
                     )
                     if can_use and skill_manager.try_activate_skill(player_skill_name):
                         orig_atk = player.atk
@@ -533,7 +537,9 @@ class CombatManager:
 
                         sd = skill_manager.get_skill_data(player_skill_name)
                         if sd:
-                            player.mp -= sd.get("mpcost", 0)
+                            mp_cost = sd.get("mpcost", 0)
+                            if mp_cost > 0:
+                                player.mp -= int(player.max_mp * mp_cost)
                             hp_cost = sd.get("hpcost", 0)
                             if hp_cost > 0:
                                 player.hp = max(0, player.hp - int(player.max_hp * hp_cost))

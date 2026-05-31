@@ -101,6 +101,19 @@ class ShopManager:
                     'data': pill
                 })
 
+        # 添加神通
+        for skill in self.config_manager.skills_data.values():
+            if skill.get('shop_weight', 0) > 0 and skill.get('price', 0) > 0 and skill['name'] not in disabled:
+                all_items.append({
+                    'id': skill.get('name', ''),
+                    'name': skill['name'],
+                    'type': 'shentong',
+                    'price': skill['price'],
+                    'weight': skill['shop_weight'],
+                    'rank': skill.get('rank', '凡品'),
+                    'data': skill
+                })
+
         return all_items
 
     def _weighted_random_choice(self, items: List[Dict], count: int) -> List[Dict]:
@@ -282,7 +295,6 @@ class ShopManager:
                 all_items.append({'name': weapon['name'], 'type': 'weapon', 'price': weapon['price'], 'rank': weapon.get('rank', '凡品'), 'data': weapon})
         for item in self.config_manager.items_data.values():
             if item.get('price', 0) > 0:
-                # 映射旧格式类型到新格式
                 item_type = self._map_legacy_item_type(item)
                 all_items.append({'name': item['name'], 'type': item_type, 'price': item['price'], 'rank': item.get('rank', '凡品'), 'data': item})
         for pill in self.config_manager.pills_data.values():
@@ -294,6 +306,9 @@ class ShopManager:
         for pill in self.config_manager.utility_pills_data.values():
             if pill.get('price', 0) > 0:
                 all_items.append({'name': pill['name'], 'type': 'utility_pill', 'price': pill['price'], 'rank': pill.get('rank', '凡品'), 'data': pill})
+        for skill in self.config_manager.skills_data.values():
+            if skill.get('price', 0) > 0:
+                all_items.append({'name': skill['name'], 'type': 'shentong', 'price': skill['price'], 'rank': skill.get('rank', '凡品'), 'data': skill})
         return all_items
 
     def _map_legacy_item_type(self, item: dict) -> str:
@@ -341,7 +356,6 @@ class ShopManager:
                 return {'name': weapon['name'], 'type': 'weapon', 'price': weapon['price'], 'rank': weapon.get('rank', '凡品'), 'data': weapon}
         for item in self.config_manager.items_data.values():
             if item['name'] == name and item.get('price', 0) > 0:
-                # 映射旧格式类型到新格式
                 item_type = self._map_legacy_item_type(item)
                 return {'name': item['name'], 'type': item_type, 'price': item['price'], 'rank': item.get('rank', '凡品'), 'data': item}
         for pill in self.config_manager.pills_data.values():
@@ -353,6 +367,9 @@ class ShopManager:
         for pill in self.config_manager.utility_pills_data.values():
             if pill['name'] == name and pill.get('price', 0) > 0:
                 return {'name': pill['name'], 'type': 'utility_pill', 'price': pill['price'], 'rank': pill.get('rank', '凡品'), 'data': pill}
+        for skill in self.config_manager.skills_data.values():
+            if skill['name'] == name and skill.get('price', 0) > 0:
+                return {'name': skill['name'], 'type': 'shentong', 'price': skill['price'], 'rank': skill.get('rank', '凡品'), 'data': skill}
         return None
 
     def find_item_by_name_any(self, name: str) -> Optional[Dict]:
@@ -376,6 +393,9 @@ class ShopManager:
         for ring in self.config_manager.storage_rings_data.values():
             if ring['name'] == name:
                 return {'name': ring['name'], 'type': 'storage_ring', 'price': ring.get('price', 0), 'rank': ring.get('rank', '凡品'), 'data': ring}
+        for skill in self.config_manager.skills_data.values():
+            if skill['name'] == name:
+                return {'name': skill['name'], 'type': 'shentong', 'price': skill.get('price', 0), 'rank': skill.get('rank', '凡品'), 'data': skill}
         return None
 
     def format_pavilion_display(self, pavilion_name: str, items: List[Dict], refresh_hours: int = 6, last_refresh: int = 0) -> str:
@@ -386,7 +406,7 @@ class ShopManager:
         type_label_map = {
             'weapon': '武器', 'armor': '防具', 'main_technique': '心法', 'technique': '功法',
             'pill': '破境丹', 'exp_pill': '修为丹', 'utility_pill': '功能丹',
-            'legacy_pill': '丹药', 'material': '材料', 'accessory': '饰品'
+            'legacy_pill': '丹药', 'material': '材料', 'accessory': '饰品', 'shentong': '神通'
         }
 
         lines = [f"=== {pavilion_name} ===\n"]
@@ -487,6 +507,14 @@ class ShopManager:
         elif item_type == 'material':
             if data.get('description'):
                 return data['description'][:20]
+
+        # 神通
+        elif item_type == 'shentong':
+            type_names = {1: '攻击', 2: '持续', 3: '增益', 4: '控制'}
+            stype = type_names.get(data.get('skill_type', 1), '攻击')
+            effects.append(f"类型:{stype}")
+            if data.get('mpcost', 0) > 0:
+                effects.append(f"MP消耗:{int(data['mpcost']*100)}%")
         
         # 如果有描述字段，优先使用
         if not effects and data.get('description'):
@@ -650,7 +678,7 @@ class ShopManager:
         'weapon': '武器', 'armor': '防具', 'main_technique': '心法',
         'technique': '功法', 'pill': '破境丹', 'exp_pill': '修为丹',
         'utility_pill': '功能丹', 'legacy_pill': '丹药', 'material': '材料',
-        'accessory': '饰品', 'storage_ring': '储物戒',
+        'accessory': '饰品', 'storage_ring': '储物戒', 'shentong': '神通',
     }
 
     def get_item_details_full(self, item_data: Dict) -> str:
@@ -791,5 +819,33 @@ class ShopManager:
 
         elif item_type == 'material':
             pass
+
+        elif item_type == 'shentong':
+            type_names = {1: '攻击', 2: '持续', 3: '增益', 4: '控制'}
+            stype = type_names.get(data.get('skill_type', 1), '攻击')
+            details.append(f"神通类型: {stype}")
+            atkvalue = data.get('atkvalue', [])
+            if atkvalue:
+                hits = len(atkvalue) if isinstance(atkvalue, list) else 1
+                details.append(f"连击段数: {hits}")
+                if isinstance(atkvalue, list):
+                    details.append(f"伤害倍率: {' / '.join(f'{v}x' for v in atkvalue)}")
+            mpcost = data.get('mpcost', 0)
+            hpcost = data.get('hpcost', 0)
+            if mpcost > 0:
+                details.append(f"MP消耗: {int(mpcost*100)}%")
+            if hpcost > 0:
+                details.append(f"HP消耗: {int(hpcost*100)}%")
+            details.append(f"冷却回合: {data.get('turncost', 0)}")
+            details.append(f"触发概率: {data.get('rate', 100)}%")
+            if data.get('bufftype') and data.get('buffvalue'):
+                buff_name = "攻击力" if data['bufftype'] == 1 else "防御力"
+                details.append(f"增益效果: {buff_name}+{int(data['buffvalue']*100)}%")
+            if data.get('success'):
+                details.append(f"封印成功率: {data['success']}%")
+            if data.get('desc'):
+                details.append(f"描述: {data['desc']}")
+            if 'required_level_index' in data and data['required_level_index'] > 0:
+                details.append(f"需求境界: {self._format_required_level(data['required_level_index'])}")
 
         return "\n".join(details)

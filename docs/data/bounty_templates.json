@@ -87,7 +87,7 @@
       ],
       "min_target": 3,
       "max_target": 6,
-      "time_limit": 5400,
+      "time_limit": 3600,
       "reward": {
         "stone": 1600000,
         "exp": 5200
@@ -136,7 +136,7 @@
       ],
       "min_target": 2,
       "max_target": 5,
-      "time_limit": 5400,
+      "time_limit": 3600,
       "reward": {
         "stone": 1600000,
         "exp": 5600
@@ -161,7 +161,7 @@
       ],
       "min_target": 2,
       "max_target": 4,
-      "time_limit": 10800,
+      "time_limit": 5400,
       "reward": {
         "stone": 2000000,
         "exp": 7800

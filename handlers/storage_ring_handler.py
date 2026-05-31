@@ -524,5 +524,96 @@ class StorageRingHandler:
             lines.append(f"\n❌ 失败：\n")
             for item in failed:
                 lines.append(f"  · {item}\n")
-        
+
         yield event.plain_result("".join(lines))
+
+    def _get_item_price(self, item_name: str) -> int:
+        """查找物品的市场价格（遍历所有配置源）"""
+        for src in [
+            self.config_manager.items_data,
+            self.config_manager.weapons_data,
+            self.config_manager.skills_data,
+            self.config_manager.exp_pills_data,
+            self.config_manager.utility_pills_data,
+            self.config_manager.pills_data,
+        ]:
+            if src and item_name in src:
+                return src[item_name].get("price", 0)
+            if src:
+                for cfg in src.values():
+                    if cfg.get("name") == item_name:
+                        return cfg.get("price", 0)
+        return 0
+
+    @player_required
+    async def handle_alchemy_transmute(self, player: Player, event: AstrMessageEvent,
+                                       item_name: str = "", count: int = 1):
+        """将储物戒物品按市场价20%转化为灵石"""
+        if not item_name or item_name.strip() == "":
+            yield event.plain_result(
+                "请指定要炼金的物品\n"
+                "用法：炼金 物品名 [数量]\n"
+                "示例：炼金 灵草 5"
+            )
+            return
+
+        item_name = item_name.strip()
+        if count <= 0:
+            count = 1
+
+        # 检查库存
+        current_count = self.storage_ring_manager.get_item_count(player, item_name)
+        if current_count <= 0:
+            yield event.plain_result(f"❌ 储物戒中没有【{item_name}】")
+            return
+        if count > current_count:
+            yield event.plain_result(f"❌ 【{item_name}】库存不足，当前拥有 {current_count} 个")
+            return
+
+        # 查找市场价格
+        price = self._get_item_price(item_name)
+        unit_gold = int(price * 0.2)
+        total_gold = unit_gold * count
+
+        # 执行炼金（事务保护）
+        await self.db.conn.execute("BEGIN IMMEDIATE")
+        try:
+            # 重新获取最新玩家数据
+            player = await self.db.get_player_by_id(player.user_id)
+            current_count = self.storage_ring_manager.get_item_count(player, item_name)
+            if count > current_count:
+                await self.db.conn.rollback()
+                yield event.plain_result(f"❌ 【{item_name}】库存不足")
+                return
+
+            # 移除物品
+            items = player.get_storage_ring_items()
+            remaining = items.get(item_name, 0) - count
+            if remaining <= 0:
+                del items[item_name]
+            else:
+                items[item_name] = remaining
+            player.set_storage_ring_items(items)
+
+            # 增加灵石
+            MAX_VALUE = 2**63 - 1
+            player.gold = min(player.gold + total_gold, MAX_VALUE)
+
+            await self.db.update_player(player)
+            await self.db.conn.commit()
+        except Exception:
+            await self.db.conn.rollback()
+            raise
+
+        if total_gold > 0:
+            yield event.plain_result(
+                f"✅ 炼金成功！\n"
+                f"物品：【{item_name}】×{count}\n"
+                f"获得灵石：+{total_gold:,}"
+            )
+        else:
+            yield event.plain_result(
+                f"✅ 炼金完成\n"
+                f"物品：【{item_name}】×{count}\n"
+                f"⚠️ 该物品无市场价值，已销毁"
+            )

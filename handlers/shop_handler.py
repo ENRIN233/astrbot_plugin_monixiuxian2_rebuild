@@ -26,6 +26,7 @@ class ShopHandler:
         'main_technique': "百宝阁稀有刷新",
         'technique': "百宝阁、Boss 掉落",
         'material': "历练、秘境、悬赏、灵田收获与百宝阁限量",
+        'shentong': "百宝阁稀有刷新",
     }
 
     def __init__(self, db: DataBase, config: AstrBotConfig, config_manager: ConfigManager):
@@ -216,6 +217,14 @@ class ShopHandler:
                     result_lines.append(f"成功购买功法【{target_item['name']}】x{quantity}，已存入储物戒。")
                 else:
                     result_lines.append(f"成功购买功法【{target_item['name']}】x{quantity}。")
+                    result_lines.append(f"⚠️ 存入储物戒失败：{msg}")
+            elif item_type == 'shentong':
+                success, msg = await self.storage_ring_manager.store_item(player, target_item['name'], quantity, external_transaction=True)
+                if success:
+                    result_lines.append(f"成功购买神通【{target_item['name']}】x{quantity}，已存入储物戒。")
+                    result_lines.append("  使用 /装备神通 <名称> 装备后战斗自动触发")
+                else:
+                    result_lines.append(f"成功购买神通【{target_item['name']}】x{quantity}。")
                     result_lines.append(f"⚠️ 存入储物戒失败：{msg}")
             else:
                 await self.db.conn.rollback()

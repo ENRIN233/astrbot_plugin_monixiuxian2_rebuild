@@ -51,7 +51,8 @@ class SkillManager:
         return CombatSkillState(user_id=user_id)
 
     def check_skill_usable(self, skill_name: str, state: CombatSkillState,
-                           caster_mp: int, caster_hp: int, caster_max_hp: int) -> Tuple[bool, str]:
+                           caster_mp: int, caster_hp: int, caster_max_hp: int,
+                           caster_max_mp: int = 0) -> Tuple[bool, str]:
         """检查技能本回合是否可用
 
         Returns: (can_use, reason)
@@ -67,8 +68,10 @@ class SkillManager:
             return False, f"冷却中({state.cooldowns[skill_name]}回合)"
 
         mp_cost = skill_data.get("mpcost", 0)
-        if mp_cost > 0 and caster_mp < mp_cost:
-            return False, "MP不足"
+        if mp_cost > 0:
+            mp_needed = int(caster_max_mp * mp_cost) if caster_max_mp > 0 else mp_cost
+            if caster_mp < mp_needed:
+                return False, "MP不足"
 
         hp_cost = skill_data.get("hpcost", 0)
         if hp_cost > 0:

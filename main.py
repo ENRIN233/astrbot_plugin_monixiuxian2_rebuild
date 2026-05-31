@@ -913,18 +913,6 @@ class XiuXianPlugin(Star):
         async for r in self.storage_ring_handler.handle_storage_ring(event):
             yield r
 
-    @filter.command(CMD_STORE_ITEM, "存入物品到储物戒")
-    @require_whitelist
-    async def handle_store_item(self, event: AstrMessageEvent, args: str = ""):
-        async for r in self.storage_ring_handler.handle_store_item(event, args):
-            yield r
-
-    @filter.command(CMD_RETRIEVE_ITEM, "从储物戒取出物品")
-    @require_whitelist
-    async def handle_retrieve_item(self, event: AstrMessageEvent, args: str = ""):
-        async for r in self.storage_ring_handler.handle_retrieve_item(event, args):
-            yield r
-
     @filter.command(CMD_UPGRADE_RING, "升级储物戒")
     @require_whitelist
     async def handle_upgrade_ring(self, event: AstrMessageEvent, ring_name: str = ""):
@@ -961,10 +949,10 @@ class XiuXianPlugin(Star):
         async for r in self.storage_ring_handler.handle_search_item(event, keyword):
             yield r
 
-    @filter.command(CMD_RETRIEVE_ALL, "批量取出物品")
+    @filter.command("炼金", "将储物戒物品转化为灵石")
     @require_whitelist
-    async def handle_retrieve_all(self, event: AstrMessageEvent, category: str = ""):
-        async for r in self.storage_ring_handler.handle_retrieve_all(event, category):
+    async def handle_alchemy_transmute(self, event: AstrMessageEvent, item_name: str = "", count: int = 1):
+        async for r in self.storage_ring_handler.handle_alchemy_transmute(event, item_name, count):
             yield r
 
     # ===== 宗门系统指令 =====
