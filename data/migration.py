@@ -5,7 +5,7 @@ from typing import Dict, Callable, Awaitable
 from astrbot.api import logger
 from ..config_manager import ConfigManager
 
-LATEST_DB_VERSION = 28  # v28: 神通数据库表 + 玩家神通追踪
+LATEST_DB_VERSION = 29  # v29: GM补偿系统
 
 MIGRATION_TASKS: Dict[int, Callable[[aiosqlite.Connection, ConfigManager], Awaitable[None]]] = {}
 
@@ -260,6 +260,28 @@ async def _ensure_table_integrity(conn: aiosqlite.Connection):
                 except Exception:
                     pass
             repaired.append("rifts(默认数据)")
+
+    # GM补偿系统表
+    if "gm_compensation" not in existing_tables:
+        await conn.execute("""
+            CREATE TABLE IF NOT EXISTS gm_compensation (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                items TEXT NOT NULL DEFAULT '{}',
+                created_at INTEGER NOT NULL
+            )
+        """)
+        repaired.append("gm_compensation")
+
+    if "gm_compensation_claims" not in existing_tables:
+        await conn.execute("""
+            CREATE TABLE IF NOT EXISTS gm_compensation_claims (
+                user_id TEXT NOT NULL,
+                comp_id INTEGER NOT NULL,
+                claimed_at INTEGER NOT NULL,
+                PRIMARY KEY (user_id, comp_id)
+            )
+        """)
+        repaired.append("gm_compensation_claims")
 
     if repaired:
         await conn.commit()
@@ -906,6 +928,23 @@ async def _create_all_tables_v2(conn: aiosqlite.Connection):
         )
     """)
     await conn.execute("CREATE INDEX IF NOT EXISTS idx_player_skills_user ON player_skills(user_id)")
+
+    # GM补偿系统表
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS gm_compensation (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            items TEXT NOT NULL DEFAULT '{}',
+            created_at INTEGER NOT NULL
+        )
+    """)
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS gm_compensation_claims (
+            user_id TEXT NOT NULL,
+            comp_id INTEGER NOT NULL,
+            claimed_at INTEGER NOT NULL,
+            PRIMARY KEY (user_id, comp_id)
+        )
+    """)
 
     logger.info("数据库表已创建完成（v2 - 完整修仙系统）")
 
@@ -1684,3 +1723,27 @@ async def _migrate_to_v28(conn: aiosqlite.Connection, config_manager: ConfigMana
 
     await conn.commit()
     logger.info(f"v28迁移完成：神通数据库表，已同步 {len(skills_data)} 个技能定义，{synced} 个玩家技能记录")
+
+
+@migration(29)
+async def _migrate_to_v29(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """迁移到v29 - GM补偿系统"""
+    logger.info("开始迁移到v29：GM补偿系统")
+
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS gm_compensation (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            items TEXT NOT NULL DEFAULT '{}',
+            created_at INTEGER NOT NULL
+        )
+    """)
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS gm_compensation_claims (
+            user_id TEXT NOT NULL,
+            comp_id INTEGER NOT NULL,
+            claimed_at INTEGER NOT NULL,
+            PRIMARY KEY (user_id, comp_id)
+        )
+    """)
+
+    logger.info("v29迁移完成：GM补偿系统")

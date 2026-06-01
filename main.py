@@ -16,6 +16,7 @@ from .handlers import (
     BlessedLandHandlers, SpiritFarmHandlers, DualCultivationHandlers, SpiritEyeHandlers,
     TradeHandler, ConsignmentHandler, GMHandlers,
 )
+from .handlers.utils import get_related_commands_footer
 from .managers import (
     CombatManager, SectManager, BossManager, RiftManager, 
     RankingManager, AdventureManager, AlchemyManager, ImpartManager,
@@ -199,6 +200,10 @@ CMD_GM_ADD_PILL = "GM加丹药"
 CMD_GM_SUB_PILL = "GM扣丹药"
 CMD_GM_VIEW_PLAYER = "GM查看玩家"
 CMD_GM_REFRESH_RIFT = "GM刷新秘境"
+CMD_GM_COMPENSATION = "GM补偿"
+
+# 玩家指令
+CMD_COMPENSATION = "补偿"
 
 class XiuXianPlugin(Star):
     """修仙插件 - 文字修仙游戏"""
@@ -283,7 +288,7 @@ class XiuXianPlugin(Star):
         self.consignment_mgr = None
         self.trade_handler = None
         self.consignment_handler = None
-        self.gm_handlers = GMHandlers(self.db)
+        self.gm_handlers = GMHandlers(self.db, self.config_manager)
         
         self.boss_task = None # Boss生成任务
         self.loan_check_task = None # 贷款逾期检查任务
@@ -780,6 +785,16 @@ class XiuXianPlugin(Star):
     async def handle_help(self, event: AstrMessageEvent):
         async for r in self.misc_handler.handle_help(event):
             yield r
+        footer = get_related_commands_footer("修仙帮助")
+        if footer:
+            yield event.plain_result(footer)
+
+    @filter.command(CMD_COMPENSATION, "领取GM补偿")
+    @require_whitelist
+    async def handle_compensation(self, event: AstrMessageEvent):
+        user_id = str(event.get_sender_id())
+        msg = await self.gm_handlers.handle_claim_compensation(user_id)
+        yield event.plain_result(msg)
 
     @filter.command(CMD_START_XIUXIAN, "开始你的修仙之路")
     @require_whitelist
@@ -855,8 +870,8 @@ class XiuXianPlugin(Star):
 
     @filter.command(CMD_USE_PILL, "服用丹药 [数量]")
     @require_whitelist
-    async def handle_use_pill(self, event: AstrMessageEvent, pill_name: str = ""):
-        async for r in self.pill_handler.handle_use_pill(event, pill_name):
+    async def handle_use_pill(self, event: AstrMessageEvent, pill_name: str = "", quantity: int = 1):
+        async for r in self.pill_handler.handle_use_pill(event, pill_name, quantity):
             yield r
 
     @filter.command(CMD_SHOW_PILLS, "查看丹药背包")
@@ -876,6 +891,9 @@ class XiuXianPlugin(Star):
     async def handle_pill_pavilion(self, event: AstrMessageEvent):
         async for r in self.shop_handler.handle_pill_pavilion(event):
             yield r
+        footer = get_related_commands_footer("丹阁")
+        if footer:
+            yield event.plain_result(footer)
 
     @filter.command(CMD_WEAPON_PAVILION, "查看器阁武器")
     @require_whitelist
@@ -1039,6 +1057,9 @@ class XiuXianPlugin(Star):
             return
         async for r in self.boss_handlers.handle_boss_info(event):
             yield r
+        footer = get_related_commands_footer("世界Boss")
+        if footer:
+            yield event.plain_result(footer)
 
     @filter.command(CMD_BOSS_FIGHT, "挑战世界Boss")
     @require_whitelist
@@ -1078,6 +1099,9 @@ class XiuXianPlugin(Star):
     async def handle_rank_level(self, event: AstrMessageEvent):
         async for r in self.ranking_handlers.handle_rank_level(event):
             yield r
+        footer = get_related_commands_footer("境界排行")
+        if footer:
+            yield event.plain_result(footer)
 
     @filter.command(CMD_RANK_POWER, "查看战力排行榜")
     @require_whitelist
@@ -1116,6 +1140,9 @@ class XiuXianPlugin(Star):
     async def handle_duel(self, event: AstrMessageEvent, target: str = ""):
         async for r in self.combat_handlers.handle_duel(event, target):
             yield r
+        footer = get_related_commands_footer("决斗")
+        if footer:
+            yield event.plain_result(footer)
             
     @filter.command(CMD_SPAR, "与其他玩家切磋(无消耗)")
     @require_whitelist
@@ -1130,6 +1157,9 @@ class XiuXianPlugin(Star):
     async def handle_skill_list(self, event: AstrMessageEvent):
         async for r in self.skill_handler.handle_skill_list(event):
             yield r
+        footer = get_related_commands_footer("神通列表")
+        if footer:
+            yield event.plain_result(footer)
 
     @filter.command("我的神通", "查看已装备神通")
     @require_whitelist
@@ -1161,6 +1191,9 @@ class XiuXianPlugin(Star):
     async def handle_rift_explore(self, event: AstrMessageEvent):
         async for r in self.rift_handlers.handle_rift_explore(event):
             yield r
+        footer = get_related_commands_footer("探索秘境")
+        if footer:
+            yield event.plain_result(footer)
 
     @filter.command(CMD_RIFT_COMPLETE, "完成秘境探索")
     @require_whitelist
@@ -1202,6 +1235,9 @@ class XiuXianPlugin(Star):
     async def handle_adventure_info(self, event: AstrMessageEvent):
         async for r in self.adventure_handlers.handle_adventure_info(event):
             yield r
+        footer = get_related_commands_footer("历练信息")
+        if footer:
+            yield event.plain_result(footer)
 
     # ===== 炼丹指令 =====
     @filter.command(CMD_ALCHEMY_RECIPES, "查看丹药配方")
@@ -1209,6 +1245,9 @@ class XiuXianPlugin(Star):
     async def handle_alchemy_recipes(self, event: AstrMessageEvent):
         async for r in self.alchemy_handlers.handle_recipes(event):
             yield r
+        footer = get_related_commands_footer("丹药配方")
+        if footer:
+            yield event.plain_result(footer)
 
     @filter.command(CMD_ALCHEMY_CRAFT, "炼制丹药")
     @require_whitelist
@@ -1316,6 +1355,9 @@ class XiuXianPlugin(Star):
     async def handle_impart_challenge(self, event: AstrMessageEvent, target: str = ""):
         async for r in self.impart_pk_handlers.handle_impart_challenge(event, target):
             yield r
+        footer = get_related_commands_footer("传承挑战")
+        if footer:
+            yield event.plain_result(footer)
 
     @filter.command(CMD_IMPART_RANKING, "查看传承排行")
     @require_whitelist
@@ -1357,8 +1399,8 @@ class XiuXianPlugin(Star):
 
     @filter.command(CMD_SPIRIT_FARM_PLANT, "种植灵草 [数量]")
     @require_whitelist
-    async def handle_spirit_farm_plant(self, event: AstrMessageEvent, herb_name: str = ""):
-        async for r in self.spirit_farm_handlers.handle_plant(event, herb_name):
+    async def handle_spirit_farm_plant(self, event: AstrMessageEvent, herb_name: str = "", quantity: int = 1):
+        async for r in self.spirit_farm_handlers.handle_plant(event, herb_name, quantity):
             yield r
 
     @filter.command(CMD_SPIRIT_FARM_HARVEST, "收获灵草")
@@ -1649,6 +1691,14 @@ class XiuXianPlugin(Star):
         yield event.plain_result(msg)
         if success and rift_def:
             await self._broadcast_rift_open(rift_def)
+
+    @filter.command(CMD_GM_COMPENSATION, "GM创建全服补偿包")
+    async def handle_gm_compensation(self, event: AstrMessageEvent, args: str = ""):
+        if not self._check_boss_admin(event):
+            yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
+            return
+        msg = await self.gm_handlers.handle_create_compensation(args)
+        yield event.plain_result(msg)
 
     def _gm_parse_target(self, args: str, event: AstrMessageEvent = None) -> tuple:
         """从GM指令参数中解析目标QQ号和剩余参数（从消息链组件提取，避免@格式问题）"""

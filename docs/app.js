@@ -117,6 +117,23 @@ async function loadAllData() {
 
 // ===================== Navigation =====================
 
+// 滚动浮现观察器
+const cardObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+        }
+    });
+}, {
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+});
+
+function observeCards(container) {
+    container.querySelectorAll('.item-card').forEach(card => cardObserver.observe(card));
+}
+
 function showPage(pageName) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -127,6 +144,7 @@ function showPage(pageName) {
     if (!page.dataset.rendered) {
         renderPage(pageName);
         page.dataset.rendered = 'true';
+        observeCards(page);
     }
 }
 

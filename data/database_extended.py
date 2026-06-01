@@ -541,14 +541,16 @@ class DatabaseExtended:
         )
         await self.conn.commit()
     
-    async def update_bounty_progress(self, user_id: str, progress: int):
-        """更新悬赏任务进度"""
-        await self.conn.execute(
-            "UPDATE bounty_tasks SET current_progress = ? WHERE user_id = ? AND status = 1",
-            (progress, user_id)
-        )
-        await self.conn.commit()
-    
+    async def get_expired_bounty(self, user_id: str) -> Optional[dict]:
+        """获取用户已过期但未领取的悬赏任务"""
+        await self.ensure_bounty_tables()
+        async with self.conn.execute(
+            "SELECT * FROM bounty_tasks WHERE user_id = ? AND status = 3",
+            (user_id,)
+        ) as cursor:
+            row = await cursor.fetchone()
+            return dict(row) if row else None
+
     async def complete_bounty(self, user_id: str) -> bool:
         """完成悬赏任务"""
         await self.conn.execute(
@@ -559,9 +561,9 @@ class DatabaseExtended:
         return True
     
     async def cancel_bounty(self, user_id: str):
-        """取消悬赏任务"""
+        """取消悬赏任务（含已过期的）"""
         await self.conn.execute(
-            "UPDATE bounty_tasks SET status = 0 WHERE user_id = ? AND status = 1",
+            "UPDATE bounty_tasks SET status = 0 WHERE user_id = ? AND status IN (1, 3)",
             (user_id,)
         )
         await self.conn.commit()
@@ -921,3 +923,61 @@ class DatabaseExtended:
                     "shop_weight": row[14],
                 })
         return skills
+
+    # ===== GM补偿系统 CRUD =====
+
+    async def create_compensation(self, items_json: str) -> int:
+        """创建新的补偿包，返回 comp_id
+
+        Args:
+            items_json: JSON 字符串，格式 {"物品名": 数量, ...}
+        """
+        import time
+        now = int(time.time())
+        await self.conn.execute(
+            "INSERT INTO gm_compensation (items, created_at) VALUES (?, ?)",
+            (items_json, now)
+        )
+        await self.conn.commit()
+        async with self.conn.execute("SELECT last_insert_rowid()") as cursor:
+            row = await cursor.fetchone()
+            return row[0] if row else None
+
+    async def get_active_compensation(self) -> Optional[dict]:
+        """获取当前活跃的补偿包（最新的一条）"""
+        async with self.conn.execute(
+            "SELECT id, items, created_at FROM gm_compensation ORDER BY id DESC LIMIT 1"
+        ) as cursor:
+            row = await cursor.fetchone()
+            if row:
+                return {"id": row[0], "items": row[1], "created_at": row[2]}
+        return None
+
+    async def delete_old_compensations(self, current_id: int):
+        """删除比 current_id 更旧的补偿包及其领取记录"""
+        await self.conn.execute(
+            "DELETE FROM gm_compensation_claims WHERE comp_id < ?", (current_id,)
+        )
+        await self.conn.execute(
+            "DELETE FROM gm_compensation WHERE id < ?", (current_id,)
+        )
+        await self.conn.commit()
+
+    async def has_claimed(self, user_id: str, comp_id: int) -> bool:
+        """查询玩家是否已领取指定补偿"""
+        async with self.conn.execute(
+            "SELECT 1 FROM gm_compensation_claims WHERE user_id = ? AND comp_id = ?",
+            (user_id, comp_id)
+        ) as cursor:
+            return await cursor.fetchone() is not None
+
+    async def claim_compensation(self, user_id: str, comp_id: int) -> bool:
+        """记录领取，用 INSERT OR IGNORE 防并发。返回 True 表示首次领取成功。"""
+        import time
+        now = int(time.time())
+        cursor = await self.conn.execute(
+            "INSERT OR IGNORE INTO gm_compensation_claims (user_id, comp_id, claimed_at) VALUES (?, ?, ?)",
+            (user_id, comp_id, now)
+        )
+        await self.conn.commit()
+        return cursor.rowcount > 0

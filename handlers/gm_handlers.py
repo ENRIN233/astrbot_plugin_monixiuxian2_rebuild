@@ -12,8 +12,9 @@ __all__ = ["GMHandlers"]
 class GMHandlers:
     """GM管理员指令处理器"""
 
-    def __init__(self, db: DataBase):
+    def __init__(self, db: DataBase, config_manager=None):
         self.db = db
+        self.config_manager = config_manager
 
     def _extract_user_id(self, msg: str) -> str:
         """提取目标用户ID（支持@和纯数字QQ号）"""
@@ -60,8 +61,10 @@ class GMHandlers:
             "GM扣丹药 <目标> <丹药名> [数量]\n"
             "GM查看玩家 <目标> — 查看玩家信息\n"
             "GM刷新秘境 — 强制刷新秘境并重置所有玩家探索次数\n"
+            "GM补偿 <物品 数量|物品 数量> — 创建全服补偿包\n"
             "━━━━━━━━━━━━━━━\n"
-            "目标支持 @某人 或 QQ号"
+            "目标支持 @某人 或 QQ号\n"
+            "补偿物品用 | 分隔，数量默认1，例：GM补偿 灵草 10|炼气丹 5"
         )
 
     async def handle_add_gold(self, target_id: str, args: str) -> str:
@@ -207,6 +210,93 @@ class GMHandlers:
             f"武器：{player.weapon or '无'}\n"
             f"防具：{player.armor or '无'}"
         )
+
+    # ===== 补偿系统 =====
+
+    def _parse_compensation_items(self, args: str) -> dict:
+        """解析补偿物品参数，格式：'物品A 数量|物品B 数量|物品C'
+
+        Returns:
+            {"物品A": 数量, "物品B": 数量, "物品C": 1}
+            解析失败返回空字典
+        """
+        args = args.strip()
+        if not args:
+            return {}
+        items = {}
+        for part in args.split("|"):
+            part = part.strip()
+            if not part:
+                continue
+            m = re.match(r'^(.+?)\s+(\d+)\s*$', part, re.DOTALL)
+            if m:
+                name = m.group(1).strip()
+                count = int(m.group(2))
+                if name and count > 0:
+                    items[name] = items.get(name, 0) + count
+            else:
+                name = part.strip()
+                if name:
+                    items[name] = items.get(name, 0) + 1
+        return items
+
+    async def handle_create_compensation(self, args: str) -> str:
+        """GM创建全服补偿包"""
+        items = self._parse_compensation_items(args)
+        if not items:
+            return "用法：GM补偿 <物品名 数量|物品名 数量>\n示例：GM补偿 灵草 10|炼气丹 5|精铁"
+        import json
+        items_json = json.dumps(items, ensure_ascii=False)
+        comp_id = await self.db.ext.create_compensation(items_json)
+        # 清理旧补偿
+        await self.db.ext.delete_old_compensations(comp_id)
+        # 构建确认消息
+        lines = [f"🎁 已创建全服补偿包（ID: {comp_id}）"]
+        lines.append("━━━━━━━━━━━━━━━")
+        for name, count in items.items():
+            lines.append(f"  {name} ×{count}")
+        lines.append("━━━━━━━━━━━━━━━")
+        lines.append("玩家可使用【/补偿】领取")
+        return "\n".join(lines)
+
+    async def handle_claim_compensation(self, user_id: str) -> str:
+        """玩家领取补偿"""
+        # 查询活跃补偿
+        comp = await self.db.ext.get_active_compensation()
+        if not comp:
+            return "📭 当前没有可领取的补偿。"
+        # 检查是否已领取
+        if await self.db.ext.has_claimed(user_id, comp["id"]):
+            return "❌ 你已经领取过本次补偿了，请等待下一次补偿。"
+        # 获取玩家
+        player = await self.db.get_player_by_id(user_id)
+        if not player:
+            return "❌ 请先创建角色后再领取补偿。"
+        # 记录领取（原子操作防并发）
+        claimed = await self.db.ext.claim_compensation(user_id, comp["id"])
+        if not claimed:
+            return "❌ 你已经领取过本次补偿了，请等待下一次补偿。"
+        # 发放物品
+        import json
+        items = json.loads(comp["items"])
+        storage = player.get_storage_ring_items()
+        pills_inv = player.get_pills_inventory()
+        received = []
+        for name, count in items.items():
+            if self.config_manager and self.config_manager.is_pill(name):
+                pills_inv[name] = pills_inv.get(name, 0) + count
+            else:
+                storage[name] = storage.get(name, 0) + count
+            received.append(f"  {name} ×{count}")
+        player.set_storage_ring_items(storage)
+        player.set_pills_inventory(pills_inv)
+        await self.db.update_player(player)
+        # 返回结果
+        lines = ["🎁 补偿领取成功！"]
+        lines.append("━━━━━━━━━━━━━━━")
+        lines.extend(received)
+        lines.append("━━━━━━━━━━━━━━━")
+        return "\n".join(lines)
 
     def _parse_int(self, text: str) -> int:
         """解析整数"""
