@@ -41,7 +41,6 @@ class BountyHandlers:
             line += f"\n  - 说明：{b.get('description', '')}"
             lines.append(line)
         lines.append("━━━━━━━━━━━━━━━")
-        lines.append(f"💡 使用 /接取悬赏 <编号> 接取任务（每日限{self.bounty_mgr.DAILY_BOUNTY_LIMIT}次）")
 
         yield event.plain_result("\n".join(lines))
     

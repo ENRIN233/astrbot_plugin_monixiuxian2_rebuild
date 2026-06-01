@@ -31,13 +31,9 @@
       "name": "巡山情报",
       "difficulty": "easy",
       "category": "巡山",
-      "progress_tags": [
-        "adventure_scout",
-        "gather"
-      ],
       "min_target": 3,
       "max_target": 6,
-      "time_limit": 1800,
+      "time_limit": 600,
       "reward": {
         "stone": 800000,
         "exp": 2200
@@ -55,14 +51,9 @@
       "name": "灵药补给",
       "difficulty": "normal",
       "category": "采集",
-      "progress_tags": [
-        "adventure_roam",
-        "gather",
-        "collect"
-      ],
       "min_target": 4,
       "max_target": 8,
-      "time_limit": 2700,
+      "time_limit": 900,
       "reward": {
         "stone": 1200000,
         "exp": 3200
@@ -80,14 +71,9 @@
       "name": "妖兽清剿",
       "difficulty": "hard",
       "category": "猎杀",
-      "progress_tags": [
-        "adventure_hunt",
-        "adventure_peril",
-        "kill"
-      ],
       "min_target": 3,
       "max_target": 6,
-      "time_limit": 3600,
+      "time_limit": 1200,
       "reward": {
         "stone": 1600000,
         "exp": 5200
@@ -105,13 +91,9 @@
       "name": "秘境侦察",
       "difficulty": "normal",
       "category": "探索",
-      "progress_tags": [
-        "rift",
-        "explore"
-      ],
       "min_target": 2,
       "max_target": 4,
-      "time_limit": 2700,
+      "time_limit": 900,
       "reward": {
         "stone": 1200000,
         "exp": 4800
@@ -129,14 +111,9 @@
       "name": "护送商旅",
       "difficulty": "hard",
       "category": "护送",
-      "progress_tags": [
-        "adventure_roam",
-        "adventure_hunt",
-        "escort"
-      ],
       "min_target": 2,
       "max_target": 5,
-      "time_limit": 3600,
+      "time_limit": 1200,
       "reward": {
         "stone": 1600000,
         "exp": 5600
@@ -154,14 +131,9 @@
       "name": "禁地余波",
       "difficulty": "elite",
       "category": "镇压",
-      "progress_tags": [
-        "adventure_peril",
-        "rift",
-        "explore"
-      ],
       "min_target": 2,
       "max_target": 4,
-      "time_limit": 5400,
+      "time_limit": 1800,
       "reward": {
         "stone": 2000000,
         "exp": 7800

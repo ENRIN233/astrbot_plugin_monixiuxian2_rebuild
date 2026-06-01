@@ -23,7 +23,6 @@ class BountyManager:
 
     BOUNTY_CACHE_DURATION = 600  # 任务列表缓存10分钟
     CONFIG_FILE = Path(__file__).resolve().parents[1] / "config" / "bounty_templates.json"
-    ADVENTURE_CONFIG_FILE = Path(__file__).resolve().parents[1] / "config" / "adventure_config.json"
     DEFAULT_CONFIG = {
         "difficulties": {
             "easy": {"name": "F级", "stone_scale": 1.0, "exp_scale": 1.0, "min_level": 0}
@@ -34,7 +33,6 @@ class BountyManager:
                 "name": "击退妖兽",
                 "difficulty": "easy",
                 "category": "巡山",
-                "progress_tags": ["adventure_scout"],
                 "min_target": 3,
                 "max_target": 5,
                 "time_limit": 3600,
@@ -75,7 +73,6 @@ class BountyManager:
         self.templates_by_id: Dict[int, dict] = {}
         self.templates_by_diff: Dict[str, List[dict]] = {}
         self.item_tables: Dict[str, List[dict]] = {}
-        self.adventure_tag_meta: Dict[str, Dict[str, int]] = {}
         self._technique_pool: Dict[str, List[tuple]] = {}  # rank -> [(name, item_cfg), ...]
         self.items_data = items_data or {}
         self.reload_config()
@@ -90,11 +87,9 @@ class BountyManager:
         self.templates_by_diff = {}
         for tpl in config.get("templates", []):
             tpl_copy = dict(tpl)
-            tpl_copy["progress_tags"] = [str(tag).lower() for tag in tpl_copy.get("progress_tags", [])]
             self.templates_by_id[tpl_copy["id"]] = tpl_copy
             self.templates_by_diff.setdefault(tpl_copy["difficulty"], []).append(tpl_copy)
         logger.info(f"悬赏配置加载完成：{len(self.templates_by_id)} 条模板")
-        self._load_adventure_meta()
         self._build_technique_pool()
 
     def _build_technique_pool(self):
@@ -181,25 +176,6 @@ class BountyManager:
                 logger.error(f"加载 bounty_templates.json 失败，将使用默认配置: {exc}")
         return self.DEFAULT_CONFIG
 
-    def _load_adventure_meta(self):
-        self.adventure_tag_meta = {}
-        if not self.ADVENTURE_CONFIG_FILE.exists():
-            return
-        try:
-            with open(self.ADVENTURE_CONFIG_FILE, "r", encoding="utf-8") as f:
-                data = json.load(f)
-            for route in data.get("routes", []):
-                tag = str(route.get("bounty_tag", "")).lower()
-                if not tag:
-                    continue
-                self.adventure_tag_meta[tag] = {
-                    "duration": int(route.get("duration", 3600)),
-                    "fatigue": int(route.get("fatigue_cooldown", 0))
-                }
-            logger.info("已加载冒险路线元数据用于悬赏校准")
-        except Exception as exc:
-            logger.warning(f"加载冒险路线配置失败，将使用默认时限: {exc}")
-
     # -------- 列表 & 缓存 --------
 
     def _get_cached_bounties(self, user_id: str) -> Optional[List[dict]]:
@@ -264,7 +240,6 @@ class BountyManager:
         diff_cfg = self.difficulties.get(difficulty, {})
         target = random.randint(template.get("min_target", 1), template.get("max_target", 1))
         reward = self._calculate_reward(template, diff_cfg, player, target)
-        progress_tags = [str(tag).lower() for tag in template.get("progress_tags", [])]
         time_limit = self._calculate_time_limit(template, target)
         technique_reward = self._roll_bounty_technique(player, difficulty)
         return {
@@ -277,7 +252,6 @@ class BountyManager:
             "count": target,
             "reward": reward,
             "time_limit": time_limit,
-            "progress_tags": progress_tags,
             "item_table": template.get("item_table", "gather"),
             "technique_reward": technique_reward
         }
@@ -296,16 +270,6 @@ class BountyManager:
 
     def _calculate_time_limit(self, template: dict, target: int) -> int:
         return template.get("time_limit", 3600)
-
-    def _get_adventure_unit_time(self, template: dict) -> Optional[int]:
-        durations = []
-        for tag in template.get("progress_tags", []):
-            meta = self.adventure_tag_meta.get(tag.lower())
-            if meta:
-                durations.append(meta.get("duration", 0))
-        if not durations:
-            return None
-        return max(60, min(durations))
 
     # -------- 接取与状态 --------
 
@@ -333,6 +297,12 @@ class BountyManager:
             if active:
                 await self.db.conn.rollback()
                 return False, f"你已有进行中的悬赏：{active['bounty_name']}，请先完成或放弃。"
+
+            # 也检查已过期但未领取的悬赏
+            expired = await self.db.ext.get_expired_bounty(player.user_id)
+            if expired:
+                await self.db.conn.rollback()
+                return False, f"你有已过期未领取的悬赏：{expired['bounty_name']}，请先完成或放弃。"
 
             cd_key = f"bounty_abandon_cd_{player.user_id}"
             cd_value = await self.db.ext.get_system_config(cd_key)
@@ -364,7 +334,6 @@ class BountyManager:
                 "difficulty_name": cached.get("difficulty_name", ""),
                 "item_table": cached.get("item_table"),
                 "description": cached.get("description", ""),
-                "progress_tags": cached.get("progress_tags", []),
                 "technique_reward": cached.get("technique_reward")
             }, ensure_ascii=False)
 
@@ -409,8 +378,13 @@ class BountyManager:
 
     async def check_bounty_status(self, player: Player) -> Tuple[bool, str]:
         active = await self.db.ext.get_active_bounty(player.user_id)
+        is_expired_claim = False
         if not active:
-            return False, "你当前没有进行中的悬赏任务。\n使用 /悬赏令 查看可接取的任务。"
+            # 后台过期检查可能已将 status 改为 3，尝试查已过期的悬赏
+            active = await self.db.ext.get_expired_bounty(player.user_id)
+            if not active:
+                return False, "你当前没有进行中的悬赏任务。\n使用 /悬赏令 查看可接取的任务。"
+            is_expired_claim = True
 
         rewards = json.loads(active["rewards"])
         remaining = max(0, active["expire_time"] - int(time.time()))
@@ -418,7 +392,9 @@ class BountyManager:
         diff_name = rewards.get("difficulty_name", rewards.get("difficulty", "未知"))
         desc = rewards.get("description", "")
 
-        if remaining > 0:
+        if is_expired_claim:
+            status_text = "⚠️ 时限已过，请尽快使用 /完成悬赏 领取奖励（即将失效）"
+        elif remaining > 0:
             status_text = f"⏳ 剩余时间：{remaining // 60} 分钟（到时限后可领取奖励）"
         else:
             status_text = "✅ 时限已到，使用 /完成悬赏 领取奖励"
@@ -438,12 +414,18 @@ class BountyManager:
         await self.db.conn.execute("BEGIN IMMEDIATE")
         try:
             active = await self.db.ext.get_active_bounty(player.user_id)
+            is_expired_claim = False
             if not active:
-                await self.db.conn.rollback()
-                return False, "你当前没有进行中的悬赏任务。"
+                # 后台过期检查可能已将 status 改为 3，尝试查已过期的悬赏
+                active = await self.db.ext.get_expired_bounty(player.user_id)
+                if not active:
+                    await self.db.conn.rollback()
+                    return False, "你当前没有进行中的悬赏任务。"
+                is_expired_claim = True
 
             now = int(time.time())
-            if now < active["expire_time"]:
+            # status=3 的悬赏已被后台标记为过期，跳过时限检查
+            if not is_expired_claim and now < active["expire_time"]:
                 remaining = (active["expire_time"] - now) // 60 or 1
                 await self.db.conn.rollback()
                 return False, (
@@ -459,7 +441,7 @@ class BountyManager:
             exp_reward = rewards.get("exp", 0)
 
             await self.db.conn.execute(
-                "UPDATE bounty_tasks SET status = 2 WHERE user_id = ? AND status = 1",
+                "UPDATE bounty_tasks SET status = 2 WHERE user_id = ? AND status IN (1, 3)",
                 (player.user_id,)
             )
 
@@ -519,7 +501,10 @@ class BountyManager:
     async def abandon_bounty(self, player: Player) -> Tuple[bool, str]:
         active = await self.db.ext.get_active_bounty(player.user_id)
         if not active:
-            return False, "你当前没有进行中的悬赏任务。"
+            # 也检查已过期的悬赏
+            active = await self.db.ext.get_expired_bounty(player.user_id)
+            if not active:
+                return False, "你当前没有进行中的悬赏任务。"
 
         await self.db.ext.cancel_bounty(player.user_id)
         abandon_cooldown = int(time.time()) + 1800
@@ -547,62 +532,6 @@ class BountyManager:
         count = random.randint(chosen["min"], chosen["max"])
         dropped_items.append((chosen["name"], count))
         return dropped_items
-
-    async def add_bounty_progress(self, player: Player, activity_tag: str, count: int = 1) -> Tuple[bool, str]:
-        """根据活动标签推进悬赏"""
-        if not isinstance(count, int) or count <= 0:
-            return False, ""
-        count = min(count, 10)
-        activity_tag = (activity_tag or "").strip().lower()
-        if not activity_tag:
-            return False, ""
-
-        await self.db.conn.execute("BEGIN IMMEDIATE")
-        try:
-            active = await self.db.ext.get_active_bounty(player.user_id)
-            if not active:
-                await self.db.conn.rollback()
-                return False, ""
-
-            if int(time.time()) > active["expire_time"]:
-                await self.db.conn.rollback()
-                return False, ""
-
-            rewards_data = {}
-            try:
-                rewards_data = json.loads(active["rewards"])
-            except Exception:
-                rewards_data = {}
-
-            template = self.templates_by_id.get(active["bounty_id"])
-            if template:
-                allowed_tags = template.get("progress_tags", [])
-            else:
-                allowed_tags = [str(tag).lower() for tag in rewards_data.get("progress_tags", [])]
-
-            if activity_tag not in allowed_tags:
-                await self.db.conn.rollback()
-                return False, ""
-
-            progress = active.get("current_progress", 0)
-            target = active.get("target_count", 1)
-            if progress >= target:
-                await self.db.conn.rollback()
-                return False, ""
-
-            new_progress = min(target, progress + count)
-            await self.db.conn.execute(
-                "UPDATE bounty_tasks SET current_progress = ? WHERE user_id = ? AND status = 1 AND current_progress = ?",
-                (new_progress, player.user_id, progress)
-            )
-            await self.db.conn.commit()
-
-            if new_progress >= target:
-                return True, f"\n\n📜 悬赏【{active['bounty_name']}】已完成！使用 /完成悬赏 领取奖励"
-            return True, f"\n\n📜 悬赏进度：{new_progress}/{target}"
-        except Exception:
-            await self.db.conn.rollback()
-            raise
 
     async def check_and_expire_bounties(self) -> int:
         now = int(time.time())

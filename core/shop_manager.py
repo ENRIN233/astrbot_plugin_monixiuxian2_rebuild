@@ -265,6 +265,39 @@ class ShopManager:
             })
         return result
 
+    def mark_limited_offers(self, items: List[Dict], offer_count: int = 2, extra_discount: float = 0.7) -> List[Dict]:
+        """从商品列表中随机标记限时特价商品
+
+        Args:
+            items: 商品列表（会被原地修改）
+            offer_count: 限时特价商品数量（默认2）
+            extra_discount: 额外折扣倍率（0.7 = 在现价基础上再打7折）
+
+        Returns:
+            被标记为限时特价的商品列表
+        """
+        if not items or offer_count <= 0:
+            return []
+
+        # 优先选择非限时商品中价格较高的（更有吸引力）
+        candidates = [i for i, item in enumerate(items) if not item.get('limited_offer')]
+        if not candidates:
+            candidates = list(range(len(items)))
+
+        count = min(offer_count, len(candidates))
+        chosen_indices = random.sample(candidates, count)
+
+        offers = []
+        for idx in chosen_indices:
+            item = items[idx]
+            item['limited_offer'] = True
+            item['original_discount'] = item.get('discount', 1.0)
+            item['discount'] = item.get('discount', 1.0) * extra_discount
+            item['price'] = int(item['original_price'] * item['discount'])
+            offers.append(item)
+
+        return offers
+
     def get_pills_for_display(self, count: int) -> List[Dict]:
         """获取丹药列表用于丹阁展示"""
         all_pills = []
@@ -416,7 +449,14 @@ class ShopManager:
                 continue
             type_label = type_label_map.get(item['type'], '物品')
             discount_text = ""
-            if item.get('discount', 1.0) < 1.0:
+            if item.get('limited_offer'):
+                # 限时特价：显示原折扣和特价折扣
+                original_disc = item.get('original_discount', item.get('discount', 1.0))
+                if original_disc < 1.0:
+                    discount_text = f" 🔥限时特价 [{int((1.0 - original_disc) * 100)}%→{int((1.0 - item['discount']) * 100)}%折]"
+                else:
+                    discount_text = f" 🔥限时特价 [{int((1.0 - item['discount']) * 100)}%折]"
+            elif item.get('discount', 1.0) < 1.0:
                 discount_text = f" [{int((1.0 - item['discount']) * 100)}%折]"
             elif item.get('discount', 1.0) > 1.0:
                 discount_text = f" [+{int((item['discount'] - 1.0) * 100)}%]"

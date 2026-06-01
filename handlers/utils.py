@@ -61,7 +61,57 @@ BUSY_STATE_ALLOWED_COMMANDS = [
     "结束历练",
     "结束秘境",
     "结束任务",
+    # 悬赏令（只读/管理操作，允许在忙碌状态下查看、完成、放弃）
+    "悬赏令",
+    "悬赏状态",
+    "完成悬赏",
+    "放弃悬赏",
+    # 成就系统（只读查看）
+    "成就列表",
+    # 银行会员
+    "升级会员",
 ]
+
+# 板块入口指令 → 相关指令提示（在玩家首次接触某板块时追加到回复末尾）
+COMMAND_FOOTERS: dict = {
+    "修仙帮助": "💡 相关指令：/我要修仙 | /我的信息 | /签到 | /改道号 | /弃道重修 | /重铸灵根",
+    "闭关": "💡 相关指令：/出关 | /突破信息 | /突破",
+    "丹药背包": "💡 相关指令：/服用丹药 | /丹药信息 | /炼丹 | /丹药配方",
+    "我的装备": "💡 相关指令：/装备 <名称> | /卸下 <部位>",
+    "神通列表": "💡 相关指令：/我的神通 | /装备神通 <名称> | /卸下神通 | /神通信息 <名称>",
+    "丹阁": "💡 相关指令：/器阁 | /百宝阁 | /物品信息 | /查看 <名称> | /购买 <名称>",
+    "储物戒": "💡 相关指令：/更换储物戒 | /丢弃 <名称> | /赠予 @玩家 <名称> | /搜索物品 <关键词> | /炼金",
+    "我的宗门": "💡 相关指令：/创建宗门 | /加入宗门 | /退出宗门 | /宗门列表 | /宗门捐献 | /宗门任务 | /踢出成员 | /宗主传位 | /职位变更",
+    "世界Boss": "💡 相关指令：/挑战Boss",
+    "决斗": "💡 相关指令：/切磋 @玩家",
+    "境界排行": "💡 相关指令：/战力排行 | /灵石排行 | /宗门排行 | /存款排行 | /贡献排行",
+    "传承挑战": "💡 相关指令：/传承排行",
+    "成就列表": "💡 相关指令：/装备成就 <名称> | /卸下成就",
+    "探索秘境": "💡 相关指令：/完成探索 | /退出秘境",
+    "历练信息": "💡 相关指令：/开始历练 | /完成历练 | /历练状态",
+    "丹药配方": "💡 相关指令：/炼丹 <名称>",
+    "银行": "💡 相关指令：/存灵石 | /取灵石 | /领取利息 | /贷款 | /还款 | /银行流水 | /突破贷款",
+    "悬赏令": "💡 相关指令：/接取悬赏 <编号> | /悬赏状态 | /完成悬赏 | /放弃悬赏",
+    "我的洞天": "💡 相关指令：/购买洞天 | /升级洞天",
+    "我的灵田": "💡 相关指令：/开垦灵田 | /种植 <灵草> | /收获 | /升级灵田",
+    "双修": "💡 相关指令：/接受双修 | /拒绝双修",
+    "灵眼信息": "💡 相关指令：/抢占灵眼 | /释放灵眼",
+    "交易": "💡 相关指令：/接受交易 | /拒绝交易 | /添加物品 | /添加灵石 | /查看交易 | /确认交易 | /取消交易",
+    "寄售行": "💡 相关指令：/寄售 | /购买寄售 | /我的寄售 | /下架寄售",
+}
+
+
+def get_related_commands_footer(command: str) -> str:
+    """获取指定命令的相关指令提示，无则返回空字符串"""
+    return COMMAND_FOOTERS.get(command, "")
+
+
+def inject_footer(response: str, command: str) -> str:
+    """将板块相关指令 footer 附加到响应末尾"""
+    footer = COMMAND_FOOTERS.get(command)
+    if footer:
+        return f"{response}\n━━━━━━━━━━━━━━━\n{footer}"
+    return response
 
 
 def player_required(func: Callable[..., Coroutine[any, any, AsyncGenerator[any, None]]]):
@@ -115,6 +165,12 @@ def player_required(func: Callable[..., Coroutine[any, any, AsyncGenerator[any, 
         # 如果有贷款警告，在指令执行完后显示
         if loan_warning and loan_warning.get("warning_message"):
             yield event.plain_result(loan_warning["warning_message"])
+
+        # 板块相关指令提示：匹配入口指令时追加 footer
+        for cmd in COMMAND_FOOTERS:
+            if message_text.startswith(cmd):
+                yield event.plain_result(COMMAND_FOOTERS[cmd])
+                break
 
     return wrapper
 
@@ -232,3 +288,29 @@ async def _check_loan_status(db, player: Player) -> dict:
         
     except Exception:
         return None
+
+
+def format_progress_bar(current: int, maximum: int, length: int = 10) -> str:
+    """生成可视化进度条
+
+    Args:
+        current: 当前值（如失败次数）
+        maximum: 最大值（如达到上限的次数）
+        length: 进度条格数（默认10格）
+
+    Returns:
+        如 '████████░░' 样式的进度条字符串
+
+    Examples:
+        >>> format_progress_bar(8, 10)
+        '████████░░'
+        >>> format_progress_bar(0, 10)
+        '░░░░░░░░░░'
+        >>> format_progress_bar(10, 10)
+        '██████████'
+    """
+    if maximum <= 0:
+        return "░" * length
+    filled = min(round(current / maximum * length), length)
+    empty = length - filled
+    return "█" * filled + "░" * empty

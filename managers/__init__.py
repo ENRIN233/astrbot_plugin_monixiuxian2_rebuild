@@ -18,6 +18,7 @@ from .dual_cultivation_manager import DualCultivationManager
 from .spirit_eye_manager import SpiritEyeManager
 from .trade_manager import TradeManager
 from .consignment_manager import ConsignmentManager
+from .achievement_manager import AchievementManager
 
 __all__ = [
     "CombatManager",

@@ -223,6 +223,9 @@ class GMHandlers:
         args = args.strip()
         if not args:
             return {}
+        # 统一全角字符
+        args = args.replace("｜", "|").replace("　", " ")
+        args = args.translate(str.maketrans("０１２３４５６７８９", "0123456789"))
         items = {}
         for part in args.split("|"):
             part = part.strip()

@@ -7,6 +7,7 @@ from astrbot.api import logger
 from ..models import Player
 from ..data import DataBase
 from ..config_manager import ConfigManager
+from ..handlers.utils import format_progress_bar
 
 
 class BreakthroughManager:
@@ -84,6 +85,13 @@ class BreakthroughManager:
         if temp_bonus:
             info_lines.append(f"临时丹药加成：{temp_bonus:+.1%}")
 
+        # 失败累积加成：每次失败+1%，上限为基础成功率
+        failure_bonus = 0.0
+        if player.level_up_rate > 0:
+            failure_bonus = min(player.level_up_rate / 100.0, base_success_rate)
+            info_lines.append(f"失败累积加成：+{failure_bonus:.1%}（{player.level_up_rate}次）")
+            final_rate += failure_bonus
+
         # 新增：主修心法加成
         technique_bonus = 0.0
         if player.main_technique:
@@ -102,8 +110,8 @@ class BreakthroughManager:
                 breakthrough_bonus = pill_data.get("breakthrough_bonus", 0)
                 max_rate = pill_data.get("max_success_rate", 1.0)
 
-                # 计算加成后的成功率
-                final_rate = min(base_success_rate + temp_bonus + technique_bonus + breakthrough_bonus, max_rate)
+                # 计算加成后的成功率（含失败累积加成）
+                final_rate = min(base_success_rate + temp_bonus + failure_bonus + technique_bonus + breakthrough_bonus, max_rate)
 
                 info_lines.append(f"破境丹加成：+{breakthrough_bonus:.1%}")
                 info_lines.append(f"最大成功率限制：{max_rate:.1%}")
@@ -190,6 +198,10 @@ class BreakthroughManager:
             player.magic_defense += magic_defense_gain
             player.mental_power += mental_power_gain
 
+            # 突破成功，重置失败累积加成
+            old_failure_count = player.level_up_rate
+            player.level_up_rate = 0
+
             # 保存到数据库
             await self.db.update_player(player)
             
@@ -244,6 +256,18 @@ class BreakthroughManager:
                     f"法防：{player.magic_defense}\n"
                     f"物防：{player.physical_defense}\n"
                     f"精神力：{player.mental_power}"
+                )
+
+            # 如果有失败累积加成，追加重置提示
+            if old_failure_count > 0:
+                base_success_rate = next_level_data.get("success_rate", 0.5)
+                max_failures = max(1, int(base_success_rate * 100))
+                old_rate = min(old_failure_count, max_failures)
+                bar_before = format_progress_bar(old_rate, max_failures)
+                bar_after = format_progress_bar(0, max_failures)
+                success_msg += (
+                    f"\n\n🔄 失败累积加成已重置\n"
+                    f"   {bar_before} → {bar_after}"
                 )
 
             logger.info(
@@ -335,6 +359,12 @@ class BreakthroughManager:
                 exp_penalty = max(1, int(int(player.experience) * penalty_rate))
                 player.experience = max(0, int(player.experience) - exp_penalty)
 
+                # 失败累积加成 +1%
+                player.level_up_rate += 1
+                base_success_rate = next_level_data.get("success_rate", 0.5)
+                cap_reached = player.level_up_rate / 100.0 >= base_success_rate
+                current_failure_bonus = min(player.level_up_rate / 100.0, base_success_rate)
+
                 await self.db.update_player(player)
 
                 # 随机失败描述
@@ -348,6 +378,14 @@ class BreakthroughManager:
                 ]
                 scene = random.choice(fail_scenes)
 
+                # 失败累积提示
+                max_failures = max(1, int(base_success_rate * 100))
+                bar = format_progress_bar(player.level_up_rate, max_failures)
+                if cap_reached:
+                    bonus_line = f"🔥 失败累积：+{current_failure_bonus:.1%} {bar}（已达上限）"
+                else:
+                    bonus_line = f"🔥 失败累积：+{current_failure_bonus:.1%} {bar}（{player.level_up_rate}/{max_failures}次）"
+
                 fail_msg = (
                     f"❌ 突破失败 ❌\n"
                     f"━━━━━━━━━━━━━━━\n"
@@ -360,13 +398,16 @@ class BreakthroughManager:
                     f"修为受损：-{exp_penalty}（{penalty_rate:.2%}）\n"
                     f"当前修为：{player.experience:,}\n"
                     f"━━━━━━━━━━━━━━━\n"
+                    f"{bonus_line}\n"
+                    f"下次突破成功率将提升！\n"
+                    f"━━━━━━━━━━━━━━━\n"
                     f"道途坎坷，百折不挠方能证道。\n"
                     f"请继续修炼，来日再战！"
                 )
 
                 logger.info(
                     f"玩家 {player.user_id} 突破失败：{current_level_name} -> {next_level_name}，"
-                    f"损失修为 {exp_penalty}"
+                    f"损失修为 {exp_penalty}，失败累积加成 +{player.level_up_rate}%"
                 )
 
                 return False, fail_msg, False

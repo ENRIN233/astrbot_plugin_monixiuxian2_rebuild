@@ -19,6 +19,7 @@ class ConfigManager:
         self.utility_pills_data: Dict[str, dict] = {}  # 功能丹数据，key为丹药名称
         self.storage_rings_data: Dict[str, dict] = {}  # 储物戒数据，key为储物戒名称
         self.skills_data: Dict[str, dict] = {}  # 神通数据，key为神通名称
+        self.achievements_data: Dict[str, dict] = {}  # 成就数据，key为成就名称
         
         # 新增系统配置
         self.sect_config: Dict[str, Any] = {}
@@ -113,6 +114,7 @@ class ConfigManager:
         self.utility_pills_data = self._load_items_data(config_dir / "utility_pills.json")
         self.storage_rings_data = self._load_items_data(config_dir / "storage_rings.json")
         self.skills_data = self._load_items_data(config_dir / "skills.json")
+        self.achievements_data = self._load_items_data(config_dir / "achievements.json")
         
         # 加载新系统配置
         self.sect_config = self._load_config_with_default(config_dir / "sect_config.json", SECT_CONFIG)
@@ -131,7 +133,8 @@ class ConfigManager:
             f"加载了 {len(self.level_data)} 个灵修境界配置，"
             f"{len(self.body_level_data)} 个体修境界配置，"
             f"以及新系统配置 (宗门/Boss/秘境/炼丹)，"
-            f"{len(self.skills_data)} 个神通配置"
+            f"{len(self.skills_data)} 个神通配置，"
+            f"{len(self.achievements_data)} 个成就配置"
         )
 
     def save_game_config(self) -> None:

@@ -11,9 +11,9 @@
       ],
       "description": "巡视宗门附近的山麓，收集灵药与情报，风险最低，适合试探与凑进度。",
       "risk": "低",
-      "duration": 1800,
+      "duration": 900,
       "min_level": 0,
-      "fatigue_cooldown": 300,
+      "fatigue_cooldown": 150,
       "base_exp_per_min": 45,
       "base_gold_per_min": 20000,
       "level_bonus_exp": 12,
@@ -27,9 +27,7 @@
         "standard": 30,
         "risky": 10
       },
-      "drop_tier": "low",
-      "bounty_tag": "adventure_scout",
-      "bounty_progress": 1
+      "drop_tier": "low"
     },
     {
       "key": "journey",
@@ -41,9 +39,9 @@
       ],
       "description": "穿梭各地延绵山川，结识奇人异士，收益稳定且偶有奇遇。",
       "risk": "中",
-      "duration": 3600,
+      "duration": 1800,
       "min_level": 3,
-      "fatigue_cooldown": 600,
+      "fatigue_cooldown": 300,
       "base_exp_per_min": 55,
       "base_gold_per_min": 30000,
       "level_bonus_exp": 18,
@@ -57,9 +55,7 @@
         "standard": 45,
         "risky": 20
       },
-      "drop_tier": "mid",
-      "bounty_tag": "adventure_roam",
-      "bounty_progress": 1
+      "drop_tier": "mid"
     },
     {
       "key": "hunt",
@@ -71,9 +67,9 @@
       ],
       "description": "深入妖兽巢穴围猎，收益显著但常伴激烈战斗，完成可大幅推进猎杀悬赏。",
       "risk": "高",
-      "duration": 5400,
+      "duration": 2700,
       "min_level": 7,
-      "fatigue_cooldown": 900,
+      "fatigue_cooldown": 450,
       "base_exp_per_min": 65,
       "base_gold_per_min": 45000,
       "level_bonus_exp": 24,
@@ -88,9 +84,7 @@
         "risky": 30,
         "disaster": 10
       },
-      "drop_tier": "mid",
-      "bounty_tag": "adventure_hunt",
-      "bounty_progress": 2
+      "drop_tier": "mid"
     },
     {
       "key": "peril",
@@ -102,9 +96,9 @@
       ],
       "description": "闯入上古禁地寻找传承，历程充满未知与陷阱，但若成功可收获顶尖资源。",
       "risk": "极高",
-      "duration": 7200,
+      "duration": 3600,
       "min_level": 12,
-      "fatigue_cooldown": 1200,
+      "fatigue_cooldown": 600,
       "base_exp_per_min": 80,
       "base_gold_per_min": 64400,
       "level_bonus_exp": 30,
@@ -119,9 +113,7 @@
         "risky": 35,
         "disaster": 25
       },
-      "drop_tier": "high",
-      "bounty_tag": "adventure_peril",
-      "bounty_progress": 3
+      "drop_tier": "high"
     }
   ],
   "event_groups": {

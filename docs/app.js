@@ -102,7 +102,7 @@ async function loadAllData() {
         'level_config', 'body_level_config', 'pills', 'exp_pills',
         'utility_pills', 'items', 'weapons', 'storage_rings',
         'alchemy_recipes', 'adventure_config', 'bounty_templates', 'game_config',
-        'skills'
+        'skills', 'spiritual_roots'
     ];
     const promises = files.map(async f => {
         try {
@@ -253,6 +253,8 @@ function renderOverview() {
     const permPills = utilPills.filter(p => p.effect_type === 'permanent');
     const tempPills = utilPills.filter(p => p.effect_type === 'temporary');
     const instantPills = utilPills.filter(p => p.effect_type === 'instant');
+    const rootsData = DATA.spiritual_roots || [];
+    const rootCount = rootsData.reduce((sum, r) => sum + r.roots.length, 0);
 
     page.innerHTML = `
         <h2 class="page-title">总览</h2>
@@ -274,6 +276,7 @@ function renderOverview() {
             <div class="stat-card"><div class="stat-value">${recipeCount}</div><div class="stat-label">炼丹配方</div></div>
             <div class="stat-card"><div class="stat-value">${materials.length}</div><div class="stat-label">材料</div></div>
             <div class="stat-card"><div class="stat-value">${oldPills.length + artifacts.length + manuals.length}</div><div class="stat-label">旧系统道具</div></div>
+            <div class="stat-card"><div class="stat-value">${rootCount}</div><div class="stat-label">灵根</div></div>
         </div>
         <h3 class="section-title">丹药分布</h3>
         <div class="stats-grid">
@@ -1784,6 +1787,90 @@ function renderSkills() {
     });
 }
 
+// ===================== Spiritual Roots Page =====================
+
+function getRootGlowClass(rarity) {
+    if (rarity === '废柴') return 'root-废柴';
+    if (rarity === '凡品' || rarity === '良品') return 'root-凡品';
+    if (rarity === '上品' || rarity === '稀有') return 'root-上品';
+    if (rarity === '极品' || rarity === '传说') return 'root-极品';
+    if (rarity === '神话' || rarity === '禁忌') return 'root-神话';
+    return '';
+}
+
+function renderRoots() {
+    const page = document.getElementById('page-roots');
+    const roots = DATA.spiritual_roots || [];
+
+    if (!roots.length) {
+        page.innerHTML = '<h2 class="page-title">灵根</h2><div class="info-box">暂无灵根数据</div>';
+        return;
+    }
+
+    const totalRoots = roots.reduce((sum, r) => sum + r.roots.length, 0);
+
+    // Summary stats
+    let html = `
+        <h2 class="page-title">灵根</h2>
+        <div class="info-box">
+            灵根决定修炼速度倍率，创建角色时随机获得。<br>
+            使用「重铸灵根」可花费 25万灵石 重新随机，服用「换血丹」也可重置灵根。<br>
+            修炼公式：<strong>基础经验 × 分钟数 × 灵根速率 × (1+功法加成) × 丹药加成 × 灵眼加成 × 福地加成</strong>
+        </div>
+        <h3 class="section-title">数据统计</h3>
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-value">${totalRoots}</div><div class="stat-label">灵根总数</div></div>
+            <div class="stat-card"><div class="stat-value">${roots.length}</div><div class="stat-label">品阶数</div></div>
+            <div class="stat-card"><div class="stat-value num-green">×${roots[roots.length - 1].speed}</div><div class="stat-label">最高倍率</div></div>
+            <div class="stat-card"><div class="stat-value num-red">×${roots[0].speed}</div><div class="stat-label">最低倍率</div></div>
+        </div>
+        <h3 class="section-title">灵根品阶一览</h3>
+    `;
+
+    // Build table
+    const headers = ['品阶', '灵根', '修炼速率', '单根权重', '总权重', '出现概率'];
+    const rows = roots.map(r => {
+        const glowClass = getRootGlowClass(r.rarity);
+        const badge = `<span class="root-badge root-${r.rarity}">${esc(r.rarity)}</span>`;
+        const rootNames = r.roots.map(n => `<code>${esc(n)}</code>`).join(' ');
+        return [
+            badge,
+            rootNames,
+            `<strong>${esc(r.speed_display)}</strong>`,
+            r.weight,
+            r.total_weight,
+            `<strong>${esc(r.probability)}</strong>`
+        ];
+    });
+
+    html += createTable(headers, rows, { sortable: false, emptyText: '暂无数据' });
+
+    // Detail cards
+    html += '<h3 class="section-title">品阶详情</h3>';
+    html += '<div class="item-grid">';
+    roots.forEach(r => {
+        const glowClass = getRootGlowClass(r.rarity);
+        html += `
+            <div class="item-card ${glowClass}">
+                <div class="item-header">
+                    <span class="root-badge root-${r.rarity}">${esc(r.rarity)}</span>
+                    <span class="item-rank">${esc(r.speed_display)}</span>
+                </div>
+                <h3 class="item-name">${esc(r.rarity)}灵根</h3>
+                <div class="item-desc">${esc(r.description)}</div>
+                <div class="special-attrs">
+                    <div>灵根：${r.roots.map(n => '<code>' + esc(n) + '</code>').join(' ')}</div>
+                    <div>出现概率：${esc(r.probability)}（单根）</div>
+                </div>
+            </div>
+        `;
+    });
+    html += '</div>';
+
+    page.innerHTML = html;
+    observeCards(page);
+}
+
 // ===================== Render Dispatcher =====================
 
 function renderPage(name) {
@@ -1798,6 +1885,7 @@ function renderPage(name) {
         case 'alchemy': renderAlchemy(); break;
         case 'adventure': renderAdventure(); break;
         case 'skills': renderSkills(); break;
+        case 'roots': renderRoots(); break;
     }
 }
 

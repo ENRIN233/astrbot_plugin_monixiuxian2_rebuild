@@ -1,0 +1,278 @@
+{
+  "defiant_spirit": {
+    "name": "不屈修士",
+    "description": "累计突破失败10次",
+    "condition": {"type": "level_up_rate", "value": 10},
+    "bonus": {"physical_damage": 5, "magic_damage": 5}
+  },
+  "unyielding_will": {
+    "name": "百折不挠",
+    "description": "累计突破失败30次",
+    "condition": {"type": "level_up_rate", "value": 30},
+    "bonus": {"physical_damage": 10, "magic_damage": 10}
+  },
+  "iron_heart": {
+    "name": "坚韧之心",
+    "description": "累计突破失败50次",
+    "condition": {"type": "level_up_rate", "value": 50},
+    "bonus": {"physical_damage": 15, "magic_damage": 15, "mental_power": 10}
+  },
+  "thousand_defeats": {
+    "name": "千锤百炼",
+    "description": "累计突破失败100次",
+    "condition": {"type": "level_up_rate", "value": 100},
+    "bonus": {"physical_damage": 25, "magic_damage": 25, "physical_defense": 10, "magic_defense": 10}
+  },
+  "unbreakable_will": {
+    "name": "不可磨灭",
+    "description": "累计突破失败200次",
+    "condition": {"type": "level_up_rate", "value": 200},
+    "bonus": {"physical_damage": 40, "magic_damage": 40, "physical_defense": 15, "magic_defense": 15, "mental_power": 20}
+  },
+  "first_step": {
+    "name": "初次突破",
+    "description": "境界达到炼气期",
+    "condition": {"type": "level_index", "value": 1},
+    "bonus": {"physical_damage": 2, "magic_damage": 2}
+  },
+  "glimpse_path": {
+    "name": "初窥门径",
+    "description": "境界达到炼气期三层",
+    "condition": {"type": "level_index", "value": 3},
+    "bonus": {"physical_damage": 3, "magic_damage": 3}
+  },
+  "entering_immortal": {
+    "name": "初入仙途",
+    "description": "境界达到炼气期五层",
+    "condition": {"type": "level_index", "value": 5},
+    "bonus": {"physical_damage": 5, "magic_damage": 5}
+  },
+  "qi_perfection": {
+    "name": "炼气圆满",
+    "description": "境界达到炼气期十层",
+    "condition": {"type": "level_index", "value": 10},
+    "bonus": {"physical_damage": 6, "magic_damage": 6, "physical_defense": 2, "magic_defense": 2}
+  },
+  "minor_achievement": {
+    "name": "筑基有成",
+    "description": "境界达到筑基期",
+    "condition": {"type": "level_index", "value": 11},
+    "bonus": {"physical_damage": 8, "magic_damage": 8, "physical_defense": 3, "magic_defense": 3}
+  },
+  "golden_core": {
+    "name": "金丹大道",
+    "description": "境界达到金丹期",
+    "condition": {"type": "level_index", "value": 14},
+    "bonus": {"physical_damage": 12, "magic_damage": 12, "physical_defense": 5, "magic_defense": 5}
+  },
+  "nascent_soul": {
+    "name": "元婴大能",
+    "description": "境界达到元婴期",
+    "condition": {"type": "level_index", "value": 17},
+    "bonus": {"physical_damage": 20, "magic_damage": 20, "physical_defense": 8, "magic_defense": 8}
+  },
+  "spirit_transformation": {
+    "name": "化神之境",
+    "description": "境界达到化神期",
+    "condition": {"type": "level_index", "value": 20},
+    "bonus": {"physical_damage": 30, "magic_damage": 30, "physical_defense": 12, "magic_defense": 12, "mental_power": 10}
+  },
+  "void_refining": {
+    "name": "炼虚通玄",
+    "description": "境界达到炼虚期",
+    "condition": {"type": "level_index", "value": 23},
+    "bonus": {"physical_damage": 40, "magic_damage": 40, "physical_defense": 16, "magic_defense": 16, "mental_power": 15}
+  },
+  "body_integration": {
+    "name": "合体归真",
+    "description": "境界达到合体期",
+    "condition": {"type": "level_index", "value": 26},
+    "bonus": {"physical_damage": 55, "magic_damage": 55, "physical_defense": 22, "magic_defense": 22, "mental_power": 20}
+  },
+  "mahayana_realm": {
+    "name": "大乘圆满",
+    "description": "境界达到大乘期",
+    "condition": {"type": "level_index", "value": 29},
+    "bonus": {"physical_damage": 75, "magic_damage": 75, "physical_defense": 30, "magic_defense": 30, "mental_power": 30}
+  },
+  "tribulation_crossing": {
+    "name": "渡劫飞升",
+    "description": "境界达到渡劫期",
+    "condition": {"type": "level_index", "value": 32},
+    "bonus": {"physical_damage": 100, "magic_damage": 100, "physical_defense": 40, "magic_defense": 40, "mental_power": 40}
+  },
+  "earth_immortal": {
+    "name": "地仙之尊",
+    "description": "境界达到地仙",
+    "condition": {"type": "level_index", "value": 33},
+    "bonus": {"physical_damage": 120, "magic_damage": 120, "physical_defense": 50, "magic_defense": 50, "mental_power": 50}
+  },
+  "heaven_immortal": {
+    "name": "天仙临世",
+    "description": "境界达到天仙",
+    "condition": {"type": "level_index", "value": 34},
+    "bonus": {"physical_damage": 150, "magic_damage": 150, "physical_defense": 60, "magic_defense": 60, "mental_power": 60}
+  },
+  "daluo_golden_immortal": {
+    "name": "大罗金仙",
+    "description": "境界达到大罗金仙",
+    "condition": {"type": "level_index", "value": 35},
+    "bonus": {"physical_damage": 200, "magic_damage": 200, "physical_defense": 80, "magic_defense": 80, "mental_power": 80}
+  },
+  "primordial_golden_immortal": {
+    "name": "混元大罗金仙",
+    "description": "境界达到混元大罗金仙",
+    "condition": {"type": "level_index", "value": 36},
+    "bonus": {"physical_damage": 300, "magic_damage": 300, "physical_defense": 120, "magic_defense": 120, "mental_power": 120}
+  },
+  "modest_wealth": {
+    "name": "小有资产",
+    "description": "修为达到10,000",
+    "condition": {"type": "experience", "value": 10000},
+    "bonus": {"physical_damage": 3, "magic_damage": 3}
+  },
+  "experienced_cultivator": {
+    "name": "修为深厚",
+    "description": "修为达到100,000",
+    "condition": {"type": "experience", "value": 100000},
+    "bonus": {"physical_damage": 8, "magic_damage": 8, "physical_defense": 3, "magic_defense": 3}
+  },
+  "profound_accumulation": {
+    "name": "底蕴深厚",
+    "description": "修为达到1,000,000",
+    "condition": {"type": "experience", "value": 1000000},
+    "bonus": {"physical_damage": 15, "magic_damage": 15, "physical_defense": 6, "magic_defense": 6}
+  },
+  "vast_cultivation": {
+    "name": "修为通天",
+    "description": "修为达到10,000,000",
+    "condition": {"type": "experience", "value": 10000000},
+    "bonus": {"physical_damage": 30, "magic_damage": 30, "physical_defense": 12, "magic_defense": 12, "mental_power": 10}
+  },
+  "boundless_cultivation": {
+    "name": "修为无量",
+    "description": "修为达到100,000,000",
+    "condition": {"type": "experience", "value": 100000000},
+    "bonus": {"physical_damage": 60, "magic_damage": 60, "physical_defense": 25, "magic_defense": 25, "mental_power": 20}
+  },
+  "rich_cultivator": {
+    "name": "腰缠万贯",
+    "description": "灵石达到100,000",
+    "condition": {"type": "gold", "value": 100000},
+    "bonus": {"physical_damage": 8, "magic_damage": 8, "physical_defense": 3, "magic_defense": 3}
+  },
+  "spirit_stone_tycoon": {
+    "name": "灵石大亨",
+    "description": "灵石达到1,000,000",
+    "condition": {"type": "gold", "value": 1000000},
+    "bonus": {"physical_damage": 15, "magic_damage": 15, "physical_defense": 6, "magic_defense": 6}
+  },
+  "golden_mountain": {
+    "name": "坐拥金山",
+    "description": "灵石达到10,000,000",
+    "condition": {"type": "gold", "value": 10000000},
+    "bonus": {"physical_damage": 30, "magic_damage": 30, "physical_defense": 12, "magic_defense": 12, "mental_power": 10}
+  },
+  "richest_under_heaven": {
+    "name": "天下首富",
+    "description": "灵石达到100,000,000",
+    "condition": {"type": "gold", "value": 100000000},
+    "bonus": {"physical_damage": 60, "magic_damage": 60, "physical_defense": 25, "magic_defense": 25, "mental_power": 20}
+  },
+  "fist_practitioner": {
+    "name": "拳不离手",
+    "description": "攻击练习达到10级",
+    "condition": {"type": "atkpractice", "value": 10},
+    "bonus": {"physical_damage": 5, "magic_damage": 5}
+  },
+  "martial_master": {
+    "name": "武道宗师",
+    "description": "攻击练习达到50级",
+    "condition": {"type": "atkpractice", "value": 50},
+    "bonus": {"physical_damage": 15, "magic_damage": 15}
+  },
+  "martial_legend": {
+    "name": "武道传说",
+    "description": "攻击练习达到100级",
+    "condition": {"type": "atkpractice", "value": 100},
+    "bonus": {"physical_damage": 30, "magic_damage": 30, "physical_defense": 10, "magic_defense": 10}
+  },
+  "martial_god": {
+    "name": "武道之神",
+    "description": "攻击练习达到200级",
+    "condition": {"type": "atkpractice", "value": 200},
+    "bonus": {"physical_damage": 60, "magic_damage": 60, "physical_defense": 20, "magic_defense": 20, "mental_power": 15}
+  },
+  "body_beginner": {
+    "name": "炼体入门",
+    "description": "体修境界达到炼气期三层",
+    "condition": {"type": "level_index_and_type", "value": 3, "cultivation_type": "体修"},
+    "bonus": {"physical_damage": 5, "magic_damage": 5, "mental_power": 5}
+  },
+  "spirit_beginner": {
+    "name": "灵修入门",
+    "description": "灵修境界达到炼气期三层",
+    "condition": {"type": "level_index_and_type", "value": 3, "cultivation_type": "灵修"},
+    "bonus": {"magic_damage": 5, "physical_damage": 3, "mental_power": 5}
+  },
+  "body_master": {
+    "name": "炼体大成",
+    "description": "体修境界达到金丹期",
+    "condition": {"type": "level_index_and_type", "value": 14, "cultivation_type": "体修"},
+    "bonus": {"physical_damage": 20, "magic_damage": 10, "physical_defense": 10, "mental_power": 10}
+  },
+  "spirit_master": {
+    "name": "灵修大成",
+    "description": "灵修境界达到金丹期",
+    "condition": {"type": "level_index_and_type", "value": 14, "cultivation_type": "灵修"},
+    "bonus": {"magic_damage": 20, "physical_damage": 10, "magic_defense": 10, "mental_power": 10}
+  },
+  "body_transcendence": {
+    "name": "肉身成圣",
+    "description": "体修境界达到合体期",
+    "condition": {"type": "level_index_and_type", "value": 26, "cultivation_type": "体修"},
+    "bonus": {"physical_damage": 60, "magic_damage": 30, "physical_defense": 30, "mental_power": 20}
+  },
+  "spirit_transcendence": {
+    "name": "灵通造化",
+    "description": "灵修境界达到合体期",
+    "condition": {"type": "level_index_and_type", "value": 26, "cultivation_type": "灵修"},
+    "bonus": {"magic_damage": 60, "physical_damage": 30, "magic_defense": 30, "mental_power": 20}
+  },
+  "longevity": {
+    "name": "寿与天齐",
+    "description": "寿命达到10000",
+    "condition": {"type": "lifespan", "value": 10000},
+    "bonus": {"physical_damage": 10, "magic_damage": 10, "physical_defense": 5, "magic_defense": 5}
+  },
+  "eternal_life": {
+    "name": "万寿无疆",
+    "description": "寿命达到50000",
+    "condition": {"type": "lifespan", "value": 50000},
+    "bonus": {"physical_damage": 25, "magic_damage": 25, "physical_defense": 10, "magic_defense": 10, "mental_power": 10}
+  },
+  "sect_devotee": {
+    "name": "宗门忠徒",
+    "description": "宗门贡献达到100",
+    "condition": {"type": "sect_contribution", "value": 100},
+    "bonus": {"physical_damage": 5, "magic_damage": 5, "mental_power": 3}
+  },
+  "sect_pillar": {
+    "name": "宗门栋梁",
+    "description": "宗门贡献达到1000",
+    "condition": {"type": "sect_contribution", "value": 1000},
+    "bonus": {"physical_damage": 15, "magic_damage": 15, "physical_defense": 5, "magic_defense": 5, "mental_power": 8}
+  },
+  "sect_legend": {
+    "name": "宗门传奇",
+    "description": "宗门贡献达到5000",
+    "condition": {"type": "sect_contribution", "value": 5000},
+    "bonus": {"physical_damage": 30, "magic_damage": 30, "physical_defense": 12, "magic_defense": 12, "mental_power": 15}
+  },
+  "sect_immortal": {
+    "name": "宗门之魂",
+    "description": "宗门贡献达到20000",
+    "condition": {"type": "sect_contribution", "value": 20000},
+    "bonus": {"physical_damage": 60, "magic_damage": 60, "physical_defense": 25, "magic_defense": 25, "mental_power": 25}
+  }
+}

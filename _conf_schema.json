@@ -104,6 +104,18 @@
         "type": "int",
         "default": 100,
         "hint": "库存=物品权重/基数。基数越大，库存越少。"
+      },
+      "LIMITED_OFFER_COUNT": {
+        "description": "限时特价商品数量",
+        "type": "int",
+        "default": 2,
+        "hint": "每次商铺刷新时随机标记的限时特价商品数量。设置为0则不启用限时特价。"
+      },
+      "LIMITED_OFFER_DISCOUNT": {
+        "description": "限时特价额外折扣",
+        "type": "float",
+        "default": 0.7,
+        "hint": "限时特价商品的额外折扣倍率（0.7表示在现价基础上再打7折）。"
       }
     }
   },

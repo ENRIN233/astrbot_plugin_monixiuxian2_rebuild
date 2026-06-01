@@ -41,8 +41,6 @@ class AdventureManager:
                 "completion_bonus": {"exp": 300, "gold": 120},
                 "event_weights": {"safe": 60, "standard": 30, "risky": 10},
                 "drop_tier": "low",
-                "bounty_tag": "adventure_scout",
-                "bounty_progress": 1
             }
         ],
         "event_groups": {
@@ -295,8 +293,6 @@ class AdventureManager:
             "gold_reward": rewards["gold"],
             "items": dropped_items,
             "duration": effective_duration,
-            "bounty_tag": route.get("bounty_tag", "adventure"),
-            "bounty_progress": max(1, route.get("bounty_progress", 1) + event.get("bonus_progress", 0))
         }
         return True, msg, reward_data
 

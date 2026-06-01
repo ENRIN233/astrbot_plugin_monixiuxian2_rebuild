@@ -97,14 +97,15 @@ class SpiritEyeManager:
             
             # 抢占
             now = int(time.time())
+            changes_before = self.db.conn.total_changes
             await self.db.conn.execute(
                 """UPDATE spirit_eyes SET owner_id = ?, owner_name = ?, claim_time = ?, last_collect_time = ?
                    WHERE eye_id = ? AND (owner_id IS NULL OR owner_id = '')""",
                 (player.user_id, player.user_name or player.user_id[:8], now, now, eye_id)
             )
-            
+
             # 检查是否真的抢占成功（防止并发）
-            if self.db.conn.total_changes == 0:
+            if self.db.conn.total_changes == changes_before:
                 await self.db.conn.rollback()
                 return False, "❌ 抢占失败，灵眼已被他人占据。"
             
@@ -136,6 +137,17 @@ class SpiritEyeManager:
         
         return True, f"已释放【{eye['eye_name']}】。"
     
+    async def cleanup_expired_eyes(self) -> int:
+        """清理超过4小时未被抢占的灵眼，返回清理数量"""
+        expire_time = int(time.time()) - 14400  # 4小时 = 14400秒
+        cursor = await self.db.conn.execute(
+            "DELETE FROM spirit_eyes WHERE owner_id IS NULL AND spawn_time < ?",
+            (expire_time,)
+        )
+        count = cursor.rowcount
+        await self.db.conn.commit()
+        return count
+
     async def get_spirit_eye_info(self, user_id: str) -> str:
         """获取灵眼信息"""
         my_eye = await self.get_user_spirit_eye(user_id)

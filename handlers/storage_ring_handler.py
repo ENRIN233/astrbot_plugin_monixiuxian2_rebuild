@@ -78,12 +78,6 @@ class StorageRingHandler:
         if warning:
             lines.append(f"\n{warning}\n")
 
-        lines.append(f"\n{'=' * 28}\n")
-        lines.append(f"存入：{CMD_STORE_ITEM} 物品名 [数量]\n")
-        lines.append(f"取出：{CMD_RETRIEVE_ITEM} 物品名 [数量]\n")
-        lines.append(f"搜索：{CMD_SEARCH_ITEM} 关键词\n")
-        lines.append(f"升级：{CMD_UPGRADE_RING} 储物戒名")
-
         yield event.plain_result("".join(lines))
 
     @player_required

@@ -18,6 +18,15 @@ DEFAULT_MIN_LOAN_AMOUNT = 1000  # 最小贷款额度 1000
 DEFAULT_BREAKTHROUGH_LOAN_RATE = 0.008  # 突破贷款日利率 0.8%（更高风险）
 DEFAULT_BREAKTHROUGH_LOAN_DURATION = 3  # 突破贷款期限 3天
 
+# 银行VIP会员等级配置
+VIP_TIERS = [
+    {"name": "初级会员", "max_deposit": 10_000_000,    "interest_rate": 0.001},
+    {"name": "中级会员", "max_deposit": 50_000_000,    "interest_rate": 0.0015},
+    {"name": "高级会员", "max_deposit": 100_000_000,   "interest_rate": 0.002},
+    {"name": "顶级会员", "max_deposit": 500_000_000,   "interest_rate": 0.0025},
+    {"name": "至尊会员", "max_deposit": 1_000_000_000, "interest_rate": 0.004},
+]
+
 
 class BankManager:
     """灵石银行管理器"""
@@ -26,38 +35,92 @@ class BankManager:
         self.db = db
         self.config = config or {}
         
-        # 从配置读取，使用默认值作为后备
-        bank_config = self.config.get("BANK", {})
-        self.daily_interest_rate = bank_config.get("DAILY_INTEREST_RATE", DEFAULT_DAILY_INTEREST_RATE)
-        self.max_deposit = bank_config.get("MAX_DEPOSIT", DEFAULT_MAX_DEPOSIT)
-        self.loan_interest_rate = bank_config.get("LOAN_INTEREST_RATE", DEFAULT_LOAN_INTEREST_RATE)
-        self.loan_duration_days = bank_config.get("LOAN_DURATION_DAYS", DEFAULT_LOAN_DURATION_DAYS)
-        self.max_loan_amount = bank_config.get("MAX_LOAN_AMOUNT", DEFAULT_MAX_LOAN_AMOUNT)
-        self.min_loan_amount = bank_config.get("MIN_LOAN_AMOUNT", DEFAULT_MIN_LOAN_AMOUNT)
-        self.breakthrough_loan_rate = bank_config.get("BREAKTHROUGH_LOAN_RATE", DEFAULT_BREAKTHROUGH_LOAN_RATE)
-        self.breakthrough_loan_duration = bank_config.get("BREAKTHROUGH_LOAN_DURATION", DEFAULT_BREAKTHROUGH_LOAN_DURATION)
-    
+        # 从配置读取，使用默认值作为后备（key与game_config.json小写一致）
+        bank_config = self.config.get("bank", {})
+        self.daily_interest_rate = bank_config.get("daily_interest_rate", DEFAULT_DAILY_INTEREST_RATE)
+        self.max_deposit = bank_config.get("max_deposit", DEFAULT_MAX_DEPOSIT)
+        self.loan_interest_rate = bank_config.get("loan_interest_rate", DEFAULT_LOAN_INTEREST_RATE)
+        self.loan_duration_days = bank_config.get("loan_duration_days", DEFAULT_LOAN_DURATION_DAYS)
+        self.max_loan_amount = bank_config.get("max_loan_amount", DEFAULT_MAX_LOAN_AMOUNT)
+        self.min_loan_amount = bank_config.get("min_loan_amount", DEFAULT_MIN_LOAN_AMOUNT)
+        self.breakthrough_loan_rate = bank_config.get("breakthrough_loan_rate", DEFAULT_BREAKTHROUGH_LOAN_RATE)
+        self.breakthrough_loan_duration = bank_config.get("breakthrough_loan_duration", DEFAULT_BREAKTHROUGH_LOAN_DURATION)
+
+    # ===== VIP会员系统 =====
+
+    @staticmethod
+    def get_vip_tier(tier_index: int) -> dict:
+        """获取VIP等级配置"""
+        tier_index = max(0, min(tier_index, len(VIP_TIERS) - 1))
+        return VIP_TIERS[tier_index]
+
+    @staticmethod
+    def get_upgrade_cost(current_tier: int) -> int:
+        """获取升级到下一级的费用（下一级存款上限/20），已满级返回0"""
+        next_tier = current_tier + 1
+        if next_tier >= len(VIP_TIERS):
+            return 0
+        return VIP_TIERS[next_tier]["max_deposit"] // 20
+
+    async def upgrade_vip(self, player: Player) -> Tuple[bool, str]:
+        """升级银行VIP等级"""
+        current_tier = player.bank_vip_tier
+        next_tier = current_tier + 1
+
+        if next_tier >= len(VIP_TIERS):
+            return False, f"你已是最高级别【{VIP_TIERS[current_tier]['name']}】，无法继续升级。"
+
+        cost = self.get_upgrade_cost(current_tier)
+        tier_info = VIP_TIERS[next_tier]
+
+        if player.gold < cost:
+            return False, (
+                f"升级到【{tier_info['name']}】需要 {cost:,} 灵石，"
+                f"你只有 {player.gold:,} 灵石。"
+            )
+
+        player.gold -= cost
+        player.bank_vip_tier = next_tier
+        await self.db.update_player(player)
+
+        return True, (
+            f"🎉 恭喜升级为【{tier_info['name']}】！\n"
+            f"━━━━━━━━━━━━━━━\n"
+            f"存款上限：{tier_info['max_deposit']:,} 灵石\n"
+            f"日利率：{tier_info['interest_rate'] * 100:.2f}%（复利）\n"
+            f"━━━━━━━━━━━━━━━\n"
+            f"花费：{cost:,} 灵石"
+        )
+
     # ===== 存款相关 =====
-    
+
     async def get_bank_info(self, player: Player) -> dict:
         """获取银行账户信息
-        
+
         Returns:
-            dict: {balance, last_interest_time, pending_interest, loan_info}
+            dict: {balance, last_interest_time, pending_interest, loan, vip_tier, vip_info}
         """
+        vip_tier = self.get_vip_tier(player.bank_vip_tier)
+
         bank_data = await self.db.ext.get_bank_account(player.user_id)
         if not bank_data:
             bank_info = {"balance": 0, "last_interest_time": 0, "pending_interest": 0}
         else:
             pending_interest = self._calculate_interest(
-                bank_data["balance"], 
-                bank_data["last_interest_time"]
+                bank_data["balance"],
+                bank_data["last_interest_time"],
+                vip_tier["interest_rate"]
             )
             bank_info = {
                 "balance": bank_data["balance"],
                 "last_interest_time": bank_data["last_interest_time"],
                 "pending_interest": pending_interest
             }
+
+        # VIP信息
+        bank_info["vip_tier"] = player.bank_vip_tier
+        bank_info["vip_info"] = vip_tier
+        bank_info["upgrade_cost"] = self.get_upgrade_cost(player.bank_vip_tier)
         
         # 获取贷款信息
         loan = await self.db.ext.get_active_loan(player.user_id)
@@ -65,20 +128,29 @@ class BankManager:
         
         return bank_info
     
-    def _calculate_interest(self, balance: int, last_time: int) -> int:
-        """计算待领利息（使用Decimal精确计算）"""
+    def _calculate_interest(self, balance: int, last_time: int, rate: float = None) -> int:
+        """计算待领利息（使用Decimal精确计算）
+
+        Args:
+            balance: 存款余额
+            last_time: 上次计息时间
+            rate: 日利率（默认使用配置值）
+        """
         if balance <= 0 or last_time <= 0:
             return 0
-        
+
         now = int(time.time())
         days_passed = (now - last_time) // 86400
-        
+
         if days_passed < 1:
             return 0
-        
+
+        if rate is None:
+            rate = self.daily_interest_rate
+
         # 使用Decimal进行精确复利计算
         balance_d = Decimal(str(balance))
-        rate_d = Decimal(str(self.daily_interest_rate))
+        rate_d = Decimal(str(rate))
         
         # 复利计算: balance * ((1 + rate) ^ days - 1)
         compound = (1 + rate_d) ** days_passed - 1
@@ -101,10 +173,13 @@ class BankManager:
             
             bank_data = await self.db.ext.get_bank_account(player.user_id)
             current_balance = bank_data["balance"] if bank_data else 0
-            
-            if current_balance + amount > self.max_deposit:
+
+            # 使用VIP等级的存款上限
+            vip_tier = self.get_vip_tier(player.bank_vip_tier)
+            max_deposit = vip_tier["max_deposit"]
+            if current_balance + amount > max_deposit:
                 await self.db.conn.rollback()
-                return False, f"存款上限为 {self.max_deposit:,} 灵石，当前余额 {current_balance:,}。"
+                return False, f"存款上限为 {max_deposit:,} 灵石（{vip_tier['name']}），当前余额 {current_balance:,}。"
             
             player.gold -= amount
             await self.db.update_player(player)
@@ -162,10 +237,13 @@ class BankManager:
         bank_data = await self.db.ext.get_bank_account(player.user_id)
         if not bank_data or bank_data["balance"] <= 0:
             return False, "你还没有存款，无法领取利息。"
-        
+
+        # 使用VIP等级的利率
+        vip_tier = self.get_vip_tier(player.bank_vip_tier)
         interest = self._calculate_interest(
-            bank_data["balance"], 
-            bank_data["last_interest_time"]
+            bank_data["balance"],
+            bank_data["last_interest_time"],
+            vip_tier["interest_rate"]
         )
         
         if interest <= 0:

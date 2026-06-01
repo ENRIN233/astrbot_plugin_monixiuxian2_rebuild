@@ -28,6 +28,7 @@ from .spirit_eye_handlers import SpiritEyeHandlers
 from .trade_handler import TradeHandler
 from .consignment_handler import ConsignmentHandler
 from .gm_handlers import GMHandlers
+from .achievement_handler import AchievementHandler
 
 __all__ = [
     "PlayerHandler",
@@ -57,4 +58,5 @@ __all__ = [
     "TradeHandler",
     "ConsignmentHandler",
     "GMHandlers",
+    "AchievementHandler",
 ]

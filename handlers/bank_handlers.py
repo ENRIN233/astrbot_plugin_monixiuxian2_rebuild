@@ -21,17 +21,30 @@ class BankHandlers:
     async def handle_bank_info(self, player: Player, event: AstrMessageEvent):
         """查看银行信息"""
         info = await self.bank_mgr.get_bank_info(player)
-        
+
+        vip = info["vip_info"]
+        rate_pct = f"{vip['interest_rate'] * 100:.2f}%"
+
         msg_lines = [
             "🏦 灵石银行",
             "━━━━━━━━━━━━━━━",
+            f"💳 会员等级：{vip['name']}",
             f"💰 存款余额：{info['balance']:,} 灵石",
-            f"📈 待领利息：{info['pending_interest']:,} 灵石",
-            f"📊 日利率：0.1%（复利）",
+            f"📊 存款上限：{vip['max_deposit']:,} 灵石",
+            f"📈 日利率：{rate_pct}（复利）",
+            f"⏳ 待领利息：{info['pending_interest']:,} 灵石",
             "━━━━━━━━━━━━━━━",
             f"💎 持有灵石：{player.gold:,}",
         ]
-        
+
+        # 升级提示
+        upgrade_cost = info.get("upgrade_cost", 0)
+        if upgrade_cost > 0:
+            from ..managers.bank_manager import VIP_TIERS
+            next_tier = VIP_TIERS[player.bank_vip_tier + 1]
+            msg_lines.append(f"💡 升级到【{next_tier['name']}】需 {upgrade_cost:,} 灵石")
+            msg_lines.append(f"   输入 /升级会员 进行升级")
+
         # 显示贷款信息
         if info.get("loan"):
             loan_info = await self.bank_mgr.get_loan_info(player)
@@ -46,19 +59,14 @@ class BankHandlers:
                     f"   应还总额：{loan_info['total_due']:,} 灵石",
                     f"   状态：{status}",
                 ])
-        
-        msg_lines.extend([
-            "━━━━━━━━━━━━━━━",
-            "💡 指令：",
-            "  /存灵石 <数量>",
-            "  /取灵石 <数量>",
-            "  /领取利息",
-            "  /贷款 <数量>",
-            "  /还款",
-            "  /银行流水",
-        ])
-        
+
         yield event.plain_result("\n".join(msg_lines))
+
+    @player_required
+    async def handle_upgrade_vip(self, player: Player, event: AstrMessageEvent):
+        """升级银行VIP会员等级"""
+        success, msg = await self.bank_mgr.upgrade_vip(player)
+        yield event.plain_result(msg)
     
     @player_required
     async def handle_deposit(self, player: Player, event: AstrMessageEvent, amount: int = 0):

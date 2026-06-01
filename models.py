@@ -127,6 +127,12 @@ class Player:
     daily_pill_usage: str = "{}"  # 每日丹药使用次数（JSON字符串，格式：{pill_id: count}）
     last_daily_reset: str = ""  # 上次每日重置日期（格式：YYYY-MM-DD）
 
+    # 成就系统字段
+    achievement_data: str = '{"unlocked": {}, "equipped": ""}'  # 成就数据（JSON字符串）
+
+    # 银行会员系统
+    bank_vip_tier: int = 0  # 银行VIP等级（0初级 1中级 2高级 3顶级 4至尊）
+
     def get_level(self, config_manager: "ConfigManager") -> str:
         """获取境界名称"""
         level_data = config_manager.get_level_data(self.cultivation_type)
@@ -218,12 +224,29 @@ class Player:
         """设置储物戒物品"""
         self.storage_ring_items = json.dumps(items, ensure_ascii=False)
 
-    def get_total_attributes(self, equipped_items: List[Item], pill_multipliers: Optional[dict] = None) -> dict:
-        """计算包含装备加成和丹药效果的总属性
+    def get_achievement_data(self) -> dict:
+        """获取成就数据"""
+        try:
+            data = json.loads(self.achievement_data)
+            if not isinstance(data, dict):
+                return {"unlocked": {}, "equipped": ""}
+            data.setdefault("unlocked", {})
+            data.setdefault("equipped", "")
+            return data
+        except (json.JSONDecodeError, TypeError):
+            return {"unlocked": {}, "equipped": ""}
+
+    def set_achievement_data(self, data: dict):
+        """设置成就数据"""
+        self.achievement_data = json.dumps(data, ensure_ascii=False)
+
+    def get_total_attributes(self, equipped_items: List[Item], pill_multipliers: Optional[dict] = None, achievement_bonus: Optional[dict] = None) -> dict:
+        """计算包含装备加成、成就加成和丹药效果的总属性
 
         Args:
             equipped_items: 已装备的物品列表
             pill_multipliers: 丹药属性倍率（可选）
+            achievement_bonus: 成就属性加成（可选，如 {"physical_damage": 5}）
 
         Returns:
             包含所有属性的字典
@@ -259,6 +282,12 @@ class Player:
                 total["breakthrough_bonus"] += item.breakthrough_bonus
                 total["atk_bonus"] += item.atk_bonus
                 total["hp_bonus"] += item.hp_bonus
+
+        # 叠加成就加成
+        if achievement_bonus:
+            for attr, val in achievement_bonus.items():
+                if attr in total:
+                    total[attr] += val
 
         # 应用丹药倍率效果
         if pill_multipliers:

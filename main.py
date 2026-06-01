@@ -14,15 +14,15 @@ from .handlers import (
     RiftHandlers, AdventureHandlers, AlchemyHandlers, ImpartHandlers,
     NicknameHandler, BankHandlers, BountyHandlers, ImpartPkHandlers,
     BlessedLandHandlers, SpiritFarmHandlers, DualCultivationHandlers, SpiritEyeHandlers,
-    TradeHandler, ConsignmentHandler, GMHandlers,
+    TradeHandler, ConsignmentHandler, GMHandlers, AchievementHandler,
 )
 from .handlers.utils import get_related_commands_footer
 from .managers import (
-    CombatManager, SectManager, BossManager, RiftManager, 
+    CombatManager, SectManager, BossManager, RiftManager,
     RankingManager, AdventureManager, AlchemyManager, ImpartManager,
     BankManager, BountyManager, ImpartPkManager,
     BlessedLandManager, SpiritFarmManager, DualCultivationManager, SpiritEyeManager,
-    TradeManager, ConsignmentManager,
+    TradeManager, ConsignmentManager, AchievementManager,
 )
 
 
@@ -128,6 +128,7 @@ CMD_BANK_LOAN = "贷款"
 CMD_BANK_REPAY = "还款"
 CMD_BANK_TRANSACTIONS = "银行流水"
 CMD_BANK_BREAKTHROUGH_LOAN = "突破贷款"
+CMD_UPGRADE_VIP = "升级会员"
 
 # Phase 2: 悬赏令
 CMD_BOUNTY_LIST = "悬赏令"
@@ -204,6 +205,9 @@ CMD_GM_COMPENSATION = "GM补偿"
 
 # 玩家指令
 CMD_COMPENSATION = "补偿"
+CMD_ACHIEVEMENT_LIST = "成就列表"
+CMD_EQUIP_ACHIEVEMENT = "装备成就"
+CMD_UNEQUIP_ACHIEVEMENT = "卸下成就"
 
 class XiuXianPlugin(Star):
     """修仙插件 - 文字修仙游戏"""
@@ -223,7 +227,8 @@ class XiuXianPlugin(Star):
 
         self.misc_handler = MiscHandler(self.db)
         self.spirit_eye_mgr = SpiritEyeManager(self.db)
-        self.player_handler = PlayerHandler(self.db, self.config, self.config_manager, self.spirit_eye_mgr)
+        self.achievement_mgr = AchievementManager(self.config_manager)
+        self.player_handler = PlayerHandler(self.db, self.config, self.config_manager, self.spirit_eye_mgr, self.achievement_mgr)
         self.equipment_handler = EquipmentHandler(self.db, self.config_manager)
         self.breakthrough_handler = BreakthroughHandler(self.db, self.config_manager, self.config)
         self.pill_handler = PillHandler(self.db, self.config_manager)
@@ -257,7 +262,7 @@ class XiuXianPlugin(Star):
         self.nickname_handler = NicknameHandler(self.db)  # Phase 1
         
         # Phase 2: 灵石银行和悬赏令
-        self.bank_mgr = BankManager(self.db, self.config)
+        self.bank_mgr = BankManager(self.db, self.config_manager.game_config)
         self.bounty_mgr = BountyManager(self.db, self.storage_ring_mgr, self.config_manager.items_data)
         self.bank_handlers = BankHandlers(self.db, self.bank_mgr)
         self.bounty_handlers = BountyHandlers(self.db, self.bounty_mgr)
@@ -289,6 +294,7 @@ class XiuXianPlugin(Star):
         self.trade_handler = None
         self.consignment_handler = None
         self.gm_handlers = GMHandlers(self.db, self.config_manager)
+        self.achievement_handler = AchievementHandler(self.db, self.achievement_mgr)
         
         self.boss_task = None # Boss生成任务
         self.loan_check_task = None # 贷款逾期检查任务
@@ -297,6 +303,7 @@ class XiuXianPlugin(Star):
         self.consignment_check_task = None  # 寄售过期检查任务
         self.trade_check_task = None  # 交易超时检查任务
         self.rift_daily_task = None  # 秘境每日广播任务
+        self.pavilion_refresh_task = None  # 商铺自动刷新任务
 
         access_control_config = self.config.get("ACCESS_CONTROL", {})
         self.whitelist_groups = [str(g) for g in access_control_config.get("WHITELIST_GROUPS", [])]
@@ -365,6 +372,7 @@ class XiuXianPlugin(Star):
         self.consignment_check_task = asyncio.create_task(self._schedule_consignment_check())
         self.trade_check_task = asyncio.create_task(self._schedule_trade_check())
         self.rift_daily_task = asyncio.create_task(self._schedule_rift_daily())
+        self.pavilion_refresh_task = asyncio.create_task(self._schedule_pavilion_refresh())
         
         logger.info("【修仙插件】已加载。")
 
@@ -383,6 +391,8 @@ class XiuXianPlugin(Star):
             self.trade_check_task.cancel()
         if self.rift_daily_task:
             self.rift_daily_task.cancel()
+        if self.pavilion_refresh_task:
+            self.pavilion_refresh_task.cancel()
         await self.db.close()
         logger.info("【修仙插件】已卸载。")
         
@@ -552,14 +562,30 @@ class XiuXianPlugin(Star):
                 logger.info(f"【修仙插件】秘境广播任务将在 {delay} 秒后重试（第{retry_count}次）")
                 await asyncio.sleep(delay)
 
-    async def _broadcast_rift_open(self, rift_def: dict):
-        """广播秘境开放消息到所有白名单群聊"""
+    async def _broadcast_to_whitelist_groups(self, message: str):
+        """向所有白名单群发送消息（公共广播方法）"""
         from astrbot.api.event import MessageChain
 
         if not self.whitelist_groups:
-            logger.debug("【修仙插件】未配置白名单群聊，跳过秘境广播")
             return
 
+        message_chain = MessageChain().message(message)
+        try:
+            platforms = self.context.platform_manager.get_insts()
+            for platform in platforms:
+                platform_name = platform.meta().name if hasattr(platform, 'meta') and callable(platform.meta) else "unknown"
+                for group_id in self.whitelist_groups:
+                    umo = f"{platform_name}:GroupMessage:{group_id}"
+                    try:
+                        await self.context.send_message(umo, message_chain)
+                    except Exception as e:
+                        logger.warning(f"【修仙插件】广播发送失败 (群{group_id}): {e}")
+                    await asyncio.sleep(0.1)
+        except Exception as e:
+            logger.error(f"【修仙插件】广播异常: {e}")
+
+    async def _broadcast_rift_open(self, rift_def: dict):
+        """广播秘境开放消息到所有白名单群聊"""
         rift_name = rift_def.get("name", "未知秘境")
         duration = rift_def.get("duration", 1800)
 
@@ -573,22 +599,7 @@ class XiuXianPlugin(Star):
             f"⏰ 开放时间：12:00 ~ 18:00\n"
             f"💡 使用 /探索秘境 进入"
         )
-
-        message_chain = MessageChain().message(broadcast_msg)
-
-        try:
-            platforms = self.context.platform_manager.get_insts()
-            for platform in platforms:
-                platform_name = platform.meta().name if hasattr(platform, 'meta') and callable(platform.meta) else "unknown"
-                for group_id in self.whitelist_groups:
-                    umo = f"{platform_name}:GroupMessage:{group_id}"
-                    try:
-                        await self.context.send_message(umo, message_chain)
-                        logger.debug(f"【修仙插件】秘境广播已发送到群 {group_id}")
-                    except Exception as e:
-                        logger.warning(f"【修仙插件】秘境广播发送失败 (群{group_id}): {e}")
-        except Exception as e:
-            logger.error(f"【修仙插件】秘境广播异常: {e}")
+        await self._broadcast_to_whitelist_groups(broadcast_msg)
 
     async def _schedule_loan_check(self):
         """贷款逾期检查定时任务（每小时检查一次，支持指数退避）"""
@@ -627,14 +638,9 @@ class XiuXianPlugin(Star):
 
     async def _broadcast_loan_death(self, loan_info: dict):
         """广播贷款逾期玩家被追杀的消息"""
-        from astrbot.api.event import MessageChain
-        
-        if not self.whitelist_groups:
-            return
-        
         player_name = loan_info.get("player_name", "某修士")
         principal = loan_info.get("principal", 0)
-        
+
         broadcast_msg = (
             f"💀 银行追杀公告 💀\n"
             f"━━━━━━━━━━━━━━━\n"
@@ -644,21 +650,7 @@ class XiuXianPlugin(Star):
             f"━━━━━━━━━━━━━━━\n"
             f"⚠️ 借贷有风险，还款需及时！"
         )
-        
-        message_chain = MessageChain().message(broadcast_msg)
-        
-        try:
-            platforms = self.context.platform_manager.get_insts()
-            for platform in platforms:
-                platform_name = platform.meta().name if hasattr(platform, 'meta') and callable(platform.meta) else "unknown"
-                for group_id in self.whitelist_groups:
-                    umo = f"{platform_name}:GroupMessage:{group_id}"
-                    try:
-                        await self.context.send_message(umo, message_chain)
-                    except Exception as e:
-                        logger.warning(f"【修仙插件】贷款追杀广播发送失败 (群{group_id}): {e}")
-        except Exception as e:
-            logger.error(f"【修仙插件】贷款追杀广播异常: {e}")
+        await self._broadcast_to_whitelist_groups(broadcast_msg)
 
     async def _schedule_spirit_eye_spawn(self):
         """灵眼生成定时任务（每2小时生成一个，支持指数退避）"""
@@ -670,8 +662,8 @@ class XiuXianPlugin(Star):
         while True:
             try:
                 await self.db.ensure_connection()
-                # 每2小时生成一个灵眼
-                spawn_interval = 7200
+                # 每4小时生成一个灵眼
+                spawn_interval = 14400
                 
                 # 检查是否有存储的下次刷新时间
                 next_spawn_str = await self.db.ext.get_system_config("spirit_eye_next_spawn_time")
@@ -693,7 +685,12 @@ class XiuXianPlugin(Star):
                 if success:
                     logger.info(f"【修仙插件】{msg}")
                     await self._broadcast_spirit_eye_spawn(msg)
-                
+
+                # 清理超过4小时未被抢占的灵眼
+                cleaned = await self.spirit_eye_mgr.cleanup_expired_eyes()
+                if cleaned > 0:
+                    logger.info(f"【修仙插件】清理了 {cleaned} 个过期灵眼")
+
                 # 设置下次刷新时间
                 next_spawn_time = int(time.time()) + spawn_interval
                 await self.db.ext.set_system_config("spirit_eye_next_spawn_time", str(next_spawn_time))
@@ -759,26 +756,118 @@ class XiuXianPlugin(Star):
 
     async def _broadcast_spirit_eye_spawn(self, msg: str):
         """广播灵眼刷新消息"""
-        from astrbot.api.event import MessageChain
-        
-        if not self.whitelist_groups:
-            return
-        
         broadcast_msg = f"👁️ {msg}\n💡 使用 /灵眼信息 查看详情"
-        message_chain = MessageChain().message(broadcast_msg)
-        
+        await self._broadcast_to_whitelist_groups(broadcast_msg)
+
+    async def _broadcast_pavilion_refresh(self, shop_name: str, items: list, offers: list = None):
+        """广播商铺刷新消息"""
+        if not items:
+            return
+        item_names = [item.get("name", "未知") for item in items[:8]]
+        summary = "、".join(item_names)
+        if len(items) > 8:
+            summary += f"等{len(items)}件"
+        cmd_name = shop_name.replace("阁", "阁")  # 丹阁→丹阁, 器阁→器阁, 百宝阁→百宝阁
+        broadcast_msg = (
+            f"🏪 【{shop_name}】新货上架！\n"
+            f"━━━━━━━━━━━━━━━\n"
+            f"📦 本次上架：{summary}\n"
+        )
+        if offers:
+            offer_names = []
+            for o in offers:
+                disc_pct = int((1.0 - o.get('discount', 1.0)) * 100)
+                offer_names.append(f"{o['name']} [{disc_pct}%折]")
+            broadcast_msg += f"🔥 限时特价：{'、'.join(offer_names)}\n"
+        broadcast_msg += f"💡 输入 /{cmd_name} 查看详情"
+        await self._broadcast_to_whitelist_groups(broadcast_msg)
+
+    async def _init_pavilions_if_empty(self):
+        """首次启动时初始化商铺（如果数据库中无数据）"""
+        pavilions = [
+            ("pill_pavilion", self.shop_handler.shop_manager.get_pills_for_display,
+             self.config.get("PAVILION_PILL_COUNT", 10), "丹阁"),
+            ("weapon_pavilion", self.shop_handler.shop_manager.get_weapons_for_display,
+             self.config.get("PAVILION_WEAPON_COUNT", 10), "器阁"),
+            ("treasure_pavilion", self.shop_handler.shop_manager.get_all_items_for_display,
+             self.config.get("PAVILION_TREASURE_COUNT", 15), "百宝阁"),
+        ]
+        for pavilion_id, item_getter, count, display_name in pavilions:
+            _, current_items = await self.shop_handler.db.get_shop_data(pavilion_id)
+            if not current_items:
+                import time as _time
+                new_items = self.shop_handler.shop_manager.generate_pavilion_items(item_getter, count)
+                offer_count = self.config.get("LIMITED_OFFER_COUNT", 2)
+                offer_discount = self.config.get("LIMITED_OFFER_DISCOUNT", 0.7)
+                self.shop_handler.shop_manager.mark_limited_offers(new_items, offer_count, offer_discount)
+                await self.shop_handler.db.update_shop_data(pavilion_id, int(_time.time()), new_items)
+                logger.info(f"【修仙插件】{display_name}首次初始化，生成 {len(new_items)} 件商品")
+
+    async def _schedule_pavilion_refresh(self):
+        """定时自动刷新丹阁/器阁/百宝阁，刷新后群聊广播"""
+        import time
+        retry_count = 0
+        max_retry_delay = 3600
+
+        # 首次启动时初始化空商铺
         try:
-            platforms = self.context.platform_manager.get_insts()
-            for platform in platforms:
-                platform_name = platform.meta().name if hasattr(platform, 'meta') and callable(platform.meta) else "unknown"
-                for group_id in self.whitelist_groups:
-                    umo = f"{platform_name}:GroupMessage:{group_id}"
-                    try:
-                        await self.context.send_message(umo, message_chain)
-                    except Exception as e:
-                        logger.warning(f"【修仙插件】灵眼广播发送失败 (群{group_id}): {e}")
+            await self._init_pavilions_if_empty()
         except Exception as e:
-            logger.error(f"【修仙插件】灵眼广播异常: {e}")
+            logger.error(f"【修仙插件】商铺初始化异常: {e}")
+
+        while True:
+            try:
+                await self.db.ensure_connection()
+                refresh_hours = self.config.get("PAVILION_REFRESH_HOURS", 6)
+                if refresh_hours <= 0:
+                    await asyncio.sleep(3600)
+                    continue
+
+                # 计算距下一个刷新周期的时间
+                # 读取任意一个商铺的 last_refresh 来对齐周期
+                last_refresh, _ = await self.shop_handler.db.get_shop_data("pill_pavilion")
+                current_time = int(time.time())
+                if last_refresh and last_refresh > 0:
+                    next_refresh = last_refresh + refresh_hours * 3600
+                    remaining = next_refresh - current_time
+                    if remaining > 0:
+                        await asyncio.sleep(remaining)
+                else:
+                    # 无历史记录，立即刷新
+                    pass
+
+                # 检查并刷新每个商铺
+                pavilions = [
+                    ("pill_pavilion", self.shop_handler.shop_manager.get_pills_for_display,
+                     self.config.get("PAVILION_PILL_COUNT", 10), "丹阁"),
+                    ("weapon_pavilion", self.shop_handler.shop_manager.get_weapons_for_display,
+                     self.config.get("PAVILION_WEAPON_COUNT", 10), "器阁"),
+                    ("treasure_pavilion", self.shop_handler.shop_manager.get_all_items_for_display,
+                     self.config.get("PAVILION_TREASURE_COUNT", 15), "百宝阁"),
+                ]
+
+                for pavilion_id, item_getter, count, display_name in pavilions:
+                    last_refresh, current_items = await self.shop_handler.db.get_shop_data(pavilion_id)
+                    if not current_items or self.shop_handler.shop_manager.should_refresh_shop(last_refresh, refresh_hours):
+                        new_items = self.shop_handler.shop_manager.generate_pavilion_items(item_getter, count)
+                        # 标记限时特价商品
+                        offer_count = self.config.get("LIMITED_OFFER_COUNT", 2)
+                        offer_discount = self.config.get("LIMITED_OFFER_DISCOUNT", 0.7)
+                        offers = self.shop_handler.shop_manager.mark_limited_offers(new_items, offer_count, offer_discount)
+                        await self.shop_handler.db.update_shop_data(pavilion_id, int(time.time()), new_items)
+                        await self._broadcast_pavilion_refresh(display_name, new_items, offers)
+                        logger.info(f"【修仙插件】{display_name}自动刷新，{len(new_items)} 件商品，{len(offers)} 件限时特价")
+
+                retry_count = 0
+
+            except asyncio.CancelledError:
+                break
+            except Exception as e:
+                logger.error(f"【修仙插件】商铺刷新任务异常: {e}")
+                retry_count += 1
+                delay = min(60 * (2 ** retry_count), max_retry_delay)
+                logger.info(f"【修仙插件】商铺刷新任务将在 {delay} 秒后重试（第{retry_count}次）")
+                await asyncio.sleep(delay)
 
     @filter.command(CMD_HELP, "显示帮助信息")
     @require_whitelist
@@ -795,6 +884,24 @@ class XiuXianPlugin(Star):
         user_id = str(event.get_sender_id())
         msg = await self.gm_handlers.handle_claim_compensation(user_id)
         yield event.plain_result(msg)
+
+    @filter.command(CMD_ACHIEVEMENT_LIST, "查看成就列表")
+    @require_whitelist
+    async def handle_achievement_list(self, event: AstrMessageEvent):
+        async for r in self.achievement_handler.handle_list(event):
+            yield r
+
+    @filter.command(CMD_EQUIP_ACHIEVEMENT, "装备成就 [名称]")
+    @require_whitelist
+    async def handle_equip_achievement(self, event: AstrMessageEvent, achievement_name: str = ""):
+        async for r in self.achievement_handler.handle_equip(event, achievement_name):
+            yield r
+
+    @filter.command(CMD_UNEQUIP_ACHIEVEMENT, "卸下当前装备的成就")
+    @require_whitelist
+    async def handle_unequip_achievement(self, event: AstrMessageEvent):
+        async for r in self.achievement_handler.handle_unequip(event):
+            yield r
 
     @filter.command(CMD_START_XIUXIAN, "开始你的修仙之路")
     @require_whitelist
@@ -1318,6 +1425,12 @@ class XiuXianPlugin(Star):
         async for r in self.bank_handlers.handle_breakthrough_loan(event, amount):
             yield r
 
+    @filter.command(CMD_UPGRADE_VIP, "升级银行会员等级")
+    @require_whitelist
+    async def handle_upgrade_vip(self, event: AstrMessageEvent):
+        async for r in self.bank_handlers.handle_upgrade_vip(event):
+            yield r
+
     # ===== Phase 2: 悬赏令 =====
     @filter.command(CMD_BOUNTY_LIST, "查看悬赏任务")
     @require_whitelist
@@ -1697,7 +1810,18 @@ class XiuXianPlugin(Star):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
             return
-        msg = await self.gm_handlers.handle_create_compensation(args)
+        # 从完整消息提取参数，避免args只含第一个词的问题
+        import re
+        full_msg = args
+        if event and hasattr(event, "get_message_str"):
+            raw = event.get_message_str() or ""
+            m = re.match(r'\S+\s+(.*)', raw, re.DOTALL)
+            if m:
+                full_msg = m.group(1).strip()
+            elif raw:
+                # 正则未匹配（可能框架已去掉指令前缀），直接用原始消息
+                full_msg = raw.strip()
+        msg = await self.gm_handlers.handle_create_compensation(full_msg)
         yield event.plain_result(msg)
 
     def _gm_parse_target(self, args: str, event: AstrMessageEvent = None) -> tuple:
@@ -1723,14 +1847,14 @@ class XiuXianPlugin(Star):
                                 parts.append(t)
                         full_text = " ".join(parts).strip()
                         # 去掉GM命令前缀
-                        m = re.match(r'GM\S+\s+(.*)', full_text, re.DOTALL)
+                        m = re.match(r'\S+\s+(.*)', full_text, re.DOTALL)
                         extra = m.group(1).strip() if m else ""
                         return str(target_id).lstrip("@"), extra
         # 无@目标：始终从完整消息提取，避免args只含第一个词的问题
         full_msg = ""
         if event and hasattr(event, "get_message_str"):
             full_msg = event.get_message_str() or ""
-            m_prefix = re.match(r'GM\S+\s+(.*)', full_msg, re.DOTALL)
+            m_prefix = re.match(r'\S+\s+(.*)', full_msg, re.DOTALL)
             if m_prefix:
                 full_msg = m_prefix.group(1)
         if not full_msg:

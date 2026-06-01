@@ -389,3 +389,85 @@ class CultivationManager:
         )
         return total_exp
 
+    def calculate_cultivation_exp_with_segments(
+        self,
+        player: Player,
+        start_time: int,
+        end_time: int,
+        technique_bonus: float = 0.0,
+        raw_pill_effects: Optional[list] = None,
+        spirit_eye_bonus: float = 0.0,
+        land_bonus: float = 0.0
+    ) -> int:
+        """分段计算闭关修为（丹药过期前后的倍率分别计算）
+
+        Args:
+            player: 玩家对象
+            start_time: 闭关开始时间（Unix时间戳）
+            end_time: 出关时间（Unix时间戳）
+            technique_bonus: 心法修为倍率加成
+            raw_pill_effects: 原始丹药效果列表（含已过期的）
+            spirit_eye_bonus: 灵眼修炼效率加成
+            land_bonus: 洞天福地修炼效率加成
+
+        Returns:
+            int: 获得的修为值
+        """
+        base_exp = self.config["VALUES"].get("BASE_EXP_PER_MINUTE", 100)
+        root_speed = self.get_spiritual_root_speed(player)
+        other_multiplier = root_speed * (1.0 + technique_bonus) * (1.0 + spirit_eye_bonus) * (1.0 + land_bonus)
+
+        # 从丹药效果中提取修炼加成和过期时间
+        pill_segments = []  # [(expiry_time, cultivation_multiplier)]
+        if raw_pill_effects:
+            for effect in raw_pill_effects:
+                mul = effect.get("cultivation_multiplier", 0)
+                if mul <= 0:
+                    continue
+                expiry = effect.get("expiry_time", 0)
+                pill_segments.append((expiry, mul))
+
+        # 无修炼加成丹药，直接用原始公式
+        if not pill_segments:
+            minutes = max(0, (end_time - start_time) // 60)
+            total_exp = int(base_exp * minutes * other_multiplier)
+            logger.info(
+                f"玩家 {player.user_id} 闭关 {minutes} 分钟（无丹药分段），"
+                f"基础修为 {base_exp}，其他倍率 {other_multiplier:.4f}，获得修为 {total_exp}"
+            )
+            return total_exp
+
+        # 收集切分点：所有有效的丹药过期时间
+        cut_points = {start_time, end_time}
+        for expiry, _ in pill_segments:
+            if expiry > 0 and start_time < expiry < end_time:
+                cut_points.add(expiry)
+
+        sorted_points = sorted(cut_points)
+
+        # 逐段计算
+        total_exp = 0
+        total_minutes = 0
+        for i in range(len(sorted_points) - 1):
+            seg_start = sorted_points[i]
+            seg_end = sorted_points[i + 1]
+            seg_minutes = max(0, (seg_end - seg_start) // 60)
+            if seg_minutes <= 0:
+                continue
+
+            # 计算该段内有效的丹药修炼加成之和
+            seg_pill_mul = 1.0
+            for expiry, mul in pill_segments:
+                # 丹药在此段内有效：无过期 或 过期时间 > 段起点
+                if expiry <= 0 or expiry > seg_start:
+                    seg_pill_mul += mul
+
+            seg_exp = int(base_exp * seg_minutes * other_multiplier * seg_pill_mul)
+            total_exp += seg_exp
+            total_minutes += seg_minutes
+
+        logger.info(
+            f"玩家 {player.user_id} 分段闭关 {total_minutes} 分钟（{len(sorted_points) - 1} 段），"
+            f"获得修为 {total_exp}"
+        )
+        return total_exp

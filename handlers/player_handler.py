@@ -7,6 +7,7 @@ from astrbot.api import AstrBotConfig
 from ..data import DataBase
 from ..core import CultivationManager, PillManager
 from ..managers.spirit_eye_manager import SpiritEyeManager
+from ..managers.achievement_manager import AchievementManager
 from ..models import Player
 from ..models_extended import UserStatus
 from ..config_manager import ConfigManager
@@ -26,13 +27,14 @@ __all__ = ["PlayerHandler"]
 class PlayerHandler:
     """玩家基础信息处理器 - 支持灵修/体修选择"""
 
-    def __init__(self, db: DataBase, config: AstrBotConfig, config_manager: ConfigManager, spirit_eye_mgr: SpiritEyeManager):
+    def __init__(self, db: DataBase, config: AstrBotConfig, config_manager: ConfigManager, spirit_eye_mgr: SpiritEyeManager, achievement_mgr: AchievementManager = None):
         self.db = db
         self.config = config
         self.config_manager = config_manager
         self.cultivation_manager = CultivationManager(config, config_manager)
         self.pill_manager = PillManager(self.db, self.config_manager)
         self.spirit_eye_mgr = spirit_eye_mgr
+        self.achievement_mgr = achievement_mgr
 
     async def handle_start_xiuxian(self, event: AstrMessageEvent, cultivation_type: str = ""):
         """处理创建角色
@@ -130,7 +132,14 @@ class PlayerHandler:
             self.config_manager.items_data,
             self.config_manager.weapons_data
         )
-        total_attrs = player.get_total_attributes(equipped_items, pill_multipliers)
+
+        # 成就加成
+        achievement_bonus = {}
+        if self.achievement_mgr:
+            self.achievement_mgr.check_and_unlock(player)
+            achievement_bonus = self.achievement_mgr.get_achievement_bonus(player)
+
+        total_attrs = player.get_total_attributes(equipped_items, pill_multipliers, achievement_bonus)
 
         # 图片生成暂时禁用（缺少资源文件会导致效果很差）
         # 直接使用优化后的文本格式显示
@@ -255,6 +264,18 @@ class PlayerHandler:
             f"  主修功法：{technique_name}\n"
             f"  法器：{weapon_name}\n"
             f"  防具：{armor_name}\n"
+        )
+
+        # 成就显示
+        if self.achievement_mgr:
+            ach_bonus = self.achievement_mgr.get_achievement_bonus(player)
+            ach_data = player.get_achievement_data()
+            equipped_ach = ach_data.get("equipped", "")
+            if equipped_ach and ach_bonus:
+                bonus_text = self.achievement_mgr._format_bonus_short(ach_bonus)
+                reply_msg += f"  🏆 成就：{equipped_ach}（{bonus_text}）\n"
+
+        reply_msg += (
             f"\n"
             f"【宗门信息】\n"
             f"  所在宗门：{sect_name}\n"
@@ -353,9 +374,8 @@ class PlayerHandler:
         effective_minutes = min(duration_minutes, MAX_CULTIVATION_MINUTES)
         exceeded_time = duration_minutes > MAX_CULTIVATION_MINUTES
 
-        # 更新丹药效果，确保持续结算
-        await self.pill_manager.update_temporary_effects(player)
-        pill_multipliers = self.pill_manager.calculate_pill_attribute_effects(player)
+        # 读取所有丹药效果（含已过期的），用于分段计算
+        raw_pill_effects = player.get_active_pill_effects()
 
         # 获取主修心法的修为加成
         technique_bonus = 0.0
@@ -389,14 +409,15 @@ class PlayerHandler:
             if row and row[0]:
                 land_bonus = row[0]
 
-        # 计算获得的修为（使用有效时长）
-        gained_exp = self.cultivation_manager.calculate_cultivation_exp(
+        # 分段计算修为（丹药过期前后分别计算）
+        gained_exp = self.cultivation_manager.calculate_cultivation_exp_with_segments(
             player,
-            effective_minutes,
-            technique_bonus,
-            pill_multipliers,
-            spirit_eye_bonus,
-            land_bonus
+            start_time=player.cultivation_start_time,
+            end_time=end_time,
+            technique_bonus=technique_bonus,
+            raw_pill_effects=raw_pill_effects,
+            spirit_eye_bonus=spirit_eye_bonus,
+            land_bonus=land_bonus
         )
 
         # 更新玩家数据
@@ -405,6 +426,9 @@ class PlayerHandler:
         player.cultivation_start_time = 0
         await self.db.update_player(player)
         await self.db.ext.set_user_free(player.user_id)
+
+        # 清理过期丹药效果（修为计算完成后再清理）
+        await self.pill_manager.update_temporary_effects(player)
 
         # 计算闭关时长显示
         hours = duration_minutes // 60

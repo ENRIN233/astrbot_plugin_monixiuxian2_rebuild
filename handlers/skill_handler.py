@@ -87,7 +87,6 @@ class SkillHandler:
                 )
 
         lines.append("\n━━━━━━━━━━━━━━━")
-        lines.append("使用 /装备神通 <名称> 装备神通")
         yield event.plain_result("\n".join(lines))
 
     @player_required
