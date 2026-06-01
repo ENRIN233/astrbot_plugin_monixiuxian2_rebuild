@@ -1773,14 +1773,14 @@ function renderSkills() {
         </table></div>`;
     }
 
-    document.getElementById('skills-content').innerHTML = renderTab('attack');
+    document.getElementById('skills-content').innerHTML = `<div class="items-grid">${renderTab('attack')}</div>`;
 
     document.getElementById('skills-tabs').addEventListener('click', e => {
         const tab = e.target.closest('.sub-tab');
         if (!tab) return;
         document.querySelectorAll('#skills-tabs .sub-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        document.getElementById('skills-content').innerHTML = renderTab(tab.dataset.skillTab);
+        document.getElementById('skills-content').innerHTML = `<div class="items-grid">${renderTab(tab.dataset.skillTab)}</div>`;
     });
 }
 
