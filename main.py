@@ -984,7 +984,8 @@ class XiuXianPlugin(Star):
     @filter.command(CMD_SHOW_PILLS, "查看丹药背包")
     @require_whitelist
     async def handle_show_pills(self, event: AstrMessageEvent):
-        async for r in self.pill_handler.handle_show_pills(event):
+        # 丹药背包已合并到储物戒，统一显示
+        async for r in self.storage_ring_handler.handle_storage_ring(event):
             yield r
 
     @filter.command(CMD_PILL_INFO, "查看丹药信息")

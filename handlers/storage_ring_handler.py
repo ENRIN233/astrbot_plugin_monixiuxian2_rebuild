@@ -1,5 +1,6 @@
 # handlers/storage_ring_handler.py
 
+import time
 from astrbot.api.event import AstrMessageEvent
 from astrbot.api.all import At, Plain
 from ..data import DataBase
@@ -44,7 +45,7 @@ class StorageRingHandler:
 
     @player_required
     async def handle_storage_ring(self, player: Player, event: AstrMessageEvent):
-        """显示储物戒信息"""
+        """显示储物戒信息（含丹药、临时效果、回生丹状态）"""
         display_name = event.get_sender_name()
 
         # 获取储物戒信息
@@ -73,12 +74,72 @@ class StorageRingHandler:
         else:
             lines.append("【存储物品】空\n")
 
+        # 丹药背包
+        pills_inv = player.get_pills_inventory()
+        if pills_inv:
+            lines.append(f"━━━━━━━━━━━━━━━\n")
+            lines.append("【丹药】\n")
+            for pill_name, count in pills_inv.items():
+                pill_data = self._get_pill_data(pill_name)
+                rank = pill_data.get("rank", "") if pill_data else ""
+                prefix = f"[{rank}] " if rank else ""
+                extra = ""
+                if pill_data and pill_data.get("effect_type") == "permanent":
+                    usage = player.get_permanent_pill_usage()
+                    used = usage.get(pill_name, 0)
+                    extra = f" (已服用 {used}/2)"
+                if count > 1:
+                    lines.append(f"  · {prefix}{pill_name}×{count}{extra}\n")
+                else:
+                    lines.append(f"  · {prefix}{pill_name}{extra}\n")
+
+            # 临时效果
+            active_effects = player.get_active_pill_effects()
+            now_ts = int(time.time())
+            shown_effects = []
+            for effect in active_effects:
+                expiry_time = effect.get("expiry_time", 0)
+                if expiry_time > 0 and now_ts >= expiry_time:
+                    continue
+                pill_name_eff = effect.get("pill_name", "未知丹药")
+                remaining_seconds = expiry_time - now_ts if expiry_time > 0 else 0
+                if remaining_seconds > 0:
+                    remaining_minutes = remaining_seconds // 60
+                    hours = remaining_minutes // 60
+                    minutes = remaining_minutes % 60
+                    time_str = f"{hours}小时{minutes}分钟" if hours > 0 else f"{minutes}分钟"
+                    shown_effects.append(f"  🌟 {pill_name_eff} (剩余: {time_str})")
+            if shown_effects:
+                lines.append("\n【临时效果】\n")
+                for e in shown_effects:
+                    lines.append(e + "\n")
+
+            # 回生丹
+            if player.has_resurrection_pill:
+                lines.append(f"\n🛡️ 当前拥有【{player.has_resurrection_pill}】效果（可抵消一次死亡）\n")
+
         # 空间警告
         warning = self.storage_ring_manager.get_space_warning(player)
         if warning:
             lines.append(f"\n{warning}\n")
 
         yield event.plain_result("".join(lines))
+
+    def _get_pill_data(self, pill_name: str) -> dict:
+        """从config_manager获取丹药配置"""
+        pill = self.config_manager.pills_data.get(pill_name)
+        if pill:
+            return pill
+        pill = self.config_manager.exp_pills_data.get(pill_name)
+        if pill:
+            return pill
+        pill = self.config_manager.utility_pills_data.get(pill_name)
+        if pill:
+            return pill
+        item = self.config_manager.items_data.get(pill_name)
+        if item and item.get("type") == "丹药":
+            return item
+        return {}
 
     @player_required
     async def handle_store_item(self, player: Player, event: AstrMessageEvent, args: str):
