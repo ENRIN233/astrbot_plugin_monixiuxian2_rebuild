@@ -1040,7 +1040,7 @@ class XiuXianPlugin(Star):
         if not player:
             yield event.plain_result("❌ 你还未踏入修仙之路！请先使用「我要修仙」创建角色。")
             return
-        result = self.activity_tracker.get_daily_activity_display(player)
+        result = await self.activity_tracker.get_daily_activity_display(player)
         yield event.plain_result(result)
 
     @filter.command(CMD_ACTIVITY_REWARD, "领取每日活跃奖励")

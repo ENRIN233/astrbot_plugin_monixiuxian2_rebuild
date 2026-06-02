@@ -123,10 +123,11 @@ class ActivityTracker:
 
     # ===== 展示和领奖 =====
 
-    def get_daily_activity_display(self, player: Player) -> str:
+    async def get_daily_activity_display(self, player: Player) -> str:
         """获取每日活跃度展示面板"""
         today = datetime.now().strftime("%Y-%m-%d")
-        self._reset_if_new_day(player, today)
+        if self._reset_if_new_day(player, today):
+            await self.db.update_player(player)
 
         activity = player.get_daily_activity()
         points = player.daily_activity_points
