@@ -5,7 +5,7 @@ from typing import Dict, Callable, Awaitable
 from astrbot.api import logger
 from ..config_manager import ConfigManager
 
-LATEST_DB_VERSION = 31  # v31: 银行会员系统
+LATEST_DB_VERSION = 32  # v32: 月累计签到系统
 
 MIGRATION_TASKS: Dict[int, Callable[[aiosqlite.Connection, ConfigManager], Awaitable[None]]] = {}
 
@@ -584,7 +584,11 @@ async def _create_all_tables_v2(conn: aiosqlite.Connection):
             daily_pill_usage TEXT NOT NULL DEFAULT '{}',
             last_daily_reset TEXT NOT NULL DEFAULT '',
             permanent_pill_usage TEXT NOT NULL DEFAULT '{}',
-            shentong TEXT NOT NULL DEFAULT ''
+            shentong TEXT NOT NULL DEFAULT '',
+            bank_vip_tier INTEGER NOT NULL DEFAULT 0,
+            achievement_data TEXT NOT NULL DEFAULT '{"unlocked": {}, "equipped": ""}',
+            monthly_sign_count INTEGER NOT NULL DEFAULT 0,
+            monthly_sign_month TEXT NOT NULL DEFAULT ''
         )
     """)
 
@@ -1778,3 +1782,22 @@ async def _migrate_to_v31(conn: aiosqlite.Connection, config_manager: ConfigMana
         )
 
     logger.info("v31迁移完成：银行会员系统")
+
+@migration(32)
+async def _migrate_to_v32(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """迁移到v32 - 月累计签到系统"""
+    logger.info("开始迁移到v32：月累计签到系统")
+
+    async with conn.execute("PRAGMA table_info(players)") as cursor:
+        columns = {row[1] for row in await cursor.fetchall()}
+
+    if 'monthly_sign_count' not in columns:
+        await conn.execute(
+            "ALTER TABLE players ADD COLUMN monthly_sign_count INTEGER NOT NULL DEFAULT 0"
+        )
+    if 'monthly_sign_month' not in columns:
+        await conn.execute(
+            "ALTER TABLE players ADD COLUMN monthly_sign_month TEXT NOT NULL DEFAULT ''"
+        )
+
+    logger.info("v32迁移完成：月累计签到系统")

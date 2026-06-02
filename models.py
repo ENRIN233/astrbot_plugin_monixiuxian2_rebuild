@@ -74,6 +74,8 @@ class Player:
     state: str = "空闲"
     cultivation_start_time: int = 0  # 闭关开始时间（Unix时间戳，0表示未闭关）
     last_check_in_date: str = ""  # 最后签到日期（格式：YYYY-MM-DD，空字符串表示从未签到）
+    monthly_sign_count: int = 0  # 本月累计签到天数
+    monthly_sign_month: str = ""  # 累计所属月份（格式：YYYY-MM）
     level_up_rate: int = 0  # 突破成功率加成
 
     # 装备栏

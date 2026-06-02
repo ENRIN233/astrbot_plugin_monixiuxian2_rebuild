@@ -459,42 +459,81 @@ class PlayerHandler:
     @player_required
     async def handle_check_in(self, player: Player, event: AstrMessageEvent):
         """处理签到指令"""
-        # 获取今天的日期（格式：YYYY-MM-DD）
         today = datetime.now().strftime("%Y-%m-%d")
+        current_month = datetime.now().strftime("%Y-%m")
 
         # 检查是否已经签到过
         if player.last_check_in_date == today:
+            # 已签到，显示本月进度
+            count = player.monthly_sign_count if player.monthly_sign_month == current_month else 0
+            progress = self._build_sign_progress(count)
             yield event.plain_result(
-                "📅 道友今日已经签到过了\n"
-                "请明日再来。"
+                f"📅 道友今日已签到\n"
+                f"请明日再来。\n"
+                f"━━━━━━━━━━━━━━━\n"
+                f"{progress}"
             )
             return
 
         # 获取签到奖励范围配置
         check_in_gold_min = self.config["VALUES"].get("CHECK_IN_GOLD_MIN", 50)
         check_in_gold_max = self.config["VALUES"].get("CHECK_IN_GOLD_MAX", 500)
-
-        # 确保最小值不大于最大值
         if check_in_gold_min > check_in_gold_max:
             check_in_gold_min, check_in_gold_max = check_in_gold_max, check_in_gold_min
 
-        # 生成随机奖励
         check_in_gold = random.randint(check_in_gold_min, check_in_gold_max)
+
+        # 月累计签到：跨月重置
+        if player.monthly_sign_month != current_month:
+            player.monthly_sign_count = 0
+            player.monthly_sign_month = current_month
+
+        player.monthly_sign_count += 1
+        count = player.monthly_sign_count
 
         # 更新玩家数据
         player.gold += check_in_gold
         player.last_check_in_date = today
         await self.db.update_player(player)
 
+        # 构建进度
+        progress = self._build_sign_progress(count)
+        milestone_msg = self._get_milestone_msg(count)
+
         reply_msg = (
-            "✅ 签到成功！\n"
-            "━━━━━━━━━━━━━━━\n"
-            f"💰 获得灵石：{check_in_gold}\n"
-            f"💎 当前灵石：{player.gold}\n"
-            "━━━━━━━━━━━━━━━\n"
-            "明日再来，莫要忘记哦~"
+            f"✅ 签到成功！（本月第{count}天）\n"
+            f"━━━━━━━━━━━━━━━\n"
+            f"💰 获得灵石：{check_in_gold:,}\n"
+            f"💎 当前灵石：{player.gold:,}\n"
+            f"━━━━━━━━━━━━━━━\n"
+            f"{progress}"
         )
+        if milestone_msg:
+            reply_msg += f"\n━━━━━━━━━━━━━━━\n{milestone_msg}"
         yield event.plain_result(reply_msg)
+
+    @staticmethod
+    def _build_sign_progress(count: int) -> str:
+        """构建月累计签到进度展示"""
+        milestones = [7, 14, 21, 28]
+        lines = [f"📅 本月签到：{count} 天"]
+        for m in milestones:
+            if count >= m:
+                bar = "█" * 7 + " ✅"
+            else:
+                progress = count / m
+                filled = round(progress * 7)
+                bar = "█" * filled + "░" * (7 - filled) + " ⏳"
+            lines.append(f" {m:>2}天 {bar}")
+        return "\n".join(lines)
+
+    @staticmethod
+    def _get_milestone_msg(count: int) -> str:
+        """检查是否达成里程碑，返回提示（奖励待设计）"""
+        milestones = {7: "第一周", 14: "第二周", 21: "第三周", 28: "第四周"}
+        if count in milestones:
+            return f"🎉 恭喜达成本月【{milestones[count]}】签到里程碑！\n（累计签到奖励即将开放，敬请期待）"
+        return ""
 
     @player_required
     async def handle_rebirth(self, player: Player, event: AstrMessageEvent, confirm_text: str = ""):
