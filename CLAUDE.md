@@ -73,6 +73,7 @@ data/ (SQLite CRUD: data_manager.py, database_extended.py, migration.py v29)
 - Use `TYPE_CHECKING` imports to avoid circular dependencies.
 - Website SPA (`docs/app.js`): reads from `docs/data/*.json`. All 9 ranks are: 凡品, 灵品, 地品, 天品, 皇品, 帝品, 道品, 仙品, 混元先天. Do NOT include 珍品/圣品/神品.
 - **`Item` dataclass bonus fields** (`models.py`): `breakthrough_bonus` (float, e.g. 0.02), `atk_bonus` (int, flat), `hp_bonus` (float, e.g. 0.05). Added to `Item` class and accumulated in `Player.get_total_attributes()` for main_technique type items.
+- **ASCII quotes only in Python source**: All Python string literals MUST use standard ASCII double quotes `"` (U+0022). NEVER use Unicode smart quotes `"` (U+201C) / `"` (U+201D) — they cause `SyntaxError: invalid character '"' (U+201C)`. The Edit tool preserves existing Unicode characters and the Read tool displays them identically to ASCII quotes, so edits are blind to the difference. When modifying files containing Chinese text with quoted strings (e.g. `misc_handler.py`), prefer the Write tool for full-file rewrites over targeted Edit to avoid accidentally preserving smart quotes.
 
 ## Release Checklist
 
