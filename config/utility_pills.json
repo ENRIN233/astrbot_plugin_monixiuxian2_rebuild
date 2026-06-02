@@ -46,7 +46,7 @@
     "price": 1500000,
     "effect_type": "temporary",
     "duration_minutes": 120,
-    "cultivation_multiplier": 1.0,
+    "cultivation_multiplier": 1,
     "shop_weight": 500
   },
   {
@@ -72,7 +72,7 @@
     "price": 2500000,
     "effect_type": "temporary",
     "duration_minutes": 360,
-    "cultivation_multiplier": 2.0,
+    "cultivation_multiplier": 2,
     "shop_weight": 100
   },
   {
@@ -85,7 +85,7 @@
     "price": 5000000,
     "effect_type": "temporary",
     "duration_minutes": 720,
-    "cultivation_multiplier": 3.0,
+    "cultivation_multiplier": 3,
     "shop_weight": 50
   },
   {
@@ -408,7 +408,7 @@
     "price": 1200000,
     "effect_type": "temporary",
     "duration_minutes": 30,
-    "physical_damage_multiplier": 2.0,
+    "physical_damage_multiplier": 2,
     "physical_defense_multiplier": -0.5,
     "shop_weight": 500
   },
@@ -422,7 +422,7 @@
     "price": 1500000,
     "effect_type": "temporary",
     "duration_minutes": 60,
-    "physical_damage_multiplier": 3.0,
+    "physical_damage_multiplier": 3,
     "physical_defense_multiplier": -0.7,
     "shop_weight": 200
   },
@@ -436,7 +436,7 @@
     "price": 1200000,
     "effect_type": "temporary",
     "duration_minutes": 30,
-    "magic_damage_multiplier": 2.0,
+    "magic_damage_multiplier": 2,
     "magic_defense_multiplier": -0.5,
     "shop_weight": 500
   },
@@ -450,7 +450,7 @@
     "price": 1500000,
     "effect_type": "temporary",
     "duration_minutes": 60,
-    "magic_damage_multiplier": 3.0,
+    "magic_damage_multiplier": 3,
     "magic_defense_multiplier": -0.7,
     "shop_weight": 200
   },
@@ -464,7 +464,7 @@
     "price": 1050000,
     "effect_type": "temporary",
     "duration_minutes": 60,
-    "physical_defense_multiplier": 2.0,
+    "physical_defense_multiplier": 2,
     "physical_damage_multiplier": -0.5,
     "shop_weight": 500
   },
@@ -478,7 +478,7 @@
     "price": 1200000,
     "effect_type": "temporary",
     "duration_minutes": 120,
-    "physical_defense_multiplier": 3.0,
+    "physical_defense_multiplier": 3,
     "physical_damage_multiplier": -0.7,
     "shop_weight": 200
   },
@@ -492,7 +492,7 @@
     "price": 1050000,
     "effect_type": "temporary",
     "duration_minutes": 60,
-    "magic_defense_multiplier": 2.0,
+    "magic_defense_multiplier": 2,
     "magic_damage_multiplier": -0.5,
     "shop_weight": 500
   },
@@ -506,7 +506,7 @@
     "price": 1200000,
     "effect_type": "temporary",
     "duration_minutes": 120,
-    "magic_defense_multiplier": 3.0,
+    "magic_defense_multiplier": 3,
     "magic_damage_multiplier": -0.7,
     "shop_weight": 200
   },
@@ -674,7 +674,7 @@
     "price": 1500000,
     "effect_type": "temporary",
     "duration_minutes": 10,
-    "cultivation_multiplier": 4.0,
+    "cultivation_multiplier": 4,
     "shop_weight": 100
   },
   {
@@ -719,8 +719,8 @@
     "price": 2500000,
     "effect_type": "temporary",
     "duration_minutes": 30,
-    "physical_damage_multiplier": 2.0,
-    "magic_damage_multiplier": 2.0,
+    "physical_damage_multiplier": 2,
+    "magic_damage_multiplier": 2,
     "physical_defense_multiplier": -0.8,
     "magic_defense_multiplier": -0.8,
     "shop_weight": 100
@@ -735,8 +735,8 @@
     "price": 2500000,
     "effect_type": "temporary",
     "duration_minutes": 30,
-    "physical_defense_multiplier": 2.0,
-    "magic_defense_multiplier": 2.0,
+    "physical_defense_multiplier": 2,
+    "magic_defense_multiplier": 2,
     "physical_damage_multiplier": -0.8,
     "magic_damage_multiplier": -0.8,
     "shop_weight": 100
@@ -847,8 +847,8 @@
     "price": 1000000,
     "effect_type": "temporary",
     "duration_minutes": 10,
-    "physical_damage_multiplier": 1.0,
-    "magic_damage_multiplier": 1.0,
+    "physical_damage_multiplier": 1,
+    "magic_damage_multiplier": 1,
     "lifespan_cost_per_minute": 10,
     "shop_weight": 200
   },
@@ -862,8 +862,8 @@
     "price": 4000000,
     "effect_type": "temporary",
     "duration_minutes": 5,
-    "physical_damage_multiplier": 3.0,
-    "magic_damage_multiplier": 3.0,
+    "physical_damage_multiplier": 3,
+    "magic_damage_multiplier": 3,
     "lifespan_cost_per_minute": 50,
     "shop_weight": 100
   },
@@ -945,10 +945,10 @@
     "price": 3000000,
     "effect_type": "temporary",
     "duration_minutes": 180,
-    "physical_damage_multiplier": 1.0,
-    "magic_damage_multiplier": 1.0,
-    "physical_defense_multiplier": 1.0,
-    "magic_defense_multiplier": 1.0,
+    "physical_damage_multiplier": 1,
+    "magic_damage_multiplier": 1,
+    "physical_defense_multiplier": 1,
+    "magic_defense_multiplier": 1,
     "shop_weight": 20
   },
   {
@@ -961,10 +961,10 @@
     "price": 5000000,
     "effect_type": "temporary",
     "duration_minutes": 360,
-    "physical_damage_multiplier": 2.0,
-    "magic_damage_multiplier": 2.0,
-    "physical_defense_multiplier": 2.0,
-    "magic_defense_multiplier": 2.0,
+    "physical_damage_multiplier": 2,
+    "magic_damage_multiplier": 2,
+    "physical_defense_multiplier": 2,
+    "magic_defense_multiplier": 2,
     "shop_weight": 10
   },
   {
@@ -1030,7 +1030,8 @@
     "magic_defense_gain": 300,
     "mental_power_gain": 600,
     "cultivation_multiplier": -0.3,
-    "shop_weight": 100
+    "shop_weight": 100,
+    "max_usage": 2
   },
   {
     "id": "util_078",
@@ -1042,7 +1043,8 @@
     "price": 20000000,
     "effect_type": "permanent",
     "cultivation_multiplier": 0.2,
-    "shop_weight": 50
+    "shop_weight": 50,
+    "max_usage": 2
   },
   {
     "id": "util_079",
@@ -1054,7 +1056,8 @@
     "price": 80000000,
     "effect_type": "permanent",
     "cultivation_multiplier": 0.5,
-    "shop_weight": 20
+    "shop_weight": 20,
+    "max_usage": 2
   },
   {
     "id": "util_080",
@@ -1065,8 +1068,9 @@
     "required_level_index": 25,
     "price": 150000000,
     "effect_type": "permanent",
-    "cultivation_multiplier": 1.0,
-    "shop_weight": 10
+    "cultivation_multiplier": 1,
+    "shop_weight": 10,
+    "max_usage": 2
   },
   {
     "id": "util_081",
@@ -1228,7 +1232,7 @@
     "price": 2500000,
     "effect_type": "temporary",
     "duration_minutes": 30,
-    "cultivation_multiplier": 5.0,
+    "cultivation_multiplier": 5,
     "lifespan_cost_per_minute": 20,
     "shop_weight": 100
   },
@@ -1242,7 +1246,7 @@
     "price": 3500000,
     "effect_type": "temporary",
     "duration_minutes": 10,
-    "cultivation_multiplier": 10.0,
+    "cultivation_multiplier": 10,
     "lifespan_cost_per_minute": 100,
     "shop_weight": 50
   },
@@ -1536,7 +1540,8 @@
     "price": 250000000,
     "effect_type": "permanent",
     "base_attribute_limit_increase": 0.05,
-    "shop_weight": 10
+    "shop_weight": 10,
+    "max_usage": 1
   },
   {
     "id": "util_116",
@@ -1548,7 +1553,8 @@
     "price": 600000000,
     "effect_type": "permanent",
     "base_attribute_limit_increase": 0.1,
-    "shop_weight": 5
+    "shop_weight": 5,
+    "max_usage": 1
   },
   {
     "id": "util_117",
@@ -1563,8 +1569,9 @@
     "magic_damage_multiplier": -0.1,
     "physical_defense_multiplier": -0.1,
     "magic_defense_multiplier": -0.1,
-    "cultivation_multiplier": 2.0,
-    "shop_weight": 100
+    "cultivation_multiplier": 2,
+    "shop_weight": 100,
+    "max_usage": 2
   },
   {
     "id": "util_118",
@@ -1600,7 +1607,8 @@
     "price": 400000000,
     "effect_type": "permanent",
     "death_protection_multiplier": 0.5,
-    "shop_weight": 5
+    "shop_weight": 5,
+    "max_usage": 1
   },
   {
     "id": "util_121",
@@ -1895,7 +1903,7 @@
     "price": 10000000,
     "effect_type": "instant",
     "effect": {
-      "heal_hp_pct": 0.0
+      "heal_hp_pct": 0
     },
     "shop_weight": 500
   },
@@ -1908,7 +1916,7 @@
     "required_level_index": 16,
     "price": 3000000,
     "effect_type": "temporary",
-    "dual_cultivation_exp_bonus": 1.0,
+    "dual_cultivation_exp_bonus": 1,
     "shop_weight": 30,
     "duration_minutes": 0
   }

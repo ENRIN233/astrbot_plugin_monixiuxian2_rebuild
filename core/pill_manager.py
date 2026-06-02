@@ -162,14 +162,16 @@ class PillManager:
                 return False, "❌ 龙精虎猛丹每日最多服用2颗！"
             max_consumable = min(max_consumable, remaining)
 
-        # 永久属性丹药：终身限2个
+        # 永久属性丹药：根据 max_usage 字段限制（0=无限制）
         elif effect_type == "permanent":
-            usage = player.get_permanent_pill_usage()
-            used_count = usage.get(pill_name, 0)
-            remaining = 2 - used_count
-            if remaining <= 0:
-                return False, f"你已经服用了2颗【{pill_name}】，已达上限！"
-            max_consumable = min(max_consumable, remaining)
+            max_usage = pill_data.get("max_usage", 0)
+            if max_usage > 0:
+                usage = player.get_permanent_pill_usage()
+                used_count = usage.get(pill_name, 0)
+                remaining = max_usage - used_count
+                if remaining <= 0:
+                    return False, f"你已经服用了{max_usage}颗【{pill_name}】，已达上限！"
+                max_consumable = min(max_consumable, remaining)
 
         # 根据丹药类型处理
         if subtype == "exp":
@@ -272,12 +274,13 @@ class PillManager:
 
         if existing_effect:
             # 延长现有效果
-            existing_effect["expiry_time"] += (duration_per_pill * 60 * quantity)
+            if existing_effect["expiry_time"] > 0:
+                existing_effect["expiry_time"] += (duration_per_pill * 60 * quantity)
             existing_effect["duration_minutes"] += total_duration_minutes
             player.set_active_pill_effects(effects)
         else:
-            # 创建新效果
-            expiry_time = current_time + total_duration_minutes * 60
+            # 创建新效果（duration_minutes=0 表示持续到被消耗，不自动过期）
+            expiry_time = 0 if total_duration_minutes == 0 else current_time + total_duration_minutes * 60
             effect = {
                 "pill_name": pill_name,
                 "pill_id": pill_data.get("id", ""),
@@ -420,12 +423,14 @@ class PillManager:
         stop_reason = None
 
         for i in range(quantity):
-            # 检查服用次数限制（每种永久丹药最多服用2颗）
-            usage = player.get_permanent_pill_usage()
-            current_count = usage.get(pill_name, 0)
-            if current_count >= 2:
-                stop_reason = "已达终身服用上限(2颗)"
-                break
+            # 检查服用次数限制（根据 max_usage 字段，0=无限制）
+            max_usage = pill_data.get("max_usage", 0)
+            if max_usage > 0:
+                usage = player.get_permanent_pill_usage()
+                current_count = usage.get(pill_name, 0)
+                if current_count >= max_usage:
+                    stop_reason = f"已达终身服用上限({max_usage}颗)"
+                    break
 
             # 检查境界限制（30%上限）
             permanent_gains = player.get_permanent_pill_gains()
@@ -955,7 +960,11 @@ class PillManager:
                 # 如果是永久丹药，显示已服用次数
                 if pill_data.get("effect_type") == "permanent":
                     used = usage.get(pill_name, 0)
-                    lines.append(f"[{rank}] {pill_name} × {count} (已服用 {used}/2)")
+                    max_usage = pill_data.get("max_usage", 0)
+                    if max_usage > 0:
+                        lines.append(f"[{rank}] {pill_name} × {count} (已服用 {used}/{max_usage})")
+                    else:
+                        lines.append(f"[{rank}] {pill_name} × {count}")
                 else:
                     lines.append(f"[{rank}] {pill_name} × {count}")
             else:
