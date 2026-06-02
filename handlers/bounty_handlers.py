@@ -18,12 +18,26 @@ class BountyHandlers:
     @player_required
     async def handle_bounty_list(self, player: Player, event: AstrMessageEvent):
         """显示悬赏列表"""
+        # 检查今日是否已达上限
+        daily_count = await self.bounty_mgr.get_daily_bounty_count(player.user_id)
+        if daily_count >= self.bounty_mgr.DAILY_BOUNTY_LIMIT:
+            yield event.plain_result(
+                f"📜 悬赏令\n"
+                f"━━━━━━━━━━━━━━━\n"
+                f"你今日已完成 {daily_count}/{self.bounty_mgr.DAILY_BOUNTY_LIMIT} 次悬赏\n"
+                f"今日委托已全部完成，明日再来！\n"
+                f"━━━━━━━━━━━━━━━\n"
+                f"💡 可使用 /悬赏状态 查看当前悬赏进度"
+            )
+            return
+
         bounties = await self.bounty_mgr.get_bounty_list(player)
 
         lines = ["📜 悬赏令 · 今日委托", "━━━━━━━━━━━━━━━"]
         for i, b in enumerate(bounties, 1):
             reward = b.get("reward", {})
             tech = b.get("technique_reward")
+            skill = b.get("skill_reward")
             line = (
                 f"[{i}] {b['name']}（{b.get('difficulty_name', '未知')}·{b.get('category', '任务')}）\n"
                 f"  - 时限：{b.get('time_limit', 0) // 60} 分钟（到时限后自动完成）\n"
@@ -38,6 +52,10 @@ class BountyHandlers:
                 if tech.get('hp_bonus', 0) > 0:
                     tech_desc += f" +{int(tech['hp_bonus']*100)}%生命"
                 line += f"\n  - 功法奖励：【{tech['rank']}】{tech['name']}（{tech_desc}）"
+            if skill:
+                from ..managers.skill_manager import SKILL_TYPE_NAMES
+                type_name = SKILL_TYPE_NAMES.get(skill.get('skill_type', 1), '攻击')
+                line += f"\n  - 神通奖励：【{skill['rank']}】{skill['name']}（{type_name}类）"
             line += f"\n  - 说明：{b.get('description', '')}"
             lines.append(line)
         lines.append("━━━━━━━━━━━━━━━")

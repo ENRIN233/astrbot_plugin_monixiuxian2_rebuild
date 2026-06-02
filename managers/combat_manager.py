@@ -357,6 +357,98 @@ class CombatManager:
         }
 
     @classmethod
+    def player_vs_scarecrow(
+        cls,
+        player: CombatStats,
+        max_rounds: int = 15,
+        skill_name: str = "",
+        skill_manager=None
+    ) -> dict:
+        """稻草人练习战：玩家正常输出，稻草人防御为0，每回合固定反伤1"""
+        from .skill_manager import SkillManager, CombatSkillState
+
+        # 构造稻草人：100M血，0防御
+        scarecrow = CombatStats(
+            user_id="scarecrow",
+            name="稻草人",
+            hp=100_000_000, max_hp=100_000_000,
+            mp=0, max_mp=0,
+            atk=1,
+            base_def=0.0, equip_def=0,
+            crit_rate=0, crit_damage=1.0,
+            armor_pen=0, lifesteal=0, double_hit=0,
+            dodge_rate=0, crit_resist=0,
+            reflect_pct=0, block_value=0, hp_regen_pct=0.0,
+        )
+
+        total_damage = 0
+        round_details = []
+        p_state = CombatSkillState(user_id=player.user_id) if skill_name and skill_manager else None
+
+        for round_num in range(1, max_rounds + 1):
+            # 技能冷却递减
+            if p_state:
+                for sk in list(p_state.cooldowns):
+                    p_state.cooldowns[sk] = max(0, p_state.cooldowns[sk] - 1)
+                    if p_state.cooldowns[sk] <= 0:
+                        del p_state.cooldowns[sk]
+
+            # 玩家攻击稻草人
+            used_skill = False
+            if skill_name and skill_manager and p_state:
+                can_use, _ = skill_manager.check_skill_usable(
+                    skill_name, p_state, player.mp, player.hp, player.max_hp, player.max_mp
+                )
+                if can_use and skill_manager.try_activate_skill(skill_name):
+                    orig_hp = scarecrow.hp
+                    result = skill_manager.execute_skill(
+                        skill_name, player, scarecrow, p_state, p_state
+                    )
+                    dmg = orig_hp - max(0, scarecrow.hp)
+                    round_details.append(f"第{round_num}回合：⚡ {skill_name} → {dmg:,} 伤害")
+                    # 扣除MP/HP消耗
+                    skill_data = skill_manager.get_skill_data(skill_name)
+                    if skill_data:
+                        mp_cost = skill_data.get("mpcost", 0)
+                        if mp_cost > 0:
+                            player.mp = max(0, player.mp - int(player.max_mp * mp_cost))
+                        hp_cost = skill_data.get("hpcost", 0)
+                        if hp_cost > 0:
+                            player.hp = max(0, player.hp - int(player.max_hp * hp_cost))
+                        if skill_data.get("turncost", 0) > 0:
+                            p_state.cooldowns[skill_name] = skill_data["turncost"]
+                    used_skill = True
+                    total_damage += dmg
+
+            if not used_skill:
+                orig_hp = scarecrow.hp
+                cls.execute_attack(player, scarecrow)
+                dmg = orig_hp - max(0, scarecrow.hp)
+                round_details.append(f"第{round_num}回合：\U0001f5e1️ 普通攻击 → {dmg:,} 伤害")
+                total_damage += dmg
+
+            # 稻草人固定反伤1
+            player.hp = max(0, player.hp - 1)
+
+        lines = [
+            f"\U0001f3af 稻草人练习战（{max_rounds}回合）",
+            "━━━━━━━━━━━━━━━",
+        ]
+        lines.extend(round_details)
+        lines.append("━━━━━━━━━━━━━━━")
+        lines.append(f"\U0001f4ca 统计：")
+        lines.append(f"  总伤害：{total_damage:,}")
+        lines.append(f"  平均每回合：{total_damage / max_rounds:,.0f} 伤害")
+        lines.append(f"  剩余气血：{player.hp:,}")
+        lines.append("━━━━━━━━━━━━━━━")
+
+        return {
+            "total_damage": total_damage,
+            "combat_log": lines,
+            "rounds": max_rounds,
+        }
+
+    @classmethod
     def _execute_turn_with_skill(
         cls, attacker: CombatStats, defender: CombatStats,
         skill_name: str, attacker_state, defender_state,

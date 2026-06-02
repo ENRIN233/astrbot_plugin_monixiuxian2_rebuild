@@ -271,8 +271,8 @@ class BankManager:
         days_borrowed = (now - loan["borrowed_at"]) // 86400
         days_remaining = max(0, (loan["due_at"] - now) // 86400)
         
-        # 计算当前应还金额（本金 + 利息）
-        interest = int(loan["principal"] * loan["interest_rate"] * max(1, days_borrowed))
+        # 计算当前应还金额（本金 + 利息，第一天不计息）
+        interest = int(loan["principal"] * loan["interest_rate"] * max(0, days_borrowed))
         total_due = loan["principal"] + interest
         
         is_overdue = now > loan["due_at"]
@@ -331,7 +331,7 @@ class BankManager:
             balance = bank_data["balance"] if bank_data else 0
             await self._add_transaction(player.user_id, "loan", amount, balance, f"{type_name}：借入{amount:,}灵石")
             
-            total_interest = int(amount * interest_rate * duration_days)
+            total_interest = int(amount * interest_rate * max(0, duration_days - 1))
             total_due = amount + total_interest
             
             await self.db.conn.commit()

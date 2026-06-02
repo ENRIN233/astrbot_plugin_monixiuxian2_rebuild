@@ -965,6 +965,7 @@ function renderCombat() {
     html += '<div class="info-box">';
     html += '<strong>决斗</strong>：消耗灵石发起，胜利方可掠夺败方灵石、经验，有击杀/被杀记录。<br>';
     html += '<strong>切磋</strong>：友好比武，无损失，仅消耗冷却时间。<br>';
+    html += '<strong>稻草人</strong>：15回合练习战，稻草人防御为0、固定反伤1，统计总输出。<br>';
     html += '<strong>Boss</strong>：挑战世界Boss，按伤害排名发放奖励，Boss有暴击加成。';
     html += '</div>';
 
@@ -1202,7 +1203,7 @@ function renderCommands() {
     const page = document.getElementById('page-commands');
 
     let html = '<h2 class="page-title">指令大全</h2>';
-    html += '<div class="info-box">共收录 <strong>132</strong> 条游戏指令，按系统分类整理。指令前缀默认为 <strong>#</strong> 或 <strong>/</strong>，具体以机器人配置为准。</div>';
+    html += '<div class="info-box">共收录 <strong>133</strong> 条游戏指令，按系统分类整理。指令前缀默认为 <strong>#</strong> 或 <strong>/</strong>，具体以机器人配置为准。</div>';
 
     const groups = [
         {
@@ -1289,6 +1290,7 @@ function renderCommands() {
             cmds: [
                 ['切磋 <@某人>', '友好切磋，无气血消耗，1分钟冷却'],
                 ['决斗 <@某人>', '生死之战，消耗气血，败者损修为，5分钟冷却'],
+                ['稻草人', '15回合练习战，防御为0，稻草人固定反伤1，统计总输出'],
                 ['世界Boss', '查看当前Boss信息和血量'],
                 ['挑战Boss', '挑战世界Boss获取丰厚奖励'],
                 ['生成Boss', '手动刷新世界Boss（管理员）'],

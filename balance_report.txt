@@ -1,0 +1,120 @@
+====================================================================================================
+WEAPONS.JSON 分析
+====================================================================================================
+总数: 637 件
+
+--- 凡品 ---
+  astrbot 原生 (n= 20): power mean=    38  median=    37  range=[   23,   55]  stdev=    9
+  nonebot 移植 (n=389): power mean=     0  median=     0  range=[    0,    0]  stdev=    0
+  >>> nonebot/astrbot 均值比 = 0.00  ⚠ 偏低
+  ⚠ 零属性 (power=0): 389 件
+      铁桦衫
+      犀皮褂
+      玄胶衣
+
+--- 灵品 ---
+  astrbot 原生 (n= 20): power mean=   134  median=   134  range=[  110,  161]  stdev=   15
+  nonebot 移植 (n= 23): power mean=     1  median=     0  range=[    0,    6]  stdev=    2
+  >>> nonebot/astrbot 均值比 = 0.01  ⚠ 偏低
+  ⚠ 过弱 (<原生min×0.4): 5 件
+      精铁符剑: power=6
+      桃木符剑: power=3
+      精元符剑: power=4
+  ⚠ 零属性 (power=0): 18 件
+      藤纹甲
+      龟背胄
+      石肤铠
+
+--- 地品 ---
+  astrbot 原生 (n= 10): power mean=   275  median=   276  range=[  240,  305]  stdev=   20
+  nonebot 移植 (n= 12): power mean=    20  median=    16  range=[   10,   40]  stdev=    9
+  >>> nonebot/astrbot 均值比 = 0.07  ⚠ 偏低
+  ⚠ 过弱 (<原生min×0.4): 12 件
+      火铜符剑: power=24
+      青玉符剑: power=10
+      灵气剑: power=17
+
+--- 天品 ---
+  astrbot 原生 (n= 10): power mean=   536  median=   540  range=[  460,  590]  stdev=   41
+  nonebot 移植 (n= 16): power mean=    93  median=    78  range=[   45,  180]  stdev=   44
+  >>> nonebot/astrbot 均值比 = 0.17  ⚠ 偏低
+  ⚠ 过弱 (<原生min×0.4): 16 件
+      离地焰光旗: power=140
+      青萍剑: power=48
+      千重峰: power=84
+
+--- 皇品 ---
+  astrbot 原生 (n= 10): power mean=  1074  median=  1080  range=[  930, 1180]  stdev=   80
+  nonebot 移植 (n=  7): power mean=   283  median=   280  range=[  130,  480]  stdev=  130
+  >>> nonebot/astrbot 均值比 = 0.26  ⚠ 偏低
+  ⚠ 过弱 (<原生min×0.4): 5 件
+      惊雷: power=160
+      承影: power=280
+      无影剑: power=336
+
+--- 帝品 ---
+  astrbot 原生 (n= 10): power mean=  2166  median=  2180  range=[ 1900, 2360]  stdev=  147
+  nonebot 移植 (n=  9): power mean=   907  median=   795  range=[ -460, 1830]  stdev=  655
+  >>> nonebot/astrbot 均值比 = 0.42  ⚠ 偏低
+  ⚠ 过弱 (<原生min×0.4): 3 件
+      龙渊剑: power=715
+      无罪（残缺）: power=680
+      东皇钟: power=640
+
+--- 道品 ---
+  astrbot 原生 (n= 10): power mean=  4333  median=  4360  range=[ 3800, 4720]  stdev=  293
+
+--- 仙品 ---
+  astrbot 原生 (n= 10): power mean=  8968  median=  9100  range=[ 7800, 9650]  stdev=  616
+  nonebot 移植 (n= 61): power mean=  5554  median=  4150  range=[-2500,27000]  stdev= 4216
+  >>> nonebot/astrbot 均值比 = 0.62  ✓ 接近
+  ⚠ 过强 (>原生max×1.8): 1 件
+      少姜: power=27000 (max原生=9650)
+  ⚠ 过弱 (<原生min×0.4): 18 件
+      十拳剑: power=2600
+      天鳞古戟: power=2400
+      太初无始帝剑: power=2600
+
+--- 混元先天 ---
+  astrbot 原生 (n= 20): power mean= 19305  median= 19650  range=[15800,21500]  stdev= 1562
+
+====================================================================================================
+ITEMS.JSON 功法分析
+====================================================================================================
+总条目: 424
+
+主功法: 258, 辅修功法: 99
+
+## 主功法 (main_technique)
+--- 凡品 ---
+  nonebot 移植 (n=258): power mean=11628118.9  median= 255.0  range=[3.0,1500001000.0]
+
+## 辅修功法 (technique)
+--- 凡品 ---
+  nonebot 移植 (n= 99): power mean=  11.7  median=   8.0  range=[2.0,40.0]
+
+====================================================================================================
+装备 (type=armor) 分析
+====================================================================================================
+总数: 424
+
+--- 凡品 ---
+  nonebot (n=389): mean=0, range=[0,0]
+  ⚠ 零属性 nonebot 装备: 389 件
+
+--- 灵品 ---
+  nonebot (n= 20): mean=0, range=[0,4]
+  ⚠ 零属性 nonebot 装备: 18 件
+
+--- 地品 ---
+  nonebot (n=  3): mean=14, range=[12,16]
+
+--- 天品 ---
+  nonebot (n=  4): mean=52, range=[45,60]
+
+--- 皇品 ---
+  nonebot (n=  1): mean=130, range=[130,130]
+
+--- 仙品 ---
+  nonebot (n=  7): mean=1443, range=[-2500,2500]
+

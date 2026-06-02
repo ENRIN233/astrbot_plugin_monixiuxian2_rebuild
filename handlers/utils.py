@@ -254,9 +254,9 @@ async def _check_loan_status(db, player: Player) -> dict:
         remaining_days = remaining_seconds // 86400
         remaining_hours = (remaining_seconds % 86400) // 3600
         
-        # 计算应还金额
-        days_borrowed = max(1, (now - loan["borrowed_at"]) // 86400)
-        interest = int(loan["principal"] * loan["interest_rate"] * days_borrowed)
+        # 计算应还金额（第一天不计息）
+        days_borrowed = (now - loan["borrowed_at"]) // 86400
+        interest = int(loan["principal"] * loan["interest_rate"] * max(0, days_borrowed))
         total_due = loan["principal"] + interest
         
         loan_type_name = "突破贷款" if loan["loan_type"] == "breakthrough" else "普通贷款"

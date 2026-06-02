@@ -69,8 +69,9 @@ class DataBase:
                 blessed_spot_flag, blessed_spot_name,
                 active_pill_effects, permanent_pill_gains, has_resurrection_pill, has_debuff_shield, pills_inventory,
                 storage_ring, storage_ring_items,
-                daily_pill_usage, last_daily_reset, shentong
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                daily_pill_usage, last_daily_reset, shentong,
+                permanent_pill_usage, achievement_data, bank_vip_tier
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 player.user_id,
@@ -118,7 +119,10 @@ class DataBase:
                 player.storage_ring_items,
                 player.daily_pill_usage,
                 player.last_daily_reset,
-                player.shentong
+                player.shentong,
+                player.permanent_pill_usage,
+                player.achievement_data,
+                player.bank_vip_tier
             )
         )
         await self.conn.commit()
@@ -198,7 +202,9 @@ class DataBase:
                 storage_ring_items = ?,
                 daily_pill_usage = ?,
                 last_daily_reset = ?,
-                permanent_pill_usage = ?
+                permanent_pill_usage = ?,
+                achievement_data = ?,
+                bank_vip_tier = ?
             WHERE user_id = ?
             """,
             (
@@ -248,6 +254,8 @@ class DataBase:
                 player.daily_pill_usage,
                 player.last_daily_reset,
                 player.permanent_pill_usage,
+                player.achievement_data,
+                player.bank_vip_tier,
                 player.user_id
             )
         )

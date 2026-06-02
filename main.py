@@ -97,6 +97,7 @@ CMD_RANK_CONTRIBUTION = "贡献排行"
 # 战斗指令
 CMD_DUEL = "决斗"
 CMD_SPAR = "切磋"
+CMD_SCARECROW = "稻草人"
 
 # 秘境系统指令
 CMD_RIFT_EXPLORE = "探索秘境"
@@ -277,7 +278,7 @@ class XiuXianPlugin(Star):
         
         # Phase 2: 灵石银行和悬赏令
         self.bank_mgr = BankManager(self.db, self.config_manager.game_config)
-        self.bounty_mgr = BountyManager(self.db, self.storage_ring_mgr, self.config_manager.items_data)
+        self.bounty_mgr = BountyManager(self.db, self.storage_ring_mgr, self.config_manager.items_data, self.config_manager.skills_data)
         self.bank_handlers = BankHandlers(self.db, self.bank_mgr)
         self.bounty_handlers = BountyHandlers(self.db, self.bounty_mgr)
         
@@ -1336,6 +1337,12 @@ class XiuXianPlugin(Star):
     @require_whitelist
     async def handle_spar(self, event: AstrMessageEvent, target: str = ""):
         async for r in self.combat_handlers.handle_spar(event, target):
+            yield r
+
+    @filter.command(CMD_SCARECROW, "稻草人练习(固定1伤害/次)")
+    @require_whitelist
+    async def handle_scarecrow(self, event: AstrMessageEvent):
+        async for r in self.combat_handlers.handle_scarecrow(event):
             yield r
 
     # ===== 神通指令 =====

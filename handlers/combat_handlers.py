@@ -233,6 +233,38 @@ class CombatHandlers:
         
         # 更新冷却
         await self._update_combat_cooldown(user_id, "spar")
-        
+
+        log = "\n".join(result['combat_log'])
+        yield event.plain_result(f"{log}")
+
+    async def handle_scarecrow(self, event: AstrMessageEvent):
+        """稻草人练习（每次攻击固定1伤害，15回合）"""
+        user_id = event.get_sender_id()
+
+        # 检查玩家状态
+        user_cd = await self.db.ext.get_user_cd(user_id)
+        if user_cd and user_cd.type != UserStatus.IDLE:
+            current_status = UserStatus.get_name(user_cd.type)
+            yield event.plain_result(f"❌ 你当前正在{current_status}，无法进行练习！")
+            return
+
+        player = await self.db.get_player_by_id(user_id)
+        if not player:
+            yield event.plain_result("❌ 道友尚未踏入仙途，请先使用「我要修仙」")
+            return
+
+        # 准备玩家战斗属性
+        p_stats = await self._prepare_combat_stats(user_id)
+        if not p_stats:
+            yield event.plain_result("❌ 无法获取战斗属性")
+            return
+
+        p_skill = await self._get_player_skill(user_id)
+
+        result = self.combat_mgr.player_vs_scarecrow(
+            p_stats, max_rounds=15,
+            skill_name=p_skill, skill_manager=self.skill_manager
+        )
+
         log = "\n".join(result['combat_log'])
         yield event.plain_result(f"{log}")

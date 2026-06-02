@@ -77,4 +77,17 @@ data/ (SQLite CRUD: data_manager.py, database_extended.py, migration.py v29)
 
 ## Release Checklist
 
-When bumping version: update `metadata.yaml`, `handlers/misc_handler.py` (version string in help text), and `README.md`.
+When bumping version, update ALL of these (search for old version string):
+- `metadata.yaml` — `version:` field
+- `handlers/misc_handler.py` — version string in `handle_help` text
+- `README.md` — `> **版本:**` line + add changelog entry under `## 📝 更新日志`
+- `docs/index.html` — `subtitle` text in sidebar
+- `docs/app.js` — command count in `renderCommands()` info-box (if command count changed)
+
+## Deployment
+
+Plugin deploys to `C:\Users\hasu\.astrbot\data\plugins\astrbot_plugin_monixiuxian2\`. After pushing changes, sync with:
+```
+xcopy /E /Y "E:\Github\astrbot_plugin_monixiuxian2-main" "C:\Users\hasu\.astrbot\data\plugins\astrbot_plugin_monixiuxian2\"
+```
+Then restart AstrBot. Note: the deployed version can diverge from the repo — always sync after changes.
