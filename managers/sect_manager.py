@@ -37,9 +37,10 @@ class SectManager:
         4: []  # 外门弟子无特殊权限
     }
     
-    def __init__(self, db: DataBase, config_manager=None):
+    def __init__(self, db: DataBase, config_manager=None, activity_tracker=None):
         self.db = db
         self.config = config_manager.sect_config if config_manager else {}
+        self.activity_tracker = activity_tracker
     
     def _validate_sect_name(self, name: str) -> Tuple[bool, str]:
         """验证宗门名称"""
@@ -513,7 +514,14 @@ class SectManager:
 
         # 设置1小时冷却
         await self.db.ext.set_user_busy(user_id, 4, current_time + 3600)
-        
+
+        # 活跃度追踪
+        if self.activity_tracker:
+            try:
+                await self.activity_tracker.track_sect(player)
+            except Exception:
+                pass
+
         return True, f"✨ 完成宗门任务！\n获得贡献：{contribution_gain}\n宗门资材：+{stone_gain}"
 
     async def handle_owner_death(self, sect_id: int, dead_owner_id: str) -> Tuple[bool, str]:

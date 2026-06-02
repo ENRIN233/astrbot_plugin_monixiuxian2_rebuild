@@ -36,9 +36,10 @@ FARM_LEVELS = {
 class SpiritFarmManager:
     """灵田管理器"""
     
-    def __init__(self, db: DataBase, storage_ring_manager: "StorageRingManager" = None):
+    def __init__(self, db: DataBase, storage_ring_manager: "StorageRingManager" = None, activity_tracker=None):
         self.db = db
         self.storage_ring_manager = storage_ring_manager
+        self.activity_tracker = activity_tracker
     
     async def get_user_farm(self, user_id: str) -> Optional[Dict]:
         """获取用户灵田信息"""
@@ -212,6 +213,13 @@ class SpiritFarmManager:
             player.experience += total_exp
             player.gold += total_gold
             await self.db.update_player(player)
+
+        # 活跃度追踪
+        if self.activity_tracker:
+            try:
+                await self.activity_tracker.track_harvest(player)
+            except Exception:
+                pass
         
         # 将灵草存入储物戒
         stored_items = []

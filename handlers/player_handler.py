@@ -27,7 +27,7 @@ __all__ = ["PlayerHandler"]
 class PlayerHandler:
     """玩家基础信息处理器 - 支持灵修/体修选择"""
 
-    def __init__(self, db: DataBase, config: AstrBotConfig, config_manager: ConfigManager, spirit_eye_mgr: SpiritEyeManager, achievement_mgr: AchievementManager = None):
+    def __init__(self, db: DataBase, config: AstrBotConfig, config_manager: ConfigManager, spirit_eye_mgr: SpiritEyeManager, achievement_mgr: AchievementManager = None, activity_tracker=None):
         self.db = db
         self.config = config
         self.config_manager = config_manager
@@ -35,6 +35,7 @@ class PlayerHandler:
         self.pill_manager = PillManager(self.db, self.config_manager)
         self.spirit_eye_mgr = spirit_eye_mgr
         self.achievement_mgr = achievement_mgr
+        self.activity_tracker = activity_tracker
 
     async def handle_start_xiuxian(self, event: AstrMessageEvent, cultivation_type: str = ""):
         """处理创建角色
@@ -496,9 +497,16 @@ class PlayerHandler:
         player.last_check_in_date = today
         await self.db.update_player(player)
 
+        # 活跃度追踪
+        if self.activity_tracker:
+            try:
+                await self.activity_tracker.track_check_in(player)
+            except Exception:
+                pass
+
         # 构建进度
         progress = self._build_sign_progress(count)
-        milestone_msg = self._get_milestone_msg(count)
+        milestone_msg = await self._get_milestone_msg(player, count)
 
         reply_msg = (
             f"✅ 签到成功！（本月第{count}天）\n"
@@ -527,12 +535,34 @@ class PlayerHandler:
             lines.append(f" {m:>2}天 {bar}")
         return "\n".join(lines)
 
-    @staticmethod
-    def _get_milestone_msg(count: int) -> str:
-        """检查是否达成里程碑，返回提示（奖励待设计）"""
-        milestones = {7: "第一周", 14: "第二周", 21: "第三周", 28: "第四周"}
-        if count in milestones:
-            return f"🎉 恭喜达成本月【{milestones[count]}】签到里程碑！\n（累计签到奖励即将开放，敬请期待）"
+    async def _get_milestone_msg(self, player: Player, count: int) -> str:
+        """检查是否达成里程碑，发放奖励并返回提示"""
+        milestones = {
+            7: ("第一周", "gold", 5000000),
+            14: ("第二周", "pill", ("天道加速丹", 4)),
+            21: ("第三周", "pill", ("混元加速丹", 2)),
+            28: ("第四周", "pill", ("天命幸运丹", 1)),
+        }
+        if count not in milestones:
+            return ""
+        name, reward_type, reward_data = milestones[count]
+        if reward_type == "gold":
+            player.gold += reward_data
+            await self.db.update_player(player)
+            return (
+                f"🎉 恭喜达成本月【{name}】签到里程碑！\n"
+                f"💰 额外奖励：{reward_data:,} 灵石"
+            )
+        elif reward_type == "pill":
+            pill_name, pill_count = reward_data
+            inventory = player.get_pills_inventory()
+            inventory[pill_name] = inventory.get(pill_name, 0) + pill_count
+            player.set_pills_inventory(inventory)
+            await self.db.update_player(player)
+            return (
+                f"🎉 恭喜达成本月【{name}】签到里程碑！\n"
+                f"💊 额外奖励：{pill_name} ×{pill_count}"
+            )
         return ""
 
     @player_required

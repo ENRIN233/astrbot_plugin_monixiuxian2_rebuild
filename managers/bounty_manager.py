@@ -79,9 +79,11 @@ class BountyManager:
 
     def __init__(self, db: DataBase, storage_ring_manager: Optional["StorageRingManager"] = None,
                  items_data: Optional[Dict[str, dict]] = None,
-                 skills_data: Optional[Dict[str, dict]] = None):
+                 skills_data: Optional[Dict[str, dict]] = None,
+                 activity_tracker=None):
         self.db = db
         self.storage_ring_manager = storage_ring_manager
+        self.activity_tracker = activity_tracker
         self._bounty_cache: Dict[str, Dict] = {}
         self.difficulties: Dict[str, dict] = {}
         self.templates_by_id: Dict[int, dict] = {}
@@ -548,6 +550,13 @@ class BountyManager:
         except Exception:
             await self.db.conn.rollback()
             raise
+
+        # 活跃度追踪
+        if self.activity_tracker:
+            try:
+                await self.activity_tracker.track_bounty(player)
+            except Exception:
+                pass
 
         item_msg = ""
         if self.storage_ring_manager:

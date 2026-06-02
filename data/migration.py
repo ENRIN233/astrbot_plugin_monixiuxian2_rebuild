@@ -5,7 +5,7 @@ from typing import Dict, Callable, Awaitable
 from astrbot.api import logger
 from ..config_manager import ConfigManager
 
-LATEST_DB_VERSION = 32  # v32: 月累计签到系统
+LATEST_DB_VERSION = 33  # v33: 每日活跃度系统
 
 MIGRATION_TASKS: Dict[int, Callable[[aiosqlite.Connection, ConfigManager], Awaitable[None]]] = {}
 
@@ -588,7 +588,11 @@ async def _create_all_tables_v2(conn: aiosqlite.Connection):
             bank_vip_tier INTEGER NOT NULL DEFAULT 0,
             achievement_data TEXT NOT NULL DEFAULT '{"unlocked": {}, "equipped": ""}',
             monthly_sign_count INTEGER NOT NULL DEFAULT 0,
-            monthly_sign_month TEXT NOT NULL DEFAULT ''
+            monthly_sign_month TEXT NOT NULL DEFAULT '',
+            daily_activity TEXT NOT NULL DEFAULT '{}',
+            daily_activity_points INTEGER NOT NULL DEFAULT 0,
+            daily_activity_date TEXT NOT NULL DEFAULT '',
+            daily_activity_rewarded INTEGER NOT NULL DEFAULT 0
         )
     """)
 
@@ -1801,3 +1805,30 @@ async def _migrate_to_v32(conn: aiosqlite.Connection, config_manager: ConfigMana
         )
 
     logger.info("v32迁移完成：月累计签到系统")
+
+@migration(33)
+async def _migrate_to_v33(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """迁移到v33 - 每日活跃度系统"""
+    logger.info("开始迁移到v33：每日活跃度系统")
+
+    async with conn.execute("PRAGMA table_info(players)") as cursor:
+        columns = {row[1] for row in await cursor.fetchall()}
+
+    if 'daily_activity' not in columns:
+        await conn.execute(
+            "ALTER TABLE players ADD COLUMN daily_activity TEXT NOT NULL DEFAULT '{}'"
+        )
+    if 'daily_activity_points' not in columns:
+        await conn.execute(
+            "ALTER TABLE players ADD COLUMN daily_activity_points INTEGER NOT NULL DEFAULT 0"
+        )
+    if 'daily_activity_date' not in columns:
+        await conn.execute(
+            "ALTER TABLE players ADD COLUMN daily_activity_date TEXT NOT NULL DEFAULT ''"
+        )
+    if 'daily_activity_rewarded' not in columns:
+        await conn.execute(
+            "ALTER TABLE players ADD COLUMN daily_activity_rewarded INTEGER NOT NULL DEFAULT 0"
+        )
+
+    logger.info("v33迁移完成：每日活跃度系统")

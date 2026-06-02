@@ -31,9 +31,10 @@ VIP_TIERS = [
 class BankManager:
     """灵石银行管理器"""
     
-    def __init__(self, db: DataBase, config: dict = None):
+    def __init__(self, db: DataBase, config: dict = None, activity_tracker=None):
         self.db = db
         self.config = config or {}
+        self.activity_tracker = activity_tracker
         
         # 从配置读取，使用默认值作为后备（key与game_config.json小写一致）
         bank_config = self.config.get("bank", {})
@@ -256,7 +257,14 @@ class BankManager:
         
         # 记录流水
         await self._add_transaction(player.user_id, "interest", interest, new_balance, "领取利息")
-        
+
+        # 活跃度追踪
+        if self.activity_tracker:
+            try:
+                await self.activity_tracker.track_interest(player)
+            except Exception:
+                pass
+
         return True, f"成功领取利息 {interest:,} 灵石！\n当前余额：{new_balance:,} 灵石"
     
     # ===== 贷款相关 =====

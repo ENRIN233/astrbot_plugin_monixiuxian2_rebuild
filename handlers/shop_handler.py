@@ -29,7 +29,7 @@ class ShopHandler:
         'shentong': "百宝阁稀有刷新",
     }
 
-    def __init__(self, db: DataBase, config: AstrBotConfig, config_manager: ConfigManager):
+    def __init__(self, db: DataBase, config: AstrBotConfig, config_manager: ConfigManager, activity_tracker=None):
         self.db = db
         self.config = config
         self.config_manager = config_manager
@@ -37,6 +37,7 @@ class ShopHandler:
         self.storage_ring_manager = StorageRingManager(db, config_manager)
         self.equipment_manager = EquipmentManager(db, config_manager, self.storage_ring_manager)
         self.pill_manager = PillManager(db, config_manager)
+        self.activity_tracker = activity_tracker
         access_control = self.config.get("ACCESS_CONTROL", {})
         self.shop_manager_ids = {
             str(user_id)
@@ -234,6 +235,13 @@ class ShopHandler:
             player.gold -= total_price
             await self.db.update_player(player)
             await self.db.conn.commit()
+
+            # 活跃度追踪
+            if self.activity_tracker:
+                try:
+                    await self.activity_tracker.track_shop_buy(player)
+                except Exception:
+                    pass
             
             result_lines.append(f"花费灵石: {total_price}，剩余: {player.gold}")
             result_lines.append(f"剩余库存: {remaining}" if remaining > 0 else "该物品已售罄！")

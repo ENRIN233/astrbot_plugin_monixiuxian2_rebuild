@@ -44,6 +44,8 @@ CMD_PLAYER_INFO = "我的信息"
 CMD_START_CULTIVATION = "闭关"
 CMD_END_CULTIVATION = "出关"
 CMD_CHECK_IN = "签到"
+CMD_DAILY_ACTIVITY = "每日活跃"
+CMD_ACTIVITY_REWARD = "活跃奖励"
 CMD_SHOW_EQUIPMENT = "我的装备"
 CMD_EQUIP_ITEM = "装备"
 CMD_UNEQUIP_ITEM = "卸下"
@@ -240,14 +242,18 @@ class XiuXianPlugin(Star):
         db_path = plugin_data_path / db_filename
         self.db = DataBase(str(db_path))
 
+        # 初始化活跃度追踪器
+        from .managers.activity_manager import ActivityTracker
+        self.activity_tracker = ActivityTracker(self.db)
+
         self.misc_handler = MiscHandler(self.db)
         self.spirit_eye_mgr = SpiritEyeManager(self.db)
         self.achievement_mgr = AchievementManager(self.config_manager)
-        self.player_handler = PlayerHandler(self.db, self.config, self.config_manager, self.spirit_eye_mgr, self.achievement_mgr)
+        self.player_handler = PlayerHandler(self.db, self.config, self.config_manager, self.spirit_eye_mgr, self.achievement_mgr, self.activity_tracker)
         self.equipment_handler = EquipmentHandler(self.db, self.config_manager)
         self.breakthrough_handler = BreakthroughHandler(self.db, self.config_manager, self.config)
         self.pill_handler = PillHandler(self.db, self.config_manager)
-        self.shop_handler = ShopHandler(self.db, self.config, self.config_manager)
+        self.shop_handler = ShopHandler(self.db, self.config, self.config_manager, self.activity_tracker)
         self.storage_ring_handler = StorageRingHandler(self.db, self.config_manager)
         
         # 初始化核心管理器
@@ -257,12 +263,12 @@ class XiuXianPlugin(Star):
         self.combat_mgr = CombatManager()
         from .managers.skill_manager import SkillManager
         self.skill_mgr = SkillManager(self.config_manager)
-        self.sect_mgr = SectManager(self.db, self.config_manager)
+        self.sect_mgr = SectManager(self.db, self.config_manager, self.activity_tracker)
         self.boss_mgr = BossManager(self.db, self.combat_mgr, self.config_manager, self.storage_ring_mgr, self.skill_mgr)
         self.rift_mgr = RiftManager(self.db, self.config_manager, self.storage_ring_mgr)
         self.rank_mgr = RankingManager(self.db, self.combat_mgr, self.config_manager)
         self.adventure_mgr = AdventureManager(self.db, self.storage_ring_mgr)
-        self.alchemy_mgr = AlchemyManager(self.db, self.config_manager, self.storage_ring_mgr)
+        self.alchemy_mgr = AlchemyManager(self.db, self.config_manager, self.storage_ring_mgr, self.activity_tracker)
         self.impart_mgr = ImpartManager(self.db)
 
         # 初始化新功能处理器
@@ -277,8 +283,8 @@ class XiuXianPlugin(Star):
         self.nickname_handler = NicknameHandler(self.db)  # Phase 1
         
         # Phase 2: 灵石银行和悬赏令
-        self.bank_mgr = BankManager(self.db, self.config_manager.game_config)
-        self.bounty_mgr = BountyManager(self.db, self.storage_ring_mgr, self.config_manager.items_data, self.config_manager.skills_data)
+        self.bank_mgr = BankManager(self.db, self.config_manager.game_config, self.activity_tracker)
+        self.bounty_mgr = BountyManager(self.db, self.storage_ring_mgr, self.config_manager.items_data, self.config_manager.skills_data, self.activity_tracker)
         self.bank_handlers = BankHandlers(self.db, self.bank_mgr)
         self.bounty_handlers = BountyHandlers(self.db, self.bounty_mgr)
         
@@ -289,7 +295,7 @@ class XiuXianPlugin(Star):
         # Phase 4: 扩展功能
         self.blessed_land_mgr = BlessedLandManager(self.db)
         self.blessed_land_handlers = BlessedLandHandlers(self.db, self.blessed_land_mgr)
-        self.spirit_farm_mgr = SpiritFarmManager(self.db, self.storage_ring_mgr)
+        self.spirit_farm_mgr = SpiritFarmManager(self.db, self.storage_ring_mgr, self.activity_tracker)
         self.spirit_farm_handlers = SpiritFarmHandlers(self.db, self.spirit_farm_mgr)
         self.dual_cult_mgr = DualCultivationManager(self.db, self.pill_handler.pill_manager)
         self.dual_cult_handlers = DualCultivationHandlers(self.db, self.dual_cult_mgr)
@@ -1026,6 +1032,28 @@ class XiuXianPlugin(Star):
         async for r in self.player_handler.handle_check_in(event):
             yield r
 
+    @filter.command(CMD_DAILY_ACTIVITY, "查看每日活跃度任务进度")
+    @require_whitelist
+    async def handle_daily_activity(self, event: AstrMessageEvent):
+        user_id = event.get_sender_id()
+        player = await self.db.get_player_by_id(user_id)
+        if not player:
+            yield event.plain_result("❌ 你还未踏入修仙之路！请先使用「我要修仙」创建角色。")
+            return
+        result = self.activity_tracker.get_daily_activity_display(player)
+        yield event.plain_result(result)
+
+    @filter.command(CMD_ACTIVITY_REWARD, "领取每日活跃奖励")
+    @require_whitelist
+    async def handle_activity_reward(self, event: AstrMessageEvent):
+        user_id = event.get_sender_id()
+        player = await self.db.get_player_by_id(user_id)
+        if not player:
+            yield event.plain_result("❌ 你还未踏入修仙之路！请先使用「我要修仙」创建角色。")
+            return
+        result = await self.activity_tracker.claim_reward(player)
+        yield event.plain_result(result)
+
     @filter.command(CMD_SHOW_EQUIPMENT, "查看已装备的物品")
     @require_whitelist
     async def handle_show_equipment(self, event: AstrMessageEvent):
@@ -1395,7 +1423,12 @@ class XiuXianPlugin(Star):
     async def handle_rift_complete(self, event: AstrMessageEvent):
         user_id = event.get_sender_id()
         success, msg, reward_data = await self.rift_mgr.finish_exploration(user_id)
-        
+
+        if success:
+            player = await self.db.get_player_by_id(user_id)
+            if player:
+                await self.activity_tracker.track_rift(player)
+
         yield event.plain_result(msg)
 
     @filter.command(CMD_RIFT_EXIT, "退出秘境")
@@ -1416,6 +1449,11 @@ class XiuXianPlugin(Star):
     async def handle_adventure_complete(self, event: AstrMessageEvent):
         user_id = event.get_sender_id()
         success, msg, reward_data = await self.adventure_mgr.finish_adventure(user_id)
+
+        if success:
+            player = await self.db.get_player_by_id(user_id)
+            if player:
+                await self.activity_tracker.track_adventure(player)
 
         yield event.plain_result(msg)
 

@@ -1203,7 +1203,7 @@ function renderCommands() {
     const page = document.getElementById('page-commands');
 
     let html = '<h2 class="page-title">指令大全</h2>';
-    html += '<div class="info-box">共收录 <strong>133</strong> 条游戏指令，按系统分类整理。指令前缀默认为 <strong>#</strong> 或 <strong>/</strong>，具体以机器人配置为准。</div>';
+    html += '<div class="info-box">共收录 <strong>135</strong> 条游戏指令，按系统分类整理。指令前缀默认为 <strong>#</strong> 或 <strong>/</strong>，具体以机器人配置为准。</div>';
 
     const groups = [
         {
@@ -1213,6 +1213,8 @@ function renderCommands() {
                 ['我要修仙 [灵修/体修]', '创建角色，选择修炼路线'],
                 ['我的信息', '查看境界、修为、战力等完整信息面板'],
                 ['签到', '每日领取灵石(50-500)'],
+                ['每日活跃', '查看当日活跃度任务进度'],
+                ['活跃奖励', '活跃值满100后领取渡厄丹'],
                 ['我的装备', '查看已装备的武器/防具/心法'],
                 ['修仙帮助', '查看帮助信息'],
                 ['改道号 <名称>', '修改你的仙道称号'],

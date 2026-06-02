@@ -17,10 +17,11 @@ if TYPE_CHECKING:
 class AlchemyManager:
     """炼丹系统管理器（简化版）"""
     
-    def __init__(self, db: DataBase, config_manager: "ConfigManager" = None, storage_ring_manager: "StorageRingManager" = None):
+    def __init__(self, db: DataBase, config_manager: "ConfigManager" = None, storage_ring_manager: "StorageRingManager" = None, activity_tracker=None):
         self.db = db
         self.config_manager = config_manager
         self.storage_ring_manager = storage_ring_manager
+        self.activity_tracker = activity_tracker
         self.config = config_manager.alchemy_config if config_manager else {}
         
         raw_recipes = {}
@@ -237,9 +238,16 @@ class AlchemyManager:
             inventory = player.get_pills_inventory()
             inventory[pill_name] = inventory.get(pill_name, 0) + 1
             player.set_pills_inventory(inventory)
-            
+
             await self.db.update_player(player)
-            
+
+            # 活跃度追踪
+            if self.activity_tracker:
+                try:
+                    await self.activity_tracker.track_alchemy(player)
+                except Exception:
+                    pass
+
             # 构建消耗材料显示
             cost_lines = []
             if required_gold > 0:

@@ -76,6 +76,12 @@ class Player:
     last_check_in_date: str = ""  # 最后签到日期（格式：YYYY-MM-DD，空字符串表示从未签到）
     monthly_sign_count: int = 0  # 本月累计签到天数
     monthly_sign_month: str = ""  # 累计所属月份（格式：YYYY-MM）
+
+    # 每日活跃度系统
+    daily_activity: str = "{}"  # JSON: {"task_id": count}
+    daily_activity_points: int = 0  # 当日活跃值（达到100后不再增加）
+    daily_activity_date: str = ""  # 活跃度记录日期（YYYY-MM-DD）
+    daily_activity_rewarded: int = 0  # 当日是否已领取奖励（0/1）
     level_up_rate: int = 0  # 突破成功率加成
 
     # 装备栏
@@ -241,6 +247,17 @@ class Player:
     def set_achievement_data(self, data: dict):
         """设置成就数据"""
         self.achievement_data = json.dumps(data, ensure_ascii=False)
+
+    def get_daily_activity(self) -> dict:
+        """获取每日活跃度进度"""
+        try:
+            return json.loads(self.daily_activity)
+        except (json.JSONDecodeError, TypeError):
+            return {}
+
+    def set_daily_activity(self, data: dict):
+        """设置每日活跃度进度"""
+        self.daily_activity = json.dumps(data, ensure_ascii=False)
 
     def get_total_attributes(self, equipped_items: List[Item], pill_multipliers: Optional[dict] = None, achievement_bonus: Optional[dict] = None) -> dict:
         """计算包含装备加成、成就加成和丹药效果的总属性

@@ -71,8 +71,9 @@ class DataBase:
                 active_pill_effects, permanent_pill_gains, has_resurrection_pill, has_debuff_shield, pills_inventory,
                 storage_ring, storage_ring_items,
                 daily_pill_usage, last_daily_reset, shentong,
-                permanent_pill_usage, achievement_data, bank_vip_tier
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                permanent_pill_usage, achievement_data, bank_vip_tier,
+                daily_activity, daily_activity_points, daily_activity_date, daily_activity_rewarded
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 player.user_id,
@@ -125,7 +126,11 @@ class DataBase:
                 player.shentong,
                 player.permanent_pill_usage,
                 player.achievement_data,
-                player.bank_vip_tier
+                player.bank_vip_tier,
+                player.daily_activity,
+                player.daily_activity_points,
+                player.daily_activity_date,
+                player.daily_activity_rewarded
             )
         )
         await self.conn.commit()
@@ -209,7 +214,11 @@ class DataBase:
                 last_daily_reset = ?,
                 permanent_pill_usage = ?,
                 achievement_data = ?,
-                bank_vip_tier = ?
+                bank_vip_tier = ?,
+                daily_activity = ?,
+                daily_activity_points = ?,
+                daily_activity_date = ?,
+                daily_activity_rewarded = ?
             WHERE user_id = ?
             """,
             (
@@ -263,6 +272,10 @@ class DataBase:
                 player.permanent_pill_usage,
                 player.achievement_data,
                 player.bank_vip_tier,
+                player.daily_activity,
+                player.daily_activity_points,
+                player.daily_activity_date,
+                player.daily_activity_rewarded,
                 player.user_id
             )
         )

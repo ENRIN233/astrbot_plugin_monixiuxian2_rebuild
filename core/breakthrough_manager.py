@@ -354,8 +354,11 @@ class BreakthroughManager:
                 return False, death_msg, True
 
             else:
-                # 突破失败但未死亡 - 随机扣除0.1%~1%修为
-                penalty_rate = random.uniform(0.001, 0.01)
+                # 突破失败但未死亡 - 合体境(25)及以上：1%~5%；以下：0.1%~1%
+                if next_level_index >= 25:
+                    penalty_rate = random.uniform(0.01, 0.05)
+                else:
+                    penalty_rate = random.uniform(0.001, 0.01)
                 exp_penalty = max(1, int(int(player.experience) * penalty_rate))
                 player.experience = max(0, int(player.experience) - exp_penalty)
 
