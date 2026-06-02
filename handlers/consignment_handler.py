@@ -56,11 +56,11 @@ class ConsignmentHandler:
         except ValueError as e:
             yield event.plain_result(f"上架失败：{e}")
             return
-        fee = int(price * 0.05)
+        fee = int(price * quantity * self.mgr.listing_fee_rate)
         yield event.plain_result(
             f"✅ 上架成功（编号 {lid}）\n"
             f"物品：{name} × {quantity}\n"
-            f"价格：{price:,} 灵石\n"
+            f"单价：{price:,} 灵石 | 总价：{price * quantity:,} 灵石\n"
             f"已扣手续费：{fee:,} 灵石（不退还）"
         )
 
@@ -72,30 +72,33 @@ class ConsignmentHandler:
         if not listings:
             yield event.plain_result("寄售行空空如也")
             return
-        lines = [f"🏪 寄售行 第 {page} 页"]
+        lines = [f"🏪 寄售行 第 {page} 页（价格为单价）"]
         for L in listings:
             lines.append(
                 f"#{L['listing_id']} 【{L['item_name']}】× {L['quantity']} "
-                f"| {L['price']:,} 灵石 | 卖家 {L['seller_id']}"
+                f"| {L['price']:,} 灵石/个 | 卖家 {L['seller_id']}"
             )
         lines.append("使用 /购买寄售 <编号> 购买")
         yield event.plain_result("\n".join(lines))
 
     @player_required
     async def handle_buy(self, player: Player, event: AstrMessageEvent, args: str = ""):
-        if not args.strip().isdigit():
-            yield event.plain_result("用法：/购买寄售 <编号>")
+        parts = args.strip().split()
+        if not parts or not parts[0].isdigit():
+            yield event.plain_result("用法：/购买寄售 <编号> [数量]")
             return
-        lid = int(args.strip())
+        lid = int(parts[0])
+        quantity = int(parts[1]) if len(parts) > 1 and parts[1].isdigit() else None
         try:
-            listing = await self.mgr.buy_listing(lid, player.user_id)
+            result = await self.mgr.buy_listing(lid, player.user_id, quantity)
         except ValueError as e:
             yield event.plain_result(f"购买失败：{e}")
             return
+        total = result["price"] * result["bought"]
         yield event.plain_result(
             f"🎉 购买成功\n"
-            f"物品：{listing['item_name']} × {listing['quantity']}\n"
-            f"花费：{listing['price']:,} 灵石"
+            f"物品：{result['item_name']} × {result['bought']}\n"
+            f"单价：{result['price']:,} 灵石 | 花费：{total:,} 灵石"
         )
 
     @player_required

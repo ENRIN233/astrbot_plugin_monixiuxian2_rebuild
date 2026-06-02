@@ -138,10 +138,12 @@ class TradeHandler:
 
     @player_required
     async def handle_remove_item(self, player: Player, event: AstrMessageEvent, args: str = ""):
-        name = args.strip()
-        if not name:
-            yield event.plain_result("用法：/移除物品 <名称>")
+        parts = args.strip().split()
+        if not parts:
+            yield event.plain_result("用法：/移除物品 <名称> [数量]")
             return
+        name = parts[0]
+        count = int(parts[1]) if len(parts) > 1 and parts[1].isdigit() else None
         trade = await self.mgr.get_active_trade(player.user_id)
         if not trade:
             yield event.plain_result("当前没有进行中的交易")
@@ -150,11 +152,32 @@ class TradeHandler:
             yield event.plain_result("交易尚未被接受，请等待对方接受")
             return
         try:
-            await self.mgr.remove_item(trade["trade_id"], player.user_id, name)
+            await self.mgr.remove_item(trade["trade_id"], player.user_id, name, count)
         except ValueError as e:
             yield event.plain_result(f"移除失败：{e}")
             return
-        yield event.plain_result(f"✅ 已取回【{name}】")
+        qty_msg = f"× {count}" if count else "全部"
+        yield event.plain_result(f"✅ 已取回【{name}】{qty_msg}")
+
+    @player_required
+    async def handle_remove_stones(self, player: Player, event: AstrMessageEvent, args: str = ""):
+        if not args.strip().isdigit():
+            yield event.plain_result("用法：/移除灵石 <数量>")
+            return
+        amount = int(args.strip())
+        trade = await self.mgr.get_active_trade(player.user_id)
+        if not trade:
+            yield event.plain_result("当前没有进行中的交易")
+            return
+        if trade["status"] != "trading":
+            yield event.plain_result("交易尚未被接受，请等待对方接受")
+            return
+        try:
+            await self.mgr.remove_stones(trade["trade_id"], player.user_id, amount)
+        except ValueError as e:
+            yield event.plain_result(f"移除失败：{e}")
+            return
+        yield event.plain_result(f"✅ 已取回灵石 × {amount:,}")
 
     @player_required
     async def handle_view_trade(self, player: Player, event: AstrMessageEvent):

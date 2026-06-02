@@ -170,6 +170,7 @@ CMD_TRADE_REJECT = "拒绝交易"
 CMD_TRADE_ADD_ITEM = "添加物品"
 CMD_TRADE_ADD_STONES = "添加灵石"
 CMD_TRADE_REMOVE_ITEM = "移除物品"
+CMD_TRADE_REMOVE_STONES = "移除灵石"
 CMD_TRADE_VIEW = "查看交易"
 CMD_TRADE_CONFIRM = "确认交易"
 CMD_TRADE_CANCEL = "取消交易"
@@ -208,6 +209,19 @@ CMD_COMPENSATION = "补偿"
 CMD_ACHIEVEMENT_LIST = "成就列表"
 CMD_EQUIP_ACHIEVEMENT = "装备成就"
 CMD_UNEQUIP_ACHIEVEMENT = "卸下成就"
+
+# 菜单系统
+CMD_MENU = "菜单"
+CMD_MENU_BASICS = "基础"
+CMD_MENU_CULTIVATION = "修炼"
+CMD_MENU_ITEMS = "物品"
+CMD_MENU_EXPLORE = "探索"
+CMD_MENU_SECT = "宗门"
+CMD_MENU_COMBAT = "战斗"
+CMD_MENU_RANKING = "排行"
+CMD_MENU_SHOP = "商店"
+CMD_MENU_TRADE = "玩家交易"
+CMD_MENU_BANK = "银行"
 
 class XiuXianPlugin(Star):
     """修仙插件 - 文字修仙游戏"""
@@ -877,6 +891,72 @@ class XiuXianPlugin(Star):
         footer = get_related_commands_footer("修仙帮助")
         if footer:
             yield event.plain_result(footer)
+
+    @filter.command(CMD_MENU, "显示功能菜单")
+    @require_whitelist
+    async def handle_menu(self, event: AstrMessageEvent):
+        async for r in self.misc_handler.handle_menu(event):
+            yield r
+
+    @filter.command(CMD_MENU_BASICS, "基础功能菜单")
+    @require_whitelist
+    async def handle_menu_basics(self, event: AstrMessageEvent):
+        async for r in self.misc_handler.handle_menu_basics(event):
+            yield r
+
+    @filter.command(CMD_MENU_CULTIVATION, "修炼功能菜单")
+    @require_whitelist
+    async def handle_menu_cultivation(self, event: AstrMessageEvent):
+        async for r in self.misc_handler.handle_menu_cultivation(event):
+            yield r
+
+    @filter.command(CMD_MENU_ITEMS, "物品功能菜单")
+    @require_whitelist
+    async def handle_menu_items(self, event: AstrMessageEvent):
+        async for r in self.misc_handler.handle_menu_items(event):
+            yield r
+
+    @filter.command(CMD_MENU_EXPLORE, "探索功能菜单")
+    @require_whitelist
+    async def handle_menu_explore(self, event: AstrMessageEvent):
+        async for r in self.misc_handler.handle_menu_explore(event):
+            yield r
+
+    @filter.command(CMD_MENU_SECT, "宗门功能菜单")
+    @require_whitelist
+    async def handle_menu_sect(self, event: AstrMessageEvent):
+        async for r in self.misc_handler.handle_menu_sect(event):
+            yield r
+
+    @filter.command(CMD_MENU_COMBAT, "战斗功能菜单")
+    @require_whitelist
+    async def handle_menu_combat(self, event: AstrMessageEvent):
+        async for r in self.misc_handler.handle_menu_combat(event):
+            yield r
+
+    @filter.command(CMD_MENU_RANKING, "排行功能菜单")
+    @require_whitelist
+    async def handle_menu_ranking(self, event: AstrMessageEvent):
+        async for r in self.misc_handler.handle_menu_ranking(event):
+            yield r
+
+    @filter.command(CMD_MENU_TRADE, "玩家交易菜单")
+    @require_whitelist
+    async def handle_menu_trade(self, event: AstrMessageEvent):
+        async for r in self.misc_handler.handle_menu_trade(event):
+            yield r
+
+    @filter.command(CMD_MENU_BANK, "灵石银行菜单")
+    @require_whitelist
+    async def handle_menu_bank(self, event: AstrMessageEvent):
+        async for r in self.misc_handler.handle_menu_bank(event):
+            yield r
+
+    @filter.command(CMD_MENU_SHOP, "商店功能菜单")
+    @require_whitelist
+    async def handle_menu_shop(self, event: AstrMessageEvent):
+        async for r in self.misc_handler.handle_menu_shop(event):
+            yield r
 
     @filter.command(CMD_COMPENSATION, "领取GM补偿")
     @require_whitelist
@@ -1601,6 +1681,12 @@ class XiuXianPlugin(Star):
     @require_whitelist
     async def handle_trade_remove_item(self, event: AstrMessageEvent, args: str = ""):
         async for r in self.trade_handler.handle_remove_item(event, args):
+            yield r
+
+    @filter.command(CMD_TRADE_REMOVE_STONES, "从交易移除灵石")
+    @require_whitelist
+    async def handle_trade_remove_stones(self, event: AstrMessageEvent, args: str = ""):
+        async for r in self.trade_handler.handle_remove_stones(event, args):
             yield r
 
     @filter.command(CMD_TRADE_VIEW, "查看当前交易内容")

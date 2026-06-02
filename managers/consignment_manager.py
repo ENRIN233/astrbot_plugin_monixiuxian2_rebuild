@@ -46,7 +46,7 @@ class ConsignmentManager:
             raise ValueError("数量必须为正整数")
         if duration_seconds is None:
             duration_seconds = self.default_duration
-        fee = int(price * self.listing_fee_rate)
+        fee = int(price * quantity * self.listing_fee_rate)
 
         await self.conn.execute("BEGIN IMMEDIATE")
         try:
@@ -98,7 +98,8 @@ class ConsignmentManager:
             await self.conn.rollback()
             raise
 
-    async def buy_listing(self, listing_id: int, buyer_id: str) -> dict:
+    async def buy_listing(self, listing_id: int, buyer_id: str, quantity: Optional[int] = None) -> dict:
+        """购买寄售物品。quantity 为 None 时购买全部。返回含 bought 字段的 listing dict。"""
         await self.conn.execute("BEGIN IMMEDIATE")
         try:
             async with self.conn.execute(
@@ -112,6 +113,15 @@ class ConsignmentManager:
             if listing["seller_id"] == buyer_id:
                 raise ValueError("不能购买自己的寄售物品")
 
+            max_qty = listing["quantity"]
+            buy_n = max_qty if quantity is None else quantity
+            if buy_n <= 0:
+                raise ValueError("数量必须为正整数")
+            if buy_n > max_qty:
+                raise ValueError(f"寄售数量不足，当前剩余 {max_qty} 个")
+
+            total_cost = listing["price"] * buy_n
+
             async with self.conn.execute(
                 "SELECT gold, storage_ring_items, pills_inventory FROM players WHERE user_id=?",
                 (buyer_id,)
@@ -119,39 +129,51 @@ class ConsignmentManager:
                 buyer = await cur.fetchone()
             if not buyer:
                 raise ValueError("买家不存在")
-            if buyer[0] < listing["price"]:
+            if buyer[0] < total_cost:
                 raise ValueError("灵石不足")
 
             # 扣买家灵石，加卖家灵石
             await self.conn.execute(
                 "UPDATE players SET gold = gold - ? WHERE user_id=?",
-                (listing["price"], buyer_id),
+                (total_cost, buyer_id),
             )
             await self.conn.execute(
                 "UPDATE players SET gold = gold + ? WHERE user_id=?",
-                (listing["price"], listing["seller_id"]),
+                (total_cost, listing["seller_id"]),
             )
             # 物品进买家对应库存
             if listing["item_type"] == "pill":
                 pills = json.loads(buyer[2] or "{}")
-                pills[listing["item_name"]] = pills.get(listing["item_name"], 0) + listing["quantity"]
+                pills[listing["item_name"]] = pills.get(listing["item_name"], 0) + buy_n
                 await self.conn.execute(
                     "UPDATE players SET pills_inventory=? WHERE user_id=?",
                     (json.dumps(pills, ensure_ascii=False), buyer_id),
                 )
             else:
                 ring = json.loads(buyer[1] or "{}")
-                ring[listing["item_name"]] = ring.get(listing["item_name"], 0) + listing["quantity"]
+                ring[listing["item_name"]] = ring.get(listing["item_name"], 0) + buy_n
                 await self.conn.execute(
                     "UPDATE players SET storage_ring_items=? WHERE user_id=?",
                     (json.dumps(ring, ensure_ascii=False), buyer_id),
                 )
-            await self.conn.execute(
-                "UPDATE consignment_listings SET status='sold', buyer_id=?, sold_at=? "
-                "WHERE listing_id=?",
-                (buyer_id, int(time.time()), listing_id),
-            )
+
+            now = int(time.time())
+            if buy_n >= max_qty:
+                # 全部购买，标记已售出
+                await self.conn.execute(
+                    "UPDATE consignment_listings SET status='sold', buyer_id=?, sold_at=?, quantity=0 "
+                    "WHERE listing_id=?",
+                    (buyer_id, now, listing_id),
+                )
+            else:
+                # 部分购买，减少剩余数量
+                await self.conn.execute(
+                    "UPDATE consignment_listings SET quantity = quantity - ? WHERE listing_id=?",
+                    (buy_n, listing_id),
+                )
+
             await self.conn.commit()
+            listing["bought"] = buy_n
             return listing
         except Exception:
             await self.conn.rollback()
