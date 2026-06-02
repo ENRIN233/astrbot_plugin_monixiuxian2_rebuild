@@ -421,9 +421,16 @@ class CombatManager:
                     total_damage += dmg
 
             if not used_skill:
-                orig_hp = scarecrow.hp
-                cls.execute_attack(player, scarecrow)
-                dmg = orig_hp - max(0, scarecrow.hp)
+                atk_result = cls.execute_attack(player, scarecrow)
+                dmg = atk_result["damage"]
+                # execute_attack 不自动扣血，手动应用
+                scarecrow.hp = max(0, scarecrow.hp - dmg)
+                # 连击
+                if atk_result["triggered_double"] and scarecrow.hp > 0:
+                    dbl = cls.execute_attack(player, scarecrow, is_double_hit=True)
+                    if not dbl["dodged"]:
+                        scarecrow.hp = max(0, scarecrow.hp - dbl["damage"])
+                        dmg += dbl["damage"]
                 round_details.append(f"第{round_num}回合：\U0001f5e1️ 普通攻击 → {dmg:,} 伤害")
                 total_damage += dmg
 
@@ -532,6 +539,9 @@ class CombatManager:
             combat_log.append(f"{attacker.name} 发起攻击，但 {defender.name} 闪避了！")
             return "dodge", False
 
+        # 扣血
+        defender.hp = max(0, defender.hp - result["damage"])
+
         # 攻击日志
         parts = []
         if result["is_crit"]:
@@ -551,6 +561,7 @@ class CombatManager:
         if result["triggered_double"] and defender.hp > 0:
             double_result = cls.execute_attack(attacker, defender, is_double_hit=True)
             if not double_result["dodged"]:
+                defender.hp = max(0, defender.hp - double_result["damage"])
                 combat_log.append(f"{attacker.name} 触发连击！追加 {double_result['damage']} 点伤害")
                 combat_log.append(f"{defender.name} 剩余 HP: {max(0, defender.hp)}")
             else:
@@ -658,6 +669,8 @@ class CombatManager:
                 if result["dodged"]:
                     combat_log.append(f"{player.name} 攻击未命中")
                 else:
+                    # 扣血
+                    boss.hp = max(0, boss.hp - result["damage"])
                     dmg_text = "会心一击" if result["is_crit"] else "攻击"
                     combat_log.append(f"{player.name} 发起{dmg_text}，造成 {result['damage']} 点伤害")
                     total_damage_dealt += result["damage"]
@@ -666,6 +679,7 @@ class CombatManager:
                     if result["triggered_double"]:
                         double = cls.execute_attack(player, boss, is_double_hit=True)
                         if not double["dodged"]:
+                            boss.hp = max(0, boss.hp - double["damage"])
                             combat_log.append(f"连击追加 {double['damage']} 点伤害")
                             total_damage_dealt += double["damage"]
                 combat_log.append(f"{boss.name} 剩余 HP: {max(0, boss.hp)}")
