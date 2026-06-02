@@ -414,7 +414,7 @@ class PillManager:
             )
 
     async def _use_permanent_pill(self, player: Player, pill_name: str, pill_data: dict, quantity: int = 1) -> Tuple[bool, str]:
-        """使用永久属性丹药（支持批量，受30%上限限制）"""
+        """使用永久属性丹药（支持批量，受属性上限限制，洗髓丹/易筋丹可提升）"""
         consumed = 0
         total_gains_applied = {}
         stop_reason = None
@@ -461,6 +461,18 @@ class PillManager:
             gains_applied = {}
             all_blocked = True
 
+            # 处理属性上限提升（洗髓丹/易筋丹）
+            if "base_attribute_limit_increase" in pill_data:
+                inc = pill_data["base_attribute_limit_increase"]
+                if "base_attribute_limit_increase" not in permanent_gains:
+                    permanent_gains["base_attribute_limit_increase"] = 0.0
+                permanent_gains["base_attribute_limit_increase"] += inc
+                gains_applied["属性上限提升"] = f"+{inc:.0%}"
+                all_blocked = False
+
+            # 计算当前属性上限比例（默认30%，洗髓丹/易筋丹可提升）
+            attr_limit_ratio = 0.3 + permanent_gains.get("base_attribute_limit_increase", 0.0)
+
             for gain_key, (attr_key, attr_name) in attr_mapping.items():
                 if gain_key not in pill_data:
                     continue
@@ -469,11 +481,11 @@ class PillManager:
                 if gain == 0:
                     continue
 
-                # 只有正向增益才受30%限制
+                # 只有正向增益才受上限限制
                 if gain > 0:
                     current_gain = permanent_gains[level_key].get(attr_key, 0)
                     base_value = base_attrs.get(attr_key, 100)
-                    limit = base_value * 0.3
+                    limit = base_value * attr_limit_ratio
 
                     if current_gain >= limit:
                         continue
@@ -528,7 +540,8 @@ class PillManager:
                 all_blocked = False
 
             if all_blocked:
-                stop_reason = "所有属性已达30%上限"
+                limit_pct = int(attr_limit_ratio * 100)
+                stop_reason = f"所有属性已达{limit_pct}%上限"
                 break
 
             # 修正属性下限与能量上限
@@ -585,7 +598,9 @@ class PillManager:
             msg_parts.append(f"💼 剩余库存：{remaining} 个")
 
         msg_parts.append("━━━━━━━━━━━━━━━")
-        msg_parts.append("注：每个境界的永久属性丹药\n增益最多为基础属性的30%")
+        permanent_gains = player.get_permanent_pill_gains()
+        limit_pct = int((0.3 + permanent_gains.get("base_attribute_limit_increase", 0.0)) * 100)
+        msg_parts.append(f"注：每个境界的永久属性丹药\n增益最多为基础属性的{limit_pct}%")
 
         return True, "\n".join(msg_parts)
 
