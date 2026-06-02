@@ -155,7 +155,7 @@ class ActivityTracker:
             else:
                 lines.append("🎉 所有任务已完成！使用 /活跃奖励 领取渡厄丹")
         else:
-            lines.append(f"💡 完成所有任务后使用 /活跃奖励 领取奖励")
+            lines.append(f"💡 活跃度达到100后使用 /活跃奖励 领取奖励")
 
         return "\n".join(lines)
 
