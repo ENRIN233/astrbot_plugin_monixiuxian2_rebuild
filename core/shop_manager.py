@@ -42,7 +42,7 @@ class ShopManager:
                 all_items.append({
                     'id': weapon['id'],
                     'name': weapon['name'],
-                    'type': 'weapon',
+                    'type': weapon.get('type', 'weapon'),
                     'price': weapon['price'],
                     'weight': weapon['shop_weight'],
                     'rank': weapon.get('rank', '凡品'),
@@ -317,7 +317,7 @@ class ShopManager:
         all_weapons = []
         for weapon in self.config_manager.weapons_data.values():
             if weapon.get('price', 0) > 0:
-                all_weapons.append({'name': weapon['name'], 'type': 'weapon', 'price': weapon['price'], 'rank': weapon.get('rank', '凡品'), 'data': weapon})
+                all_weapons.append({'name': weapon['name'], 'type': weapon.get('type', 'weapon'), 'price': weapon['price'], 'rank': weapon.get('rank', '凡品'), 'data': weapon})
         return all_weapons
 
     def get_all_items_for_display(self, count: int) -> List[Dict]:
@@ -325,7 +325,7 @@ class ShopManager:
         all_items = []
         for weapon in self.config_manager.weapons_data.values():
             if weapon.get('price', 0) > 0:
-                all_items.append({'name': weapon['name'], 'type': 'weapon', 'price': weapon['price'], 'rank': weapon.get('rank', '凡品'), 'data': weapon})
+                all_items.append({'name': weapon['name'], 'type': weapon.get('type', 'weapon'), 'price': weapon['price'], 'rank': weapon.get('rank', '凡品'), 'data': weapon})
         for item in self.config_manager.items_data.values():
             if item.get('price', 0) > 0:
                 item_type = self._map_legacy_item_type(item)
@@ -386,7 +386,7 @@ class ShopManager:
         """根据名称查找物品"""
         for weapon in self.config_manager.weapons_data.values():
             if weapon['name'] == name and weapon.get('price', 0) > 0:
-                return {'name': weapon['name'], 'type': 'weapon', 'price': weapon['price'], 'rank': weapon.get('rank', '凡品'), 'data': weapon}
+                return {'name': weapon['name'], 'type': weapon.get('type', 'weapon'), 'price': weapon['price'], 'rank': weapon.get('rank', '凡品'), 'data': weapon}
         for item in self.config_manager.items_data.values():
             if item['name'] == name and item.get('price', 0) > 0:
                 item_type = self._map_legacy_item_type(item)
@@ -409,7 +409,7 @@ class ShopManager:
         """根据名称查找物品（不限价格，覆盖所有数据源）"""
         for weapon in self.config_manager.weapons_data.values():
             if weapon['name'] == name:
-                return {'name': weapon['name'], 'type': 'weapon', 'price': weapon.get('price', 0), 'rank': weapon.get('rank', '凡品'), 'data': weapon}
+                return {'name': weapon['name'], 'type': weapon.get('type', 'weapon'), 'price': weapon.get('price', 0), 'rank': weapon.get('rank', '凡品'), 'data': weapon}
         for item in self.config_manager.items_data.values():
             if item['name'] == name:
                 item_type = self._map_legacy_item_type(item)
