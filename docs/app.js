@@ -1202,7 +1202,7 @@ function renderCommands() {
     const page = document.getElementById('page-commands');
 
     let html = '<h2 class="page-title">指令大全</h2>';
-    html += '<div class="info-box">共收录 <strong>124</strong> 条游戏指令，按系统分类整理。指令前缀默认为 <strong>#</strong> 或 <strong>/</strong>，具体以机器人配置为准。</div>';
+    html += '<div class="info-box">共收录 <strong>123</strong> 条游戏指令，按系统分类整理。指令前缀默认为 <strong>#</strong> 或 <strong>/</strong>，具体以机器人配置为准。</div>';
 
     const groups = [
         {
@@ -1235,7 +1235,6 @@ function renderCommands() {
             cmds: [
                 ['装备 <名>', '从储物戒装备到身上'],
                 ['卸下 <名>', '卸下装备放回储物戒'],
-                ['丹药背包', '查看拥有的丹药及效果'],
                 ['服用丹药 <名>', '使用丹药获得增益效果'],
                 ['丹药信息 <名>', '查看指定丹药的详细信息'],
                 ['物品信息 <名称>', '查看任意物品的具体效果与获取途径'],
