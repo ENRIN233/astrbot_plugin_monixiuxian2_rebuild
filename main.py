@@ -120,7 +120,7 @@ CMD_IMPART_INFO = "传承信息"
 CMD_CHANGE_NICKNAME = "改道号"
 
 # Phase 2: 灵石银行
-CMD_BANK_INFO = "银行"
+CMD_BANK_INFO = "银行信息"
 CMD_BANK_DEPOSIT = "存灵石"
 CMD_BANK_WITHDRAW = "取灵石"
 CMD_BANK_INTEREST = "领取利息"
