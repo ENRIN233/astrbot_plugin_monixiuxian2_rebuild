@@ -31,6 +31,15 @@ function formatPercent(n) {
 
 function formatSpecialAttrs(w) {
     const parts = [];
+    // 武器战斗属性
+    if (w.atk_bonus) parts.push('攻击' + formatPercent(w.atk_bonus));
+    if (w.crit_rate) parts.push('暴击' + w.crit_rate + '%');
+    if (w.crit_damage) parts.push('暴伤' + formatRate(w.crit_damage));
+    if (w.armor_pen) parts.push('穿透' + w.armor_pen + '%');
+    if (w.double_hit) parts.push('连击' + w.double_hit + '%');
+    if (w.lifesteal) parts.push('吸血' + w.lifesteal + '%');
+    if (w.mp_bonus) parts.push('真元' + formatPercent(w.mp_bonus));
+    // 防具特殊属性
     if (w.dodge_rate) parts.push('闪避' + w.dodge_rate + '%');
     if (w.crit_resist) parts.push('抗会心' + w.crit_resist + '%');
     if (w.reflect_pct) parts.push('反伤' + w.reflect_pct + '%');
@@ -778,6 +787,7 @@ function showWeaponDetail(w) {
     if (w.armor_pen) combatHtml += modalField('穿透', `+${w.armor_pen}%`);
     if (w.double_hit) combatHtml += modalField('连击', `+${w.double_hit}%`);
     if (w.lifesteal) combatHtml += modalField('吸血', `+${w.lifesteal}%`);
+    if (w.mp_bonus) combatHtml += modalField('真元加成', `+${formatPercent(w.mp_bonus)}`);
     if (w.dodge_rate) combatHtml += modalField('闪避率', `+${w.dodge_rate}%`);
     if (w.crit_resist) combatHtml += modalField('暴击抗性', `+${w.crit_resist}%`);
     if (w.reflect_pct) combatHtml += modalField('反伤', `+${w.reflect_pct}%`);
@@ -961,10 +971,10 @@ function renderCombat() {
 
     // Equipment combat stats - weapons
     const weapons = (DATA.weapons || []).filter(w => w.type === 'weapon');
-    const withCrit = weapons.filter(w => w.crit_rate || w.crit_damage || w.armor_pen || w.double_hit || w.lifesteal);
+    const withCrit = weapons.filter(w => w.crit_rate || w.crit_damage || w.armor_pen || w.double_hit || w.lifesteal || w.mp_bonus);
     if (withCrit.length) {
         html += '<h3 class="section-title">含战斗属性的武器 (' + withCrit.length + '把)</h3>';
-        const wHeaders = ['名称', '品阶', '暴击率', '暴伤', '穿透', '连击', '吸血'];
+        const wHeaders = ['名称', '品阶', '暴击率', '暴伤', '穿透', '连击', '吸血', '真元'];
         const wRows = withCrit.map(w => [
             `<strong>${esc(w.name)}</strong>`,
             makeRankBadge(w.rank),
@@ -972,7 +982,8 @@ function renderCombat() {
             `<span data-sortvalue="${w.crit_damage || 0}">${w.crit_damage ? formatRate(w.crit_damage) : '-'}</span>`,
             `<span data-sortvalue="${w.armor_pen || 0}">${w.armor_pen ? w.armor_pen + '%' : '-'}</span>`,
             `<span data-sortvalue="${w.double_hit || 0}">${w.double_hit ? w.double_hit + '%' : '-'}</span>`,
-            `<span data-sortvalue="${w.lifesteal || 0}">${w.lifesteal ? w.lifesteal + '%' : '-'}</span>`
+            `<span data-sortvalue="${w.lifesteal || 0}">${w.lifesteal ? w.lifesteal + '%' : '-'}</span>`,
+            `<span data-sortvalue="${w.mp_bonus || 0}">${w.mp_bonus ? formatPercent(w.mp_bonus) : '-'}</span>`
         ]);
         html += createTable(wHeaders, wRows, { rankData: withCrit.map(w => w.rank) });
     }

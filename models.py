@@ -36,6 +36,7 @@ class Item:
     mp_bonus: float = 0.0  # 真元百分比加成（如 0.05 = +5%）
     crit_rate: int = 0  # 暴击率加成（百分比整数，如 10 = +10%）
     crit_damage: float = 0.0  # 暴击伤害加成（如 0.5 = 暴击倍率+0.5）
+    mp_bonus: float = 0.0  # 真元百分比加成（武器有效，如 0.3 = +30%）
 
     def get_attribute_display(self) -> str:
         """获取属性加成的显示文本"""
@@ -64,6 +65,8 @@ class Item:
             attrs.append(f"暴击率+{self.crit_rate}%")
         if self.crit_damage > 0:
             attrs.append(f"暴击伤害+{self.crit_damage:.0%}")
+        if self.mp_bonus > 0:
+            attrs.append(f"真元+{self.mp_bonus:.0%}")
         return "、".join(attrs) if attrs else "无属性加成"
 
 @dataclass

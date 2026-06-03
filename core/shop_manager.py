@@ -501,6 +501,16 @@ class ShopManager:
                 effects.append(f"法防+{data['magic_defense']}")
             if data.get('mental_power', 0) > 0:
                 effects.append(f"精神力+{data['mental_power']}")
+            # 武器战斗属性
+            if item_type == 'weapon':
+                if data.get('atk_bonus', 0) > 0:
+                    effects.append(f"攻击+{data['atk_bonus']:.0%}")
+                if data.get('crit_rate', 0) > 0:
+                    effects.append(f"暴击率+{data['crit_rate']}%")
+                if data.get('crit_damage', 0) > 0:
+                    effects.append(f"暴伤+{data['crit_damage']:.0%}")
+                if data.get('mp_bonus', 0) > 0:
+                    effects.append(f"真元+{data['mp_bonus']:.0%}")
         
         # 功法属性
         elif item_type in ['main_technique', '功法']:
@@ -759,6 +769,20 @@ class ShopManager:
                     attrs.append(f"{label}+{val}")
             if attrs:
                 details.append(f"属性: {', '.join(attrs)}")
+            # 武器战斗属性
+            if item_type == 'weapon':
+                combat = []
+                for key, label, fmt in [
+                    ('atk_bonus', '攻击力', lambda v: f"+{v:.0%}"),
+                    ('crit_rate', '暴击率', lambda v: f"+{v}%"),
+                    ('crit_damage', '暴伤', lambda v: f"+{v:.0%}"),
+                    ('mp_bonus', '真元', lambda v: f"+{v:.0%}"),
+                ]:
+                    val = data.get(key, 0)
+                    if val:
+                        combat.append(f"{label}{fmt(val)}")
+                if combat:
+                    details.append(f"战斗属性: {', '.join(combat)}")
             if 'required_level_index' in data:
                 details.append(f"需求境界: {self._format_required_level(data['required_level_index'])}")
 

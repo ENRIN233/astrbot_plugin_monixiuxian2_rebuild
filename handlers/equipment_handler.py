@@ -96,6 +96,25 @@ class EquipmentHandler:
             if crit_damage > 0:
                 equipment_lines.append(f"🔥 暴击伤害 +{crit_damage:.0%}\n")
 
+            # 武器战斗属性（从 weapons_data 读取，非 Item 模型）
+            if player.weapon:
+                wdata = self.config_manager.weapons_data.get(player.weapon)
+                if wdata:
+                    w_atk = wdata.get("atk_bonus", 0)
+                    w_crit = wdata.get("crit_rate", 0)
+                    w_cd = wdata.get("crit_damage", 0)
+                    w_mp = wdata.get("mp_bonus", 0)
+                    if w_atk > 0 or w_crit > 0 or w_cd > 0 or w_mp > 0:
+                        equipment_lines.append("\n--- 武器战斗属性 ---\n")
+                        if w_atk > 0:
+                            equipment_lines.append(f"⚔️ 攻击力 +{w_atk:.0%}\n")
+                        if w_crit > 0:
+                            equipment_lines.append(f"💥 暴击率 +{w_crit}%\n")
+                        if w_cd > 0:
+                            equipment_lines.append(f"🔥 暴击伤害 +{w_cd:.0%}\n")
+                        if w_mp > 0:
+                            equipment_lines.append(f"💧 真元 +{w_mp:.0%}\n")
+
         equipment_lines.append("=" * 28)
 
         yield event.plain_result("".join(equipment_lines))

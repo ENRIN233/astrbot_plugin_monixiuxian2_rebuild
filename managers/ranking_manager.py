@@ -105,24 +105,22 @@ class RankingManager:
         if not all_players:
             return False, "❌ 暂无数据！"
         
-        # 计算战力（综合属性）
+        # 计算战力（复用战斗系统）
+        from .combat_manager import CombatManager
         player_power = []
         for player in all_players:
-            # 获取装备加成
+            # 获取装备加成（用于主攻击属性显示）
             equipped_items = self.equipment_manager.get_equipped_items(
                 player,
                 self.config_manager.items_data,
                 self.config_manager.weapons_data
             )
-            
-            # 排行榜显示基础战力，不含临时丹药效果（更公平）
             total_attrs = player.get_total_attributes(equipped_items, None)
 
-            # 战力（与战斗公式一致）
-            base_atk = int(max(0, player.experience) ** 0.42)
-            breakthrough_atk = int(total_attrs['physical_damage']) + int(total_attrs['magic_damage'])
-            breakthrough_def = int(total_attrs['physical_defense']) + int(total_attrs['magic_defense'])
-            combat_power = base_atk + breakthrough_atk + breakthrough_def + int(total_attrs['mental_power']) // 10
+            # 构建 CombatStats 并计算战力（不含丹药临时效果，更公平）
+            impart_info = await self.db.ext.get_impart_info(player.user_id)
+            combat_stats = CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
+            combat_power = CombatManager.calc_combat_power(combat_stats, combat_stats.max_hp, combat_stats.max_mp)
             player_power.append((player, combat_power, total_attrs))
         
         # 按战力排序

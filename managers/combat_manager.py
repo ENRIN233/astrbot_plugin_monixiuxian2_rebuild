@@ -17,7 +17,7 @@ ARMOR_SPECIAL_ATTRS = ['dodge_rate', 'crit_resist', 'reflect_pct', 'block_value'
 
 def load_equipment_bonus(player, config_manager) -> dict:
     """从装备数据中读取所有战斗加成（武器+防具）"""
-    bonus = {"atk": 0, "atk_pct": 0.0, "defense": 0}
+    bonus = {"atk": 0, "atk_pct": 0.0, "defense": 0, "mp_pct": 0.0}
     for attr in WEAPON_SPECIAL_ATTRS + ARMOR_SPECIAL_ATTRS:
         bonus[attr] = 0 if attr not in ('crit_damage', 'hp_regen_pct') else 0.0
 
@@ -36,6 +36,7 @@ def load_equipment_bonus(player, config_manager) -> dict:
             val = wdata.get(attr, 0)
             if val:
                 bonus[attr] += val
+        bonus["mp_pct"] += wdata.get("mp_bonus", 0.0)
 
     # 防具（在 weapons_data 中）
     if player.armor:
@@ -139,6 +140,9 @@ class CombatManager:
 
         equip_bonus = load_equipment_bonus(player, config_manager)
 
+        # 武器 mp_bonus 乘算
+        mp = int(mp * (1 + equip_bonus.get("mp_pct", 0.0)))
+
         breakthrough_atk = player.physical_damage + player.magic_damage
         # 心法攻击加成改为百分比乘区
         final_atk = int(base_atk * (1 + equip_bonus["atk_pct"] + atk_buff + technique_atk_bonus)) + breakthrough_atk + equip_bonus["atk"]
@@ -164,7 +168,7 @@ class CombatManager:
             equip_def=equip_def,
             crit_rate=crit_rate,
             exp=player.experience,
-            crit_damage=max(1.5, equip_bonus.get("crit_damage", 0) + technique_crit_damage),
+            crit_damage=max(1.5, 1.0 + equip_bonus.get("crit_damage", 0) + technique_crit_damage),
             armor_pen=equip_bonus.get("armor_pen", 0),
             lifesteal=equip_bonus.get("lifesteal", 0),
             double_hit=equip_bonus.get("double_hit", 0),
@@ -174,6 +178,44 @@ class CombatManager:
             block_value=equip_bonus.get("block_value", 0),
             hp_regen_pct=equip_bonus.get("hp_regen_pct", 0.0),
         )
+
+    @staticmethod
+    def calc_combat_power(stats: CombatStats, max_hp: int, max_mp: int) -> int:
+        """从 CombatStats 计算战力评分。
+
+        公式 = log10(期望每回合伤害 × 有效生命值) × 1000，取整。
+        期望每回合伤害 = ATK × crit_mult × double_mult
+        有效生命值 = max_hp × def_mult × dodge_mult × regen_mult
+
+        Args:
+            stats: 已构建的 CombatStats（来自 build_player_combat_stats）
+            max_hp: 最大气血（stats.max_hp）
+            max_mp: 最大真元（stats.max_mp，暂未使用，保留扩展）
+        """
+        # ---- 攻击端 ----
+        crit_rate = min(stats.crit_rate, 100)
+        crit_mult = 1.0 + crit_rate / 100.0 * max(0.0, stats.crit_damage - 1.0)
+        double_mult = 1.0 + min(stats.double_hit, 100) / 100.0 * 0.5
+        expected_atk = stats.atk * crit_mult * double_mult
+
+        # ---- 防御端（有效生命值） ----
+        # base_def 层: reduction = base_def/(base_def+500) → 等效HP乘数 = (base_def+500)/500
+        base_def_mult = (stats.base_def + 500) / 500.0
+        # equip_def 层: ln(raw+1)*20 → reduction = x/(x+200) → 等效HP乘数 = (x+200)/200
+        equip_def_val = math.log(stats.equip_def + 1) * 20 if stats.equip_def > 0 else 0.0
+        equip_def_mult = (equip_def_val + 200) / 200.0
+        # 闪避等效HP乘数: 1/(1-dodge/100)
+        dodge_mult = 100.0 / max(1, 100 - min(stats.dodge_rate, 95))
+        # 每回合回复等效乘数（粗略近似）
+        regen_mult = 1.0 + stats.hp_regen_pct / 100.0
+
+        effective_hp = max_hp * base_def_mult * equip_def_mult * dodge_mult * regen_mult
+
+        # ---- 战力 = log10(攻击 × 生命) ----
+        power = expected_atk * effective_hp
+        if power <= 0:
+            return 0
+        return int(math.log10(power + 1) * 1000)
 
     @classmethod
     def execute_attack(

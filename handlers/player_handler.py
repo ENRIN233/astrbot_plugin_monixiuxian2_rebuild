@@ -147,11 +147,11 @@ class PlayerHandler:
 
         # 文本模式 (完整信息显示)
         
-        # 获取战力（与战斗公式一致）
-        base_atk = int(max(0, player.experience) ** 0.42)
-        breakthrough_atk = int(total_attrs['physical_damage']) + int(total_attrs['magic_damage'])
-        breakthrough_def = int(total_attrs['physical_defense']) + int(total_attrs['magic_defense'])
-        combat_power = base_atk + breakthrough_atk + breakthrough_def + int(total_attrs['mental_power']) // 10
+        # 获取战力（复用战斗系统 build_player_combat_stats + calc_combat_power）
+        from ..managers.combat_manager import CombatManager
+        impart_info = await self.db.ext.get_impart_info(player.user_id)
+        combat_stats = CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
+        combat_power = CombatManager.calc_combat_power(combat_stats, combat_stats.max_hp, combat_stats.max_mp)
         
         # 获取宗门信息
         sect_name = "无宗门"

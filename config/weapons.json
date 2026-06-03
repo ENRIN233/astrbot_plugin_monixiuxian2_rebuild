@@ -13,7 +13,8 @@
     "mental_power": 5,
     "price": 320000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.12,
+    "crit_rate": 0
   },
   {
     "id": "sword_002",
@@ -29,7 +30,8 @@
     "mental_power": 8,
     "price": 500000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.0,
+    "crit_rate": 12
   },
   {
     "id": "sword_003",
@@ -45,7 +47,8 @@
     "mental_power": 25,
     "price": 4070000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "crit_rate": 0
   },
   {
     "id": "sword_004",
@@ -61,7 +64,8 @@
     "mental_power": 30,
     "price": 4150000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.0,
+    "crit_rate": 12
   },
   {
     "id": "sword_005",
@@ -77,7 +81,8 @@
     "mental_power": 60,
     "price": 14650000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.16,
+    "crit_rate": 0
   },
   {
     "id": "sword_006",
@@ -93,8 +98,9 @@
     "mental_power": 120,
     "price": 36220000,
     "shop_weight": 30,
-    "atk_bonus": 0.16,
-    "crit_damage": 1.56
+    "atk_bonus": 0.2,
+    "crit_damage": 0.56,
+    "crit_rate": 0
   },
   {
     "id": "sword_007",
@@ -110,9 +116,9 @@
     "mental_power": 250,
     "price": 71240000,
     "shop_weight": 10,
-    "atk_bonus": 0.18,
-    "crit_damage": 1.73,
-    "crit_rate": 3
+    "atk_bonus": 0.24,
+    "crit_damage": 0.73,
+    "crit_rate": 0
   },
   {
     "id": "sword_008",
@@ -128,9 +134,10 @@
     "mental_power": 500,
     "price": 222000000,
     "shop_weight": 3,
-    "atk_bonus": 0.2,
+    "atk_bonus": 0.28,
     "armor_pen": 3,
-    "crit_damage": 1.68
+    "crit_damage": 0.68,
+    "crit_rate": 0
   },
   {
     "id": "sword_009",
@@ -146,9 +153,10 @@
     "mental_power": 1000,
     "price": 702000000,
     "shop_weight": 1,
-    "atk_bonus": 0.22,
+    "atk_bonus": 0.32,
     "double_hit": 3,
-    "armor_pen": 5
+    "armor_pen": 5,
+    "crit_rate": 0
   },
   {
     "id": "sword_010",
@@ -164,8 +172,9 @@
     "mental_power": 2000,
     "price": 2615000000,
     "shop_weight": 0.3,
-    "atk_bonus": 0.25,
-    "lifesteal": 3
+    "atk_bonus": 0.4,
+    "lifesteal": 3,
+    "crit_rate": 0
   },
   {
     "id": "sword_011",
@@ -181,8 +190,8 @@
     "mental_power": 4000,
     "price": 4894000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "crit_rate": 13,
+    "atk_bonus": 0.5,
+    "crit_rate": 0,
     "double_hit": 8
   },
   {
@@ -199,8 +208,8 @@
     "mental_power": 4500,
     "price": 5328000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "crit_rate": 9,
+    "atk_bonus": 0.0,
+    "crit_rate": 50,
     "double_hit": 8
   },
   {
@@ -217,7 +226,8 @@
     "mental_power": 3,
     "price": 360000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.06,
+    "crit_rate": 6
   },
   {
     "id": "blade_002",
@@ -233,7 +243,8 @@
     "mental_power": 5,
     "price": 530000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.12,
+    "crit_rate": 0
   },
   {
     "id": "blade_003",
@@ -249,7 +260,8 @@
     "mental_power": 20,
     "price": 4260000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.06,
+    "crit_rate": 6
   },
   {
     "id": "blade_004",
@@ -265,7 +277,8 @@
     "mental_power": 25,
     "price": 4370000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "crit_rate": 0
   },
   {
     "id": "blade_005",
@@ -281,7 +294,8 @@
     "mental_power": 50,
     "price": 15260000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.0,
+    "crit_rate": 16
   },
   {
     "id": "blade_006",
@@ -297,8 +311,8 @@
     "mental_power": 100,
     "price": 37800000,
     "shop_weight": 30,
-    "atk_bonus": 0.16,
-    "crit_rate": 2
+    "atk_bonus": 0.0,
+    "crit_rate": 20
   },
   {
     "id": "blade_007",
@@ -314,9 +328,10 @@
     "mental_power": 200,
     "price": 73540000,
     "shop_weight": 10,
-    "atk_bonus": 0.18,
-    "crit_damage": 1.64,
-    "armor_pen": 2
+    "atk_bonus": 0.0,
+    "crit_damage": 0.64,
+    "armor_pen": 2,
+    "crit_rate": 24
   },
   {
     "id": "blade_008",
@@ -332,9 +347,10 @@
     "mental_power": 400,
     "price": 229999999,
     "shop_weight": 3,
-    "atk_bonus": 0.2,
+    "atk_bonus": 0.0,
     "armor_pen": 6,
-    "lifesteal": 3
+    "lifesteal": 3,
+    "crit_rate": 28
   },
   {
     "id": "blade_009",
@@ -350,8 +366,8 @@
     "mental_power": 800,
     "price": 730000000,
     "shop_weight": 1,
-    "atk_bonus": 0.22,
-    "crit_rate": 10,
+    "atk_bonus": 0.0,
+    "crit_rate": 32,
     "lifesteal": 6
   },
   {
@@ -368,9 +384,10 @@
     "mental_power": 1600,
     "price": 2715000000,
     "shop_weight": 0.3,
-    "atk_bonus": 0.25,
+    "atk_bonus": 0.0,
     "double_hit": 5,
-    "lifesteal": 7
+    "lifesteal": 7,
+    "crit_rate": 40
   },
   {
     "id": "blade_011",
@@ -386,8 +403,9 @@
     "mental_power": 3200,
     "price": 5142000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "crit_damage": 2.34
+    "atk_bonus": 0.25,
+    "crit_damage": 1.34,
+    "crit_rate": 25
   },
   {
     "id": "blade_012",
@@ -403,8 +421,9 @@
     "mental_power": 3500,
     "price": 5513000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "lifesteal": 6
+    "atk_bonus": 0.5,
+    "lifesteal": 6,
+    "crit_rate": 0
   },
   {
     "id": "broadsword_001",
@@ -420,7 +439,8 @@
     "mental_power": 2,
     "price": 440000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.0,
+    "crit_rate": 12
   },
   {
     "id": "broadsword_002",
@@ -436,7 +456,8 @@
     "mental_power": 3,
     "price": 600000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.06,
+    "crit_rate": 6
   },
   {
     "id": "broadsword_003",
@@ -452,7 +473,8 @@
     "mental_power": 15,
     "price": 4630000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.0,
+    "crit_rate": 12
   },
   {
     "id": "broadsword_004",
@@ -468,7 +490,8 @@
     "mental_power": 18,
     "price": 5180000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.06,
+    "crit_rate": 6
   },
   {
     "id": "broadsword_005",
@@ -484,7 +507,8 @@
     "mental_power": 40,
     "price": 17090000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.08,
+    "crit_rate": 8
   },
   {
     "id": "broadsword_006",
@@ -500,8 +524,9 @@
     "mental_power": 80,
     "price": 42520000,
     "shop_weight": 30,
-    "atk_bonus": 0.16,
-    "crit_damage": 1.58
+    "atk_bonus": 0.1,
+    "crit_damage": 0.58,
+    "crit_rate": 10
   },
   {
     "id": "broadsword_007",
@@ -517,9 +542,9 @@
     "mental_power": 160,
     "price": 82730000,
     "shop_weight": 10,
-    "atk_bonus": 0.18,
-    "crit_rate": 6,
-    "crit_damage": 1.69
+    "atk_bonus": 0.12,
+    "crit_rate": 12,
+    "crit_damage": 0.69
   },
   {
     "id": "broadsword_008",
@@ -535,8 +560,8 @@
     "mental_power": 320,
     "price": 263000000,
     "shop_weight": 3,
-    "atk_bonus": 0.2,
-    "crit_rate": 8,
+    "atk_bonus": 0.14,
+    "crit_rate": 14,
     "lifesteal": 2
   },
   {
@@ -553,8 +578,8 @@
     "mental_power": 640,
     "price": 831000000,
     "shop_weight": 1,
-    "atk_bonus": 0.22,
-    "crit_rate": 6,
+    "atk_bonus": 0.16,
+    "crit_rate": 16,
     "armor_pen": 7
   },
   {
@@ -571,8 +596,9 @@
     "mental_power": 1300,
     "price": 3117000000,
     "shop_weight": 0.3,
-    "atk_bonus": 0.25,
-    "armor_pen": 12
+    "atk_bonus": 0.2,
+    "armor_pen": 12,
+    "crit_rate": 20
   },
   {
     "id": "broadsword_011",
@@ -588,8 +614,9 @@
     "mental_power": 2700,
     "price": 6102000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "double_hit": 6
+    "atk_bonus": 0.0,
+    "double_hit": 6,
+    "crit_rate": 50
   },
   {
     "id": "broadsword_012",
@@ -605,8 +632,9 @@
     "mental_power": 3000,
     "price": 6536000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "crit_damage": 2.5
+    "atk_bonus": 0.25,
+    "crit_damage": 1.5,
+    "crit_rate": 25
   },
   {
     "id": "qin_001",
@@ -622,7 +650,8 @@
     "mental_power": 10,
     "price": 410000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.12,
+    "crit_rate": 0
   },
   {
     "id": "qin_002",
@@ -638,7 +667,8 @@
     "mental_power": 15,
     "price": 640000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.0,
+    "crit_rate": 12
   },
   {
     "id": "qin_003",
@@ -654,7 +684,8 @@
     "mental_power": 40,
     "price": 4440000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "crit_rate": 0
   },
   {
     "id": "qin_004",
@@ -670,7 +701,8 @@
     "mental_power": 45,
     "price": 5000000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.0,
+    "crit_rate": 12
   },
   {
     "id": "qin_005",
@@ -686,7 +718,8 @@
     "mental_power": 85,
     "price": 16180000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.16,
+    "crit_rate": 0
   },
   {
     "id": "qin_006",
@@ -702,9 +735,9 @@
     "mental_power": 170,
     "price": 40940000,
     "shop_weight": 30,
-    "atk_bonus": 0.16,
-    "crit_damage": 1.55,
-    "crit_rate": 3
+    "atk_bonus": 0.2,
+    "crit_damage": 0.55,
+    "crit_rate": 0
   },
   {
     "id": "qin_007",
@@ -720,8 +753,8 @@
     "mental_power": 340,
     "price": 79670000,
     "shop_weight": 10,
-    "atk_bonus": 0.18,
-    "crit_rate": 5,
+    "atk_bonus": 0.24,
+    "crit_rate": 0,
     "armor_pen": 4
   },
   {
@@ -738,9 +771,10 @@
     "mental_power": 680,
     "price": 243000000,
     "shop_weight": 3,
-    "atk_bonus": 0.2,
+    "atk_bonus": 0.28,
     "lifesteal": 5,
-    "armor_pen": 3
+    "armor_pen": 3,
+    "crit_rate": 0
   },
   {
     "id": "qin_009",
@@ -756,8 +790,9 @@
     "mental_power": 1360,
     "price": 768000000,
     "shop_weight": 1,
-    "atk_bonus": 0.22,
-    "double_hit": 2
+    "atk_bonus": 0.32,
+    "double_hit": 2,
+    "crit_rate": 0
   },
   {
     "id": "qin_010",
@@ -773,8 +808,8 @@
     "mental_power": 2800,
     "price": 2900000000,
     "shop_weight": 0.3,
-    "atk_bonus": 0.25,
-    "crit_rate": 9,
+    "atk_bonus": 0.4,
+    "crit_rate": 0,
     "double_hit": 3
   },
   {
@@ -791,8 +826,8 @@
     "mental_power": 5800,
     "price": 5575000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "crit_rate": 8,
+    "atk_bonus": 0.5,
+    "crit_rate": 0,
     "lifesteal": 6
   },
   {
@@ -809,9 +844,9 @@
     "mental_power": 6200,
     "price": 5947000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
+    "atk_bonus": 0.0,
     "lifesteal": 8,
-    "crit_rate": 13
+    "crit_rate": 50
   },
   {
     "id": "dagger_001",
@@ -827,7 +862,8 @@
     "mental_power": 12,
     "price": 560000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.06,
+    "crit_rate": 6
   },
   {
     "id": "dagger_002",
@@ -843,7 +879,8 @@
     "mental_power": 18,
     "price": 760000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.12,
+    "crit_rate": 0
   },
   {
     "id": "dagger_003",
@@ -859,7 +896,8 @@
     "mental_power": 45,
     "price": 5560000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.06,
+    "crit_rate": 6
   },
   {
     "id": "dagger_004",
@@ -875,7 +913,8 @@
     "mental_power": 50,
     "price": 5810000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "crit_rate": 0
   },
   {
     "id": "dagger_005",
@@ -891,7 +930,8 @@
     "mental_power": 95,
     "price": 18620000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.0,
+    "crit_rate": 16
   },
   {
     "id": "dagger_006",
@@ -907,9 +947,9 @@
     "mental_power": 180,
     "price": 46460000,
     "shop_weight": 30,
-    "atk_bonus": 0.16,
-    "crit_damage": 1.61,
-    "crit_rate": 3
+    "atk_bonus": 0.0,
+    "crit_damage": 0.61,
+    "crit_rate": 20
   },
   {
     "id": "dagger_007",
@@ -925,8 +965,8 @@
     "mental_power": 360,
     "price": 90390000,
     "shop_weight": 10,
-    "atk_bonus": 0.18,
-    "crit_rate": 5,
+    "atk_bonus": 0.0,
+    "crit_rate": 24,
     "armor_pen": 3
   },
   {
@@ -943,8 +983,8 @@
     "mental_power": 720,
     "price": 276000000,
     "shop_weight": 3,
-    "atk_bonus": 0.2,
-    "crit_rate": 8
+    "atk_bonus": 0.0,
+    "crit_rate": 28
   },
   {
     "id": "dagger_009",
@@ -960,9 +1000,10 @@
     "mental_power": 1440,
     "price": 872000000,
     "shop_weight": 1,
-    "atk_bonus": 0.22,
+    "atk_bonus": 0.0,
     "double_hit": 3,
-    "armor_pen": 9
+    "armor_pen": 9,
+    "crit_rate": 32
   },
   {
     "id": "dagger_010",
@@ -978,9 +1019,10 @@
     "mental_power": 2900,
     "price": 3235000000,
     "shop_weight": 0.3,
-    "atk_bonus": 0.25,
+    "atk_bonus": 0.0,
     "lifesteal": 4,
-    "armor_pen": 10
+    "armor_pen": 10,
+    "crit_rate": 40
   },
   {
     "id": "dagger_011",
@@ -996,8 +1038,9 @@
     "mental_power": 6000,
     "price": 6195000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "crit_damage": 2.38
+    "atk_bonus": 0.25,
+    "crit_damage": 1.38,
+    "crit_rate": 25
   },
   {
     "id": "dagger_012",
@@ -1013,9 +1056,9 @@
     "mental_power": 6400,
     "price": 6567000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
+    "atk_bonus": 0.5,
     "lifesteal": 5,
-    "crit_rate": 15
+    "crit_rate": 0
   },
   {
     "id": "talisman_001",
@@ -1031,7 +1074,8 @@
     "mental_power": 8,
     "price": 460000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.0,
+    "crit_rate": 12
   },
   {
     "id": "talisman_002",
@@ -1047,7 +1091,8 @@
     "mental_power": 12,
     "price": 650000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.06,
+    "crit_rate": 6
   },
   {
     "id": "talisman_003",
@@ -1063,7 +1108,8 @@
     "mental_power": 35,
     "price": 4930000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.0,
+    "crit_rate": 12
   },
   {
     "id": "talisman_004",
@@ -1079,7 +1125,8 @@
     "mental_power": 38,
     "price": 5410000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.06,
+    "crit_rate": 6
   },
   {
     "id": "talisman_005",
@@ -1095,7 +1142,8 @@
     "mental_power": 75,
     "price": 16790000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.08,
+    "crit_rate": 8
   },
   {
     "id": "talisman_006",
@@ -1111,8 +1159,9 @@
     "mental_power": 150,
     "price": 42520000,
     "shop_weight": 30,
-    "atk_bonus": 0.16,
-    "crit_damage": 1.59
+    "atk_bonus": 0.1,
+    "crit_damage": 0.59,
+    "crit_rate": 10
   },
   {
     "id": "talisman_007",
@@ -1128,9 +1177,10 @@
     "mental_power": 300,
     "price": 82730000,
     "shop_weight": 10,
-    "atk_bonus": 0.18,
-    "crit_damage": 1.72,
-    "armor_pen": 2
+    "atk_bonus": 0.12,
+    "crit_damage": 0.72,
+    "armor_pen": 2,
+    "crit_rate": 12
   },
   {
     "id": "talisman_008",
@@ -1146,8 +1196,9 @@
     "mental_power": 600,
     "price": 252000000,
     "shop_weight": 3,
-    "atk_bonus": 0.2,
-    "armor_pen": 7
+    "atk_bonus": 0.14,
+    "armor_pen": 7,
+    "crit_rate": 14
   },
   {
     "id": "talisman_009",
@@ -1163,8 +1214,9 @@
     "mental_power": 1200,
     "price": 798000000,
     "shop_weight": 1,
-    "atk_bonus": 0.22,
-    "armor_pen": 8
+    "atk_bonus": 0.16,
+    "armor_pen": 8,
+    "crit_rate": 16
   },
   {
     "id": "talisman_010",
@@ -1180,8 +1232,9 @@
     "mental_power": 2500,
     "price": 3010000000,
     "shop_weight": 0.3,
-    "atk_bonus": 0.25,
-    "double_hit": 5
+    "atk_bonus": 0.2,
+    "double_hit": 5,
+    "crit_rate": 20
   },
   {
     "id": "talisman_011",
@@ -1197,8 +1250,9 @@
     "mental_power": 5200,
     "price": 5761000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "double_hit": 5
+    "atk_bonus": 0.0,
+    "double_hit": 5,
+    "crit_rate": 50
   },
   {
     "id": "talisman_012",
@@ -1214,8 +1268,9 @@
     "mental_power": 5600,
     "price": 6195000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "armor_pen": 14
+    "atk_bonus": 0.25,
+    "armor_pen": 14,
+    "crit_rate": 25
   },
   {
     "id": "cauldron_001",
@@ -1231,7 +1286,8 @@
     "mental_power": 6,
     "price": 470000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.12,
+    "crit_rate": 0
   },
   {
     "id": "cauldron_002",
@@ -1247,7 +1303,8 @@
     "mental_power": 8,
     "price": 670000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.0,
+    "crit_rate": 12
   },
   {
     "id": "cauldron_003",
@@ -1263,7 +1320,8 @@
     "mental_power": 25,
     "price": 4930000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "crit_rate": 0
   },
   {
     "id": "cauldron_004",
@@ -1279,7 +1337,8 @@
     "mental_power": 28,
     "price": 5560000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.0,
+    "crit_rate": 12
   },
   {
     "id": "cauldron_005",
@@ -1295,7 +1354,8 @@
     "mental_power": 55,
     "price": 17270000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.16,
+    "crit_rate": 0
   },
   {
     "id": "cauldron_006",
@@ -1311,8 +1371,8 @@
     "mental_power": 110,
     "price": 44490000,
     "shop_weight": 30,
-    "atk_bonus": 0.16,
-    "crit_rate": 4
+    "atk_bonus": 0.2,
+    "crit_rate": 0
   },
   {
     "id": "cauldron_007",
@@ -1328,9 +1388,9 @@
     "mental_power": 220,
     "price": 86560000,
     "shop_weight": 10,
-    "atk_bonus": 0.18,
-    "crit_damage": 1.74,
-    "crit_rate": 3
+    "atk_bonus": 0.24,
+    "crit_damage": 0.74,
+    "crit_rate": 0
   },
   {
     "id": "cauldron_008",
@@ -1346,8 +1406,9 @@
     "mental_power": 440,
     "price": 264000000,
     "shop_weight": 3,
-    "atk_bonus": 0.2,
-    "crit_damage": 1.8
+    "atk_bonus": 0.28,
+    "crit_damage": 0.8,
+    "crit_rate": 0
   },
   {
     "id": "cauldron_009",
@@ -1363,8 +1424,9 @@
     "mental_power": 880,
     "price": 835000000,
     "shop_weight": 1,
-    "atk_bonus": 0.22,
-    "crit_damage": 1.78
+    "atk_bonus": 0.32,
+    "crit_damage": 0.78,
+    "crit_rate": 0
   },
   {
     "id": "cauldron_010",
@@ -1380,8 +1442,8 @@
     "mental_power": 1800,
     "price": 3151000000,
     "shop_weight": 0.3,
-    "atk_bonus": 0.25,
-    "crit_rate": 10
+    "atk_bonus": 0.4,
+    "crit_rate": 0
   },
   {
     "id": "cauldron_011",
@@ -1397,8 +1459,8 @@
     "mental_power": 3800,
     "price": 6071000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "crit_rate": 10,
+    "atk_bonus": 0.5,
+    "crit_rate": 0,
     "armor_pen": 14
   },
   {
@@ -1415,8 +1477,9 @@
     "mental_power": 4200,
     "price": 6443000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "lifesteal": 7
+    "atk_bonus": 0.0,
+    "lifesteal": 7,
+    "crit_rate": 50
   },
   {
     "id": "staff_001",
@@ -1432,7 +1495,8 @@
     "mental_power": 5,
     "price": 390000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.06,
+    "crit_rate": 6
   },
   {
     "id": "staff_002",
@@ -1448,7 +1512,8 @@
     "mental_power": 7,
     "price": 600000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.12,
+    "crit_rate": 0
   },
   {
     "id": "staff_003",
@@ -1464,7 +1529,8 @@
     "mental_power": 22,
     "price": 4670000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.06,
+    "crit_rate": 6
   },
   {
     "id": "staff_004",
@@ -1480,7 +1546,8 @@
     "mental_power": 25,
     "price": 5220000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "crit_rate": 0
   },
   {
     "id": "staff_005",
@@ -1496,7 +1563,8 @@
     "mental_power": 50,
     "price": 16790000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.0,
+    "crit_rate": 16
   },
   {
     "id": "staff_006",
@@ -1512,9 +1580,9 @@
     "mental_power": 100,
     "price": 42520000,
     "shop_weight": 30,
-    "atk_bonus": 0.16,
-    "crit_rate": 5,
-    "crit_damage": 1.58
+    "atk_bonus": 0.0,
+    "crit_rate": 20,
+    "crit_damage": 0.58
   },
   {
     "id": "staff_007",
@@ -1530,8 +1598,9 @@
     "mental_power": 200,
     "price": 82730000,
     "shop_weight": 10,
-    "atk_bonus": 0.18,
-    "armor_pen": 3
+    "atk_bonus": 0.0,
+    "armor_pen": 3,
+    "crit_rate": 24
   },
   {
     "id": "staff_008",
@@ -1547,8 +1616,9 @@
     "mental_power": 400,
     "price": 252000000,
     "shop_weight": 3,
-    "atk_bonus": 0.2,
-    "lifesteal": 4
+    "atk_bonus": 0.0,
+    "lifesteal": 4,
+    "crit_rate": 28
   },
   {
     "id": "staff_009",
@@ -1564,8 +1634,8 @@
     "mental_power": 800,
     "price": 798000000,
     "shop_weight": 1,
-    "atk_bonus": 0.22,
-    "crit_rate": 7
+    "atk_bonus": 0.0,
+    "crit_rate": 32
   },
   {
     "id": "staff_010",
@@ -1581,9 +1651,10 @@
     "mental_power": 1700,
     "price": 3050000000,
     "shop_weight": 0.3,
-    "atk_bonus": 0.25,
+    "atk_bonus": 0.0,
     "armor_pen": 10,
-    "lifesteal": 5
+    "lifesteal": 5,
+    "crit_rate": 40
   },
   {
     "id": "staff_011",
@@ -1599,8 +1670,9 @@
     "mental_power": 3600,
     "price": 5947000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "lifesteal": 6
+    "atk_bonus": 0.25,
+    "lifesteal": 6,
+    "crit_rate": 25
   },
   {
     "id": "staff_012",
@@ -1616,8 +1688,9 @@
     "mental_power": 4000,
     "price": 6319000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "crit_damage": 2.13
+    "atk_bonus": 0.5,
+    "crit_damage": 1.13,
+    "crit_rate": 0
   },
   {
     "id": "spear_001",
@@ -1633,7 +1706,8 @@
     "mental_power": 6,
     "price": 410000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.0,
+    "crit_rate": 12
   },
   {
     "id": "spear_002",
@@ -1649,7 +1723,8 @@
     "mental_power": 10,
     "price": 640000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.06,
+    "crit_rate": 6
   },
   {
     "id": "spear_003",
@@ -1665,7 +1740,8 @@
     "mental_power": 28,
     "price": 4810000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.0,
+    "crit_rate": 12
   },
   {
     "id": "spear_004",
@@ -1681,7 +1757,8 @@
     "mental_power": 32,
     "price": 5330000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.06,
+    "crit_rate": 6
   },
   {
     "id": "spear_005",
@@ -1697,7 +1774,8 @@
     "mental_power": 62,
     "price": 16970000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.08,
+    "crit_rate": 8
   },
   {
     "id": "spear_006",
@@ -1713,8 +1791,9 @@
     "mental_power": 125,
     "price": 43310000,
     "shop_weight": 30,
-    "atk_bonus": 0.16,
-    "crit_damage": 1.59
+    "atk_bonus": 0.1,
+    "crit_damage": 0.59,
+    "crit_rate": 10
   },
   {
     "id": "spear_007",
@@ -1730,9 +1809,9 @@
     "mental_power": 250,
     "price": 84270000,
     "shop_weight": 10,
-    "atk_bonus": 0.18,
-    "crit_rate": 5,
-    "crit_damage": 1.61
+    "atk_bonus": 0.12,
+    "crit_rate": 12,
+    "crit_damage": 0.61
   },
   {
     "id": "spear_008",
@@ -1748,9 +1827,9 @@
     "mental_power": 500,
     "price": 256999999,
     "shop_weight": 3,
-    "atk_bonus": 0.2,
-    "crit_rate": 8,
-    "crit_damage": 1.81
+    "atk_bonus": 0.14,
+    "crit_rate": 14,
+    "crit_damage": 0.81
   },
   {
     "id": "spear_009",
@@ -1766,8 +1845,8 @@
     "mental_power": 1000,
     "price": 813000000,
     "shop_weight": 1,
-    "atk_bonus": 0.22,
-    "crit_rate": 5,
+    "atk_bonus": 0.16,
+    "crit_rate": 16,
     "lifesteal": 6
   },
   {
@@ -1784,8 +1863,8 @@
     "mental_power": 2100,
     "price": 3050000000,
     "shop_weight": 0.3,
-    "atk_bonus": 0.25,
-    "crit_rate": 10,
+    "atk_bonus": 0.2,
+    "crit_rate": 20,
     "lifesteal": 5
   },
   {
@@ -1802,8 +1881,9 @@
     "mental_power": 4400,
     "price": 5916000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "lifesteal": 6
+    "atk_bonus": 0.0,
+    "lifesteal": 6,
+    "crit_rate": 50
   },
   {
     "id": "spear_012",
@@ -1819,9 +1899,10 @@
     "mental_power": 4800,
     "price": 6319000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
+    "atk_bonus": 0.25,
     "double_hit": 4,
-    "armor_pen": 13
+    "armor_pen": 13,
+    "crit_rate": 25
   },
   {
     "id": "brush_001",
@@ -1837,7 +1918,8 @@
     "mental_power": 12,
     "price": 500000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.12,
+    "crit_rate": 0
   },
   {
     "id": "brush_002",
@@ -1853,7 +1935,8 @@
     "mental_power": 18,
     "price": 750000,
     "shop_weight": 1000,
-    "atk_bonus": 0.1
+    "atk_bonus": 0.0,
+    "crit_rate": 12
   },
   {
     "id": "brush_003",
@@ -1869,7 +1952,8 @@
     "mental_power": 45,
     "price": 5260000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.12,
+    "crit_rate": 0
   },
   {
     "id": "brush_004",
@@ -1885,7 +1969,8 @@
     "mental_power": 50,
     "price": 5960000,
     "shop_weight": 200,
-    "atk_bonus": 0.12
+    "atk_bonus": 0.0,
+    "crit_rate": 12
   },
   {
     "id": "brush_005",
@@ -1901,7 +1986,8 @@
     "mental_power": 95,
     "price": 18310000,
     "shop_weight": 80,
-    "atk_bonus": 0.14
+    "atk_bonus": 0.16,
+    "crit_rate": 0
   },
   {
     "id": "brush_006",
@@ -1917,9 +2003,9 @@
     "mental_power": 180,
     "price": 45670000,
     "shop_weight": 30,
-    "atk_bonus": 0.16,
-    "crit_damage": 1.57,
-    "crit_rate": 2
+    "atk_bonus": 0.2,
+    "crit_damage": 0.57,
+    "crit_rate": 0
   },
   {
     "id": "brush_007",
@@ -1935,9 +2021,10 @@
     "mental_power": 360,
     "price": 88860000,
     "shop_weight": 10,
-    "atk_bonus": 0.18,
+    "atk_bonus": 0.24,
     "armor_pen": 3,
-    "crit_damage": 1.67
+    "crit_damage": 0.67,
+    "crit_rate": 0
   },
   {
     "id": "brush_008",
@@ -1953,8 +2040,9 @@
     "mental_power": 720,
     "price": 271000000,
     "shop_weight": 3,
-    "atk_bonus": 0.2,
-    "lifesteal": 3
+    "atk_bonus": 0.28,
+    "lifesteal": 3,
+    "crit_rate": 0
   },
   {
     "id": "brush_009",
@@ -1970,9 +2058,10 @@
     "mental_power": 1440,
     "price": 857000000,
     "shop_weight": 1,
-    "atk_bonus": 0.22,
+    "atk_bonus": 0.32,
     "armor_pen": 8,
-    "crit_damage": 1.96
+    "crit_damage": 0.96,
+    "crit_rate": 0
   },
   {
     "id": "brush_010",
@@ -1988,9 +2077,10 @@
     "mental_power": 2900,
     "price": 3218000000,
     "shop_weight": 0.3,
-    "atk_bonus": 0.25,
+    "atk_bonus": 0.4,
     "double_hit": 3,
-    "armor_pen": 10
+    "armor_pen": 10,
+    "crit_rate": 0
   },
   {
     "id": "brush_011",
@@ -2006,9 +2096,9 @@
     "mental_power": 6000,
     "price": 6164000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "crit_damage": 2.42,
-    "crit_rate": 12
+    "atk_bonus": 0.5,
+    "crit_damage": 1.42,
+    "crit_rate": 0
   },
   {
     "id": "brush_012",
@@ -2024,8 +2114,9 @@
     "mental_power": 6500,
     "price": 6659000000,
     "shop_weight": 0.1,
-    "atk_bonus": 0.28,
-    "lifesteal": 6
+    "atk_bonus": 0.0,
+    "lifesteal": 6,
+    "crit_rate": 50
   },
   {
     "id": "sword_013",
@@ -2044,7 +2135,10 @@
     "_source": "nonebot",
     "_source_id": "7001",
     "weapon_category": "剑",
-    "atk_bonus": 0.12
+    "atk_bonus": 0.08,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_014",
@@ -2063,7 +2157,10 @@
     "_source": "nonebot",
     "_source_id": "7002",
     "weapon_category": "剑",
-    "atk_bonus": 0.12
+    "atk_bonus": 0.0,
+    "crit_rate": 8,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_015",
@@ -2082,7 +2179,10 @@
     "_source": "nonebot",
     "_source_id": "7003",
     "weapon_category": "剑",
-    "atk_bonus": 0.12
+    "atk_bonus": 0.04,
+    "crit_rate": 4,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_016",
@@ -2101,7 +2201,10 @@
     "_source": "nonebot",
     "_source_id": "7011",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.12,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_017",
@@ -2120,7 +2223,10 @@
     "_source": "nonebot",
     "_source_id": "7012",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.0,
+    "crit_rate": 12,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_018",
@@ -2139,7 +2245,10 @@
     "_source": "nonebot",
     "_source_id": "7013",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.06,
+    "crit_rate": 6,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_019",
@@ -2158,7 +2267,10 @@
     "_source": "nonebot",
     "_source_id": "7021",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.16,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_020",
@@ -2177,7 +2289,10 @@
     "_source": "nonebot",
     "_source_id": "7022",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.0,
+    "crit_rate": 16,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_021",
@@ -2196,7 +2311,10 @@
     "_source": "nonebot",
     "_source_id": "7023",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.08,
+    "crit_rate": 8,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_022",
@@ -2215,7 +2333,10 @@
     "_source": "nonebot",
     "_source_id": "7031",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.2,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_023",
@@ -2234,7 +2355,10 @@
     "_source": "nonebot",
     "_source_id": "7032",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.0,
+    "crit_rate": 20,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_024",
@@ -2253,7 +2377,10 @@
     "_source": "nonebot",
     "_source_id": "7033",
     "weapon_category": "剑",
-    "atk_bonus": 0.14
+    "atk_bonus": 0.1,
+    "crit_rate": 10,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_025",
@@ -2272,9 +2399,10 @@
     "_source": "nonebot",
     "_source_id": "7041",
     "weapon_category": "剑",
-    "atk_bonus": 0.16,
-    "crit_rate": 5,
-    "crit_damage": 1.62
+    "atk_bonus": 0.24,
+    "crit_rate": 10,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_026",
@@ -2293,8 +2421,10 @@
     "_source": "nonebot",
     "_source_id": "7042",
     "weapon_category": "剑",
-    "atk_bonus": 0.16,
-    "crit_rate": 4
+    "atk_bonus": 0.0,
+    "crit_rate": 24,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_027",
@@ -2313,8 +2443,10 @@
     "_source": "nonebot",
     "_source_id": "7043",
     "weapon_category": "剑",
-    "atk_bonus": 0.16,
-    "crit_rate": 4
+    "atk_bonus": 0.12,
+    "crit_rate": 12,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_028",
@@ -2333,9 +2465,10 @@
     "_source": "nonebot",
     "_source_id": "7051",
     "weapon_category": "剑",
-    "atk_bonus": 0.16,
-    "crit_damage": 1.58,
-    "crit_rate": 2
+    "atk_bonus": 0.28,
+    "crit_damage": 0.0,
+    "crit_rate": 0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_029",
@@ -2354,8 +2487,10 @@
     "_source": "nonebot",
     "_source_id": "7052",
     "weapon_category": "剑",
-    "atk_bonus": 0.16,
-    "crit_damage": 1.61
+    "atk_bonus": 0.0,
+    "crit_damage": 0.0,
+    "crit_rate": 28,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_030",
@@ -2374,9 +2509,10 @@
     "_source": "nonebot",
     "_source_id": "7053",
     "weapon_category": "剑",
-    "atk_bonus": 0.16,
-    "crit_rate": 5,
-    "crit_damage": 1.59
+    "atk_bonus": 0.14,
+    "crit_rate": 14,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_031",
@@ -2395,9 +2531,10 @@
     "_source": "nonebot",
     "_source_id": "7061",
     "weapon_category": "剑",
-    "atk_bonus": 0.16,
-    "crit_rate": 5,
-    "crit_damage": 1.63
+    "atk_bonus": 0.32,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_032",
@@ -2416,9 +2553,10 @@
     "_source": "nonebot",
     "_source_id": "7062",
     "weapon_category": "剑",
-    "atk_bonus": 0.16,
-    "crit_damage": 1.6,
-    "crit_rate": 3
+    "atk_bonus": 0.0,
+    "crit_damage": 0.0,
+    "crit_rate": 32,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_033",
@@ -2438,7 +2576,9 @@
     "_source_id": "7063",
     "weapon_category": "剑",
     "atk_bonus": 0.16,
-    "crit_rate": 2
+    "crit_rate": 16,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_034",
@@ -2457,8 +2597,10 @@
     "_source": "nonebot",
     "_source_id": "7071",
     "weapon_category": "剑",
-    "atk_bonus": 0.16,
-    "crit_rate": 2
+    "atk_bonus": 0.36,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_035",
@@ -2477,9 +2619,10 @@
     "_source": "nonebot",
     "_source_id": "7072",
     "weapon_category": "剑",
-    "atk_bonus": 0.16,
-    "crit_rate": 5,
-    "crit_damage": 1.62
+    "atk_bonus": 0.0,
+    "crit_rate": 36,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_036",
@@ -2498,8 +2641,10 @@
     "_source": "nonebot",
     "_source_id": "7073",
     "weapon_category": "剑",
-    "atk_bonus": 0.16,
-    "crit_rate": 3
+    "atk_bonus": 0.18,
+    "crit_rate": 18,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_037",
@@ -2518,9 +2663,11 @@
     "_source": "nonebot",
     "_source_id": "7081",
     "weapon_category": "剑",
-    "atk_bonus": 0.18,
+    "atk_bonus": 0.4,
     "armor_pen": 3,
-    "crit_damage": 1.65
+    "crit_damage": 0.0,
+    "crit_rate": 0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_038",
@@ -2539,9 +2686,11 @@
     "_source": "nonebot",
     "_source_id": "7082",
     "weapon_category": "剑",
-    "atk_bonus": 0.18,
+    "atk_bonus": 0.0,
     "armor_pen": 3,
-    "crit_damage": 1.68
+    "crit_damage": 0.0,
+    "crit_rate": 40,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_039",
@@ -2560,9 +2709,10 @@
     "_source": "nonebot",
     "_source_id": "7083",
     "weapon_category": "剑",
-    "atk_bonus": 0.18,
-    "crit_rate": 4,
-    "crit_damage": 1.66
+    "atk_bonus": 0.2,
+    "crit_rate": 20,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_040",
@@ -2581,9 +2731,10 @@
     "_source": "nonebot",
     "_source_id": "7091",
     "weapon_category": "剑",
-    "atk_bonus": 0.18,
-    "crit_damage": 1.66,
-    "crit_rate": 6
+    "atk_bonus": 0.24,
+    "crit_damage": 0.0,
+    "crit_rate": 24,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_041",
@@ -2602,8 +2753,10 @@
     "_source": "nonebot",
     "_source_id": "7092",
     "weapon_category": "剑",
-    "atk_bonus": 0.18,
-    "crit_damage": 1.62
+    "atk_bonus": 0.0,
+    "crit_damage": 0.0,
+    "crit_rate": 48,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_042",
@@ -2622,8 +2775,10 @@
     "_source": "nonebot",
     "_source_id": "7093",
     "weapon_category": "剑",
-    "atk_bonus": 0.18,
-    "crit_rate": 3
+    "atk_bonus": 0.48,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_043",
@@ -2642,9 +2797,12 @@
     "_source": "nonebot",
     "_source_id": "7095",
     "weapon_category": "剑",
-    "atk_bonus": 0.2,
+    "atk_bonus": 0.5,
     "armor_pen": 7,
-    "lifesteal": 2
+    "lifesteal": 2,
+    "crit_rate": 0,
+    "crit_damage": 0.1,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_044",
@@ -2663,9 +2821,11 @@
     "_source": "nonebot",
     "_source_id": "7096",
     "weapon_category": "剑",
-    "atk_bonus": 0.2,
+    "atk_bonus": 0.1,
     "armor_pen": 5,
-    "crit_damage": 1.69
+    "crit_damage": 0.5,
+    "crit_rate": 55,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_045",
@@ -2684,8 +2844,10 @@
     "_source": "nonebot",
     "_source_id": "7097",
     "weapon_category": "剑",
-    "atk_bonus": 0.2,
-    "crit_rate": 8
+    "atk_bonus": 0.55,
+    "crit_rate": 10,
+    "crit_damage": 0.4,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_046",
@@ -2704,8 +2866,11 @@
     "_source": "nonebot",
     "_source_id": "11001",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "double_hit": 5
+    "atk_bonus": 0.6,
+    "double_hit": 5,
+    "crit_rate": 10,
+    "crit_damage": 0.4,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_047",
@@ -2724,8 +2889,10 @@
     "_source": "nonebot",
     "_source_id": "11002",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_damage": 2.18
+    "atk_bonus": 0.0,
+    "crit_damage": 0.45,
+    "crit_rate": 65,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_048",
@@ -2744,8 +2911,11 @@
     "_source": "nonebot",
     "_source_id": "11003",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "lifesteal": 4
+    "atk_bonus": 0.2,
+    "lifesteal": 4,
+    "crit_rate": 50,
+    "crit_damage": 0.4,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_049",
@@ -2764,9 +2934,10 @@
     "_source": "nonebot",
     "_source_id": "11004",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_damage": 1.87,
-    "crit_rate": 12
+    "atk_bonus": 0.4,
+    "crit_damage": 0.7,
+    "crit_rate": 30,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_050",
@@ -2785,8 +2956,11 @@
     "_source": "nonebot",
     "_source_id": "11005",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "armor_pen": 5
+    "atk_bonus": 0.6,
+    "armor_pen": 5,
+    "crit_rate": 10,
+    "crit_damage": 0.4,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_051",
@@ -2805,8 +2979,10 @@
     "_source": "nonebot",
     "_source_id": "11006",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_damage": 1.89
+    "atk_bonus": 0.0,
+    "crit_damage": 0.5,
+    "crit_rate": 60,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_052",
@@ -2825,9 +3001,11 @@
     "_source": "nonebot",
     "_source_id": "11007",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_damage": 1.82,
-    "lifesteal": 4
+    "atk_bonus": 0.6,
+    "crit_damage": 0.4,
+    "lifesteal": 4,
+    "crit_rate": 10,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_053",
@@ -2846,8 +3024,11 @@
     "_source": "nonebot",
     "_source_id": "11008",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "lifesteal": 3
+    "atk_bonus": 0.5,
+    "lifesteal": 3,
+    "crit_rate": 15,
+    "crit_damage": 0.2,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_054",
@@ -2866,8 +3047,10 @@
     "_source": "nonebot",
     "_source_id": "11009",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_rate": 8
+    "atk_bonus": 0.0,
+    "crit_rate": 65,
+    "crit_damage": 0.45,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_055",
@@ -2886,9 +3069,11 @@
     "_source": "nonebot",
     "_source_id": "11010",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_damage": 1.89,
-    "double_hit": 6
+    "atk_bonus": 0.3,
+    "crit_damage": 0.4,
+    "double_hit": 6,
+    "crit_rate": 50,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_056",
@@ -2907,9 +3092,10 @@
     "_source": "nonebot",
     "_source_id": "11011",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_damage": 2.07,
-    "crit_rate": 8
+    "atk_bonus": 0.0,
+    "crit_damage": 0.4,
+    "crit_rate": 70,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_057",
@@ -2928,9 +3114,12 @@
     "_source": "nonebot",
     "_source_id": "11012",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
+    "atk_bonus": 0.7,
     "lifesteal": 4,
-    "armor_pen": 5
+    "armor_pen": 5,
+    "crit_rate": 40,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_058",
@@ -2949,8 +3138,11 @@
     "_source": "nonebot",
     "_source_id": "11013",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "double_hit": 3
+    "atk_bonus": 0.7,
+    "double_hit": 3,
+    "crit_rate": 40,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_059",
@@ -2969,8 +3161,10 @@
     "_source": "nonebot",
     "_source_id": "11014",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_damage": 1.92
+    "atk_bonus": 0.7,
+    "crit_damage": 0.0,
+    "crit_rate": 40,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_060",
@@ -2989,8 +3183,10 @@
     "_source": "nonebot",
     "_source_id": "7098",
     "weapon_category": "剑",
-    "atk_bonus": 0.2,
-    "crit_rate": 8
+    "atk_bonus": 0.3,
+    "crit_rate": -100,
+    "crit_damage": 2.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_061",
@@ -3009,9 +3205,12 @@
     "_source": "nonebot",
     "_source_id": "7099",
     "weapon_category": "剑",
-    "atk_bonus": 0.2,
+    "atk_bonus": 0.0,
     "lifesteal": 4,
-    "armor_pen": 5
+    "armor_pen": 5,
+    "crit_rate": 100,
+    "crit_damage": -0.75,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_062",
@@ -3030,8 +3229,11 @@
     "_source": "nonebot",
     "_source_id": "13001",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "lifesteal": 3
+    "atk_bonus": 0.4,
+    "lifesteal": 3,
+    "crit_rate": 70,
+    "crit_damage": 0.5,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_063",
@@ -3050,9 +3252,12 @@
     "_source": "nonebot",
     "_source_id": "13002",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
+    "atk_bonus": 0.4,
     "armor_pen": 5,
-    "double_hit": 5
+    "double_hit": 5,
+    "crit_rate": 60,
+    "crit_damage": 0.7,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_064",
@@ -3071,8 +3276,11 @@
     "_source": "nonebot",
     "_source_id": "13003",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "armor_pen": 6
+    "atk_bonus": 0.7,
+    "armor_pen": 6,
+    "crit_rate": 20,
+    "crit_damage": 0.2,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_065",
@@ -3091,9 +3299,11 @@
     "_source": "nonebot",
     "_source_id": "13004",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_damage": 1.98,
-    "armor_pen": 6
+    "atk_bonus": 0.6,
+    "crit_damage": 0.6,
+    "armor_pen": 6,
+    "crit_rate": 50,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_066",
@@ -3112,8 +3322,11 @@
     "_source": "nonebot",
     "_source_id": "8000",
     "weapon_category": "剑",
-    "atk_bonus": 0.2,
-    "lifesteal": 2
+    "atk_bonus": 0.4,
+    "lifesteal": 2,
+    "crit_rate": 70,
+    "crit_damage": 0.75,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_067",
@@ -3132,8 +3345,10 @@
     "_source": "nonebot",
     "_source_id": "7090",
     "weapon_category": "剑",
-    "atk_bonus": 0.2,
-    "crit_damage": 1.79
+    "atk_bonus": 0.1,
+    "crit_damage": 0.0,
+    "crit_rate": 10,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_068",
@@ -3152,9 +3367,11 @@
     "_source": "nonebot",
     "_source_id": "7094",
     "weapon_category": "剑",
-    "atk_bonus": 0.2,
+    "atk_bonus": 0.7,
     "lifesteal": 3,
-    "crit_damage": 1.73
+    "crit_damage": 0.2,
+    "crit_rate": 20,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_069",
@@ -3173,9 +3390,10 @@
     "_source": "nonebot",
     "_source_id": "7084",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_rate": 12,
-    "crit_damage": 1.88
+    "atk_bonus": 0.7,
+    "crit_rate": 60,
+    "crit_damage": 1.25,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_070",
@@ -3194,8 +3412,10 @@
     "_source": "nonebot",
     "_source_id": "7085",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_rate": 7
+    "atk_bonus": 1.0,
+    "crit_rate": 50,
+    "crit_damage": 0.5,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_071",
@@ -3214,8 +3434,11 @@
     "_source": "nonebot",
     "_source_id": "15453",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "armor_pen": 6
+    "atk_bonus": 0.6,
+    "armor_pen": 6,
+    "crit_rate": 50,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_072",
@@ -3234,8 +3457,11 @@
     "_source": "nonebot",
     "_source_id": "15454",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "armor_pen": 5
+    "atk_bonus": 0.0,
+    "armor_pen": 5,
+    "crit_rate": 50,
+    "crit_damage": 0.5,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_073",
@@ -3254,9 +3480,11 @@
     "_source": "nonebot",
     "_source_id": "15455",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
+    "atk_bonus": 0.0,
     "armor_pen": 9,
-    "crit_damage": 1.96
+    "crit_damage": 0.5,
+    "crit_rate": 50,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_074",
@@ -3275,9 +3503,11 @@
     "_source": "nonebot",
     "_source_id": "15456",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
+    "atk_bonus": 0.7,
     "double_hit": 3,
-    "crit_rate": 8
+    "crit_rate": 50,
+    "crit_damage": 1.0,
+    "mp_bonus": 0.7
   },
   {
     "id": "sword_075",
@@ -3296,9 +3526,12 @@
     "_source": "nonebot",
     "_source_id": "15457",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
+    "atk_bonus": 0.0,
     "armor_pen": 8,
-    "lifesteal": 3
+    "lifesteal": 3,
+    "crit_rate": 50,
+    "crit_damage": 0.5,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_076",
@@ -3317,8 +3550,10 @@
     "_source": "nonebot",
     "_source_id": "15458",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_rate": 10
+    "atk_bonus": 0.0,
+    "crit_rate": 50,
+    "crit_damage": 0.5,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_077",
@@ -3337,8 +3572,11 @@
     "_source": "nonebot",
     "_source_id": "15459",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "lifesteal": 6
+    "atk_bonus": 0.5,
+    "lifesteal": 6,
+    "crit_rate": 50,
+    "crit_damage": 0.6,
+    "mp_bonus": 0.3
   },
   {
     "id": "sword_078",
@@ -3357,9 +3595,11 @@
     "_source": "nonebot",
     "_source_id": "15460",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_damage": 1.95,
-    "double_hit": 6
+    "atk_bonus": 0.7,
+    "crit_damage": 0.6,
+    "double_hit": 6,
+    "crit_rate": 60,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_079",
@@ -3378,8 +3618,10 @@
     "_source": "nonebot",
     "_source_id": "15461",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_damage": 2.17
+    "atk_bonus": 0.7,
+    "crit_damage": 0.0,
+    "crit_rate": 60,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_080",
@@ -3398,9 +3640,10 @@
     "_source": "nonebot",
     "_source_id": "15462",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_damage": 1.87,
-    "crit_rate": 8
+    "atk_bonus": 0.7,
+    "crit_damage": 0.6,
+    "crit_rate": 60,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_081",
@@ -3419,9 +3662,11 @@
     "_source": "nonebot",
     "_source_id": "15463",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_damage": 2.13,
-    "lifesteal": 3
+    "atk_bonus": 1.0,
+    "crit_damage": 0.0,
+    "lifesteal": 3,
+    "crit_rate": 0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_082",
@@ -3440,8 +3685,10 @@
     "_source": "nonebot",
     "_source_id": "15464",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
-    "crit_rate": 12
+    "atk_bonus": 1.0,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_083",
@@ -3460,9 +3707,11 @@
     "_source": "nonebot",
     "_source_id": "15465",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
+    "atk_bonus": 0.5,
     "armor_pen": 8,
-    "crit_rate": 8
+    "crit_rate": 80,
+    "crit_damage": 0.8,
+    "mp_bonus": 0.0
   },
   {
     "id": "sword_084",
@@ -3481,9 +3730,12 @@
     "_source": "nonebot",
     "_source_id": "15466",
     "weapon_category": "剑",
-    "atk_bonus": 0.25,
+    "atk_bonus": 1.0,
     "double_hit": 3,
-    "armor_pen": 7
+    "armor_pen": 7,
+    "crit_rate": 100,
+    "crit_damage": 1.0,
+    "mp_bonus": 1.0
   },
   {
     "id": "sword_085",
@@ -5241,7 +5493,7 @@
     "_source_id": "15502",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_damage": 1.94
+    "crit_damage": 0.94
   },
   {
     "id": "sword_183",
@@ -5261,7 +5513,7 @@
     "_source_id": "15503",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_damage": 2.19
+    "crit_damage": 1.19
   },
   {
     "id": "sword_184",
@@ -5282,7 +5534,7 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "lifesteal": 4,
-    "crit_damage": 1.98
+    "crit_damage": 0.98
   },
   {
     "id": "sword_185",
@@ -5322,7 +5574,7 @@
     "_source_id": "15506",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_damage": 2.1,
+    "crit_damage": 1.1,
     "crit_rate": 8
   },
   {
@@ -5361,7 +5613,7 @@
     "_source_id": "15508",
     "weapon_category": "剑",
     "atk_bonus": 0.25,
-    "crit_damage": 2.11
+    "crit_damage": 1.11
   },
   {
     "id": "sword_189",
