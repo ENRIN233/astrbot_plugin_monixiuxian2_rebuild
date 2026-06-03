@@ -1,0 +1,112 @@
+
+=== 人阶下品 (5, avg_atk=0.03) ===
+  crit_buff: 0/5 have it, values=[]
+  critatk:   0/5 have it, values=[]
+  def_buff:  0/5 have it, values=[]
+  two_buff:  0/5 have it
+
+=== 人阶上品 (6, avg_atk=0.07) ===
+  crit_buff: 0/6 have it, values=[]
+  critatk:   0/6 have it, values=[]
+  def_buff:  0/6 have it, values=[]
+  two_buff:  0/6 have it
+
+=== 黄阶上品 (4, avg_atk=0.10) ===
+  crit_buff: 0/4 have it, values=[]
+  critatk:   0/4 have it, values=[]
+  def_buff:  0/4 have it, values=[]
+  two_buff:  0/4 have it
+
+=== 黄阶下品 (3, avg_atk=0.10) ===
+  crit_buff: 0/3 have it, values=[]
+  critatk:   0/3 have it, values=[]
+  def_buff:  0/3 have it, values=[]
+  two_buff:  0/3 have it
+
+=== 玄阶下品 (5, avg_atk=0.19) ===
+  crit_buff: 0/5 have it, values=[]
+  critatk:   0/5 have it, values=[]
+  def_buff:  0/5 have it, values=[]
+  two_buff:  0/5 have it
+
+=== 玄阶上品 (5, avg_atk=0.20) ===
+  crit_buff: 0/5 have it, values=[]
+  critatk:   0/5 have it, values=[]
+  def_buff:  0/5 have it, values=[]
+  two_buff:  0/5 have it
+
+=== 地阶下品 (5, avg_atk=0.20) ===
+  crit_buff: 0/5 have it, values=[]
+  critatk:   0/5 have it, values=[]
+  def_buff:  0/5 have it, values=[]
+  two_buff:  0/5 have it
+
+=== 地阶上品 (5, avg_atk=0.38) ===
+  crit_buff: 0/5 have it, values=[]
+  critatk:   0/5 have it, values=[]
+  def_buff:  0/5 have it, values=[]
+  two_buff:  0/5 have it
+
+=== 天阶下品 (5, avg_atk=0.48) ===
+  crit_buff: 0/5 have it, values=[]
+  critatk:   0/5 have it, values=[]
+  def_buff:  0/5 have it, values=[]
+  two_buff:  0/5 have it
+
+=== 天阶上品 (7, avg_atk=0.71) ===
+  crit_buff: 0/7 have it, values=[]
+  critatk:   0/7 have it, values=[]
+  def_buff:  0/7 have it, values=[]
+  two_buff:  0/7 have it
+
+=== 仙阶下品 (3, avg_atk=0.75) ===
+  crit_buff: 2/3 have it, values=[0.05, 0.2]
+  critatk:   2/3 have it, values=[0.1, 0.5]
+  def_buff:  1/3 have it, values=[0.05]
+  two_buff:  1/3 have it
+    元磁神光: crit=0.05, cd=0.1, def=0.05, two=1
+    天罗真功: crit=0.2, cd=0.5
+
+=== 仙阶上品 (6, avg_atk=0.95) ===
+  crit_buff: 4/6 have it, values=[0.1, 0.15]
+  critatk:   3/6 have it, values=[0.2, 0.25, 0.35]
+  def_buff:  5/6 have it, values=[0.01, 0.05, 0.08, 0.1]
+  two_buff:  3/6 have it
+    吞天魔功: crit=0.1, def=0.05
+    不灭天功: crit=0.15, cd=0.2, def=0.01
+    无始经: crit=0.1, cd=0.25
+    度难医经: def=0.1, two=1
+    紫阳天书: def=0.1, two=3
+    金璇波纹功: crit=0.1, cd=0.35, def=0.08, two=2
+
+=== 仙阶极品 (7, avg_atk=1.53) ===
+  crit_buff: 4/7 have it, values=[0.2, 0.4]
+  critatk:   4/7 have it, values=[0.2, 0.3, 0.45]
+  def_buff:  5/7 have it, values=[0.05, 0.1, 0.15, 0.2]
+  two_buff:  4/7 have it
+    三丰丹经: def=0.1
+    道师符经: crit=0.4, cd=0.2
+    洞玄仙篆: cd=0.3, def=0.2
+    离尘仙法: def=0.15, two=3
+    万魔渡: crit=0.2, cd=0.3, def=0.1, two=5
+    两仪心经: crit=0.2, two=7
+    风神诀: crit=0.2, cd=0.45, def=0.05, two=2
+
+=== 无上仙法 (13, avg_atk=2.25) ===
+  crit_buff: 9/13 have it, values=[0.1, 0.2, 0.25, 0.3, 1]
+  critatk:   11/13 have it, values=[0.2, 0.3, 0.5, 0.7, 1.25]
+  def_buff:  9/13 have it, values=[0.15, 0.2, 0.25]
+  two_buff:  13/13 have it
+    神合大法: cd=0.2, two=13
+    渡劫天功: cd=0.2, def=0.2, two=5
+    混沌经: crit=0.2, cd=0.5, def=0.2, two=5
+    太清丹经: def=0.25, two=6
+    天地玄功: cd=0.5, def=0.25, two=5
+    自在天功: crit=0.1, def=0.15, two=5
+    太乙神功: crit=1, cd=0.5, def=0.2, two=5
+    八九玄功: crit=0.2, cd=0.5, def=0.15, two=5
+    无始仙经: crit=0.2, cd=0.7, two=7
+    暗渊灭世功: crit=0.25, cd=0.7, def=0.15, two=5
+    轮回诀: crit=0.1, cd=0.3, def=0.25, two=5
+    弑仙魔典: crit=0.2, cd=1.25, two=5
+    一气化三清: crit=0.3, cd=0.7, two=9
