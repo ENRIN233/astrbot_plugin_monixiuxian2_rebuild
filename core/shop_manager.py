@@ -509,7 +509,7 @@ class ShopManager:
             if data.get('breakthrough_bonus', 0) > 0:
                 effects.append(f"突破+{int(data['breakthrough_bonus']*100)}%")
             if data.get('atk_bonus', 0) > 0:
-                effects.append(f"攻击+{data['atk_bonus']}")
+                effects.append(f"攻击+{data['atk_bonus']:.0%}")
             if data.get('hp_bonus', 0) > 0:
                 effects.append(f"生命+{int(data['hp_bonus']*100)}%")
             if data.get('mp_bonus', 0) > 0:
@@ -612,7 +612,7 @@ class ShopManager:
             if data.get('breakthrough_bonus', 0) > 0:
                 attrs.append(f"突破成功率+{data['breakthrough_bonus']:.1%}")
             if data.get('atk_bonus', 0) > 0:
-                attrs.append(f"攻击力+{data['atk_bonus']}")
+                attrs.append(f"攻击力+{data['atk_bonus']:.0%}")
             if data.get('hp_bonus', 0) > 0:
                 attrs.append(f"生命值+{data['hp_bonus']:.1%}")
             if data.get('mp_bonus', 0) > 0:
@@ -769,7 +769,7 @@ class ShopManager:
             if data.get('breakthrough_bonus', 0) > 0:
                 attrs.append(f"突破成功率+{data['breakthrough_bonus']:.1%}")
             if data.get('atk_bonus', 0) > 0:
-                attrs.append(f"攻击力+{data['atk_bonus']}")
+                attrs.append(f"攻击力+{data['atk_bonus']:.0%}")
             if data.get('hp_bonus', 0) > 0:
                 attrs.append(f"生命值+{data['hp_bonus']:.1%}")
             if data.get('mp_bonus', 0) > 0:

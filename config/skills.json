@@ -12,6 +12,7 @@
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
+      1.2,
       1.2
     ]
   },
@@ -19,7 +20,7 @@
     "name": "崩岩术",
     "skill_type": 1,
     "hpcost": 0,
-    "mpcost": 0.4,
+    "mpcost": 0.3,
     "turncost": 0,
     "rate": 50,
     "rank": "凡品",
@@ -28,14 +29,14 @@
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
-      1.3
+      2.4
     ]
   },
   "坤元金印": {
     "name": "坤元金印",
     "skill_type": 2,
     "hpcost": 0,
-    "mpcost": 0.8,
+    "mpcost": 0.3,
     "turncost": 3,
     "rate": 100,
     "rank": "凡品",
@@ -50,7 +51,7 @@
     "name": "云涟剑法",
     "skill_type": 3,
     "hpcost": 0,
-    "mpcost": 0.8,
+    "mpcost": 0.3,
     "turncost": 3,
     "rate": 100,
     "rank": "凡品",
@@ -65,7 +66,7 @@
     "name": "气劲",
     "skill_type": 3,
     "hpcost": 0,
-    "mpcost": 0.6,
+    "mpcost": 0.3,
     "turncost": 2,
     "rate": 100,
     "rank": "凡品",
@@ -80,7 +81,7 @@
     "name": "化尘剑法",
     "skill_type": 1,
     "hpcost": 0.1,
-    "mpcost": 0.5,
+    "mpcost": 0.3,
     "turncost": 1,
     "rate": 100,
     "rank": "灵品",
@@ -90,7 +91,7 @@
     "shop_weight": 0,
     "atkvalue": [
       1.3,
-      0.2
+      1.3
     ]
   },
   "三昧真火": {
@@ -106,14 +107,14 @@
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
-      1.6
+      2.6
     ]
   },
   "截脉": {
     "name": "截脉",
     "skill_type": 2,
     "hpcost": 0,
-    "mpcost": 0.6,
+    "mpcost": 0.3,
     "turncost": 3,
     "rate": 100,
     "rank": "灵品",
@@ -128,7 +129,7 @@
     "name": "灵息术",
     "skill_type": 3,
     "hpcost": 0,
-    "mpcost": 0.6,
+    "mpcost": 0.3,
     "turncost": 3,
     "rate": 100,
     "rank": "灵品",
@@ -143,7 +144,7 @@
     "name": "真气盾",
     "skill_type": 3,
     "hpcost": 0,
-    "mpcost": 0.6,
+    "mpcost": 0.3,
     "turncost": 2,
     "rate": 100,
     "rank": "灵品",
@@ -168,7 +169,7 @@
     "shop_weight": 0,
     "atkvalue": [
       1.4,
-      0.4
+      1.4
     ]
   },
   "散锋诀": {
@@ -184,14 +185,14 @@
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
-      2.1
+      2.8
     ]
   },
   "玄光印": {
     "name": "玄光印",
     "skill_type": 2,
     "hpcost": 0,
-    "mpcost": 0.4,
+    "mpcost": 0.3,
     "turncost": 3,
     "rate": 100,
     "rank": "地品",
@@ -206,7 +207,7 @@
     "name": "凝剑",
     "skill_type": 3,
     "hpcost": 0,
-    "mpcost": 0.4,
+    "mpcost": 0.3,
     "turncost": 3,
     "rate": 100,
     "rank": "地品",
@@ -235,8 +236,8 @@
   "五毒摄魂阵": {
     "name": "五毒摄魂阵",
     "skill_type": 1,
-    "hpcost": 0.05,
-    "mpcost": 0.4,
+    "hpcost": 0.1,
+    "mpcost": 0.3,
     "turncost": 0,
     "rate": 100,
     "rank": "天品",
@@ -246,7 +247,7 @@
     "shop_weight": 0,
     "atkvalue": [
       1.5,
-      1.2
+      1.5
     ]
   },
   "矢神刺": {
@@ -262,14 +263,14 @@
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
-      2.4
+      3
     ]
   },
   "摧血掌": {
     "name": "摧血掌",
     "skill_type": 2,
     "hpcost": 0,
-    "mpcost": 0.6,
+    "mpcost": 0.3,
     "turncost": 3,
     "rate": 100,
     "rank": "天品",
@@ -277,14 +278,14 @@
     "desc": "吔屎啦！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 1.0,
+    "atkvalue": 0.5,
     "dot_turns": 5
   },
   "归元剑气": {
     "name": "归元剑气",
     "skill_type": 3,
     "hpcost": 0,
-    "mpcost": 0.5,
+    "mpcost": 0.3,
     "turncost": 3,
     "rate": 100,
     "rank": "天品",
@@ -293,7 +294,7 @@
     "price": 0,
     "shop_weight": 0,
     "bufftype": 1,
-    "buffvalue": 0.75
+    "buffvalue": 0.5
   },
   "灵光盾": {
     "name": "灵光盾",
@@ -313,9 +314,9 @@
   "降魔锁骨阵": {
     "name": "降魔锁骨阵",
     "skill_type": 1,
-    "hpcost": 0,
+    "hpcost": 0.1,
     "mpcost": 0.3,
-    "turncost": 0,
+    "turncost": 1,
     "rate": 100,
     "rank": "皇品",
     "required_level_index": 90,
@@ -324,14 +325,14 @@
     "shop_weight": 0,
     "atkvalue": [
       1.6,
-      1.2
+      1.6
     ]
   },
   "鹤喙针": {
     "name": "鹤喙针",
     "skill_type": 1,
     "hpcost": 0,
-    "mpcost": 0.4,
+    "mpcost": 0.3,
     "turncost": 0,
     "rate": 50,
     "rank": "皇品",
@@ -340,14 +341,14 @@
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
-      3
+      3.2
     ]
   },
   "祭血罩": {
     "name": "祭血罩",
     "skill_type": 2,
     "hpcost": 0.05,
-    "mpcost": 0.6,
+    "mpcost": 0.3,
     "turncost": 10,
     "rate": 100,
     "rank": "皇品",
@@ -355,14 +356,14 @@
     "desc": "化血为攻！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 1.2,
+    "atkvalue": 0.54,
     "dot_turns": 12
   },
   "分金印": {
     "name": "分金印",
     "skill_type": 3,
     "hpcost": 0,
-    "mpcost": 0.4,
+    "mpcost": 0.3,
     "turncost": 3,
     "rate": 100,
     "rank": "皇品",
@@ -371,13 +372,13 @@
     "price": 0,
     "shop_weight": 0,
     "bufftype": 1,
-    "buffvalue": 1.44
+    "buffvalue": 0.54
   },
   "灵气护盾": {
     "name": "灵气护盾",
     "skill_type": 3,
     "hpcost": 0,
-    "mpcost": 0.5,
+    "mpcost": 0.3,
     "turncost": 2,
     "rate": 100,
     "rank": "皇品",
@@ -386,7 +387,7 @@
     "price": 0,
     "shop_weight": 0,
     "bufftype": 2,
-    "buffvalue": 0.2
+    "buffvalue": 0.25
   },
   "苍云荫月": {
     "name": "苍云荫月",
@@ -402,14 +403,14 @@
     "shop_weight": 0,
     "atkvalue": [
       1.7,
-      1.3
+      1.7
     ]
   },
   "寸芒": {
     "name": "寸芒",
     "skill_type": 1,
     "hpcost": 0,
-    "mpcost": 0.4,
+    "mpcost": 0.3,
     "turncost": 0,
     "rate": 50,
     "rank": "帝品",
@@ -418,14 +419,14 @@
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
-      3.1
+      3.4
     ]
   },
   "月华流照": {
     "name": "月华流照",
     "skill_type": 2,
     "hpcost": 0,
-    "mpcost": 0.6,
+    "mpcost": 0.3,
     "turncost": 3,
     "rate": 100,
     "rank": "帝品",
@@ -433,14 +434,14 @@
     "desc": "月华流照！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 1.8,
+    "atkvalue": 0.57,
     "dot_turns": 5
   },
   "九转游身剑": {
     "name": "九转游身剑",
     "skill_type": 3,
     "hpcost": 0,
-    "mpcost": 0.6,
+    "mpcost": 0.2,
     "turncost": 5,
     "rate": 100,
     "rank": "帝品",
@@ -449,7 +450,7 @@
     "price": 0,
     "shop_weight": 0,
     "bufftype": 1,
-    "buffvalue": 2.2
+    "buffvalue": 1.3
   },
   "金刚护罩": {
     "name": "金刚护罩",
@@ -457,21 +458,21 @@
     "hpcost": 0,
     "mpcost": 0.5,
     "turncost": 2,
-    "rate": 100,
+    "rate": 50,
     "rank": "帝品",
     "required_level_index": 102,
     "desc": "坚不可摧！",
     "price": 0,
     "shop_weight": 0,
     "bufftype": 2,
-    "buffvalue": 0.25
+    "buffvalue": 0.3
   },
   "开山诀": {
     "name": "开山诀",
     "skill_type": 1,
     "hpcost": 0.1,
     "mpcost": 0.3,
-    "turncost": 0,
+    "turncost": 1,
     "rate": 100,
     "rank": "道品",
     "required_level_index": 103,
@@ -480,14 +481,14 @@
     "shop_weight": 0,
     "atkvalue": [
       1.8,
-      1.2
+      1.8
     ]
   },
   "离火绝炎": {
     "name": "离火绝炎",
     "skill_type": 1,
     "hpcost": 0,
-    "mpcost": 0.4,
+    "mpcost": 0.3,
     "turncost": 0,
     "rate": 50,
     "rank": "道品",
@@ -496,14 +497,14 @@
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
-      3.2
+      3.6
     ]
   },
   "凝水归流": {
     "name": "凝水归流",
     "skill_type": 2,
     "hpcost": 0,
-    "mpcost": 0.6,
+    "mpcost": 0.3,
     "turncost": 3,
     "rate": 100,
     "rank": "道品",
@@ -511,14 +512,14 @@
     "desc": "灵机凝水，万法归流！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 2.3,
+    "atkvalue": 0.6,
     "dot_turns": 5
   },
   "五行颠倒术": {
     "name": "五行颠倒术",
     "skill_type": 3,
     "hpcost": 0,
-    "mpcost": 0.7,
+    "mpcost": 0.3,
     "turncost": 3,
     "rate": 100,
     "rank": "道品",
@@ -527,7 +528,7 @@
     "price": 0,
     "shop_weight": 0,
     "bufftype": 1,
-    "buffvalue": 3.3
+    "buffvalue": 0.6
   },
   "化甲术": {
     "name": "化甲术",
@@ -535,14 +536,14 @@
     "hpcost": 0,
     "mpcost": 0.5,
     "turncost": 2,
-    "rate": 100,
+    "rate": 50,
     "rank": "道品",
     "required_level_index": 108,
     "desc": "真气化甲！",
     "price": 0,
     "shop_weight": 0,
     "bufftype": 2,
-    "buffvalue": 0.28
+    "buffvalue": 0.35
   },
   "怒水天殇": {
     "name": "怒水天殇",
@@ -558,7 +559,7 @@
     "shop_weight": 0,
     "atkvalue": [
       1.9,
-      1.3
+      1.9
     ]
   },
   "炙炎轮回": {
@@ -574,14 +575,14 @@
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
-      3.5
+      3.8
     ]
   },
   "血魂煞": {
     "name": "血魂煞",
     "skill_type": 2,
     "hpcost": 0,
-    "mpcost": 0.6,
+    "mpcost": 0.3,
     "turncost": 3,
     "rate": 100,
     "rank": "仙品",
@@ -589,14 +590,14 @@
     "desc": "血魂化煞，缠身！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 2.4,
+    "atkvalue": 0.64,
     "dot_turns": 5
   },
   "万剑诀": {
     "name": "万剑诀",
     "skill_type": 3,
     "hpcost": 0,
-    "mpcost": 0.7,
+    "mpcost": 0.3,
     "turncost": 3,
     "rate": 100,
     "rank": "仙品",
@@ -605,7 +606,7 @@
     "price": 0,
     "shop_weight": 0,
     "bufftype": 1,
-    "buffvalue": 3.4
+    "buffvalue": 0.64
   },
   "天光盾": {
     "name": "天光盾",
@@ -613,21 +614,21 @@
     "hpcost": 0,
     "mpcost": 0.6,
     "turncost": 2,
-    "rate": 100,
+    "rate": 50,
     "rank": "仙品",
     "required_level_index": 115,
     "desc": "盾来！",
     "price": 0,
     "shop_weight": 0,
     "bufftype": 2,
-    "buffvalue": 0.3
+    "buffvalue": 0.4
   },
   "天星若雨": {
     "name": "天星若雨",
     "skill_type": 1,
-    "hpcost": 0.05,
+    "hpcost": 0.1,
     "mpcost": 0.3,
-    "turncost": 0,
+    "turncost": 1,
     "rate": 100,
     "rank": "仙品",
     "required_level_index": 116,
@@ -636,7 +637,7 @@
     "shop_weight": 0,
     "atkvalue": [
       2,
-      1.8
+      2
     ]
   },
   "金虹贯日": {
@@ -652,14 +653,14 @@
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
-      3.8
+      4
     ]
   },
   "都天烈火仙阵": {
     "name": "都天烈火仙阵",
     "skill_type": 2,
     "hpcost": 0,
-    "mpcost": 0.7,
+    "mpcost": 0.3,
     "turncost": 3,
     "rate": 100,
     "rank": "仙品",
@@ -667,14 +668,14 @@
     "desc": "都天烈火，化阵！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 2.67,
+    "atkvalue": 0.67,
     "dot_turns": 5
   },
   "星微神灭诀": {
     "name": "星微神灭诀",
     "skill_type": 3,
     "hpcost": 0,
-    "mpcost": 0.7,
+    "mpcost": 0.3,
     "turncost": 3,
     "rate": 100,
     "rank": "仙品",
@@ -683,7 +684,7 @@
     "price": 0,
     "shop_weight": 0,
     "bufftype": 1,
-    "buffvalue": 3.67
+    "buffvalue": 0.67
   },
   "人盾合一": {
     "name": "人盾合一",
@@ -691,21 +692,21 @@
     "hpcost": 0,
     "mpcost": 0.6,
     "turncost": 2,
-    "rate": 100,
+    "rate": 50,
     "rank": "仙品",
     "required_level_index": 116,
     "desc": "!",
     "price": 0,
     "shop_weight": 0,
     "bufftype": 2,
-    "buffvalue": 0.35
+    "buffvalue": 0.45
   },
   "横扫千军": {
     "name": "横扫千军",
     "skill_type": 1,
-    "hpcost": 0.06,
+    "hpcost": 0.1,
     "mpcost": 0.5,
-    "turncost": 0,
+    "turncost": 1,
     "rate": 100,
     "rank": "仙品",
     "required_level_index": 116,
@@ -713,8 +714,8 @@
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
-      1,
-      1.1,
+      1.6,
+      1.7,
       1.8
     ]
   },
@@ -738,7 +739,7 @@
     "name": "凤灵妖火",
     "skill_type": 2,
     "hpcost": 0,
-    "mpcost": 0.6,
+    "mpcost": 0.5,
     "turncost": 3,
     "rate": 100,
     "rank": "仙品",
@@ -746,7 +747,7 @@
     "desc": "凤灵化身，妖火焚尽！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 4.0,
+    "atkvalue": 2.0,
     "dot_turns": 5
   },
   "灵光护体术": {
@@ -755,36 +756,36 @@
     "hpcost": 0,
     "mpcost": 0.65,
     "turncost": 2,
-    "rate": 100,
+    "rate": 50,
     "rank": "仙品",
     "required_level_index": 118,
     "desc": "!",
     "price": 0,
     "shop_weight": 0,
     "bufftype": 2,
-    "buffvalue": 0.4
+    "buffvalue": 0.5
   },
   "日月乾坤": {
     "name": "日月乾坤",
     "skill_type": 4,
     "hpcost": 0,
     "mpcost": 0.3,
-    "turncost": 2,
-    "rate": 60,
+    "turncost": 3,
+    "rate": 50,
     "rank": "仙品",
     "required_level_index": 118,
     "desc": "日月斗转，乾坤封禁！",
     "price": 0,
     "shop_weight": 0,
-    "success": 80
+    "success": 100
   },
   "雷霆十闪": {
     "name": "雷霆十闪",
     "skill_type": 1,
-    "hpcost": 0.05,
+    "hpcost": 0.2,
     "mpcost": 0.4,
     "turncost": 0,
-    "rate": 90,
+    "rate": 70,
     "rank": "仙品",
     "required_level_index": 118,
     "desc": "雷霆，极意，闪，闪，闪，闪，闪，闪，闪，闪，闪，闪！",
@@ -796,11 +797,11 @@
       0.3,
       0.4,
       0.5,
+      0.6,
       0.7,
       0.8,
-      0.4,
-      0.4,
-      0.1
+      0.9,
+      1.0
     ]
   },
   "大吞焰术": {
@@ -809,45 +810,46 @@
     "hpcost": 0,
     "mpcost": 0.6,
     "turncost": 4,
-    "rate": 100,
+    "rate": 60,
     "rank": "仙品",
     "required_level_index": 118,
     "desc": "焰光破万障，术法显神通。大吞之威，火舞长空，吞焰熔魂，绝火随身！",
     "price": 0,
     "shop_weight": 0,
     "bufftype": 1,
-    "buffvalue": 3.5
+    "buffvalue": 1.8
   },
   "天地同寿": {
     "name": "天地同寿",
     "skill_type": 1,
-    "hpcost": 0.3,
+    "hpcost": 0.5,
     "mpcost": 0.5,
-    "turncost": 0,
-    "rate": 80,
+    "turncost": 5,
+    "rate": 20,
     "rank": "仙品",
     "required_level_index": 118,
     "desc": "天地同寿，浩气长存。灵韵交融，威力无垠。与天共契，与地同存，天地一瞬，须臾同寿！",
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
-      7.5
+      15.5
     ]
   },
   "大罗仙印": {
     "name": "大罗仙印",
     "skill_type": 1,
-    "hpcost": 0.05,
+    "hpcost": 0.1,
     "mpcost": 0.7,
     "turncost": 0,
-    "rate": 90,
+    "rate": 80,
     "rank": "仙品",
     "required_level_index": 118,
     "desc": "大罗神威，仙印翻天！",
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
-      1.6,
+      1.0,
+      2.0,
       2.5
     ]
   },
@@ -856,14 +858,14 @@
     "skill_type": 4,
     "hpcost": 0.1,
     "mpcost": 1.0,
-    "turncost": 2,
+    "turncost": 5,
     "rate": 80,
     "rank": "仙品",
     "required_level_index": 118,
     "desc": "神力聚于刃，斩邪破虚妄。封神之路，剑指辉煌，逆转阴阳，一剑封神！！",
     "price": 0,
     "shop_weight": 0,
-    "success": 80
+    "success": 100
   },
   "大荒星陨指": {
     "name": "大荒星陨指",
@@ -871,14 +873,14 @@
     "hpcost": 0.05,
     "mpcost": 0.7,
     "turncost": 0,
-    "rate": 90,
+    "rate": 70,
     "rank": "混元先天",
     "required_level_index": 120,
     "desc": "这一击！贯穿星辰！！",
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
-      4.7
+      6.2
     ]
   },
   "死灭之咒": {
@@ -893,23 +895,23 @@
     "desc": "邪威震八荒。死意凝其中，灭魂不可挡。咒出天地黯，邪力显锋芒！！！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 4.5,
+    "atkvalue": 3.5,
     "dot_turns": 6
   },
   "万剑归宗": {
     "name": "万剑归宗",
     "skill_type": 3,
     "hpcost": 0,
-    "mpcost": 1.65,
+    "mpcost": 0.65,
     "turncost": 4,
-    "rate": 100,
+    "rate": 70,
     "rank": "混元先天",
     "required_level_index": 120,
     "desc": "万剑齐发势，归宗破万邪，剑影舞天地，万剑归一处，宗威展雄风！！！",
     "price": 0,
     "shop_weight": 0,
     "bufftype": 1,
-    "buffvalue": 4.2
+    "buffvalue": 2.3
   },
   "华光猎影": {
     "name": "华光猎影",
@@ -923,7 +925,7 @@
     "desc": "光芒破迷雾，影动迅如狸，华彩映四海，猎势不可欺。光影舞乾坤，威力震天地！！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 4.8,
+    "atkvalue": 4.5,
     "dot_turns": 6
   },
   "灭剑血胧": {
@@ -932,37 +934,37 @@
     "hpcost": 0.03,
     "mpcost": 0.65,
     "turncost": 0,
-    "rate": 85,
+    "rate": 75,
     "rank": "混元先天",
     "required_level_index": 120,
     "desc": "灭剑起锋芒，血胧映寒光，灭威斩虚妄，血影舞疯狂。剑出天地黯，血胧定沧桑！！！！",
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
-      4.9
+      7.5
     ]
   },
   "星宿劫": {
     "name": "星宿劫",
     "skill_type": 1,
     "hpcost": 0,
-    "mpcost": 0.5,
+    "mpcost": 0.4,
     "turncost": 0,
-    "rate": 100,
+    "rate": 90,
     "rank": "混元先天",
     "required_level_index": 132,
     "desc": "寰宇星宿，须臾入劫，万星破灭！！",
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
-      6.5
+      11
     ]
   },
   "苍寰变": {
     "name": "苍寰变",
     "skill_type": 1,
     "hpcost": 0,
-    "mpcost": 0.6,
+    "mpcost": 0.7,
     "turncost": 1,
     "rate": 100,
     "rank": "混元先天",
@@ -971,8 +973,8 @@
     "price": 0,
     "shop_weight": 0,
     "atkvalue": [
-      5.9,
-      5.8
+      6.5,
+      7
     ]
   },
   "一剑灭荒天": {
@@ -1098,7 +1100,7 @@
     "name": "九幽冥焰",
     "skill_type": 2,
     "hpcost": 0,
-    "mpcost": 1.8,
+    "mpcost": 0.5,
     "turncost": 3,
     "rate": 100,
     "rank": "混元先天",
@@ -1106,14 +1108,14 @@
     "desc": "！！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 11.0,
+    "atkvalue": 5.5,
     "dot_turns": 5
   },
   "日月长空": {
     "name": "日月长空",
     "skill_type": 2,
     "hpcost": 0,
-    "mpcost": 2.4,
+    "mpcost": 0.5,
     "turncost": 3,
     "rate": 100,
     "rank": "混元先天",
@@ -1121,7 +1123,7 @@
     "desc": "！！！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 14.0,
+    "atkvalue": 5.5,
     "dot_turns": 5
   },
   "万象归元": {
@@ -1136,7 +1138,7 @@
     "desc": "！！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 9.0,
+    "atkvalue": 5.5,
     "dot_turns": 5
   },
   "紫气东来": {
@@ -1183,5 +1185,132 @@
     "shop_weight": 0,
     "bufftype": 1,
     "buffvalue": 11
+  },
+  "千慄鬼噬": {
+    "name": "千慄鬼噬",
+    "skill_type": 1,
+    "hpcost": 0.03,
+    "mpcost": 0.8,
+    "turncost": 1,
+    "rate": 100,
+    "rank": "混元先天",
+    "required_level_index": 120,
+    "desc": "千慄鬼噬！！！",
+    "price": 0,
+    "shop_weight": 0,
+    "atkvalue": [
+      0.5,
+      1.5,
+      0.2,
+      0.6,
+      1.3,
+      3.9,
+      0.5
+    ]
+  },
+  "紫玄掌": {
+    "name": "紫玄掌",
+    "skill_type": 2,
+    "hpcost": 0,
+    "mpcost": 0.5,
+    "turncost": 4,
+    "rate": 100,
+    "rank": "混元先天",
+    "required_level_index": 139,
+    "desc": "紫玄掌出，碎魂裂魄！",
+    "price": 0,
+    "shop_weight": 0,
+    "atkvalue": 5.5,
+    "dot_turns": 5
+  },
+  "血刹碎乾坤": {
+    "name": "血刹碎乾坤",
+    "skill_type": 2,
+    "hpcost": 0,
+    "mpcost": 0.5,
+    "turncost": 4,
+    "rate": 100,
+    "rank": "混元先天",
+    "required_level_index": 139,
+    "desc": "血刹之力，乾坤碎裂！",
+    "price": 0,
+    "shop_weight": 0,
+    "atkvalue": 5.5,
+    "dot_turns": 5
+  },
+  "无暇七绝剑": {
+    "name": "无暇七绝剑",
+    "skill_type": 2,
+    "hpcost": 0,
+    "mpcost": 0.5,
+    "turncost": 4,
+    "rate": 100,
+    "rank": "混元先天",
+    "required_level_index": 139,
+    "desc": "无暇七绝，剑意通天！",
+    "price": 0,
+    "shop_weight": 0,
+    "atkvalue": 5.5,
+    "dot_turns": 5
+  },
+  "子龙朱雀": {
+    "name": "子龙朱雀",
+    "skill_type": 2,
+    "hpcost": 0,
+    "mpcost": 0.5,
+    "turncost": 4,
+    "rate": 100,
+    "rank": "混元先天",
+    "required_level_index": 139,
+    "desc": "朱雀展翅，烈焰焚天！",
+    "price": 0,
+    "shop_weight": 0,
+    "atkvalue": 5.5,
+    "dot_turns": 5
+  },
+  "天煞震狱功": {
+    "name": "天煞震狱功",
+    "skill_type": 2,
+    "hpcost": 0,
+    "mpcost": 0.5,
+    "turncost": 4,
+    "rate": 100,
+    "rank": "混元先天",
+    "required_level_index": 139,
+    "desc": "天煞震狱，万灵俱灭！",
+    "price": 0,
+    "shop_weight": 0,
+    "atkvalue": 5.5,
+    "dot_turns": 5
+  },
+  "大德琉璃金刚身": {
+    "name": "大德琉璃金刚身",
+    "skill_type": 2,
+    "hpcost": 0,
+    "mpcost": 0.5,
+    "turncost": 4,
+    "rate": 100,
+    "rank": "混元先天",
+    "required_level_index": 139,
+    "desc": "琉璃金刚，不灭之身！",
+    "price": 0,
+    "shop_weight": 0,
+    "atkvalue": 5.5,
+    "dot_turns": 5
+  },
+  "冥途引": {
+    "name": "冥途引",
+    "skill_type": 2,
+    "hpcost": 0,
+    "mpcost": 0.5,
+    "turncost": 4,
+    "rate": 100,
+    "rank": "混元先天",
+    "required_level_index": 139,
+    "desc": "",
+    "price": 0,
+    "shop_weight": 0,
+    "atkvalue": 5.5,
+    "dot_turns": 5
   }
 }

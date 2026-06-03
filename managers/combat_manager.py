@@ -121,14 +121,18 @@ class CombatManager:
         # 获取主修心法加成
         technique_hp_bonus = 0.0
         technique_mp_bonus = 0.0
-        technique_atk_bonus = 0
+        technique_atk_bonus = 0.0
+        technique_crit_rate = 0
+        technique_crit_damage = 0.0
         if player.main_technique:
             items_data = config_manager.items_data
             technique_data = items_data.get(player.main_technique)
             if technique_data:
                 technique_hp_bonus = technique_data.get("hp_bonus", 0.0)
                 technique_mp_bonus = technique_data.get("mp_bonus", 0.0)
-                technique_atk_bonus = technique_data.get("atk_bonus", 0)
+                technique_atk_bonus = technique_data.get("atk_bonus", 0.0)
+                technique_crit_rate = technique_data.get("crit_rate", 0)
+                technique_crit_damage = technique_data.get("crit_damage", 0.0)
 
         hp, mp = cls.calculate_hp_mp(player.experience, hp_buff, mp_buff, technique_hp_bonus, technique_mp_bonus)
         base_atk = cls.calculate_base_atk(player.experience)
@@ -136,8 +140,8 @@ class CombatManager:
         equip_bonus = load_equipment_bonus(player, config_manager)
 
         breakthrough_atk = player.physical_damage + player.magic_damage
-        # 添加心法攻击加成
-        final_atk = int(base_atk * (1 + equip_bonus["atk_pct"] + atk_buff)) + breakthrough_atk + equip_bonus["atk"] + technique_atk_bonus
+        # 心法攻击加成改为百分比乘区
+        final_atk = int(base_atk * (1 + equip_bonus["atk_pct"] + atk_buff + technique_atk_bonus)) + breakthrough_atk + equip_bonus["atk"]
 
         base_def = math.log(player.experience + 1) * 10
         equip_def = (player.physical_defense + player.magic_defense) + equip_bonus["defense"]
@@ -146,7 +150,7 @@ class CombatManager:
         player.mp = mp
         player.atk = final_atk
 
-        crit_rate = int((impart_info.impart_know_per if impart_info else 0) * 100) + equip_bonus.get("crit_rate", 0)
+        crit_rate = int((impart_info.impart_know_per if impart_info else 0) * 100) + equip_bonus.get("crit_rate", 0) + technique_crit_rate
 
         return CombatStats(
             user_id=player.user_id,
@@ -160,7 +164,7 @@ class CombatManager:
             equip_def=equip_def,
             crit_rate=crit_rate,
             exp=player.experience,
-            crit_damage=max(1.5, equip_bonus.get("crit_damage", 0)),
+            crit_damage=max(1.5, equip_bonus.get("crit_damage", 0) + technique_crit_damage),
             armor_pen=equip_bonus.get("armor_pen", 0),
             lifesteal=equip_bonus.get("lifesteal", 0),
             double_hit=equip_bonus.get("double_hit", 0),

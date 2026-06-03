@@ -87,17 +87,23 @@ class EquipmentHandler:
 
             # 心法额外加成
             breakthrough_bonus = total_attrs.get("breakthrough_bonus", 0.0)
-            atk_bonus = total_attrs.get("atk_bonus", 0)
+            atk_bonus = total_attrs.get("atk_bonus", 0.0)
             hp_bonus = total_attrs.get("hp_bonus", 0.0)
             mp_bonus = total_attrs.get("mp_bonus", 0.0)
+            crit_rate = total_attrs.get("crit_rate", 0)
+            crit_damage = total_attrs.get("crit_damage", 0.0)
             if breakthrough_bonus > 0:
                 equipment_lines.append(f"✨ 突破成功率 +{breakthrough_bonus:.1%}\n")
             if atk_bonus > 0:
-                equipment_lines.append(f"⚔️ 攻击力 +{atk_bonus}\n")
+                equipment_lines.append(f"⚔️ 攻击力 +{atk_bonus:.0%}\n")
             if hp_bonus > 0:
                 equipment_lines.append(f"❤️ 生命值 +{hp_bonus:.1%}\n")
             if mp_bonus > 0:
                 equipment_lines.append(f"💧 真元 +{mp_bonus:.1%}\n")
+            if crit_rate > 0:
+                equipment_lines.append(f"💥 暴击率 +{crit_rate}%\n")
+            if crit_damage > 0:
+                equipment_lines.append(f"🔥 暴击伤害 +{crit_damage:.0%}\n")
 
         equipment_lines.append("=" * 28)
 

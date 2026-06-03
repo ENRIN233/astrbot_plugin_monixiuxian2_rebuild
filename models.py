@@ -31,9 +31,11 @@ class Item:
     # 心法专属属性
     exp_multiplier: float = 0.0  # 修为倍率加成（仅心法有效）
     breakthrough_bonus: float = 0.0  # 突破成功率加成（如 0.02 = +2%）
-    atk_bonus: int = 0  # 攻击力固定加成
+    atk_bonus: float = 0.0  # 攻击力百分比加成（如 0.3 = +30%）
     hp_bonus: float = 0.0  # 生命值百分比加成（如 0.05 = +5%）
     mp_bonus: float = 0.0  # 真元百分比加成（如 0.05 = +5%）
+    crit_rate: int = 0  # 暴击率加成（百分比整数，如 10 = +10%）
+    crit_damage: float = 0.0  # 暴击伤害加成（如 0.5 = 暴击倍率+0.5）
 
     def get_attribute_display(self) -> str:
         """获取属性加成的显示文本"""
@@ -53,11 +55,15 @@ class Item:
         if self.breakthrough_bonus > 0:
             attrs.append(f"突破成功率+{self.breakthrough_bonus:.1%}")
         if self.atk_bonus > 0:
-            attrs.append(f"攻击力+{self.atk_bonus}")
+            attrs.append(f"攻击力+{self.atk_bonus:.0%}")
         if self.hp_bonus > 0:
             attrs.append(f"生命值+{self.hp_bonus:.1%}")
         if self.mp_bonus > 0:
             attrs.append(f"真元+{self.mp_bonus:.1%}")
+        if self.crit_rate > 0:
+            attrs.append(f"暴击率+{self.crit_rate}%")
+        if self.crit_damage > 0:
+            attrs.append(f"暴击伤害+{self.crit_damage:.0%}")
         return "、".join(attrs) if attrs else "无属性加成"
 
 @dataclass
@@ -286,9 +292,11 @@ class Player:
             "mental_power": self.mental_power,
             "exp_multiplier": 0.0,  # 基础修为倍率为0，只来自心法
             "breakthrough_bonus": 0.0,  # 突破成功率加成
-            "atk_bonus": 0,  # 攻击力加成
+            "atk_bonus": 0.0,  # 攻击力百分比加成
             "hp_bonus": 0.0,  # 生命值加成
             "mp_bonus": 0.0,  # 真元加成
+            "crit_rate": 0,  # 暴击率加成
+            "crit_damage": 0.0,  # 暴击伤害加成
         }
 
         # 叠加装备属性
@@ -306,6 +314,8 @@ class Player:
                 total["atk_bonus"] += item.atk_bonus
                 total["hp_bonus"] += item.hp_bonus
                 total["mp_bonus"] += item.mp_bonus
+                total["crit_rate"] += item.crit_rate
+                total["crit_damage"] += item.crit_damage
 
         # 叠加成就加成
         if achievement_bonus:
