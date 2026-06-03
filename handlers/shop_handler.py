@@ -24,7 +24,6 @@ class ShopHandler:
         'armor': "器阁、Boss 掉落",
         'accessory': "器阁、Boss 掉落",
         'main_technique': "百宝阁稀有刷新",
-        'technique': "百宝阁、Boss 掉落",
         'material': "历练、秘境、悬赏、灵田收获与百宝阁限量",
         'shentong': "百宝阁稀有刷新",
     }
@@ -179,10 +178,10 @@ class ShopHandler:
                 yield event.plain_result(f"【{item_name}】已售罄，请等待刷新。")
                 return
 
-            if item_type in ['weapon', 'armor', 'main_technique', 'technique', 'accessory']:
+            if item_type in ['weapon', 'armor', 'main_technique', 'accessory']:
                 success, msg = await self.storage_ring_manager.store_item(player, target_item['name'], quantity, external_transaction=True)
                 if success:
-                    type_name = {"weapon": "武器", "armor": "防具", "main_technique": "心法", "technique": "功法", "accessory": "饰品"}.get(item_type, "装备")
+                    type_name = {"weapon": "武器", "armor": "防具", "main_technique": "心法", "accessory": "饰品"}.get(item_type, "装备")
                     result_lines.append(f"成功购买{type_name}【{target_item['name']}】x{quantity}，已存入储物戒。")
                     req_level = target_item.get('data', {}).get('required_level_index', 0)
                     if req_level > 0:

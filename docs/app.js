@@ -242,7 +242,6 @@ function renderOverview() {
     const weaponsOnly = weapons.filter(w => w.type === 'weapon');
     const armorsOnly = weapons.filter(w => w.type === 'armor');
     const techniques = items.filter(i => i.type === 'main_technique');
-    const subTechniques = items.filter(i => i.type === 'technique');
     const oldPills = items.filter(i => i.type === '丹药');
     const materials = items.filter(i => i.type === '材料');
     const artifacts = items.filter(i => i.type === '法器');
@@ -271,7 +270,6 @@ function renderOverview() {
             <div class="stat-card"><div class="stat-value">${weaponsOnly.length}</div><div class="stat-label">武器</div></div>
             <div class="stat-card"><div class="stat-value">${armorsOnly.length}</div><div class="stat-label">防具</div></div>
             <div class="stat-card"><div class="stat-value">${techniques.length}</div><div class="stat-label">主修心法</div></div>
-            <div class="stat-card"><div class="stat-value">${subTechniques.length}</div><div class="stat-label">辅助功法</div></div>
             <div class="stat-card"><div class="stat-value">${ringCount}</div><div class="stat-label">储物戒</div></div>
             <div class="stat-card"><div class="stat-value">${recipeCount}</div><div class="stat-label">炼丹配方</div></div>
             <div class="stat-card"><div class="stat-value">${materials.length}</div><div class="stat-label">材料</div></div>
@@ -639,7 +637,7 @@ function renderEquipment() {
 
 function countTechniques() {
     const items = Object.values(DATA.items || {});
-    return items.filter(i => i.type === 'main_technique' || i.type === 'technique').length;
+    return items.filter(i => i.type === 'main_technique').length;
 }
 
 function countRings() {
@@ -799,11 +797,8 @@ function showWeaponDetail(w) {
 function renderTechniques(container) {
     const items = DATA.items || {};
     const techniques = Object.entries(items)
-        .filter(([_, v]) => v.type === 'main_technique' || v.type === 'technique')
+        .filter(([_, v]) => v.type === 'main_technique')
         .map(([id, v]) => ({ ...v, id }));
-
-    const mainTechs = techniques.filter(t => t.type === 'main_technique');
-    const subTechs = techniques.filter(t => t.type === 'technique');
 
     let filterHtml = '<div class="filter-bar"><span class="filter-label">品阶：</span>';
     const ranks = [...new Set(techniques.map(t => t.rank).filter(Boolean))].sort((a, b) => rankOrder(a) - rankOrder(b));
@@ -812,10 +807,8 @@ function renderTechniques(container) {
     filterHtml += '</div>';
 
     let html = filterHtml;
-    html += `<h3 class="section-title">主修心法 (${mainTechs.length}种)</h3>`;
-    html += renderTechniqueTable(mainTechs, true);
-    html += `<h3 class="section-title">辅助功法 (${subTechs.length}种)</h3>`;
-    html += renderTechniqueTable(subTechs, false);
+    html += `<h3 class="section-title">主修心法 (${techniques.length}种)</h3>`;
+    html += renderTechniqueTable(techniques);
 
     container.innerHTML = html;
 
@@ -837,31 +830,22 @@ function renderTechniques(container) {
     makeTableSortable(container);
 }
 
-function renderTechniqueTable(techs, isMain) {
-    const headers = isMain
-        ? ['名称', '品阶', '修炼加成', '攻击力', '生命值', '真元', '突破成功率', '暴击率', '暴击伤害', '最低境界', '价格']
-        : ['名称', '品阶', '修炼加成', '最低境界', '价格'];
+function renderTechniqueTable(techs) {
+    const headers = ['名称', '品阶', '修炼加成', '攻击力', '生命值', '真元', '突破成功率', '暴击率', '暴击伤害', '最低境界', '价格'];
     const rows = techs.map(t => {
-        const base = [
+        return [
             `<strong>${esc(t.name)}</strong>`,
             makeRankBadge(t.rank || ''),
             `<span data-sortvalue="${t.exp_multiplier || 0}">${t.exp_multiplier ? '+' + ((t.exp_multiplier - 1) * 100).toFixed(0) + '%' : '-'}</span>`,
-        ];
-        if (isMain) {
-            base.push(
-                `<span data-sortvalue="${t.atk_bonus || 0}">${t.atk_bonus ? '+' + (t.atk_bonus * 100).toFixed(0) + '%' : '-'}</span>`,
-                `<span data-sortvalue="${t.hp_bonus || 0}">${t.hp_bonus ? '+' + (t.hp_bonus * 100).toFixed(0) + '%' : '-'}</span>`,
-                `<span data-sortvalue="${t.mp_bonus || 0}">${t.mp_bonus ? '+' + (t.mp_bonus * 100).toFixed(0) + '%' : '-'}</span>`,
-                `<span data-sortvalue="${t.breakthrough_bonus || 0}">${t.breakthrough_bonus ? '+' + (t.breakthrough_bonus * 100).toFixed(0) + '%' : '-'}</span>`,
-                `<span data-sortvalue="${t.crit_rate || 0}">${t.crit_rate ? '+' + t.crit_rate + '%' : '-'}</span>`,
-                `<span data-sortvalue="${t.crit_damage || 0}">${t.crit_damage ? '+' + (t.crit_damage * 100).toFixed(0) + '%' : '-'}</span>`
-            );
-        }
-        base.push(
+            `<span data-sortvalue="${t.atk_bonus || 0}">${t.atk_bonus ? '+' + (t.atk_bonus * 100).toFixed(0) + '%' : '-'}</span>`,
+            `<span data-sortvalue="${t.hp_bonus || 0}">${t.hp_bonus ? '+' + (t.hp_bonus * 100).toFixed(0) + '%' : '-'}</span>`,
+            `<span data-sortvalue="${t.mp_bonus || 0}">${t.mp_bonus ? '+' + (t.mp_bonus * 100).toFixed(0) + '%' : '-'}</span>`,
+            `<span data-sortvalue="${t.breakthrough_bonus || 0}">${t.breakthrough_bonus ? '+' + (t.breakthrough_bonus * 100).toFixed(0) + '%' : '-'}</span>`,
+            `<span data-sortvalue="${t.crit_rate || 0}">${t.crit_rate ? '+' + t.crit_rate + '%' : '-'}</span>`,
+            `<span data-sortvalue="${t.crit_damage || 0}">${t.crit_damage ? '+' + (t.crit_damage * 100).toFixed(0) + '%' : '-'}</span>`,
             t.required_level_index ? levelName(t.required_level_index) : '-',
             `<span data-sortvalue="${t.price || 0}">${formatNum(t.price || 0)}</span>`
-        );
-        return base;
+        ];
     });
     return createTable(headers, rows, { emptyText: '暂无心法数据', rankData: techs.map(t => t.rank || '') });
 }

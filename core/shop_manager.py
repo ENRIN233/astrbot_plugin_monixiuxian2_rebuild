@@ -369,7 +369,7 @@ class ShopManager:
 
         # 功法类型映射
         if original_type == '功法':
-            return 'technique'
+            return 'main_technique'
 
         # 丹药类型映射（旧系统丹药）
         if original_type == '丹药':
@@ -437,7 +437,7 @@ class ShopManager:
             return f"{pavilion_name}暂无物品出售"
 
         type_label_map = {
-            'weapon': '武器', 'armor': '防具', 'main_technique': '心法', 'technique': '功法',
+            'weapon': '武器', 'armor': '防具', 'main_technique': '心法',
             'pill': '破境丹', 'exp_pill': '修为丹', 'utility_pill': '功能丹',
             'legacy_pill': '丹药', 'material': '材料', 'accessory': '饰品', 'shentong': '神通'
         }
@@ -503,7 +503,7 @@ class ShopManager:
                 effects.append(f"精神力+{data['mental_power']}")
         
         # 功法属性
-        elif item_type in ['main_technique', 'technique', '功法']:
+        elif item_type in ['main_technique', '功法']:
             if data.get('exp_multiplier', 0) > 0:
                 effects.append(f"修炼效率+{int(data['exp_multiplier']*100)}%")
             if data.get('breakthrough_bonus', 0) > 0:
@@ -605,7 +605,7 @@ class ShopManager:
                 details.append(f"需求境界: {level_name}")
 
         # 心法/功法
-        elif item_type in ['main_technique', 'technique']:
+        elif item_type in ['main_technique']:
             attrs = []
             if data.get('exp_multiplier', 0) > 0:
                 attrs.append(f"修炼效率+{data['exp_multiplier']:.1%}")
@@ -720,7 +720,7 @@ class ShopManager:
 
     TYPE_LABEL_MAP = {
         'weapon': '武器', 'armor': '防具', 'main_technique': '心法',
-        'technique': '功法', 'pill': '破境丹', 'exp_pill': '修为丹',
+        'pill': '破境丹', 'exp_pill': '修为丹',
         'utility_pill': '功能丹', 'legacy_pill': '丹药', 'material': '材料',
         'accessory': '饰品', 'storage_ring': '储物戒', 'shentong': '神通',
     }
@@ -762,7 +762,7 @@ class ShopManager:
             if 'required_level_index' in data:
                 details.append(f"需求境界: {self._format_required_level(data['required_level_index'])}")
 
-        elif item_type in ['main_technique', 'technique']:
+        elif item_type in ['main_technique']:
             attrs = []
             if data.get('exp_multiplier', 0) > 0:
                 attrs.append(f"修炼效率+{data['exp_multiplier']:.1%}")

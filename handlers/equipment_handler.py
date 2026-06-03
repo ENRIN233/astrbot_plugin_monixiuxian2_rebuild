@@ -47,15 +47,6 @@ class EquipmentHandler:
             f"【主修心法】{player.main_technique if player.main_technique else '未装备'}\n",
         ]
 
-        # 功法列表
-        techniques_list = player.get_techniques_list()
-        equipment_lines.append(f"【功法】({len(techniques_list)}/3)\n")
-        if techniques_list:
-            for i, tech in enumerate(techniques_list, 1):
-                equipment_lines.append(f"  {i}. {tech}\n")
-        else:
-            equipment_lines.append("  未装备\n")
-
         # 神通
         equipment_lines.append(f"【神通】{player.shentong if player.shentong else '未装备'}\n")
 
@@ -135,7 +126,7 @@ class EquipmentHandler:
 
         # 检查物品类型是否可装备
         item_type = item_config.get("type", "")
-        equippable_types = ["weapon", "armor", "main_technique", "technique", "shentong"]
+        equippable_types = ["weapon", "armor", "main_technique", "shentong"]
         
         # 兼容旧格式
         if item_type == "法器":
@@ -145,7 +136,7 @@ class EquipmentHandler:
             elif subtype == "防具":
                 item_type = "armor"
         elif item_type == "功法":
-            item_type = "technique"
+            item_type = "main_technique"
         
         if item_type not in equippable_types:
             yield event.plain_result(f"【{item_name}】不是可装备的物品类型")
@@ -222,11 +213,6 @@ class EquipmentHandler:
             unequipped_item_name = player.main_technique
         elif slot_or_name in ["神通", "shentong"]:
             unequipped_item_name = player.shentong
-        else:
-            # 检查功法列表
-            techniques_list = player.get_techniques_list()
-            if slot_or_name in techniques_list:
-                unequipped_item_name = slot_or_name
 
         # 卸下装备
         success, message = await self.equipment_manager.unequip_item(player, slot_or_name)

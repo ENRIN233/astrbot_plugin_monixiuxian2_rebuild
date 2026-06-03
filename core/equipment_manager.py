@@ -82,8 +82,8 @@ class EquipmentManager:
             elif subtype == "饰品":
                 item_type = "accessory"
         elif item_type == "功法":
-            # 旧格式功法 -> technique
-            item_type = "technique"
+            # 旧格式功法 -> main_technique
+            item_type = "main_technique"
 
         return Item(
             item_id=item_config.get("id", item_name),
@@ -136,13 +136,6 @@ class EquipmentManager:
         # 主修心法
         if player.main_technique:
             item = self.parse_item_from_name(player.main_technique, items_data, weapons_data, skills_data)
-            if item:
-                equipped.append(item)
-
-        # 功法列表
-        techniques_list = player.get_techniques_list()
-        for technique_name in techniques_list:
-            item = self.parse_item_from_name(technique_name, items_data, weapons_data, skills_data)
             if item:
                 equipped.append(item)
 
@@ -240,23 +233,6 @@ class EquipmentManager:
             else:
                 return True, f"已装备主修心法【{item.name}】（{item.rank}）"
 
-        elif item.item_type == "technique":
-            techniques_list = player.get_techniques_list()
-
-            # 检查是否已装备
-            if item.name in techniques_list:
-                return False, f"功法【{item.name}】已装备"
-
-            # 检查功法栏是否已满（最多3个）
-            if len(techniques_list) >= 3:
-                return False, f"功法栏已满（最多3个），请先卸下其他功法"
-
-            # 添加功法
-            techniques_list.append(item.name)
-            player.set_techniques_list(techniques_list)
-            await self.db.update_player(player)
-            return True, f"已装备功法【{item.name}】（{item.rank}）（{len(techniques_list)}/3）"
-
         elif item.item_type == "shentong":
             old_skill = player.shentong
             player.shentong = item.name
@@ -304,14 +280,6 @@ class EquipmentManager:
             player.main_technique = ""
             await self.db.update_player(player)
             return True, f"已卸下主修心法【{item_name}】"
-
-        # 尝试从功法列表中卸下（按名称）
-        techniques_list = player.get_techniques_list()
-        if slot_or_name in techniques_list:
-            techniques_list.remove(slot_or_name)
-            player.set_techniques_list(techniques_list)
-            await self.db.update_player(player)
-            return True, f"已卸下功法【{slot_or_name}】"
 
         # 卸下神通
         if slot_or_name in ["神通", "shentong"]:

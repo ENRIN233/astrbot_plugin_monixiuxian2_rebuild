@@ -481,7 +481,7 @@ class StorageRingHandler:
                     result["装备"].append((item_name, count))
                 elif item_type in ["armor", "防具"]:
                     result["装备"].append((item_name, count))
-                elif item_type in ["technique", "功法", "main_technique"]:
+                elif item_type in ["功法", "main_technique"]:
                     result["功法"].append((item_name, count))
                 elif item_type in ["material", "材料"]:
                     result["材料"].append((item_name, count))

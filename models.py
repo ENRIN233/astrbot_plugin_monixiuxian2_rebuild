@@ -13,7 +13,7 @@ class Item:
 
     item_id: str  # 物品唯一ID
     name: str  # 物品名称
-    item_type: str  # 装备类型：weapon（武器）、armor（防具）、main_technique（主修心法）、technique（功法）
+    item_type: str  # 装备类型：weapon（武器）、armor（防具）、main_technique（主修心法）
     description: str = ""  # 物品描述
 
     # 装备品级相关
