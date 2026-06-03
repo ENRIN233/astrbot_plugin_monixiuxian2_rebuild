@@ -29,6 +29,7 @@ from .trade_handler import TradeHandler
 from .consignment_handler import ConsignmentHandler
 from .gm_handlers import GMHandlers
 from .achievement_handler import AchievementHandler
+from .gambling_handler import GamblingHandler
 
 __all__ = [
     "PlayerHandler",
@@ -59,4 +60,5 @@ __all__ = [
     "ConsignmentHandler",
     "GMHandlers",
     "AchievementHandler",
+    "GamblingHandler",
 ]

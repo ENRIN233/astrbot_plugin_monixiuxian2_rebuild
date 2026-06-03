@@ -15,6 +15,7 @@ from .handlers import (
     NicknameHandler, BankHandlers, BountyHandlers, ImpartPkHandlers,
     BlessedLandHandlers, SpiritFarmHandlers, DualCultivationHandlers, SpiritEyeHandlers,
     TradeHandler, ConsignmentHandler, GMHandlers, AchievementHandler,
+    GamblingHandler,
 )
 from .handlers.utils import get_related_commands_footer
 from .managers import (
@@ -133,6 +134,7 @@ CMD_BANK_REPAY = "还款"
 CMD_BANK_TRANSACTIONS = "银行流水"
 CMD_BANK_BREAKTHROUGH_LOAN = "突破贷款"
 CMD_UPGRADE_VIP = "升级会员"
+CMD_GAMBLING = "金银阁"
 
 # Phase 2: 悬赏令
 CMD_BOUNTY_LIST = "悬赏令"
@@ -287,6 +289,7 @@ class XiuXianPlugin(Star):
         self.bank_mgr = BankManager(self.db, self.config_manager.game_config, self.activity_tracker)
         self.bounty_mgr = BountyManager(self.db, self.storage_ring_mgr, self.config_manager.items_data, self.config_manager.skills_data, self.activity_tracker)
         self.bank_handlers = BankHandlers(self.db, self.bank_mgr)
+        self.gambling_handler = GamblingHandler(self.db)
         self.bounty_handlers = BountyHandlers(self.db, self.bounty_mgr)
         
         # Phase 3: 传承PK
@@ -1569,6 +1572,13 @@ class XiuXianPlugin(Star):
     @require_whitelist
     async def handle_upgrade_vip(self, event: AstrMessageEvent):
         async for r in self.bank_handlers.handle_upgrade_vip(event):
+            yield r
+
+    # ===== 金银阁赌坊 =====
+    @filter.command(CMD_GAMBLING, "金银阁赌坊")
+    @require_whitelist
+    async def handle_gambling(self, event: AstrMessageEvent):
+        async for r in self.gambling_handler.handle_gambling(event):
             yield r
 
     # ===== Phase 2: 悬赏令 =====
