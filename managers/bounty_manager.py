@@ -184,7 +184,8 @@ class BountyManager:
             "exp_multiplier": cfg.get("exp_multiplier", 1.0),
             "breakthrough_bonus": cfg.get("breakthrough_bonus", 0.0),
             "atk_bonus": cfg.get("atk_bonus", 0),
-            "hp_bonus": cfg.get("hp_bonus", 0.0)
+            "hp_bonus": cfg.get("hp_bonus", 0.0),
+            "mp_bonus": cfg.get("mp_bonus", 0.0)
         }
 
     def _roll_bounty_skill(self, player: Player, difficulty: str) -> Optional[dict]:

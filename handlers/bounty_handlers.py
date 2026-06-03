@@ -51,6 +51,8 @@ class BountyHandlers:
                     tech_desc += f" +{tech['atk_bonus']}攻"
                 if tech.get('hp_bonus', 0) > 0:
                     tech_desc += f" +{int(tech['hp_bonus']*100)}%生命"
+                if tech.get('mp_bonus', 0) > 0:
+                    tech_desc += f" +{int(tech['mp_bonus']*100)}%真元"
                 line += f"\n  - 功法奖励：【{tech['rank']}】{tech['name']}（{tech_desc}）"
             if skill:
                 from ..managers.skill_manager import SKILL_TYPE_NAMES

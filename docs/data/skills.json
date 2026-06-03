@@ -43,7 +43,8 @@
     "desc": "坤元金印，大地之威；执掌乾坤，印鉴天下！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 0.4
+    "atkvalue": 0.4,
+    "dot_turns": 5
   },
   "云涟剑法": {
     "name": "云涟剑法",
@@ -120,7 +121,8 @@
     "desc": "截脉之威，神鬼皆逃！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 0.44
+    "atkvalue": 0.44,
+    "dot_turns": 5
   },
   "灵息术": {
     "name": "灵息术",
@@ -197,7 +199,8 @@
     "desc": "印来！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 0.7
+    "atkvalue": 0.7,
+    "dot_turns": 5
   },
   "凝剑": {
     "name": "凝剑",
@@ -274,7 +277,8 @@
     "desc": "吔屎啦！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 1.0
+    "atkvalue": 1.0,
+    "dot_turns": 5
   },
   "归元剑气": {
     "name": "归元剑气",
@@ -351,7 +355,8 @@
     "desc": "化血为攻！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 1.2
+    "atkvalue": 1.2,
+    "dot_turns": 12
   },
   "分金印": {
     "name": "分金印",
@@ -428,7 +433,8 @@
     "desc": "月华流照！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 1.8
+    "atkvalue": 1.8,
+    "dot_turns": 5
   },
   "九转游身剑": {
     "name": "九转游身剑",
@@ -505,7 +511,8 @@
     "desc": "灵机凝水，万法归流！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 2.3
+    "atkvalue": 2.3,
+    "dot_turns": 5
   },
   "五行颠倒术": {
     "name": "五行颠倒术",
@@ -582,7 +589,8 @@
     "desc": "血魂化煞，缠身！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 2.4
+    "atkvalue": 2.4,
+    "dot_turns": 5
   },
   "万剑诀": {
     "name": "万剑诀",
@@ -659,7 +667,8 @@
     "desc": "都天烈火，化阵！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 2.67
+    "atkvalue": 2.67,
+    "dot_turns": 5
   },
   "星微神灭诀": {
     "name": "星微神灭诀",
@@ -737,7 +746,8 @@
     "desc": "凤灵化身，妖火焚尽！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 4.0
+    "atkvalue": 4.0,
+    "dot_turns": 5
   },
   "灵光护体术": {
     "name": "灵光护体术",
@@ -883,7 +893,8 @@
     "desc": "邪威震八荒。死意凝其中，灭魂不可挡。咒出天地黯，邪力显锋芒！！！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 4.5
+    "atkvalue": 4.5,
+    "dot_turns": 6
   },
   "万剑归宗": {
     "name": "万剑归宗",
@@ -912,7 +923,8 @@
     "desc": "光芒破迷雾，影动迅如狸，华彩映四海，猎势不可欺。光影舞乾坤，威力震天地！！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 4.8
+    "atkvalue": 4.8,
+    "dot_turns": 6
   },
   "灭剑血胧": {
     "name": "灭剑血胧",
@@ -928,191 +940,6 @@
     "shop_weight": 0,
     "atkvalue": [
       4.9
-    ]
-  },
-  "千慄鬼噬": {
-    "name": "千慄鬼噬",
-    "skill_type": 1,
-    "hpcost": 0.03,
-    "mpcost": 5,
-    "turncost": 1,
-    "rate": 100,
-    "rank": "混元先天",
-    "required_level_index": 132,
-    "desc": "千鬼噬身，诸神尽慄！！！",
-    "price": 0,
-    "shop_weight": 0,
-    "atkvalue": [
-      1.5,
-      1.5,
-      1.2,
-      1.8,
-      0.6,
-      2.8,
-      1.8,
-      1.4,
-      1.6,
-      1.8
-    ]
-  },
-  "吨吨脂肪转移": {
-    "name": "吨吨脂肪转移",
-    "skill_type": 1,
-    "hpcost": 0,
-    "mpcost": 5.5,
-    "turncost": 0,
-    "rate": 100,
-    "rank": "混元先天",
-    "required_level_index": 132,
-    "desc": "脂肪转移咯！！！",
-    "price": 0,
-    "shop_weight": 0,
-    "atkvalue": [
-      11
-    ]
-  },
-  "紫玄掌": {
-    "name": "紫玄掌",
-    "skill_type": 2,
-    "hpcost": 0,
-    "mpcost": 15,
-    "turncost": 4,
-    "rate": 100,
-    "rank": "混元先天",
-    "required_level_index": 132,
-    "desc": "紫玄之力，浩渺如星，紫芒闪耀，玄力同行。一掌既出，万法皆宁！！",
-    "price": 0,
-    "shop_weight": 0,
-    "atkvalue": 11.0
-  },
-  "血刹碎乾坤": {
-    "name": "血刹碎乾坤",
-    "skill_type": 2,
-    "hpcost": 0,
-    "mpcost": 14,
-    "turncost": 4,
-    "rate": 100,
-    "rank": "混元先天",
-    "required_level_index": 132,
-    "desc": "血刹起风云，煞气震乾坤，血色染天地，刹影破混沌。碎尽世间恶，乾坤定此身！！",
-    "price": 0,
-    "shop_weight": 0,
-    "atkvalue": 10.5
-  },
-  "无暇七绝剑": {
-    "name": "无暇七绝剑",
-    "skill_type": 2,
-    "hpcost": 0,
-    "mpcost": 14,
-    "turncost": 5,
-    "rate": 100,
-    "rank": "混元先天",
-    "required_level_index": 132,
-    "desc": "",
-    "price": 0,
-    "shop_weight": 0,
-    "atkvalue": 10.5
-  },
-  "子龙朱雀": {
-    "name": "子龙朱雀",
-    "skill_type": 2,
-    "hpcost": 0,
-    "mpcost": 15,
-    "turncost": 4,
-    "rate": 100,
-    "rank": "混元先天",
-    "required_level_index": 132,
-    "desc": "",
-    "price": 0,
-    "shop_weight": 0,
-    "atkvalue": 11.0
-  },
-  "天煞震狱功": {
-    "name": "天煞震狱功",
-    "skill_type": 2,
-    "hpcost": 0,
-    "mpcost": 12,
-    "turncost": 4,
-    "rate": 100,
-    "rank": "混元先天",
-    "required_level_index": 132,
-    "desc": "",
-    "price": 0,
-    "shop_weight": 0,
-    "atkvalue": 9.5
-  },
-  "大德琉璃金刚身": {
-    "name": "大德琉璃金刚身",
-    "skill_type": 2,
-    "hpcost": 0,
-    "mpcost": 12,
-    "turncost": 4,
-    "rate": 100,
-    "rank": "混元先天",
-    "required_level_index": 132,
-    "desc": "",
-    "price": 0,
-    "shop_weight": 0,
-    "atkvalue": 9.5
-  },
-  "冥途引": {
-    "name": "冥途引",
-    "skill_type": 2,
-    "hpcost": 0,
-    "mpcost": 15,
-    "turncost": 4,
-    "rate": 100,
-    "rank": "混元先天",
-    "required_level_index": 132,
-    "desc": "",
-    "price": 0,
-    "shop_weight": 0,
-    "atkvalue": 11.0
-  },
-  "佛怒火莲": {
-    "name": "佛怒火莲",
-    "skill_type": 1,
-    "hpcost": 0,
-    "mpcost": 13.5,
-    "turncost": 0,
-    "rate": 100,
-    "rank": "混元先天",
-    "required_level_index": 132,
-    "desc": "佛怒之下，鬼魅无存，佛怒火莲，爆！！！",
-    "price": 0,
-    "shop_weight": 0,
-    "atkvalue": [
-      14
-    ]
-  },
-  "冰魄寒针": {
-    "name": "冰魄寒针",
-    "skill_type": 2,
-    "hpcost": 0,
-    "mpcost": 15,
-    "turncost": 3,
-    "rate": 100,
-    "rank": "混元先天",
-    "required_level_index": 132,
-    "desc": "冰魄凝寒针，冷芒映冰心，冰寒锁万物，寒针定风云！！！！",
-    "price": 0,
-    "shop_weight": 0,
-    "atkvalue": 13.0
-  },
-  "剑来": {
-    "name": "剑来",
-    "skill_type": 1,
-    "hpcost": 0,
-    "mpcost": 12,
-    "turncost": 0,
-    "rate": 100,
-    "rank": "混元先天",
-    "required_level_index": 132,
-    "desc": "大千世界，无奇不有，唯有一剑，可搬山，倒海，降妖，镇魔，敕神，摘星，断江，摧城，开天！！！",
-    "price": 0,
-    "shop_weight": 0,
-    "atkvalue": [
-      13
     ]
   },
   "星宿劫": {
@@ -1279,7 +1106,8 @@
     "desc": "！！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 11.0
+    "atkvalue": 11.0,
+    "dot_turns": 5
   },
   "日月长空": {
     "name": "日月长空",
@@ -1293,7 +1121,8 @@
     "desc": "！！！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 14.0
+    "atkvalue": 14.0,
+    "dot_turns": 5
   },
   "万象归元": {
     "name": "万象归元",
@@ -1307,7 +1136,8 @@
     "desc": "！！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": 9.0
+    "atkvalue": 9.0,
+    "dot_turns": 5
   },
   "紫气东来": {
     "name": "紫气东来",

@@ -38,10 +38,11 @@ __all__ = ["StorageRingHandler"]
 class StorageRingHandler:
     """储物戒系统处理器"""
 
-    def __init__(self, db: DataBase, config_manager: ConfigManager):
+    def __init__(self, db: DataBase, config_manager: ConfigManager, activity_tracker=None):
         self.db = db
         self.config_manager = config_manager
         self.storage_ring_manager = StorageRingManager(db, config_manager)
+        self.activity_tracker = activity_tracker
 
     @player_required
     async def handle_storage_ring(self, player: Player, event: AstrMessageEvent):
@@ -659,6 +660,13 @@ class StorageRingHandler:
         except Exception:
             await self.db.conn.rollback()
             raise
+
+        # 活跃度追踪
+        if self.activity_tracker:
+            try:
+                await self.activity_tracker.track_smelt(player)
+            except Exception:
+                pass
 
         if total_gold > 0:
             yield event.plain_result(

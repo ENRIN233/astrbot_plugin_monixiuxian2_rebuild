@@ -4,6 +4,7 @@
 参照NoneBot2插件的xiuxian_sect实现
 """
 
+import json
 import random
 import time
 from typing import Tuple, List, Optional, Dict
@@ -473,47 +474,75 @@ class SectManager:
     async def perform_sect_task(self, user_id: str) -> Tuple[bool, str]:
         """
         执行宗门任务
-        
+        每日限3次，冷却10分钟
+
         Args:
             user_id: 用户ID
-            
+
         Returns:
             (成功标志, 消息)
         """
         player = await self.db.get_player_by_id(user_id)
         if not player or player.sect_id == 0:
             return False, "❌ 你还未加入宗门！"
-            
-        # 检查CD (使用宗门任务CD类型，假设为4)
+
         user_cd = await self.db.ext.get_user_cd(user_id)
         if not user_cd:
             await self.db.ext.create_user_cd(user_id)
             user_cd = await self.db.ext.get_user_cd(user_id)
-            
+
         current_time = int(time.time())
-        # 假设 CD 记录在 type=4, scheduled_time 为下次可用时间
-        # 这里重用 set_user_busy 逻辑，但任务通常是瞬时的，只设冷却
-        if user_cd.type == UserStatus.SECT_TASK and current_time < user_cd.scheduled_time:
-            remaining = user_cd.scheduled_time - current_time
-            return False, f"❌ 宗门任务冷却中！还需 {remaining//60} 分钟。"
+        today_str = time.strftime("%Y-%m-%d", time.localtime(current_time))
+
+        # 检查用户是否处于其他忙碌状态（闭关/历练/探索等）
+        if user_cd.type != UserStatus.IDLE and user_cd.type != UserStatus.SECT_TASK:
+            status_name = UserStatus.get_name(user_cd.type)
+            return False, f"❌ 你当前正{status_name}，无法执行宗门任务！"
+
+        # 通过 extra_data 中的 sect_task_cd 检查冷却（不占用用户忙碌状态）
+        extra = user_cd.get_extra_data()
+        sect_cd = extra.get("sect_task_cd", 0)
+        if sect_cd > 0 and current_time < sect_cd:
+            remaining = sect_cd - current_time
+            return False, f"❌ 宗门任务冷却中！还需 {remaining//60} 分钟{remaining % 60} 秒。"
+
+        # 每日次数限制（跨日自动重置）
+        last_date = extra.get("sect_task_date", "")
+        if last_date != today_str:
+            # 新的一天，重置计数
+            await self.db.ext.reset_sect_tasks()
+            player.sect_task = 0
+            extra["sect_task_date"] = today_str
+
+        if player.sect_task >= 3:
+            return False, "❌ 今日宗门任务次数已用完（每日3次），明天再来吧！"
 
         # 执行任务
         contribution_gain = random.randint(10, 30)
         stone_gain = contribution_gain * 10
-        
+
         player.sect_contribution += contribution_gain
         await self.db.update_player(player)
-        
+
         # 宗门增加资源
-        await self.db.ext.donate_to_sect(player.sect_id, 0) # 只更新建设度? donate_to_sect update both.
-        # 手动更新宗门资源
+        await self.db.ext.donate_to_sect(player.sect_id, 0)
         sect = await self.db.ext.get_sect_by_id(player.sect_id)
         if sect:
             sect.sect_materials += stone_gain
             await self.db.ext.update_sect(sect)
 
-        # 设置1小时冷却
-        await self.db.ext.set_user_busy(user_id, 4, current_time + 3600)
+        # 增加完成次数
+        await self.db.ext.increment_sect_task_count(user_id)
+
+        # 设置10分钟冷却，通过 extra_data 存储，不改变用户忙碌状态
+        # 同时清除旧的 type=SECT_TASK 状态（修复遗留的卡状态问题）
+        extra["sect_task_cd"] = current_time + 600
+        extra["sect_task_date"] = today_str
+        await self.db.conn.execute(
+            "UPDATE user_cd SET type = 0, extra_data = ? WHERE user_id = ?",
+            (json.dumps(extra, ensure_ascii=False), user_id)
+        )
+        await self.db.conn.commit()
 
         # 活跃度追踪
         if self.activity_tracker:
@@ -522,7 +551,13 @@ class SectManager:
             except Exception:
                 pass
 
-        return True, f"✨ 完成宗门任务！\n获得贡献：{contribution_gain}\n宗门资材：+{stone_gain}"
+        remaining_count = 3 - player.sect_task - 1
+        return True, (
+            f"✨ 完成宗门任务！\n"
+            f"获得贡献：{contribution_gain}\n"
+            f"宗门资材：+{stone_gain}\n"
+            f"📋 今日剩余次数：{remaining_count}/3"
+        )
 
     async def handle_owner_death(self, sect_id: int, dead_owner_id: str) -> Tuple[bool, str]:
         """处理宗主死亡，自动传位或解散宗门"""

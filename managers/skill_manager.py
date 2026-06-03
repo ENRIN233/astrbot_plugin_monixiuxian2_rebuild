@@ -185,7 +185,8 @@ class SkillManager:
         defender.hp = max(0, defender.hp - instant_dmg)
 
         # 施加DOT debuff
-        dot_turns = skill_data.get("turncost", 3)
+        # 优先使用独立的 dot_turns 字段，向后兼容 turncost
+        dot_turns = skill_data.get("dot_turns", skill_data.get("turncost", 3))
         dot = ActiveBuff(
             skill_name=skill_data["name"],
             buff_type="dot",

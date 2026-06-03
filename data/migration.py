@@ -5,7 +5,7 @@ from typing import Dict, Callable, Awaitable
 from astrbot.api import logger
 from ..config_manager import ConfigManager
 
-LATEST_DB_VERSION = 33  # v33: 每日活跃度系统
+LATEST_DB_VERSION = 34  # v34: 清理删除的高mpcost神通
 
 MIGRATION_TASKS: Dict[int, Callable[[aiosqlite.Connection, ConfigManager], Awaitable[None]]] = {}
 
@@ -1832,3 +1832,23 @@ async def _migrate_to_v33(conn: aiosqlite.Connection, config_manager: ConfigMana
         )
 
     logger.info("v33迁移完成：每日活跃度系统")
+
+@migration(34)
+async def _migrate_to_v34(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """迁移到v34 - 清理已删除的高mpcost神通"""
+    logger.info("开始迁移到v34：清理已删除神通")
+
+    DELETED_SKILLS = [
+        "千慄鬼噬", "吨吨脂肪转移", "紫玄掌", "血刹碎乾坤",
+        "无暇七绝剑", "子龙朱雀", "天煞震狱功", "大德琉璃金刚身",
+        "冥途引", "佛怒火莲", "冰魄寒针", "剑来",
+    ]
+
+    # 清除装备了已删除神通的玩家
+    placeholders = ",".join(["?"] * len(DELETED_SKILLS))
+    await conn.execute(
+        f"UPDATE players SET shentong = '' WHERE shentong IN ({placeholders})",
+        DELETED_SKILLS
+    )
+
+    logger.info("v34迁移完成：清理已删除神通")

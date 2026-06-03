@@ -109,6 +109,7 @@ CMD_RIFT_EXIT = "退出秘境"
 # 历练系统指令
 CMD_ADVENTURE_START = "开始历练"
 CMD_ADVENTURE_COMPLETE = "完成历练"
+CMD_ADVENTURE_ABORT = "中断历练"
 CMD_ADVENTURE_STATUS = "历练状态"
 CMD_ADVENTURE_INFO = "历练信息"
 
@@ -254,7 +255,7 @@ class XiuXianPlugin(Star):
         self.breakthrough_handler = BreakthroughHandler(self.db, self.config_manager, self.config)
         self.pill_handler = PillHandler(self.db, self.config_manager)
         self.shop_handler = ShopHandler(self.db, self.config, self.config_manager, self.activity_tracker)
-        self.storage_ring_handler = StorageRingHandler(self.db, self.config_manager)
+        self.storage_ring_handler = StorageRingHandler(self.db, self.config_manager, self.activity_tracker)
         
         # 初始化核心管理器
         from .core import StorageRingManager
@@ -1449,6 +1450,19 @@ class XiuXianPlugin(Star):
     async def handle_adventure_complete(self, event: AstrMessageEvent):
         user_id = event.get_sender_id()
         success, msg, reward_data = await self.adventure_mgr.finish_adventure(user_id)
+
+        if success:
+            player = await self.db.get_player_by_id(user_id)
+            if player:
+                await self.activity_tracker.track_adventure(player)
+
+        yield event.plain_result(msg)
+
+    @filter.command(CMD_ADVENTURE_ABORT, "中断历练（中途退出，无奖励）")
+    @require_whitelist
+    async def handle_adventure_abort(self, event: AstrMessageEvent):
+        user_id = event.get_sender_id()
+        success, msg = await self.adventure_mgr.abort_adventure(user_id)
 
         if success:
             player = await self.db.get_player_by_id(user_id)

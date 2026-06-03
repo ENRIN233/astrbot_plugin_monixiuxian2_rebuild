@@ -85,11 +85,13 @@ class CombatManager:
     """战斗系统管理器"""
 
     @staticmethod
-    def calculate_hp_mp(experience: int, hp_buff: float = 0.0, mp_buff: float = 0.0, hp_bonus: float = 0.0) -> Tuple[int, int]:
+    def calculate_hp_mp(experience: int, hp_buff: float = 0.0, mp_buff: float = 0.0, hp_bonus: float = 0.0, mp_bonus: float = 0.0) -> Tuple[int, int]:
         base_hp = max(200, int(max(0, experience) ** 0.50 * 2 * (1 + hp_buff)) + 200)
         # 应用心法生命加成
         hp = int(base_hp * (1 + hp_bonus))
-        mp = max(10, int(max(0, experience) ** 0.50 * 1 * (1 + mp_buff)))
+        base_mp = max(10, int(max(0, experience) ** 0.50 * 1 * (1 + mp_buff)))
+        # 应用心法真元加成
+        mp = int(base_mp * (1 + mp_bonus))
         return hp, mp
 
     @staticmethod
@@ -118,15 +120,17 @@ class CombatManager:
 
         # 获取主修心法加成
         technique_hp_bonus = 0.0
+        technique_mp_bonus = 0.0
         technique_atk_bonus = 0
         if player.main_technique:
             items_data = config_manager.items_data
             technique_data = items_data.get(player.main_technique)
             if technique_data:
                 technique_hp_bonus = technique_data.get("hp_bonus", 0.0)
+                technique_mp_bonus = technique_data.get("mp_bonus", 0.0)
                 technique_atk_bonus = technique_data.get("atk_bonus", 0)
 
-        hp, mp = cls.calculate_hp_mp(player.experience, hp_buff, mp_buff, technique_hp_bonus)
+        hp, mp = cls.calculate_hp_mp(player.experience, hp_buff, mp_buff, technique_hp_bonus, technique_mp_bonus)
         base_atk = cls.calculate_base_atk(player.experience)
 
         equip_bonus = load_equipment_bonus(player, config_manager)
@@ -477,52 +481,69 @@ class CombatManager:
                 attacker.max_mp
             )
             if can_use and skill_manager.try_activate_skill(skill_name):
-                # 应用buff到攻击者和防御者
-                orig_atk = attacker.atk
-                orig_def_base = defender.base_def
-                orig_def_equip = defender.equip_def
-                attacker.atk = SkillManager.apply_buffs_to_atk(attacker.atk, attacker_state)
-                defender.base_def, defender.equip_def = SkillManager.apply_buffs_to_def(
-                    defender.base_def, defender.equip_def, defender_state
-                )
+                # 闪避判定（技能也受闪避影响）
+                if random.randint(1, 100) <= defender.dodge_rate:
+                    combat_log.append(f"{attacker.name} 使用【{skill_name}】，但 {defender.name} 闪避了！")
+                    # 技能仍消耗MP/HP和进入冷却
+                    skill_data = skill_manager.get_skill_data(skill_name)
+                    if skill_data:
+                        mp_cost = skill_data.get("mpcost", 0)
+                        if mp_cost > 0:
+                            attacker.mp -= int(attacker.max_mp * mp_cost)
+                        hp_cost = skill_data.get("hpcost", 0)
+                        if hp_cost > 0:
+                            attacker.hp = max(0, attacker.hp - int(attacker.max_hp * hp_cost))
+                        if skill_data.get("turncost", 0) > 0:
+                            attacker_state.cooldowns[skill_name] = skill_data["turncost"]
+                    used_skill = True
+                    combat_log.append(f"{defender.name} 剩余 HP: {max(0, defender.hp)}")
+                else:
+                    # 应用buff到攻击者和防御者
+                    orig_atk = attacker.atk
+                    orig_def_base = defender.base_def
+                    orig_def_equip = defender.equip_def
+                    attacker.atk = SkillManager.apply_buffs_to_atk(attacker.atk, attacker_state)
+                    defender.base_def, defender.equip_def = SkillManager.apply_buffs_to_def(
+                        defender.base_def, defender.equip_def, defender_state
+                    )
 
-                result = skill_manager.execute_skill(
-                    skill_name, attacker, defender, attacker_state, defender_state
-                )
-                combat_log.append(format_skill_result(attacker.name, defender.name, result))
+                    result = skill_manager.execute_skill(
+                        skill_name, attacker, defender, attacker_state, defender_state
+                    )
+                    combat_log.append(format_skill_result(attacker.name, defender.name, result))
 
-                # 扣除MP/HP
-                skill_data = skill_manager.get_skill_data(skill_name)
-                if skill_data:
-                    mp_cost = skill_data.get("mpcost", 0)
-                    if mp_cost > 0:
-                        attacker.mp -= int(attacker.max_mp * mp_cost)
-                    hp_cost = skill_data.get("hpcost", 0)
-                    if hp_cost > 0:
-                        hp_loss = int(attacker.max_hp * hp_cost)
-                        attacker.hp = max(0, attacker.hp - hp_loss)
-                    if skill_data.get("turncost", 0) > 0:
-                        attacker_state.cooldowns[skill_name] = skill_data["turncost"]
+                    # 扣除MP/HP
+                    skill_data = skill_manager.get_skill_data(skill_name)
+                    if skill_data:
+                        mp_cost = skill_data.get("mpcost", 0)
+                        if mp_cost > 0:
+                            attacker.mp -= int(attacker.max_mp * mp_cost)
+                        hp_cost = skill_data.get("hpcost", 0)
+                        if hp_cost > 0:
+                            hp_loss = int(attacker.max_hp * hp_cost)
+                            attacker.hp = max(0, attacker.hp - hp_loss)
+                        if skill_data.get("turncost", 0) > 0:
+                            attacker_state.cooldowns[skill_name] = skill_data["turncost"]
 
-                # 技能造成的伤害也触发吸血/反伤
-                total_dmg = result.get("total_damage", result.get("instant_damage", 0))
-                if total_dmg > 0:
-                    if attacker.lifesteal > 0:
-                        heal = int(total_dmg * attacker.lifesteal / 100)
-                        if heal > 0:
-                            attacker.hp = min(attacker.max_hp, attacker.hp + heal)
-                    if defender.reflect_pct > 0:
-                        reflect = int(total_dmg * defender.reflect_pct / 100)
-                        if reflect > 0:
-                            attacker.hp = max(0, attacker.hp - reflect)
+                    # 技能造成的伤害也触发吸血/反伤
+                    total_dmg = result.get("total_damage", result.get("instant_damage", 0))
+                    if total_dmg > 0:
+                        if attacker.lifesteal > 0:
+                            heal = int(total_dmg * attacker.lifesteal / 100)
+                            if heal > 0:
+                                attacker.hp = min(attacker.max_hp, attacker.hp + heal)
+                        if defender.reflect_pct > 0:
+                            reflect = int(total_dmg * defender.reflect_pct / 100)
+                            if reflect > 0:
+                                attacker.hp = max(0, attacker.hp - reflect)
 
-                # 恢复原始数值
-                attacker.atk = orig_atk
-                defender.base_def = orig_def_base
-                defender.equip_def = orig_def_equip
+                    # 恢复原始数值
+                    attacker.atk = orig_atk
+                    defender.base_def = orig_def_base
+                    defender.equip_def = orig_def_equip
 
-                used_skill = True
-                combat_log.append(f"{defender.name} 剩余 HP: {max(0, defender.hp)}")
+                    used_skill = True
+                    combat_log.append(f"{defender.name} 剩余 HP: {max(0, defender.hp)}")
 
         # 未使用技能则普通攻击
         if not used_skill:

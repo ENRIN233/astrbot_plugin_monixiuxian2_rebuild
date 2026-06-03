@@ -512,6 +512,8 @@ class ShopManager:
                 effects.append(f"攻击+{data['atk_bonus']}")
             if data.get('hp_bonus', 0) > 0:
                 effects.append(f"生命+{int(data['hp_bonus']*100)}%")
+            if data.get('mp_bonus', 0) > 0:
+                effects.append(f"真元+{int(data['mp_bonus']*100)}%")
             if data.get('physical_damage', 0) > 0:
                 effects.append(f"物伤+{data['physical_damage']}")
             if data.get('magic_damage', 0) > 0:
@@ -613,6 +615,8 @@ class ShopManager:
                 attrs.append(f"攻击力+{data['atk_bonus']}")
             if data.get('hp_bonus', 0) > 0:
                 attrs.append(f"生命值+{data['hp_bonus']:.1%}")
+            if data.get('mp_bonus', 0) > 0:
+                attrs.append(f"真元+{data['mp_bonus']:.1%}")
             if data.get('magic_damage', 0) > 0:
                 attrs.append(f"法伤+{data['magic_damage']}")
             if data.get('physical_damage', 0) > 0:
@@ -768,6 +772,8 @@ class ShopManager:
                 attrs.append(f"攻击力+{data['atk_bonus']}")
             if data.get('hp_bonus', 0) > 0:
                 attrs.append(f"生命值+{data['hp_bonus']:.1%}")
+            if data.get('mp_bonus', 0) > 0:
+                attrs.append(f"真元+{data['mp_bonus']:.1%}")
             for key, label in [
                 ('physical_damage', '物伤'), ('magic_damage', '法伤'),
                 ('physical_defense', '物防'), ('magic_defense', '法防'),

@@ -24,7 +24,8 @@ class AdventureHandlers:
             "  /开始历练 巡山问道\n"
             "  /开始历练 猎魔肃清\n"
             "  /历练状态 → 查看当前进度\n"
-            "  /完成历练 → 领取奖励"
+            "  /完成历练 → 领取奖励\n"
+            "  /中断历练 → 中途退出（无奖励）"
         )
         lines.append("━━━━━━━━━━━━━━━")
         yield event.plain_result("\n".join(lines))
@@ -40,7 +41,13 @@ class AdventureHandlers:
         user_id = event.get_sender_id()
         success, msg, _ = await self.adv_mgr.finish_adventure(user_id)
         yield event.plain_result(msg)
-    
+
+    async def handle_abort_adventure(self, event: AstrMessageEvent):
+        """中断历练"""
+        user_id = event.get_sender_id()
+        success, msg = await self.adv_mgr.abort_adventure(user_id)
+        yield event.plain_result(msg)
+
     async def handle_adventure_status(self, event: AstrMessageEvent):
         """历练状态"""
         user_id = event.get_sender_id()

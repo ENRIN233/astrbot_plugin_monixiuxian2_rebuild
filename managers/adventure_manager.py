@@ -296,6 +296,30 @@ class AdventureManager:
         }
         return True, msg, reward_data
 
+    async def abort_adventure(self, user_id: str) -> Tuple[bool, str]:
+        """中断历练 - 历练中途强制退出，次数+1但无奖励"""
+        player = await self.db.get_player_by_id(user_id)
+        if not player:
+            return False, "❌ 你还未踏入修仙之路！"
+
+        user_cd = await self.db.ext.get_user_cd(user_id)
+        if not user_cd or user_cd.type != UserStatus.ADVENTURING:
+            return False, "❌ 你当前不在历练中！"
+
+        now = int(time.time())
+        if now >= user_cd.scheduled_time:
+            return False, "❌ 历练已经完成，请使用「完成历练」领取奖励！"
+
+        # 清除状态
+        await self.db.ext.set_user_free(user_id)
+
+        return True, (
+            "⚠️ 历练已中断\n"
+            "━━━━━━━━━━━━━━━\n"
+            "你提前退出了历练，本次无奖励\n"
+            "（历练次数已记录）"
+        )
+
     async def check_adventure_status(self, user_id: str) -> Tuple[bool, str]:
         """查看历练状态"""
         user_cd = await self.db.ext.get_user_cd(user_id)

@@ -200,6 +200,7 @@ class AchievementManager:
             "magic_defense": "法防",
             "mental_power": "精神力",
             "hp_bonus": "气血",
+            "mp_bonus": "真元",
             "lifespan": "寿命",
         }
         parts = []

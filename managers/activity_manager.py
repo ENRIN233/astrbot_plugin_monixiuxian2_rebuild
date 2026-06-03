@@ -14,12 +14,13 @@ TASK_DEFINITIONS = {
     "shop_buy":  ("商店购买",   40, 1),
     "harvest":   ("灵田收获",   20, 1),
     "alchemy":   ("炼丹",       30, 1),
+    "smelt":     ("炼金",       30, 1),
     "interest":  ("领取利息",   10, 1),
     "sect":      ("宗门贡献",   20, 1),
 }
 
 # 任务顺序（用于显示）
-TASK_ORDER = ["check_in", "adventure", "rift", "bounty", "shop_buy", "harvest", "alchemy", "interest", "sect"]
+TASK_ORDER = ["check_in", "adventure", "rift", "bounty", "shop_buy", "harvest", "alchemy", "smelt", "interest", "sect"]
 
 __all__ = ["ActivityTracker", "TASK_DEFINITIONS", "TASK_ORDER"]
 
@@ -108,6 +109,12 @@ class ActivityTracker:
         today = datetime.now().strftime("%Y-%m-%d")
         self._reset_if_new_day(player, today)
         await self._add_progress(player, "alchemy")
+
+    async def track_smelt(self, player: Player):
+        """炼金"""
+        today = datetime.now().strftime("%Y-%m-%d")
+        self._reset_if_new_day(player, today)
+        await self._add_progress(player, "smelt")
 
     async def track_interest(self, player: Player):
         """领取利息"""

@@ -89,12 +89,15 @@ class EquipmentHandler:
             breakthrough_bonus = total_attrs.get("breakthrough_bonus", 0.0)
             atk_bonus = total_attrs.get("atk_bonus", 0)
             hp_bonus = total_attrs.get("hp_bonus", 0.0)
+            mp_bonus = total_attrs.get("mp_bonus", 0.0)
             if breakthrough_bonus > 0:
                 equipment_lines.append(f"✨ 突破成功率 +{breakthrough_bonus:.1%}\n")
             if atk_bonus > 0:
                 equipment_lines.append(f"⚔️ 攻击力 +{atk_bonus}\n")
             if hp_bonus > 0:
                 equipment_lines.append(f"❤️ 生命值 +{hp_bonus:.1%}\n")
+            if mp_bonus > 0:
+                equipment_lines.append(f"💧 真元 +{mp_bonus:.1%}\n")
 
         equipment_lines.append("=" * 28)
 

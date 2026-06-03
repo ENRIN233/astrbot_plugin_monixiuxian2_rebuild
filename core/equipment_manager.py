@@ -101,7 +101,8 @@ class EquipmentManager:
             exp_multiplier=item_config.get("exp_multiplier", 0.0),
             breakthrough_bonus=item_config.get("breakthrough_bonus", 0.0),
             atk_bonus=item_config.get("atk_bonus", 0),
-            hp_bonus=item_config.get("hp_bonus", 0.0)
+            hp_bonus=item_config.get("hp_bonus", 0.0),
+            mp_bonus=item_config.get("mp_bonus", 0.0)
         )
 
     def get_equipped_items(self, player: Player, items_data: dict, weapons_data: dict = None, skills_data: dict = None) -> List[Item]:

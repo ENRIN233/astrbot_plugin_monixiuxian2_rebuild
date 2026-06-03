@@ -33,6 +33,7 @@ class Item:
     breakthrough_bonus: float = 0.0  # 突破成功率加成（如 0.02 = +2%）
     atk_bonus: int = 0  # 攻击力固定加成
     hp_bonus: float = 0.0  # 生命值百分比加成（如 0.05 = +5%）
+    mp_bonus: float = 0.0  # 真元百分比加成（如 0.05 = +5%）
 
     def get_attribute_display(self) -> str:
         """获取属性加成的显示文本"""
@@ -55,6 +56,8 @@ class Item:
             attrs.append(f"攻击力+{self.atk_bonus}")
         if self.hp_bonus > 0:
             attrs.append(f"生命值+{self.hp_bonus:.1%}")
+        if self.mp_bonus > 0:
+            attrs.append(f"真元+{self.mp_bonus:.1%}")
         return "、".join(attrs) if attrs else "无属性加成"
 
 @dataclass
@@ -285,6 +288,7 @@ class Player:
             "breakthrough_bonus": 0.0,  # 突破成功率加成
             "atk_bonus": 0,  # 攻击力加成
             "hp_bonus": 0.0,  # 生命值加成
+            "mp_bonus": 0.0,  # 真元加成
         }
 
         # 叠加装备属性
@@ -301,6 +305,7 @@ class Player:
                 total["breakthrough_bonus"] += item.breakthrough_bonus
                 total["atk_bonus"] += item.atk_bonus
                 total["hp_bonus"] += item.hp_bonus
+                total["mp_bonus"] += item.mp_bonus
 
         # 叠加成就加成
         if achievement_bonus:
