@@ -765,11 +765,11 @@
     "_source": "nonebot",
     "_source_id": "9001",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5001": {
     "id": 5001,
@@ -784,11 +784,11 @@
     "_source": "nonebot",
     "_source_id": "9002",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.04,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5002": {
     "id": 5002,
@@ -803,11 +803,11 @@
     "_source": "nonebot",
     "_source_id": "9003",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5003": {
     "id": 5003,
@@ -822,11 +822,11 @@
     "_source": "nonebot",
     "_source_id": "9004",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.04,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5004": {
     "id": 5004,
@@ -841,11 +841,11 @@
     "_source": "nonebot",
     "_source_id": "9005",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.04,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5005": {
     "id": 5005,
@@ -860,11 +860,11 @@
     "_source": "nonebot",
     "_source_id": "9011",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5006": {
     "id": 5006,
@@ -879,11 +879,11 @@
     "_source": "nonebot",
     "_source_id": "9012",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5007": {
     "id": 5007,
@@ -898,11 +898,11 @@
     "_source": "nonebot",
     "_source_id": "9013",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5008": {
     "id": 5008,
@@ -917,11 +917,11 @@
     "_source": "nonebot",
     "_source_id": "9014",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5009": {
     "id": 5009,
@@ -936,11 +936,11 @@
     "_source": "nonebot",
     "_source_id": "9100",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.04,
+    "hp_bonus": 0.06,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5010": {
     "id": 5010,
@@ -955,11 +955,11 @@
     "_source": "nonebot",
     "_source_id": "9099",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5011": {
     "id": 5011,
@@ -974,11 +974,11 @@
     "_source": "nonebot",
     "_source_id": "9102",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5012": {
     "id": 5012,
@@ -993,11 +993,11 @@
     "_source": "nonebot",
     "_source_id": "9103",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5013": {
     "id": 5013,
@@ -1012,11 +1012,11 @@
     "_source": "nonebot",
     "_source_id": "9104",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.02
   },
   "5014": {
     "id": 5014,
@@ -1031,11 +1031,11 @@
     "_source": "nonebot",
     "_source_id": "9201",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.04,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.02
   },
   "5015": {
     "id": 5015,
@@ -1050,11 +1050,11 @@
     "_source": "nonebot",
     "_source_id": "9202",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.04,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5016": {
     "id": 5016,
@@ -1069,11 +1069,11 @@
     "_source": "nonebot",
     "_source_id": "9203",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5017": {
     "id": 5017,
@@ -1088,11 +1088,11 @@
     "_source": "nonebot",
     "_source_id": "9204",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.04,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.04
   },
   "5018": {
     "id": 5018,
@@ -1107,11 +1107,11 @@
     "_source": "nonebot",
     "_source_id": "9301",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5019": {
     "id": 5019,
@@ -1126,11 +1126,11 @@
     "_source": "nonebot",
     "_source_id": "9302",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5020": {
     "id": 5020,
@@ -1145,11 +1145,11 @@
     "_source": "nonebot",
     "_source_id": "9303",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5021": {
     "id": 5021,
@@ -1164,11 +1164,11 @@
     "_source": "nonebot",
     "_source_id": "9304",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.06,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5022": {
     "id": 5022,
@@ -1183,11 +1183,11 @@
     "_source": "nonebot",
     "_source_id": "9400",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.04,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5023": {
     "id": 5023,
@@ -1202,11 +1202,11 @@
     "_source": "nonebot",
     "_source_id": "9401",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.04
   },
   "5024": {
     "id": 5024,
@@ -1221,11 +1221,11 @@
     "_source": "nonebot",
     "_source_id": "9402",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5025": {
     "id": 5025,
@@ -1240,11 +1240,11 @@
     "_source": "nonebot",
     "_source_id": "9403",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.06,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5026": {
     "id": 5026,
@@ -1259,11 +1259,11 @@
     "_source": "nonebot",
     "_source_id": "9404",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5027": {
     "id": 5027,
@@ -1278,11 +1278,11 @@
     "_source": "nonebot",
     "_source_id": "9500",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5028": {
     "id": 5028,
@@ -1297,11 +1297,11 @@
     "_source": "nonebot",
     "_source_id": "9501",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.04
   },
   "5029": {
     "id": 5029,
@@ -1316,11 +1316,11 @@
     "_source": "nonebot",
     "_source_id": "9502",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.02
   },
   "5030": {
     "id": 5030,
@@ -1335,11 +1335,11 @@
     "_source": "nonebot",
     "_source_id": "9503",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.04,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5031": {
     "id": 5031,
@@ -1354,11 +1354,11 @@
     "_source": "nonebot",
     "_source_id": "9504",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5032": {
     "id": 5032,
@@ -1373,11 +1373,11 @@
     "_source": "nonebot",
     "_source_id": "9600",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.04
   },
   "5033": {
     "id": 5033,
@@ -1392,11 +1392,11 @@
     "_source": "nonebot",
     "_source_id": "9601",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5034": {
     "id": 5034,
@@ -1411,11 +1411,11 @@
     "_source": "nonebot",
     "_source_id": "9602",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5035": {
     "id": 5035,
@@ -1430,11 +1430,11 @@
     "_source": "nonebot",
     "_source_id": "9603",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5036": {
     "id": 5036,
@@ -1449,11 +1449,11 @@
     "_source": "nonebot",
     "_source_id": "9604",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.06,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5037": {
     "id": 5037,
@@ -1468,11 +1468,11 @@
     "_source": "nonebot",
     "_source_id": "9700",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5038": {
     "id": 5038,
@@ -1487,11 +1487,11 @@
     "_source": "nonebot",
     "_source_id": "9701",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.06,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5039": {
     "id": 5039,
@@ -1506,11 +1506,11 @@
     "_source": "nonebot",
     "_source_id": "9702",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5040": {
     "id": 5040,
@@ -1525,11 +1525,11 @@
     "_source": "nonebot",
     "_source_id": "9703",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5041": {
     "id": 5041,
@@ -1544,11 +1544,11 @@
     "_source": "nonebot",
     "_source_id": "9704",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5042": {
     "id": 5042,
@@ -1563,11 +1563,11 @@
     "_source": "nonebot",
     "_source_id": "9800",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.04,
+    "hp_bonus": 0.06,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5043": {
     "id": 5043,
@@ -1582,11 +1582,11 @@
     "_source": "nonebot",
     "_source_id": "9900",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.02
   },
   "5044": {
     "id": 5044,
@@ -1601,11 +1601,11 @@
     "_source": "nonebot",
     "_source_id": "9801",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.06,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5045": {
     "id": 5045,
@@ -1620,11 +1620,11 @@
     "_source": "nonebot",
     "_source_id": "9802",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5046": {
     "id": 5046,
@@ -1639,11 +1639,11 @@
     "_source": "nonebot",
     "_source_id": "9803",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5047": {
     "id": 5047,
@@ -1658,11 +1658,11 @@
     "_source": "nonebot",
     "_source_id": "9804",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5048": {
     "id": 5048,
@@ -1677,11 +1677,11 @@
     "_source": "nonebot",
     "_source_id": "9901",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5049": {
     "id": 5049,
@@ -1696,11 +1696,11 @@
     "_source": "nonebot",
     "_source_id": "9903",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5050": {
     "id": 5050,
@@ -1715,11 +1715,11 @@
     "_source": "nonebot",
     "_source_id": "9902",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5051": {
     "id": 5051,
@@ -1734,11 +1734,11 @@
     "_source": "nonebot",
     "_source_id": "9910",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5052": {
     "id": 5052,
@@ -1753,11 +1753,11 @@
     "_source": "nonebot",
     "_source_id": "9911",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5053": {
     "id": 5053,
@@ -1772,11 +1772,11 @@
     "_source": "nonebot",
     "_source_id": "9913",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.04,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5054": {
     "id": 5054,
@@ -1791,11 +1791,11 @@
     "_source": "nonebot",
     "_source_id": "9914",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.04,
+    "hp_bonus": 0.06,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5055": {
     "id": 5055,
@@ -1810,11 +1810,11 @@
     "_source": "nonebot",
     "_source_id": "9915",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "atk_bonus": 0.08,
+    "hp_bonus": 0.11,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.12
   },
   "5056": {
     "id": 5056,
@@ -1829,11 +1829,11 @@
     "_source": "nonebot",
     "_source_id": "9916",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "atk_bonus": 0.09,
+    "hp_bonus": 0.1,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.13
   },
   "5057": {
     "id": 5057,
@@ -1848,11 +1848,11 @@
     "_source": "nonebot",
     "_source_id": "9917",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5058": {
     "id": 5058,
@@ -1867,11 +1867,11 @@
     "_source": "nonebot",
     "_source_id": "9920",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5059": {
     "id": 5059,
@@ -1886,11 +1886,11 @@
     "_source": "nonebot",
     "_source_id": "9921",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.05,
+    "hp_bonus": 0.05,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5060": {
     "id": 5060,
@@ -1905,11 +1905,11 @@
     "_source": "nonebot",
     "_source_id": "9922",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "atk_bonus": 0.11,
+    "hp_bonus": 0.13,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.13
   },
   "5061": {
     "id": 5061,
@@ -1924,11 +1924,11 @@
     "_source": "nonebot",
     "_source_id": "9923",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "atk_bonus": 0.08,
+    "hp_bonus": 0.12,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.1
   },
   "5062": {
     "id": 5062,
@@ -1943,11 +1943,11 @@
     "_source": "nonebot",
     "_source_id": "9924",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.0482,
-    "hp_bonus": 0.0527,
+    "atk_bonus": 0.06,
+    "hp_bonus": 0.04,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.0309
+    "mp_bonus": 0.03
   },
   "5063": {
     "id": 5063,
@@ -1963,10 +1963,10 @@
     "_source_id": "9925",
     "breakthrough_bonus": 0.0,
     "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "hp_bonus": 0.12,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.1
   },
   "5064": {
     "id": 5064,
@@ -1981,11 +1981,11 @@
     "_source": "nonebot",
     "_source_id": "9926",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "atk_bonus": 0.09,
+    "hp_bonus": 0.14,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.11
   },
   "5065": {
     "id": 5065,
@@ -2000,11 +2000,11 @@
     "_source": "nonebot",
     "_source_id": "9930",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "atk_bonus": 0.11,
+    "hp_bonus": 0.12,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.09
   },
   "5066": {
     "id": 5066,
@@ -2018,12 +2018,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9931",
-    "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.74,
+    "hp_bonus": 0.71,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.78
   },
   "5067": {
     "id": 5067,
@@ -2038,11 +2038,11 @@
     "_source": "nonebot",
     "_source_id": "9932",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "atk_bonus": 0.11,
+    "hp_bonus": 0.1,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.11
   },
   "5068": {
     "id": 5068,
@@ -2057,11 +2057,11 @@
     "_source": "nonebot",
     "_source_id": "9933",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "atk_bonus": 0.09,
+    "hp_bonus": 0.12,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.09
   },
   "5069": {
     "id": 5069,
@@ -2077,10 +2077,10 @@
     "_source_id": "9934",
     "breakthrough_bonus": 0.0,
     "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "hp_bonus": 0.14,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.1
   },
   "5070": {
     "id": 5070,
@@ -2095,11 +2095,11 @@
     "_source": "nonebot",
     "_source_id": "15355",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
+    "atk_bonus": 0.22,
     "hp_bonus": 0.24,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.19
+    "mp_bonus": 0.18
   },
   "5071": {
     "id": 5071,
@@ -2114,11 +2114,11 @@
     "_source": "nonebot",
     "_source_id": "15356",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "atk_bonus": 0.12,
+    "hp_bonus": 0.14,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.11
   },
   "5072": {
     "id": 5072,
@@ -2133,11 +2133,11 @@
     "_source": "nonebot",
     "_source_id": "15359",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "atk_bonus": 0.11,
+    "hp_bonus": 0.1,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.1
   },
   "5073": {
     "id": 5073,
@@ -2152,11 +2152,11 @@
     "_source": "nonebot",
     "_source_id": "15550",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "atk_bonus": 0.12,
+    "hp_bonus": 0.12,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.11
   },
   "5074": {
     "id": 5074,
@@ -2171,11 +2171,11 @@
     "_source": "nonebot",
     "_source_id": "15551",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "atk_bonus": 0.11,
+    "hp_bonus": 0.1,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.11
   },
   "5075": {
     "id": 5075,
@@ -2191,10 +2191,10 @@
     "_source_id": "15552",
     "breakthrough_bonus": 0.0,
     "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "hp_bonus": 0.14,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.09
   },
   "5078": {
     "id": 5078,
@@ -2209,11 +2209,11 @@
     "_source": "nonebot",
     "_source_id": "15555",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "atk_bonus": 0.12,
+    "hp_bonus": 0.1,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.1
   },
   "5079": {
     "id": 5079,
@@ -2229,10 +2229,10 @@
     "_source_id": "15556",
     "breakthrough_bonus": 0.0,
     "atk_bonus": 0.1,
-    "hp_bonus": 0.1143,
+    "hp_bonus": 0.13,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.1114
+    "mp_bonus": 0.1
   },
   "5080": {
     "id": 5080,
@@ -2247,11 +2247,11 @@
     "_source": "nonebot",
     "_source_id": "15557",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
-    "hp_bonus": 0.24,
+    "atk_bonus": 0.17,
+    "hp_bonus": 0.28,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.19
+    "mp_bonus": 0.17
   },
   "5082": {
     "id": 5082,
@@ -2266,11 +2266,11 @@
     "_source": "nonebot",
     "_source_id": "15559",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
-    "hp_bonus": 0.24,
+    "atk_bonus": 0.21,
+    "hp_bonus": 0.25,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.19
+    "mp_bonus": 0.18
   },
   "5083": {
     "id": 5083,
@@ -2285,11 +2285,11 @@
     "_source": "nonebot",
     "_source_id": "15560",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
+    "atk_bonus": 0.21,
     "hp_bonus": 0.24,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.19
+    "mp_bonus": 0.22
   },
   "5084": {
     "id": 5084,
@@ -2304,11 +2304,11 @@
     "_source": "nonebot",
     "_source_id": "15358",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
-    "hp_bonus": 0.24,
+    "atk_bonus": 0.18,
+    "hp_bonus": 0.26,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.19
+    "mp_bonus": 0.17
   },
   "5085": {
     "id": 5085,
@@ -2323,11 +2323,11 @@
     "_source": "nonebot",
     "_source_id": "9935",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.28,
+    "hp_bonus": 0.38,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.28
   },
   "5086": {
     "id": 5086,
@@ -2342,11 +2342,11 @@
     "_source": "nonebot",
     "_source_id": "9938",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.27,
+    "hp_bonus": 0.4,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.25
   },
   "5087": {
     "id": 5087,
@@ -2361,11 +2361,11 @@
     "_source": "nonebot",
     "_source_id": "9928",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
-    "hp_bonus": 0.24,
+    "atk_bonus": 0.2,
+    "hp_bonus": 0.29,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.19
+    "mp_bonus": 0.23
   },
   "5088": {
     "id": 5088,
@@ -2379,12 +2379,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9936",
-    "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.51,
+    "hp_bonus": 0.56,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.6
   },
   "5089": {
     "id": 5089,
@@ -2399,11 +2399,11 @@
     "_source": "nonebot",
     "_source_id": "9937",
     "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "atk_bonus": 0.71,
+    "hp_bonus": 0.73,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.63
   },
   "5090": {
     "id": 5090,
@@ -2417,12 +2417,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "9927",
-    "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.67,
+    "hp_bonus": 0.66,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.79
   },
   "5091": {
     "id": 5091,
@@ -2436,12 +2436,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30501",
-    "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.5,
+    "hp_bonus": 0.71,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.61
   },
   "5092": {
     "id": 5092,
@@ -2456,11 +2456,11 @@
     "_source": "nonebot",
     "_source_id": "30502",
     "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "atk_bonus": 0.73,
+    "hp_bonus": 0.54,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.56
   },
   "5093": {
     "id": 5093,
@@ -2475,11 +2475,11 @@
     "_source": "nonebot",
     "_source_id": "30503",
     "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "atk_bonus": 0.56,
+    "hp_bonus": 0.66,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.72
   },
   "5094": {
     "id": 5094,
@@ -2493,12 +2493,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30504",
-    "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.56,
+    "hp_bonus": 0.63,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.77
   },
   "5095": {
     "id": 5095,
@@ -2513,11 +2513,11 @@
     "_source": "nonebot",
     "_source_id": "30505",
     "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "atk_bonus": 0.52,
+    "hp_bonus": 0.61,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.6
   },
   "5096": {
     "id": 5096,
@@ -2532,11 +2532,11 @@
     "_source": "nonebot",
     "_source_id": "15357",
     "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "atk_bonus": 0.65,
+    "hp_bonus": 0.57,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.72
   },
   "5097": {
     "id": 5097,
@@ -2550,12 +2550,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30601",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.6,
+    "hp_bonus": 0.81,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.69
   },
   "5098": {
     "id": 5098,
@@ -2569,12 +2569,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30602",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 0.77,
+    "hp_bonus": 0.83,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.51
   },
   "5099": {
     "id": 5099,
@@ -2588,12 +2588,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "15561",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 0.87,
+    "hp_bonus": 0.86,
+    "crit_rate": 0,
+    "crit_damage": 0.21,
+    "mp_bonus": 0.54
   },
   "5100": {
     "id": 5100,
@@ -2607,12 +2607,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30603",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.65,
+    "hp_bonus": 1.14,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.69
   },
   "5101": {
     "id": 5101,
@@ -2626,12 +2626,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30604",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.61,
+    "hp_bonus": 1.06,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.56
   },
   "5102": {
     "id": 5102,
@@ -2645,12 +2645,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30605",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 0.84,
+    "hp_bonus": 0.88,
+    "crit_rate": 0,
+    "crit_damage": 0.23,
+    "mp_bonus": 0.67
   },
   "5103": {
     "id": 5103,
@@ -2664,12 +2664,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30641",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 0.74,
+    "hp_bonus": 0.89,
+    "crit_rate": 7,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.67
   },
   "5104": {
     "id": 5104,
@@ -2683,12 +2683,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30642",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 0.89,
+    "hp_bonus": 0.88,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.63
   },
   "5105": {
     "id": 5105,
@@ -2702,12 +2702,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30608",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.63,
+    "hp_bonus": 1.15,
+    "crit_rate": 7,
+    "crit_damage": 0.22,
+    "mp_bonus": 0.52
   },
   "5107": {
     "id": 5107,
@@ -2722,10 +2722,10 @@
     "_source": "nonebot",
     "_source_id": "30644",
     "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
+    "atk_bonus": 0.69,
+    "hp_bonus": 1.01,
+    "crit_rate": 9,
+    "crit_damage": 0.23,
     "mp_bonus": 0.6
   },
   "5108": {
@@ -2740,12 +2740,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30645",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.76,
+    "hp_bonus": 1.06,
+    "crit_rate": 7,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.66
   },
   "5109": {
     "id": 5109,
@@ -2759,12 +2759,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30646",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.7,
+    "hp_bonus": 0.9,
+    "crit_rate": 7,
+    "crit_damage": 0.19,
+    "mp_bonus": 0.68
   },
   "5110": {
     "id": 5110,
@@ -2778,12 +2778,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "30647",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.69,
+    "hp_bonus": 0.83,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.58
   },
   "5113": {
     "id": 5113,
@@ -2798,11 +2798,11 @@
     "_source": "nonebot",
     "_source_id": "901001",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.3,
+    "hp_bonus": 0.33,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.31
   },
   "5114": {
     "id": 5114,
@@ -2817,11 +2817,11 @@
     "_source": "nonebot",
     "_source_id": "901011",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.23,
+    "hp_bonus": 0.33,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.29
   },
   "5115": {
     "id": 5115,
@@ -2836,8 +2836,8 @@
     "_source": "nonebot",
     "_source_id": "30701",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
-    "hp_bonus": 0.24,
+    "atk_bonus": 0.21,
+    "hp_bonus": 0.25,
     "crit_rate": 0,
     "crit_damage": 0.0,
     "mp_bonus": 0.19
@@ -2855,8 +2855,8 @@
     "_source": "nonebot",
     "_source_id": "30702",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
-    "hp_bonus": 0.24,
+    "atk_bonus": 0.2,
+    "hp_bonus": 0.21,
     "crit_rate": 0,
     "crit_damage": 0.0,
     "mp_bonus": 0.19
@@ -2874,11 +2874,11 @@
     "_source": "nonebot",
     "_source_id": "30703",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.34,
+    "hp_bonus": 0.4,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.26
   },
   "5118": {
     "id": 5118,
@@ -2893,11 +2893,11 @@
     "_source": "nonebot",
     "_source_id": "30704",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
+    "atk_bonus": 0.17,
     "hp_bonus": 0.24,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.19
+    "mp_bonus": 0.2
   },
   "5119": {
     "id": 5119,
@@ -2912,11 +2912,11 @@
     "_source": "nonebot",
     "_source_id": "30705",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.27,
+    "hp_bonus": 0.41,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.33
   },
   "5120": {
     "id": 5120,
@@ -2931,11 +2931,11 @@
     "_source": "nonebot",
     "_source_id": "30706",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
-    "hp_bonus": 0.24,
+    "atk_bonus": 0.21,
+    "hp_bonus": 0.21,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.19
+    "mp_bonus": 0.17
   },
   "5121": {
     "id": 5121,
@@ -2950,8 +2950,8 @@
     "_source": "nonebot",
     "_source_id": "30707",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
-    "hp_bonus": 0.24,
+    "atk_bonus": 0.16,
+    "hp_bonus": 0.22,
     "crit_rate": 0,
     "crit_damage": 0.0,
     "mp_bonus": 0.19
@@ -2969,11 +2969,11 @@
     "_source": "nonebot",
     "_source_id": "930001",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
-    "hp_bonus": 0.24,
+    "atk_bonus": 0.23,
+    "hp_bonus": 0.2,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.19
+    "mp_bonus": 0.18
   },
   "5123": {
     "id": 5123,
@@ -2988,11 +2988,11 @@
     "_source": "nonebot",
     "_source_id": "930002",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.31,
+    "hp_bonus": 0.32,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.32
   },
   "5126": {
     "id": 5126,
@@ -3007,11 +3007,11 @@
     "_source": "nonebot",
     "_source_id": "930005",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
-    "hp_bonus": 0.24,
+    "atk_bonus": 0.2,
+    "hp_bonus": 0.22,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.19
+    "mp_bonus": 0.2
   },
   "5127": {
     "id": 5127,
@@ -3026,11 +3026,11 @@
     "_source": "nonebot",
     "_source_id": "930006",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
-    "hp_bonus": 0.24,
+    "atk_bonus": 0.16,
+    "hp_bonus": 0.26,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.19
+    "mp_bonus": 0.21
   },
   "5128": {
     "id": 5128,
@@ -3044,12 +3044,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930007",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 1.9,
+    "hp_bonus": 4.09,
+    "crit_rate": 0,
+    "crit_damage": 0.42,
+    "mp_bonus": 3.12
   },
   "5129": {
     "id": 5129,
@@ -3064,11 +3064,11 @@
     "_source": "nonebot",
     "_source_id": "930008",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
+    "atk_bonus": 0.23,
     "hp_bonus": 0.24,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.19
+    "mp_bonus": 0.21
   },
   "5130": {
     "id": 5130,
@@ -3083,11 +3083,11 @@
     "_source": "nonebot",
     "_source_id": "930010",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
-    "hp_bonus": 0.24,
+    "atk_bonus": 0.21,
+    "hp_bonus": 0.29,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.19
+    "mp_bonus": 0.2
   },
   "5131": {
     "id": 5131,
@@ -3102,11 +3102,11 @@
     "_source": "nonebot",
     "_source_id": "930011",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
-    "hp_bonus": 0.24,
+    "atk_bonus": 0.24,
+    "hp_bonus": 0.28,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.19
+    "mp_bonus": 0.2
   },
   "5133": {
     "id": 5133,
@@ -3121,11 +3121,11 @@
     "_source": "nonebot",
     "_source_id": "930013",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
+    "atk_bonus": 0.32,
     "hp_bonus": 0.36,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.34
   },
   "5134": {
     "id": 5134,
@@ -3140,11 +3140,11 @@
     "_source": "nonebot",
     "_source_id": "930014",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.3,
+    "hp_bonus": 0.42,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.33
   },
   "5135": {
     "id": 5135,
@@ -3159,11 +3159,11 @@
     "_source": "nonebot",
     "_source_id": "930015",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.195,
-    "hp_bonus": 0.24,
+    "atk_bonus": 0.2,
+    "hp_bonus": 0.22,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.19
+    "mp_bonus": 0.17
   },
   "5137": {
     "id": 5137,
@@ -3178,8 +3178,8 @@
     "_source": "nonebot",
     "_source_id": "930017",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.31,
+    "hp_bonus": 0.4,
     "crit_rate": 0,
     "crit_damage": 0.0,
     "mp_bonus": 0.3
@@ -3196,12 +3196,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930018",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 2.36,
+    "hp_bonus": 3.84,
     "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "crit_damage": 0.42,
+    "mp_bonus": 2.97
   },
   "5139": {
     "id": 5139,
@@ -3216,11 +3216,11 @@
     "_source": "nonebot",
     "_source_id": "930019",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.31,
+    "hp_bonus": 0.39,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.25
   },
   "5140": {
     "id": 5140,
@@ -3235,11 +3235,11 @@
     "_source": "nonebot",
     "_source_id": "930020",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.28,
+    "hp_bonus": 0.37,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.29
   },
   "5142": {
     "id": 5142,
@@ -3254,11 +3254,11 @@
     "_source": "nonebot",
     "_source_id": "930022",
     "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "atk_bonus": 0.55,
+    "hp_bonus": 0.61,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.77
   },
   "5143": {
     "id": 5143,
@@ -3273,11 +3273,11 @@
     "_source": "nonebot",
     "_source_id": "930023",
     "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "atk_bonus": 0.71,
+    "hp_bonus": 0.7,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.63
   },
   "5144": {
     "id": 5144,
@@ -3291,12 +3291,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930024",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 2.48,
+    "hp_bonus": 4.82,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 4.23
   },
   "5145": {
     "id": 5145,
@@ -3311,11 +3311,11 @@
     "_source": "nonebot",
     "_source_id": "930025",
     "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "atk_bonus": 0.55,
+    "hp_bonus": 0.56,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.64
   },
   "5146": {
     "id": 5146,
@@ -3330,11 +3330,11 @@
     "_source": "nonebot",
     "_source_id": "930026",
     "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "atk_bonus": 0.66,
+    "hp_bonus": 0.61,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.57
   },
   "5147": {
     "id": 5147,
@@ -3348,12 +3348,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930027",
-    "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 0.65,
+    "hp_bonus": 0.51,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.63
   },
   "5148": {
     "id": 5148,
@@ -3368,11 +3368,11 @@
     "_source": "nonebot",
     "_source_id": "930028",
     "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "atk_bonus": 0.66,
+    "hp_bonus": 0.54,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.65
   },
   "5149": {
     "id": 5149,
@@ -3387,11 +3387,11 @@
     "_source": "nonebot",
     "_source_id": "930029",
     "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "atk_bonus": 0.55,
+    "hp_bonus": 0.59,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.73
   },
   "5150": {
     "id": 5150,
@@ -3406,11 +3406,11 @@
     "_source": "nonebot",
     "_source_id": "930030",
     "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "atk_bonus": 0.7,
+    "hp_bonus": 0.57,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.55
   },
   "5151": {
     "id": 5151,
@@ -3424,12 +3424,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930031",
-    "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.74,
+    "hp_bonus": 0.59,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.7
   },
   "5152": {
     "id": 5152,
@@ -3443,12 +3443,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930032",
-    "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "breakthrough_bonus": 0.02,
+    "atk_bonus": 0.66,
+    "hp_bonus": 0.69,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.78
   },
   "5154": {
     "id": 5154,
@@ -3463,11 +3463,11 @@
     "_source": "nonebot",
     "_source_id": "930034",
     "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "atk_bonus": 0.53,
+    "hp_bonus": 0.54,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.7
   },
   "5155": {
     "id": 5155,
@@ -3481,12 +3481,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930035",
-    "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.67,
+    "hp_bonus": 0.7,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.57
   },
   "5156": {
     "id": 5156,
@@ -3500,12 +3500,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930036",
-    "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.68,
+    "hp_bonus": 0.53,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.74
   },
   "5157": {
     "id": 5157,
@@ -3519,12 +3519,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930037",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.63,
+    "hp_bonus": 0.79,
+    "crit_rate": 0,
+    "crit_damage": 0.22,
+    "mp_bonus": 0.55
   },
   "5158": {
     "id": 5158,
@@ -3538,12 +3538,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930038",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 0.62,
+    "hp_bonus": 1.04,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.63
   },
   "5159": {
     "id": 5159,
@@ -3558,11 +3558,11 @@
     "_source": "nonebot",
     "_source_id": "930039",
     "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
+    "atk_bonus": 0.64,
+    "hp_bonus": 1.16,
     "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "crit_damage": 0.23,
+    "mp_bonus": 0.67
   },
   "5160": {
     "id": 5160,
@@ -3576,12 +3576,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930040",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.85,
+    "hp_bonus": 0.82,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.71
   },
   "5161": {
     "id": 5161,
@@ -3595,12 +3595,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930041",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 0.73,
+    "hp_bonus": 1.06,
+    "crit_rate": 0,
+    "crit_damage": 0.19,
+    "mp_bonus": 0.71
   },
   "5162": {
     "id": 5162,
@@ -3614,12 +3614,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930042",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.82,
+    "hp_bonus": 0.88,
+    "crit_rate": 9,
     "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "mp_bonus": 0.68
   },
   "5163": {
     "id": 5163,
@@ -3633,12 +3633,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930043",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 2.35,
+    "hp_bonus": 4.02,
+    "crit_rate": 18,
+    "crit_damage": 0.0,
+    "mp_bonus": 2.91
   },
   "5164": {
     "id": 5164,
@@ -3652,12 +3652,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930044",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 0.7,
+    "hp_bonus": 1.12,
+    "crit_rate": 0,
+    "crit_damage": 0.22,
+    "mp_bonus": 0.65
   },
   "5165": {
     "id": 5165,
@@ -3673,10 +3673,10 @@
     "_source_id": "930045",
     "breakthrough_bonus": 0.0,
     "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "hp_bonus": 0.4,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.32
   },
   "5167": {
     "id": 5167,
@@ -3690,12 +3690,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930047",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.04,
+    "atk_bonus": 0.79,
+    "hp_bonus": 0.97,
+    "crit_rate": 0,
+    "crit_damage": 0.21,
+    "mp_bonus": 0.67
   },
   "5168": {
     "id": 5168,
@@ -3709,12 +3709,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930048",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.74,
+    "hp_bonus": 0.98,
+    "crit_rate": 9,
+    "crit_damage": 0.18,
+    "mp_bonus": 0.58
   },
   "5169": {
     "id": 5169,
@@ -3729,11 +3729,11 @@
     "_source": "nonebot",
     "_source_id": "930049",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.25,
+    "hp_bonus": 0.32,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.25
   },
   "5170": {
     "id": 5170,
@@ -3749,10 +3749,10 @@
     "_source_id": "930050",
     "breakthrough_bonus": 0.0,
     "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "hp_bonus": 0.4,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.26
   },
   "5171": {
     "id": 5171,
@@ -3766,12 +3766,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930051",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.66,
+    "hp_bonus": 0.96,
+    "crit_rate": 0,
+    "crit_damage": 0.17,
+    "mp_bonus": 0.65
   },
   "5172": {
     "id": 5172,
@@ -3786,11 +3786,11 @@
     "_source": "nonebot",
     "_source_id": "930052",
     "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "atk_bonus": 0.66,
+    "hp_bonus": 0.86,
+    "crit_rate": 10,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.52
   },
   "5173": {
     "id": 5173,
@@ -3804,12 +3804,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930053",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 0.81,
+    "hp_bonus": 0.82,
+    "crit_rate": 0,
     "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "mp_bonus": 0.69
   },
   "5174": {
     "id": 5174,
@@ -3823,12 +3823,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930054",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 0.66,
+    "hp_bonus": 0.8,
+    "crit_rate": 7,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.71
   },
   "5176": {
     "id": 5176,
@@ -3842,12 +3842,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930056",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "breakthrough_bonus": 0.06,
+    "atk_bonus": 0.62,
+    "hp_bonus": 0.83,
+    "crit_rate": 9,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.62
   },
   "5177": {
     "id": 5177,
@@ -3862,8 +3862,8 @@
     "_source": "nonebot",
     "_source_id": "930057",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.32,
+    "hp_bonus": 0.32,
     "crit_rate": 0,
     "crit_damage": 0.0,
     "mp_bonus": 0.3
@@ -3880,12 +3880,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930058",
-    "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.74,
+    "hp_bonus": 0.95,
     "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "crit_damage": 0.0,
+    "mp_bonus": 0.69
   },
   "5179": {
     "id": 5179,
@@ -3900,11 +3900,11 @@
     "_source": "nonebot",
     "_source_id": "930059",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.32,
+    "hp_bonus": 0.42,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.26
   },
   "5180": {
     "id": 5180,
@@ -3918,12 +3918,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930060",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
+    "breakthrough_bonus": 0.07,
+    "atk_bonus": 0.84,
+    "hp_bonus": 1.2,
     "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "crit_damage": 0.0,
+    "mp_bonus": 1.27
   },
   "5181": {
     "id": 5181,
@@ -3937,12 +3937,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930061",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.87,
+    "hp_bonus": 1.01,
+    "crit_rate": 9,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.59
   },
   "5182": {
     "id": 5182,
@@ -3956,12 +3956,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930062",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 1.06,
+    "hp_bonus": 1.19,
     "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "crit_damage": 0.0,
+    "mp_bonus": 1.56
   },
   "5183": {
     "id": 5183,
@@ -3976,11 +3976,11 @@
     "_source": "nonebot",
     "_source_id": "930063",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.34,
+    "hp_bonus": 0.41,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.25
   },
   "5184": {
     "id": 5184,
@@ -3995,11 +3995,11 @@
     "_source": "nonebot",
     "_source_id": "930064",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.25,
+    "hp_bonus": 0.33,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.33
   },
   "5185": {
     "id": 5185,
@@ -4013,12 +4013,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930065",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.98,
+    "hp_bonus": 1.03,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.25
   },
   "5186": {
     "id": 5186,
@@ -4034,10 +4034,10 @@
     "_source_id": "930066",
     "breakthrough_bonus": 0.08,
     "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "hp_bonus": 1.13,
+    "crit_rate": 7,
+    "crit_damage": 0.18,
+    "mp_bonus": 1.22
   },
   "5187": {
     "id": 5187,
@@ -4052,11 +4052,11 @@
     "_source": "nonebot",
     "_source_id": "930067",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.33,
+    "hp_bonus": 0.37,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.35
   },
   "5188": {
     "id": 5188,
@@ -4071,11 +4071,11 @@
     "_source": "nonebot",
     "_source_id": "930068",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.35,
+    "hp_bonus": 0.38,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.27
   },
   "5189": {
     "id": 5189,
@@ -4089,12 +4089,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930069",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.78,
+    "hp_bonus": 1.25,
+    "crit_rate": 0,
+    "crit_damage": 0.16,
+    "mp_bonus": 1.45
   },
   "5191": {
     "id": 5191,
@@ -4108,12 +4108,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930071",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "breakthrough_bonus": 0.07,
+    "atk_bonus": 1.0,
+    "hp_bonus": 1.13,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.23
   },
   "5192": {
     "id": 5192,
@@ -4127,12 +4127,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930072",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.89,
+    "hp_bonus": 1.22,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.35
   },
   "5193": {
     "id": 5193,
@@ -4147,11 +4147,11 @@
     "_source": "nonebot",
     "_source_id": "930073",
     "breakthrough_bonus": 0.0,
-    "atk_bonus": 0.29,
-    "hp_bonus": 0.36,
+    "atk_bonus": 0.28,
+    "hp_bonus": 0.33,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.3
+    "mp_bonus": 0.28
   },
   "5194": {
     "id": 5194,
@@ -4165,12 +4165,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930074",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 1.13,
+    "hp_bonus": 1.09,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.48
   },
   "5196": {
     "id": 5196,
@@ -4184,12 +4184,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930076",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 2.17,
+    "hp_bonus": 3.69,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 3.38
   },
   "5197": {
     "id": 5197,
@@ -4203,12 +4203,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930077",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 1.98,
+    "hp_bonus": 4.3,
+    "crit_rate": 24,
+    "crit_damage": 0.0,
+    "mp_bonus": 4.19
   },
   "5198": {
     "id": 5198,
@@ -4222,12 +4222,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930078",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "breakthrough_bonus": 0.07,
+    "atk_bonus": 0.85,
+    "hp_bonus": 0.98,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.5
   },
   "5199": {
     "id": 5199,
@@ -4241,12 +4241,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930079",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 2.22,
+    "hp_bonus": 3.57,
+    "crit_rate": 0,
+    "crit_damage": 0.53,
+    "mp_bonus": 4.06
   },
   "5200": {
     "id": 5200,
@@ -4260,12 +4260,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930080",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "breakthrough_bonus": 0.09,
+    "atk_bonus": 1.13,
+    "hp_bonus": 1.01,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.5
   },
   "5201": {
     "id": 5201,
@@ -4279,12 +4279,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930081",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "breakthrough_bonus": 0.09,
+    "atk_bonus": 1.09,
+    "hp_bonus": 1.03,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.64
   },
   "5202": {
     "id": 5202,
@@ -4298,12 +4298,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930082",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.87,
+    "hp_bonus": 1.04,
+    "crit_rate": 7,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.52
   },
   "5203": {
     "id": 5203,
@@ -4317,12 +4317,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930083",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "breakthrough_bonus": 0.07,
+    "atk_bonus": 0.89,
+    "hp_bonus": 1.15,
+    "crit_rate": 9,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.5
   },
   "5205": {
     "id": 5205,
@@ -4336,12 +4336,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930085",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.85,
+    "hp_bonus": 1.25,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.2
   },
   "5206": {
     "id": 5206,
@@ -4355,12 +4355,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930086",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.91,
+    "hp_bonus": 1.2,
+    "crit_rate": 7,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.66
   },
   "5208": {
     "id": 5208,
@@ -4375,11 +4375,11 @@
     "_source": "nonebot",
     "_source_id": "930088",
     "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "atk_bonus": 0.98,
+    "hp_bonus": 1.3,
+    "crit_rate": 9,
+    "crit_damage": 0.16,
+    "mp_bonus": 1.69
   },
   "5209": {
     "id": 5209,
@@ -4393,12 +4393,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930089",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "breakthrough_bonus": 0.09,
+    "atk_bonus": 0.82,
+    "hp_bonus": 1.12,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.75
   },
   "5211": {
     "id": 5211,
@@ -4412,12 +4412,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930091",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "breakthrough_bonus": 0.09,
+    "atk_bonus": 1.08,
+    "hp_bonus": 1.29,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.4
   },
   "5212": {
     "id": 5212,
@@ -4431,12 +4431,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930092",
-    "breakthrough_bonus": 0.08,
-    "atk_bonus": 0.95,
-    "hp_bonus": 1.1333,
-    "crit_rate": 8,
-    "crit_damage": 0.1333,
-    "mp_bonus": 1.4667
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.77,
+    "hp_bonus": 0.93,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.55
   },
   "5213": {
     "id": 5213,
@@ -4450,12 +4450,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930093",
-    "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.6,
+    "hp_bonus": 0.53,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.7
   },
   "5215": {
     "id": 5215,
@@ -4469,12 +4469,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930095",
-    "breakthrough_bonus": 0.12,
-    "atk_bonus": 1.5286,
-    "hp_bonus": 2.0286,
-    "crit_rate": 14,
-    "crit_damage": 0.1786,
-    "mp_bonus": 1.8857
+    "breakthrough_bonus": 0.13,
+    "atk_bonus": 1.5,
+    "hp_bonus": 2.19,
+    "crit_rate": 13,
+    "crit_damage": 0.18,
+    "mp_bonus": 2.19
   },
   "5216": {
     "id": 5216,
@@ -4488,12 +4488,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930096",
-    "breakthrough_bonus": 0.12,
-    "atk_bonus": 1.5286,
-    "hp_bonus": 2.0286,
-    "crit_rate": 14,
-    "crit_damage": 0.1786,
-    "mp_bonus": 1.8857
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 1.57,
+    "hp_bonus": 2.27,
+    "crit_rate": 0,
+    "crit_damage": 0.21,
+    "mp_bonus": 1.64
   },
   "5217": {
     "id": 5217,
@@ -4507,12 +4507,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930097",
-    "breakthrough_bonus": 0.12,
-    "atk_bonus": 1.5286,
-    "hp_bonus": 2.0286,
-    "crit_rate": 14,
-    "crit_damage": 0.1786,
-    "mp_bonus": 1.8857
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 1.31,
+    "hp_bonus": 2.0,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.7
   },
   "5218": {
     "id": 5218,
@@ -4527,11 +4527,11 @@
     "_source": "nonebot",
     "_source_id": "930098",
     "breakthrough_bonus": 0.12,
-    "atk_bonus": 1.5286,
-    "hp_bonus": 2.0286,
-    "crit_rate": 14,
-    "crit_damage": 0.1786,
-    "mp_bonus": 1.8857
+    "atk_bonus": 1.64,
+    "hp_bonus": 1.75,
+    "crit_rate": 0,
+    "crit_damage": 0.16,
+    "mp_bonus": 1.85
   },
   "5220": {
     "id": 5220,
@@ -4545,12 +4545,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930100",
-    "breakthrough_bonus": 0.12,
-    "atk_bonus": 1.5286,
-    "hp_bonus": 2.0286,
-    "crit_rate": 14,
-    "crit_damage": 0.1786,
-    "mp_bonus": 1.8857
+    "breakthrough_bonus": 0.11,
+    "atk_bonus": 1.74,
+    "hp_bonus": 1.79,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.8
   },
   "5221": {
     "id": 5221,
@@ -4564,12 +4564,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930101",
-    "breakthrough_bonus": 0.12,
-    "atk_bonus": 1.5286,
-    "hp_bonus": 2.0286,
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 1.83,
+    "hp_bonus": 1.86,
     "crit_rate": 14,
-    "crit_damage": 0.1786,
-    "mp_bonus": 1.8857
+    "crit_damage": 0.0,
+    "mp_bonus": 2.25
   },
   "5222": {
     "id": 5222,
@@ -4583,12 +4583,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930102",
-    "breakthrough_bonus": 0.12,
-    "atk_bonus": 1.5286,
-    "hp_bonus": 2.0286,
-    "crit_rate": 14,
-    "crit_damage": 0.1786,
-    "mp_bonus": 1.8857
+    "breakthrough_bonus": 0.14,
+    "atk_bonus": 1.68,
+    "hp_bonus": 1.66,
+    "crit_rate": 16,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.97
   },
   "5223": {
     "id": 5223,
@@ -4602,12 +4602,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930103",
-    "breakthrough_bonus": 0.12,
-    "atk_bonus": 1.5286,
-    "hp_bonus": 2.0286,
-    "crit_rate": 14,
-    "crit_damage": 0.1786,
-    "mp_bonus": 1.8857
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 1.44,
+    "hp_bonus": 2.14,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.98
   },
   "5224": {
     "id": 5224,
@@ -4621,12 +4621,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930104",
-    "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.7,
+    "hp_bonus": 0.66,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.77
   },
   "5225": {
     "id": 5225,
@@ -4640,12 +4640,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930105",
-    "breakthrough_bonus": 0.12,
-    "atk_bonus": 1.5286,
-    "hp_bonus": 2.0286,
-    "crit_rate": 14,
-    "crit_damage": 0.1786,
-    "mp_bonus": 1.8857
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 1.41,
+    "hp_bonus": 1.98,
+    "crit_rate": 13,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.95
   },
   "5226": {
     "id": 5226,
@@ -4659,12 +4659,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930106",
-    "breakthrough_bonus": 0.12,
-    "atk_bonus": 1.5286,
-    "hp_bonus": 2.0286,
-    "crit_rate": 14,
-    "crit_damage": 0.1786,
-    "mp_bonus": 1.8857
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 1.33,
+    "hp_bonus": 1.73,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 1.92
   },
   "5227": {
     "id": 5227,
@@ -4678,12 +4678,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930107",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.17,
+    "atk_bonus": 2.55,
+    "hp_bonus": 3.81,
+    "crit_rate": 0,
+    "crit_damage": 0.4,
+    "mp_bonus": 4.04
   },
   "5228": {
     "id": 5228,
@@ -4697,12 +4697,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930108",
-    "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.73,
+    "hp_bonus": 0.54,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.78
   },
   "5229": {
     "id": 5229,
@@ -4716,12 +4716,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930109",
-    "breakthrough_bonus": 0.12,
-    "atk_bonus": 1.5286,
-    "hp_bonus": 2.0286,
-    "crit_rate": 14,
-    "crit_damage": 0.1786,
-    "mp_bonus": 1.8857
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 1.67,
+    "hp_bonus": 2.42,
+    "crit_rate": 16,
+    "crit_damage": 0.18,
+    "mp_bonus": 2.24
   },
   "5231": {
     "id": 5231,
@@ -4735,12 +4735,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930111",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.17,
+    "atk_bonus": 2.21,
+    "hp_bonus": 4.51,
+    "crit_rate": 0,
+    "crit_damage": 0.42,
+    "mp_bonus": 3.83
   },
   "5232": {
     "id": 5232,
@@ -4754,12 +4754,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930112",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 1.82,
+    "hp_bonus": 4.87,
+    "crit_rate": 17,
+    "crit_damage": 0.0,
+    "mp_bonus": 3.67
   },
   "5233": {
     "id": 5233,
@@ -4773,12 +4773,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930113",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 2.62,
+    "hp_bonus": 3.89,
     "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "crit_damage": 0.54,
+    "mp_bonus": 3.45
   },
   "5234": {
     "id": 5234,
@@ -4792,12 +4792,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930114",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 1.92,
+    "hp_bonus": 4.14,
+    "crit_rate": 0,
+    "crit_damage": 0.52,
+    "mp_bonus": 3.82
   },
   "5235": {
     "id": 5235,
@@ -4812,11 +4812,11 @@
     "_source": "nonebot",
     "_source_id": "930115",
     "breakthrough_bonus": 0.12,
-    "atk_bonus": 1.5286,
-    "hp_bonus": 2.0286,
-    "crit_rate": 14,
-    "crit_damage": 0.1786,
-    "mp_bonus": 1.8857
+    "atk_bonus": 1.32,
+    "hp_bonus": 1.96,
+    "crit_rate": 0,
+    "crit_damage": 0.17,
+    "mp_bonus": 1.59
   },
   "5236": {
     "id": 5236,
@@ -4830,12 +4830,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930116",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 2.2,
+    "hp_bonus": 4.98,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 4.09
   },
   "5237": {
     "id": 5237,
@@ -4849,12 +4849,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930117",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.17,
+    "atk_bonus": 2.12,
+    "hp_bonus": 4.05,
+    "crit_rate": 21,
+    "crit_damage": 0.0,
+    "mp_bonus": 3.14
   },
   "5238": {
     "id": 5238,
@@ -4868,12 +4868,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930118",
-    "breakthrough_bonus": 0.12,
-    "atk_bonus": 1.5286,
-    "hp_bonus": 2.0286,
-    "crit_rate": 14,
-    "crit_damage": 0.1786,
-    "mp_bonus": 1.8857
+    "breakthrough_bonus": 0.1,
+    "atk_bonus": 1.59,
+    "hp_bonus": 1.64,
+    "crit_rate": 0,
+    "crit_damage": 0.2,
+    "mp_bonus": 2.11
   },
   "5239": {
     "id": 5239,
@@ -4887,12 +4887,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930119",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.13,
+    "atk_bonus": 1.99,
+    "hp_bonus": 3.74,
+    "crit_rate": 0,
+    "crit_damage": 0.54,
+    "mp_bonus": 4.11
   },
   "5240": {
     "id": 5240,
@@ -4906,12 +4906,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930120",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 1.93,
+    "hp_bonus": 3.6,
+    "crit_rate": 16,
+    "crit_damage": 0.0,
+    "mp_bonus": 3.22
   },
   "5241": {
     "id": 5241,
@@ -4926,11 +4926,11 @@
     "_source": "nonebot",
     "_source_id": "930121",
     "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
-    "mp_bonus": 0.6
+    "atk_bonus": 0.67,
+    "hp_bonus": 0.9,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 0.52
   },
   "5242": {
     "id": 5242,
@@ -4945,10 +4945,10 @@
     "_source": "nonebot",
     "_source_id": "930122",
     "breakthrough_bonus": 0.05,
-    "atk_bonus": 0.75,
-    "hp_bonus": 0.9667,
-    "crit_rate": 8,
-    "crit_damage": 0.2,
+    "atk_bonus": 0.74,
+    "hp_bonus": 1.08,
+    "crit_rate": 0,
+    "crit_damage": 0.22,
     "mp_bonus": 0.6
   },
   "5244": {
@@ -4963,12 +4963,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930124",
-    "breakthrough_bonus": 0.03,
-    "atk_bonus": 0.6167,
-    "hp_bonus": 0.625,
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 0.71,
+    "hp_bonus": 0.64,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "mp_bonus": 0.6625
+    "mp_bonus": 0.65
   },
   "5247": {
     "id": 5247,
@@ -4982,12 +4982,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930127",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 1.85,
+    "hp_bonus": 4.18,
+    "crit_rate": 23,
+    "crit_damage": 0.39,
+    "mp_bonus": 3.44
   },
   "5248": {
     "id": 5248,
@@ -5001,12 +5001,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930128",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 2.35,
+    "hp_bonus": 3.49,
+    "crit_rate": 0,
+    "crit_damage": 0.56,
+    "mp_bonus": 3.26
   },
   "5249": {
     "id": 5249,
@@ -5020,12 +5020,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930129",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.16,
+    "atk_bonus": 2.28,
+    "hp_bonus": 4.14,
+    "crit_rate": 0,
+    "crit_damage": 0.0,
+    "mp_bonus": 3.73
   },
   "5253": {
     "id": 5253,
@@ -5039,12 +5039,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930133",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
+    "breakthrough_bonus": 0.13,
+    "atk_bonus": 2.49,
+    "hp_bonus": 4.59,
     "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "crit_damage": 0.39,
+    "mp_bonus": 3.17
   },
   "5254": {
     "id": 5254,
@@ -5058,12 +5058,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930134",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.18,
+    "atk_bonus": 2.18,
+    "hp_bonus": 4.5,
+    "crit_rate": 23,
+    "crit_damage": 0.39,
+    "mp_bonus": 3.4
   },
   "5255": {
     "id": 5255,
@@ -5078,11 +5078,11 @@
     "_source": "nonebot",
     "_source_id": "930135",
     "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "atk_bonus": 2.46,
+    "hp_bonus": 4.75,
+    "crit_rate": 17,
+    "crit_damage": 0.5,
+    "mp_bonus": 3.66
   },
   "5256": {
     "id": 5256,
@@ -5096,12 +5096,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930136",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.0,
+    "atk_bonus": 2.48,
+    "hp_bonus": 4.84,
+    "crit_rate": 0,
+    "crit_damage": 0.48,
+    "mp_bonus": 3.9
   },
   "5257": {
     "id": 5257,
@@ -5115,12 +5115,12 @@
     "shop_weight": 500,
     "_source": "nonebot",
     "_source_id": "930137",
-    "breakthrough_bonus": 0.15,
-    "atk_bonus": 2.2462,
-    "hp_bonus": 4.2231,
-    "crit_rate": 20,
-    "crit_damage": 0.4654,
-    "mp_bonus": 3.5769
+    "breakthrough_bonus": 0.17,
+    "atk_bonus": 1.99,
+    "hp_bonus": 4.48,
+    "crit_rate": 22,
+    "crit_damage": 0.0,
+    "mp_bonus": 3.19
   },
   "6000": {
     "id": 6000,
