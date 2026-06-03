@@ -209,54 +209,42 @@ class BreakthroughManager:
             loan_msg = await self._handle_breakthrough_loan_repay(player)
 
             # 根据修炼类型生成不同的成功消息
+            # 按修炼类型决定攻击属性标签：体修主物伤，灵修主法伤
             if player.cultivation_type == "体修":
-                success_msg = (
-                    f"✨ 突破成功！✨\n"
-                    f"━━━━━━━━━━━━━━━\n"
-                    f"{rate_info}\n"
-                    f"━━━━━━━━━━━━━━━\n"
-                    f"恭喜你从【{current_level_name}】突破至【{next_level_name}】！\n"
-                    f"境界提升，肉身更加强横！\n"
-                    f"\n【属性增长】\n"
-                    f"寿命 +{lifespan_gain}\n"
-                    f"最大气血 +{energy_gain}\n"
-                    f"物伤 +{physical_damage_gain}\n"
-                    f"物防 +{physical_defense_gain}\n"
-                    f"法防 +{magic_defense_gain}\n"
-                    f"精神力 +{mental_power_gain}\n"
-                    f"\n【当前属性】\n"
-                    f"寿命：{player.lifespan}\n"
-                    f"最大气血：{player.max_blood_qi}\n"
-                    f"物伤：{player.physical_damage}\n"
-                    f"物防：{player.physical_defense}\n"
-                    f"法防：{player.magic_defense}\n"
-                    f"精神力：{player.mental_power}"
-                )
+                energy_label = "最大气血"
+                atk_label = "物伤"
+                atk_gain = physical_damage_gain
+                atk_current = player.physical_damage
+                flavor = "肉身更加强横"
             else:
-                success_msg = (
-                    f"✨ 突破成功！✨\n"
-                    f"━━━━━━━━━━━━━━━\n"
-                    f"{rate_info}\n"
-                    f"━━━━━━━━━━━━━━━\n"
-                    f"恭喜你从【{current_level_name}】突破至【{next_level_name}】！\n"
-                    f"境界提升，实力大增！\n"
-                    f"\n【属性增长】\n"
-                    f"寿命 +{lifespan_gain}\n"
-                    f"最大灵气 +{energy_gain}\n"
-                    f"法伤 +{magic_damage_gain}\n"
-                    f"物伤 +{physical_damage_gain}\n"
-                    f"法防 +{magic_defense_gain}\n"
-                    f"物防 +{physical_defense_gain}\n"
-                    f"精神力 +{mental_power_gain}\n"
-                    f"\n【当前属性】\n"
-                    f"寿命：{player.lifespan}\n"
-                    f"最大灵气：{player.max_spiritual_qi}\n"
-                    f"法伤：{player.magic_damage}\n"
-                    f"物伤：{player.physical_damage}\n"
-                    f"法防：{player.magic_defense}\n"
-                    f"物防：{player.physical_defense}\n"
-                    f"精神力：{player.mental_power}"
-                )
+                energy_label = "最大灵气"
+                atk_label = "法伤"
+                atk_gain = magic_damage_gain
+                atk_current = player.magic_damage
+                flavor = "实力大增"
+
+            success_msg = (
+                f"✨ 突破成功！✨\n"
+                f"━━━━━━━━━━━━━━━\n"
+                f"{rate_info}\n"
+                f"━━━━━━━━━━━━━━━\n"
+                f"恭喜你从【{current_level_name}】突破至【{next_level_name}】！\n"
+                f"境界提升，{flavor}！\n"
+                f"\n【属性增长】\n"
+                f"寿命 +{lifespan_gain}\n"
+                f"{energy_label} +{energy_gain}\n"
+                f"{atk_label} +{atk_gain}\n"
+                f"物防 +{physical_defense_gain}\n"
+                f"法防 +{magic_defense_gain}\n"
+                f"精神力 +{mental_power_gain}\n"
+                f"\n【当前属性】\n"
+                f"寿命：{player.lifespan}\n"
+                f"{energy_label}：{player.max_blood_qi if player.cultivation_type == '体修' else player.max_spiritual_qi}\n"
+                f"{atk_label}：{atk_current}\n"
+                f"物防：{player.physical_defense}\n"
+                f"法防：{player.magic_defense}\n"
+                f"精神力：{player.mental_power}"
+            )
 
             # 如果有失败累积加成，追加重置提示
             if old_failure_count > 0:

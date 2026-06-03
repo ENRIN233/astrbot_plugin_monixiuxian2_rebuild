@@ -18,10 +18,10 @@
         "breakthrough_lifespan_gain": 6,
         "breakthrough_spiritual_qi_gain": 10,
         "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 2,
-        "breakthrough_magic_damage_gain": 2,
-        "breakthrough_physical_defense_gain": 1,
-        "breakthrough_magic_defense_gain": 1
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 8,
+        "breakthrough_physical_defense_gain": 4,
+        "breakthrough_magic_defense_gain": 2
     },
     {
         "level_name": "炼气期三层",
@@ -30,10 +30,10 @@
         "breakthrough_lifespan_gain": 6,
         "breakthrough_spiritual_qi_gain": 15,
         "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 2,
-        "breakthrough_magic_damage_gain": 2,
-        "breakthrough_physical_defense_gain": 1,
-        "breakthrough_magic_defense_gain": 1
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 10,
+        "breakthrough_physical_defense_gain": 6,
+        "breakthrough_magic_defense_gain": 4
     },
     {
         "level_name": "炼气期四层",
@@ -42,10 +42,10 @@
         "breakthrough_lifespan_gain": 6,
         "breakthrough_spiritual_qi_gain": 20,
         "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 2,
-        "breakthrough_magic_damage_gain": 2,
-        "breakthrough_physical_defense_gain": 1,
-        "breakthrough_magic_defense_gain": 1
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 12,
+        "breakthrough_physical_defense_gain": 8,
+        "breakthrough_magic_defense_gain": 5
     },
     {
         "level_name": "炼气期五层",
@@ -54,10 +54,10 @@
         "breakthrough_lifespan_gain": 6,
         "breakthrough_spiritual_qi_gain": 25,
         "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 2,
-        "breakthrough_magic_damage_gain": 2,
-        "breakthrough_physical_defense_gain": 1,
-        "breakthrough_magic_defense_gain": 1
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 15,
+        "breakthrough_physical_defense_gain": 10,
+        "breakthrough_magic_defense_gain": 5
     },
     {
         "level_name": "炼气期六层",
@@ -66,10 +66,10 @@
         "breakthrough_lifespan_gain": 6,
         "breakthrough_spiritual_qi_gain": 30,
         "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 2,
-        "breakthrough_magic_damage_gain": 2,
-        "breakthrough_physical_defense_gain": 1,
-        "breakthrough_magic_defense_gain": 1
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 18,
+        "breakthrough_physical_defense_gain": 12,
+        "breakthrough_magic_defense_gain": 6
     },
     {
         "level_name": "炼气期七层",
@@ -78,10 +78,10 @@
         "breakthrough_lifespan_gain": 6,
         "breakthrough_spiritual_qi_gain": 35,
         "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 2,
-        "breakthrough_magic_damage_gain": 2,
-        "breakthrough_physical_defense_gain": 1,
-        "breakthrough_magic_defense_gain": 1
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 20,
+        "breakthrough_physical_defense_gain": 14,
+        "breakthrough_magic_defense_gain": 8
     },
     {
         "level_name": "炼气期八层",
@@ -90,10 +90,10 @@
         "breakthrough_lifespan_gain": 6,
         "breakthrough_spiritual_qi_gain": 40,
         "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 2,
-        "breakthrough_magic_damage_gain": 2,
-        "breakthrough_physical_defense_gain": 1,
-        "breakthrough_magic_defense_gain": 1
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 25,
+        "breakthrough_physical_defense_gain": 16,
+        "breakthrough_magic_defense_gain": 9
     },
     {
         "level_name": "炼气期九层",
@@ -102,10 +102,10 @@
         "breakthrough_lifespan_gain": 6,
         "breakthrough_spiritual_qi_gain": 45,
         "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 2,
-        "breakthrough_magic_damage_gain": 2,
-        "breakthrough_physical_defense_gain": 1,
-        "breakthrough_magic_defense_gain": 1
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 28,
+        "breakthrough_physical_defense_gain": 18,
+        "breakthrough_magic_defense_gain": 9
     },
     {
         "level_name": "炼气期十层",
@@ -114,10 +114,10 @@
         "breakthrough_lifespan_gain": 6,
         "breakthrough_spiritual_qi_gain": 50,
         "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 2,
-        "breakthrough_magic_damage_gain": 2,
-        "breakthrough_physical_defense_gain": 1,
-        "breakthrough_magic_defense_gain": 1
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 30,
+        "breakthrough_physical_defense_gain": 20,
+        "breakthrough_magic_defense_gain": 10
     },
     {
         "level_name": "筑基期初期",
@@ -126,10 +126,10 @@
         "breakthrough_lifespan_gain": 6,
         "breakthrough_spiritual_qi_gain": 180,
         "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 2,
-        "breakthrough_magic_damage_gain": 2,
-        "breakthrough_physical_defense_gain": 1,
-        "breakthrough_magic_defense_gain": 1
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 60,
+        "breakthrough_physical_defense_gain": 42,
+        "breakthrough_magic_defense_gain": 22
     },
     {
         "level_name": "筑基期中期",
@@ -138,10 +138,10 @@
         "breakthrough_lifespan_gain": 15,
         "breakthrough_spiritual_qi_gain": 250,
         "breakthrough_mental_power_gain": 70,
-        "breakthrough_physical_damage_gain": 35,
-        "breakthrough_magic_damage_gain": 35,
-        "breakthrough_physical_defense_gain": 10,
-        "breakthrough_magic_defense_gain": 10
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 100,
+        "breakthrough_physical_defense_gain": 68,
+        "breakthrough_magic_defense_gain": 37
     },
     {
         "level_name": "筑基期后期",
@@ -150,10 +150,10 @@
         "breakthrough_lifespan_gain": 15,
         "breakthrough_spiritual_qi_gain": 350,
         "breakthrough_mental_power_gain": 70,
-        "breakthrough_physical_damage_gain": 35,
-        "breakthrough_magic_damage_gain": 35,
-        "breakthrough_physical_defense_gain": 10,
-        "breakthrough_magic_defense_gain": 10
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 150,
+        "breakthrough_physical_defense_gain": 101,
+        "breakthrough_magic_defense_gain": 54
     },
     {
         "level_name": "金丹期初期",
@@ -162,10 +162,10 @@
         "breakthrough_lifespan_gain": 60,
         "breakthrough_spiritual_qi_gain": 650,
         "breakthrough_mental_power_gain": 180,
-        "breakthrough_physical_damage_gain": 100,
-        "breakthrough_magic_damage_gain": 100,
-        "breakthrough_physical_defense_gain": 30,
-        "breakthrough_magic_defense_gain": 30
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 280,
+        "breakthrough_physical_defense_gain": 185,
+        "breakthrough_magic_defense_gain": 100
     },
     {
         "level_name": "金丹期中期",
@@ -174,10 +174,10 @@
         "breakthrough_lifespan_gain": 50,
         "breakthrough_spiritual_qi_gain": 1000,
         "breakthrough_mental_power_gain": 133,
-        "breakthrough_physical_damage_gain": 83,
-        "breakthrough_magic_damage_gain": 83,
-        "breakthrough_physical_defense_gain": 25,
-        "breakthrough_magic_defense_gain": 25
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 450,
+        "breakthrough_physical_defense_gain": 292,
+        "breakthrough_magic_defense_gain": 158
     },
     {
         "level_name": "金丹期后期",
@@ -186,10 +186,10 @@
         "breakthrough_lifespan_gain": 50,
         "breakthrough_spiritual_qi_gain": 1500,
         "breakthrough_mental_power_gain": 133,
-        "breakthrough_physical_damage_gain": 83,
-        "breakthrough_magic_damage_gain": 83,
-        "breakthrough_physical_defense_gain": 25,
-        "breakthrough_magic_defense_gain": 25
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 650,
+        "breakthrough_physical_defense_gain": 422,
+        "breakthrough_magic_defense_gain": 227
     },
     {
         "level_name": "元婴期初期",
@@ -198,10 +198,10 @@
         "breakthrough_lifespan_gain": 50,
         "breakthrough_spiritual_qi_gain": 2250,
         "breakthrough_mental_power_gain": 133,
-        "breakthrough_physical_damage_gain": 83,
-        "breakthrough_magic_damage_gain": 83,
-        "breakthrough_physical_defense_gain": 25,
-        "breakthrough_magic_defense_gain": 25
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 1000,
+        "breakthrough_physical_defense_gain": 634,
+        "breakthrough_magic_defense_gain": 341
     },
     {
         "level_name": "元婴期中期",
@@ -210,10 +210,10 @@
         "breakthrough_lifespan_gain": 83,
         "breakthrough_spiritual_qi_gain": 3500,
         "breakthrough_mental_power_gain": 100,
-        "breakthrough_physical_damage_gain": 67,
-        "breakthrough_magic_damage_gain": 67,
-        "breakthrough_physical_defense_gain": 20,
-        "breakthrough_magic_defense_gain": 20
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 1500,
+        "breakthrough_physical_defense_gain": 975,
+        "breakthrough_magic_defense_gain": 525
     },
     {
         "level_name": "元婴期后期",
@@ -222,10 +222,10 @@
         "breakthrough_lifespan_gain": 83,
         "breakthrough_spiritual_qi_gain": 5000,
         "breakthrough_mental_power_gain": 100,
-        "breakthrough_physical_damage_gain": 67,
-        "breakthrough_magic_damage_gain": 67,
-        "breakthrough_physical_defense_gain": 20,
-        "breakthrough_magic_defense_gain": 20
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 2200,
+        "breakthrough_physical_defense_gain": 1430,
+        "breakthrough_magic_defense_gain": 770
     },
     {
         "level_name": "化神期初期",
@@ -234,10 +234,10 @@
         "breakthrough_lifespan_gain": 83,
         "breakthrough_spiritual_qi_gain": 7500,
         "breakthrough_mental_power_gain": 100,
-        "breakthrough_physical_damage_gain": 67,
-        "breakthrough_magic_damage_gain": 67,
-        "breakthrough_physical_defense_gain": 20,
-        "breakthrough_magic_defense_gain": 20
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 3300,
+        "breakthrough_physical_defense_gain": 2112,
+        "breakthrough_magic_defense_gain": 1138
     },
     {
         "level_name": "化神期中期",
@@ -246,10 +246,10 @@
         "breakthrough_lifespan_gain": 83,
         "breakthrough_spiritual_qi_gain": 12500,
         "breakthrough_mental_power_gain": 100,
-        "breakthrough_physical_damage_gain": 67,
-        "breakthrough_magic_damage_gain": 67,
-        "breakthrough_physical_defense_gain": 20,
-        "breakthrough_magic_defense_gain": 20
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 5500,
+        "breakthrough_physical_defense_gain": 3542,
+        "breakthrough_magic_defense_gain": 1907
     },
     {
         "level_name": "化神期后期",
@@ -258,10 +258,10 @@
         "breakthrough_lifespan_gain": 83,
         "breakthrough_spiritual_qi_gain": 17500,
         "breakthrough_mental_power_gain": 100,
-        "breakthrough_physical_damage_gain": 67,
-        "breakthrough_magic_damage_gain": 67,
-        "breakthrough_physical_defense_gain": 20,
-        "breakthrough_magic_defense_gain": 20
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 7500,
+        "breakthrough_physical_defense_gain": 4908,
+        "breakthrough_magic_defense_gain": 2642
     },
     {
         "level_name": "炼虚期初期",
@@ -270,10 +270,10 @@
         "breakthrough_lifespan_gain": 83,
         "breakthrough_spiritual_qi_gain": 27500,
         "breakthrough_mental_power_gain": 100,
-        "breakthrough_physical_damage_gain": 67,
-        "breakthrough_magic_damage_gain": 67,
-        "breakthrough_physical_defense_gain": 20,
-        "breakthrough_magic_defense_gain": 20
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 12000,
+        "breakthrough_physical_defense_gain": 7768,
+        "breakthrough_magic_defense_gain": 4182
     },
     {
         "level_name": "炼虚期中期",
@@ -282,10 +282,10 @@
         "breakthrough_lifespan_gain": 283,
         "breakthrough_spiritual_qi_gain": 40000,
         "breakthrough_mental_power_gain": 150,
-        "breakthrough_physical_damage_gain": 117,
-        "breakthrough_magic_damage_gain": 117,
-        "breakthrough_physical_defense_gain": 33,
-        "breakthrough_magic_defense_gain": 33
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 18000,
+        "breakthrough_physical_defense_gain": 11375,
+        "breakthrough_magic_defense_gain": 6125
     },
     {
         "level_name": "炼虚期后期",
@@ -294,10 +294,10 @@
         "breakthrough_lifespan_gain": 283,
         "breakthrough_spiritual_qi_gain": 55000,
         "breakthrough_mental_power_gain": 150,
-        "breakthrough_physical_damage_gain": 117,
-        "breakthrough_magic_damage_gain": 117,
-        "breakthrough_physical_defense_gain": 33,
-        "breakthrough_magic_defense_gain": 33
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 24000,
+        "breakthrough_physical_defense_gain": 15600,
+        "breakthrough_magic_defense_gain": 8400
     },
     {
         "level_name": "合体期初期",
@@ -306,10 +306,10 @@
         "breakthrough_lifespan_gain": 283,
         "breakthrough_spiritual_qi_gain": 85000,
         "breakthrough_mental_power_gain": 150,
-        "breakthrough_physical_damage_gain": 117,
-        "breakthrough_magic_damage_gain": 117,
-        "breakthrough_physical_defense_gain": 33,
-        "breakthrough_magic_defense_gain": 33
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 38000,
+        "breakthrough_physical_defense_gain": 23725,
+        "breakthrough_magic_defense_gain": 12775
     },
     {
         "level_name": "合体期中期",
@@ -318,10 +318,10 @@
         "breakthrough_lifespan_gain": 283,
         "breakthrough_spiritual_qi_gain": 140000,
         "breakthrough_mental_power_gain": 150,
-        "breakthrough_physical_damage_gain": 117,
-        "breakthrough_magic_damage_gain": 117,
-        "breakthrough_physical_defense_gain": 33,
-        "breakthrough_magic_defense_gain": 33
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 62000,
+        "breakthrough_physical_defense_gain": 39650,
+        "breakthrough_magic_defense_gain": 21350
     },
     {
         "level_name": "合体期后期",
@@ -330,10 +330,10 @@
         "breakthrough_lifespan_gain": 283,
         "breakthrough_spiritual_qi_gain": 200000,
         "breakthrough_mental_power_gain": 150,
-        "breakthrough_physical_damage_gain": 117,
-        "breakthrough_magic_damage_gain": 117,
-        "breakthrough_physical_defense_gain": 33,
-        "breakthrough_magic_defense_gain": 33
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 90000,
+        "breakthrough_physical_defense_gain": 57200,
+        "breakthrough_magic_defense_gain": 30800
     },
     {
         "level_name": "大乘期初期",
@@ -342,10 +342,10 @@
         "breakthrough_lifespan_gain": 283,
         "breakthrough_spiritual_qi_gain": 300000,
         "breakthrough_mental_power_gain": 150,
-        "breakthrough_physical_damage_gain": 117,
-        "breakthrough_magic_damage_gain": 117,
-        "breakthrough_physical_defense_gain": 33,
-        "breakthrough_magic_defense_gain": 33
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 135000,
+        "breakthrough_physical_defense_gain": 84500,
+        "breakthrough_magic_defense_gain": 45500
     },
     {
         "level_name": "大乘期中期",
@@ -354,10 +354,10 @@
         "breakthrough_lifespan_gain": 625,
         "breakthrough_spiritual_qi_gain": 450000,
         "breakthrough_mental_power_gain": 225,
-        "breakthrough_physical_damage_gain": 188,
-        "breakthrough_magic_damage_gain": 188,
-        "breakthrough_physical_defense_gain": 44,
-        "breakthrough_magic_defense_gain": 44
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 200000,
+        "breakthrough_physical_defense_gain": 126750,
+        "breakthrough_magic_defense_gain": 68250
     },
     {
         "level_name": "大乘期后期",
@@ -366,10 +366,10 @@
         "breakthrough_lifespan_gain": 625,
         "breakthrough_spiritual_qi_gain": 650000,
         "breakthrough_mental_power_gain": 225,
-        "breakthrough_physical_damage_gain": 188,
-        "breakthrough_magic_damage_gain": 188,
-        "breakthrough_physical_defense_gain": 44,
-        "breakthrough_magic_defense_gain": 44
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 280000,
+        "breakthrough_physical_defense_gain": 185250,
+        "breakthrough_magic_defense_gain": 99750
     },
     {
         "level_name": "渡劫期",
@@ -378,10 +378,10 @@
         "breakthrough_lifespan_gain": 625,
         "breakthrough_spiritual_qi_gain": 1250000,
         "breakthrough_mental_power_gain": 225,
-        "breakthrough_physical_damage_gain": 188,
-        "breakthrough_magic_damage_gain": 188,
-        "breakthrough_physical_defense_gain": 44,
-        "breakthrough_magic_defense_gain": 44
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 550000,
+        "breakthrough_physical_defense_gain": 354250,
+        "breakthrough_magic_defense_gain": 190750
     },
     {
         "level_name": "地仙",
@@ -390,10 +390,10 @@
         "breakthrough_lifespan_gain": 625,
         "breakthrough_spiritual_qi_gain": 1750000,
         "breakthrough_mental_power_gain": 225,
-        "breakthrough_physical_damage_gain": 188,
-        "breakthrough_magic_damage_gain": 188,
-        "breakthrough_physical_defense_gain": 44,
-        "breakthrough_magic_defense_gain": 44
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 780000,
+        "breakthrough_physical_defense_gain": 503750,
+        "breakthrough_magic_defense_gain": 271250
     },
     {
         "level_name": "天仙",
@@ -402,10 +402,10 @@
         "breakthrough_lifespan_gain": 1667,
         "breakthrough_spiritual_qi_gain": 2500000,
         "breakthrough_mental_power_gain": 334,
-        "breakthrough_physical_damage_gain": 334,
-        "breakthrough_magic_damage_gain": 334,
-        "breakthrough_physical_defense_gain": 84,
-        "breakthrough_magic_defense_gain": 84
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 1100000,
+        "breakthrough_physical_defense_gain": 715000,
+        "breakthrough_magic_defense_gain": 385000
     },
     {
         "level_name": "大罗金仙",
@@ -414,10 +414,10 @@
         "breakthrough_lifespan_gain": 1667,
         "breakthrough_spiritual_qi_gain": 3500000,
         "breakthrough_mental_power_gain": 334,
-        "breakthrough_physical_damage_gain": 334,
-        "breakthrough_magic_damage_gain": 334,
-        "breakthrough_physical_defense_gain": 84,
-        "breakthrough_magic_defense_gain": 84
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 1550000,
+        "breakthrough_physical_defense_gain": 1007500,
+        "breakthrough_magic_defense_gain": 542500
     },
     {
         "level_name": "混元大罗金仙",
@@ -426,9 +426,9 @@
         "breakthrough_lifespan_gain": 1667,
         "breakthrough_spiritual_qi_gain": 6500000,
         "breakthrough_mental_power_gain": 334,
-        "breakthrough_physical_damage_gain": 334,
-        "breakthrough_magic_damage_gain": 334,
-        "breakthrough_physical_defense_gain": 84,
-        "breakthrough_magic_defense_gain": 84
+        "breakthrough_physical_damage_gain": 0,
+        "breakthrough_magic_damage_gain": 2800000,
+        "breakthrough_physical_defense_gain": 1852500,
+        "breakthrough_magic_defense_gain": 997500
     }
 ]
