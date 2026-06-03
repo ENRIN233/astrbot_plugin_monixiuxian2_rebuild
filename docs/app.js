@@ -839,7 +839,7 @@ function renderTechniques(container) {
 
 function renderTechniqueTable(techs, isMain) {
     const headers = isMain
-        ? ['名称', '品阶', '修炼加成', '突破成功率', '攻击力', '生命值', '最低境界', '价格']
+        ? ['名称', '品阶', '修炼加成', '攻击力', '生命值', '真元', '突破成功率', '暴击率', '暴击伤害', '最低境界', '价格']
         : ['名称', '品阶', '修炼加成', '最低境界', '价格'];
     const rows = techs.map(t => {
         const base = [
@@ -849,9 +849,12 @@ function renderTechniqueTable(techs, isMain) {
         ];
         if (isMain) {
             base.push(
+                `<span data-sortvalue="${t.atk_bonus || 0}">${t.atk_bonus ? '+' + (t.atk_bonus * 100).toFixed(0) + '%' : '-'}</span>`,
+                `<span data-sortvalue="${t.hp_bonus || 0}">${t.hp_bonus ? '+' + (t.hp_bonus * 100).toFixed(0) + '%' : '-'}</span>`,
+                `<span data-sortvalue="${t.mp_bonus || 0}">${t.mp_bonus ? '+' + (t.mp_bonus * 100).toFixed(0) + '%' : '-'}</span>`,
                 `<span data-sortvalue="${t.breakthrough_bonus || 0}">${t.breakthrough_bonus ? '+' + (t.breakthrough_bonus * 100).toFixed(0) + '%' : '-'}</span>`,
-                `<span data-sortvalue="${t.atk_bonus || 0}">${t.atk_bonus ? '+' + t.atk_bonus : '-'}</span>`,
-                `<span data-sortvalue="${t.hp_bonus || 0}">${t.hp_bonus ? '+' + (t.hp_bonus * 100).toFixed(0) + '%' : '-'}</span>`
+                `<span data-sortvalue="${t.crit_rate || 0}">${t.crit_rate ? '+' + t.crit_rate + '%' : '-'}</span>`,
+                `<span data-sortvalue="${t.crit_damage || 0}">${t.crit_damage ? '+' + (t.crit_damage * 100).toFixed(0) + '%' : '-'}</span>`
             );
         }
         base.push(
@@ -898,38 +901,38 @@ function renderCombat() {
 
     html += `<div class="formula-card">
         <h3>生命值 (HP)</h3>
-        <div class="formula-expr">HP = (base_hp + level_hp + blood_qi) &times; (1 + hp_bonus)</div>
-        <div class="formula-note">基础生命 + 境界提升 + 气血值，乘以加成系数</div>
+        <div class="formula-expr">base_hp = max(200, √经验 × 2 × (1 + hp_buff) + 200)<br>HP = base_hp × (1 + 心法hp_bonus)</div>
+        <div class="formula-note">心法生命加成直接乘算基础生命，装备气血值额外叠加</div>
     </div>`;
 
     html += `<div class="formula-card">
         <h3>真元 (MP)</h3>
-        <div class="formula-expr">MP = (base_mp + level_mp + spiritual_qi) &times; (1 + mp_bonus)</div>
-        <div class="formula-note">基础真元 + 境界提升 + 灵气值，乘以加成系数</div>
+        <div class="formula-expr">base_mp = max(10, √经验 × 1 × (1 + mp_buff))<br>MP = base_mp × (1 + 心法mp_bonus)</div>
+        <div class="formula-note">心法真元加成直接乘算基础真元，装备灵气值额外叠加</div>
     </div>`;
 
     html += `<div class="formula-card">
         <h3>攻击力 (ATK)</h3>
-        <div class="formula-expr">ATK = physical_damage + magic_damage</div>
-        <div class="formula-note">物伤 + 法伤 = 总攻击力</div>
+        <div class="formula-expr">base_atk = √经验 × 2<br>final_atk = base_atk × (1 + 装备atk_pct + 丹药atk_buff + 心法atk_bonus) + 突破atk + 装备atk</div>
+        <div class="formula-note">心法攻击力为百分比乘区，与装备百分比加成叠加后乘算基础攻击</div>
     </div>`;
 
     html += `<div class="formula-card">
         <h3>防御减伤</h3>
-        <div class="formula-expr">减伤率 = defense / (defense + 100 + level&times;10)</div>
-        <div class="formula-note">防御值越高减伤越多，存在边际递减效应</div>
+        <div class="formula-expr">base_def = ln(经验+1) × 10<br>减伤率 = total_def / (total_def + 100)</div>
+        <div class="formula-note">防御由基础防御 + 装备防御组成，存在边际递减效应</div>
     </div>`;
 
     html += `<div class="formula-card">
         <h3>暴击系统</h3>
-        <div class="formula-expr">暴击伤害 = ATK &times; crit_damage_multiplier<br>默认倍率 = ${combatCfg.crit_damage_multiplier || 1.5}x</div>
-        <div class="formula-note">Boss基础暴击率 ${combatCfg.boss_crit_rate || 30}%，暴击伤害默认 1.5 倍</div>
+        <div class="formula-expr">crit_rate = 传承会心率 + 装备暴击率 + 心法暴击率<br>crit_damage = max(1.5, 装备暴击伤害 + 心法暴击伤害)<br>暴击伤害 = ATK × crit_damage</div>
+        <div class="formula-note">基础暴击倍率 1.5（+50%），心法和装备可进一步提升</div>
     </div>`;
 
     html += `<div class="formula-card">
-        <h3>战斗冷却</h3>
-        <div class="formula-expr">决斗冷却: ${fmtDuration(combatCfg.duel_cooldown)}<br>切磋冷却: ${fmtDuration(combatCfg.spar_cooldown)}</div>
-        <div class="formula-note">决斗有击杀/被杀判定，切磋为友好比武</div>
+        <h3>特殊战斗属性</h3>
+        <div class="formula-expr">护甲穿透 / 吸血率 / 连击率（武器）<br>闪避率 / 暴击抗性 / 反伤 / 格挡 / 生命回复（防具）</div>
+        <div class="formula-note">武器提供进攻属性，防具提供防御属性，全部按百分比计算</div>
     </div>`;
 
     html += '</div>';
@@ -946,12 +949,15 @@ function renderCombat() {
         ['<span class="num-green">blood_qi</span>', '气血值 (影响HP)', '境界突破、装备、丹药'],
         ['<span class="num-green">spiritual_qi</span>', '灵气值 (影响MP)', '境界突破、装备、丹药'],
         ['<span class="num-red">lifespan</span>', '寿命', '境界突破、丹药、回复'],
-        ['<span class="num-gold">crit_rate</span>', '暴击率', '装备（武器属性）'],
-        ['<span class="num-gold">crit_damage</span>', '暴击伤害加成', '装备（武器属性）'],
+        ['<span class="num-gold">atk_bonus</span>', '攻击力百分比加成（乘区）', '心法（主修心法）、装备'],
+        ['<span class="num-green">hp_bonus</span>', '生命值百分比加成', '心法（主修心法）'],
+        ['<span class="num-cyan">mp_bonus</span>', '真元百分比加成', '心法（主修心法）'],
+        ['<span class="num-gold">crit_rate</span>', '暴击率 (%)', '传承会心、装备（武器）、心法（帝品+）'],
+        ['<span class="num-gold">crit_damage</span>', '暴击伤害倍率加成', '装备（武器）、心法（帝品+）'],
+        ['<span class="num-red">breakthrough_bonus</span>', '突破成功率加成', '心法（皇品+）'],
         ['<span class="num-purple">armor_pen</span>', '护甲穿透', '装备（武器属性）'],
         ['<span class="num-cyan">double_hit</span>', '连击率', '装备（武器属性）'],
         ['<span class="num-green">lifesteal</span>', '吸血率', '装备（武器属性）'],
-        ['<span class="num-gold">atk_bonus</span>', '攻击加成', '装备（武器属性）'],
         ['<span class="num-cyan">dodge_rate</span>', '闪避率', '装备（防具属性）'],
         ['<span class="num-cyan">crit_resist</span>', '暴击抗性', '装备（防具属性）'],
         ['<span class="num-red">reflect_pct</span>', '反伤百分比', '装备（防具属性）'],
@@ -1027,7 +1033,7 @@ function renderSystems() {
         <p>通过闭关修炼积累修为值，提升境界。支持双修加成、修炼加速丹、心法倍率、灵眼加成、洞天福地等。</p>
         <ul class="detail-list">
             <li><span>闭关时长上限</span><span>${fmtDuration((cult.max_cultivation_minutes || 21600) * 60)}</span></li>
-            <li><span>修炼公式</span><span>修为 = 基础 × 根速 × (1+心法) × 丹药 × (1+灵眼) × (1+福地)</span></li>
+            <li><span>修炼公式</span><span>基础经验 × 分钟数 × 灵根速率 × (1+心法倍率) × 丹药加成 × (1+灵眼) × (1+福地)</span></li>
         </ul>
     </div>`;
 
