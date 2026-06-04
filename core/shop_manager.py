@@ -489,8 +489,38 @@ class ShopManager:
         item_type = item.get('type', '')
         effects = []
         
-        # 武器/装备属性
-        if item_type in ['weapon', 'armor', 'accessory']:
+        # 武器战斗属性（仅显示战斗属性，不显示数值属性）
+        if item_type == 'weapon':
+            if data.get('atk_bonus', 0) > 0:
+                effects.append(f"攻击+{data['atk_bonus']:.0%}")
+            if data.get('crit_rate', 0) > 0:
+                effects.append(f"暴击率+{data['crit_rate']}%")
+            if data.get('crit_damage', 0) > 0:
+                effects.append(f"暴伤+{data['crit_damage']:.0%}")
+            if data.get('mp_bonus', 0) > 0:
+                effects.append(f"真元+{data['mp_bonus']:.0%}")
+            if data.get('armor_pen', 0) > 0:
+                effects.append(f"穿透+{data['armor_pen']}%")
+            if data.get('lifesteal', 0) > 0:
+                effects.append(f"吸血+{data['lifesteal']}%")
+            if data.get('double_hit', 0) > 0:
+                effects.append(f"连击+{data['double_hit']}%")
+
+        # 防具战斗属性（仅显示战斗属性，不显示数值属性）
+        elif item_type == 'armor':
+            if data.get('dodge_rate', 0) > 0:
+                effects.append(f"闪避+{data['dodge_rate']}%")
+            if data.get('crit_resist', 0) > 0:
+                effects.append(f"抗暴+{data['crit_resist']}%")
+            if data.get('reflect_pct', 0) > 0:
+                effects.append(f"反伤+{data['reflect_pct']}%")
+            if data.get('block_value', 0) > 0:
+                effects.append(f"格挡+{data['block_value']}")
+            if data.get('hp_regen_pct', 0) > 0:
+                effects.append(f"回血+{data['hp_regen_pct']}%")
+
+        # 饰品保持数值属性
+        elif item_type == 'accessory':
             if data.get('physical_damage', 0) > 0:
                 effects.append(f"物伤+{data['physical_damage']}")
             if data.get('magic_damage', 0) > 0:
@@ -501,16 +531,6 @@ class ShopManager:
                 effects.append(f"法防+{data['magic_defense']}")
             if data.get('mental_power', 0) > 0:
                 effects.append(f"精神力+{data['mental_power']}")
-            # 武器战斗属性
-            if item_type == 'weapon':
-                if data.get('atk_bonus', 0) > 0:
-                    effects.append(f"攻击+{data['atk_bonus']:.0%}")
-                if data.get('crit_rate', 0) > 0:
-                    effects.append(f"暴击率+{data['crit_rate']}%")
-                if data.get('crit_damage', 0) > 0:
-                    effects.append(f"暴伤+{data['crit_damage']:.0%}")
-                if data.get('mp_bonus', 0) > 0:
-                    effects.append(f"真元+{data['mp_bonus']:.0%}")
         
         # 功法属性
         elif item_type in ['main_technique', '功法']:
@@ -595,8 +615,48 @@ class ShopManager:
         if description:
             details.append(f"描述: {description}")
 
-        # 武器/防具/饰品属性
-        if item_type in ['weapon', 'armor', 'accessory']:
+        # 武器战斗属性
+        if item_type == 'weapon':
+            combat = []
+            for key, label, fmt in [
+                ('atk_bonus', '攻击力', lambda v: f"+{v:.0%}"),
+                ('crit_rate', '暴击率', lambda v: f"+{v}%"),
+                ('crit_damage', '暴伤', lambda v: f"+{v:.0%}"),
+                ('mp_bonus', '真元', lambda v: f"+{v:.0%}"),
+                ('armor_pen', '穿透', lambda v: f"+{v}%"),
+                ('lifesteal', '吸血', lambda v: f"+{v}%"),
+                ('double_hit', '连击', lambda v: f"+{v}%"),
+            ]:
+                val = data.get(key, 0)
+                if val:
+                    combat.append(f"{label}{fmt(val)}")
+            if combat:
+                details.append(f"战斗属性: {', '.join(combat)}")
+            if 'required_level_index' in data and data['required_level_index'] > 0:
+                level_name = self._format_required_level(data['required_level_index'])
+                details.append(f"需求境界: {level_name}")
+
+        # 防具战斗属性
+        elif item_type == 'armor':
+            combat = []
+            for key, label, fmt in [
+                ('dodge_rate', '闪避', lambda v: f"+{v}%"),
+                ('crit_resist', '抗暴', lambda v: f"+{v}%"),
+                ('reflect_pct', '反伤', lambda v: f"+{v}%"),
+                ('block_value', '格挡', lambda v: f"+{v}"),
+                ('hp_regen_pct', '回血', lambda v: f"+{v}%"),
+            ]:
+                val = data.get(key, 0)
+                if val:
+                    combat.append(f"{label}{fmt(val)}")
+            if combat:
+                details.append(f"战斗属性: {', '.join(combat)}")
+            if 'required_level_index' in data and data['required_level_index'] > 0:
+                level_name = self._format_required_level(data['required_level_index'])
+                details.append(f"需求境界: {level_name}")
+
+        # 饰品保持数值属性
+        elif item_type == 'accessory':
             attrs = []
             if data.get('magic_damage', 0) > 0:
                 attrs.append(f"法伤+{data['magic_damage']}")
@@ -610,7 +670,7 @@ class ShopManager:
                 attrs.append(f"精神力+{data['mental_power']}")
             if attrs:
                 details.append(f"属性: {', '.join(attrs)}")
-            if 'required_level_index' in data:
+            if 'required_level_index' in data and data['required_level_index'] > 0:
                 level_name = self._format_required_level(data['required_level_index'])
                 details.append(f"需求境界: {level_name}")
 
@@ -639,7 +699,7 @@ class ShopManager:
                 attrs.append(f"精神力+{data['mental_power']}")
             if attrs:
                 details.append(f"效果: {', '.join(attrs)}")
-            if 'required_level_index' in data:
+            if 'required_level_index' in data and data['required_level_index'] > 0:
                 level_name = self._format_required_level(data['required_level_index'])
                 details.append(f"需求境界: {level_name}")
 
@@ -755,7 +815,47 @@ class ShopManager:
         if description:
             details.append(f"描述: {description}")
 
-        if item_type in ['weapon', 'armor', 'accessory']:
+        if item_type == 'weapon':
+            if data.get('weapon_category'):
+                details.append(f"类别: {data['weapon_category']}")
+            # 武器仅显示战斗属性
+            combat = []
+            for key, label, fmt in [
+                ('atk_bonus', '攻击力', lambda v: f"+{v:.0%}"),
+                ('crit_rate', '暴击率', lambda v: f"+{v}%"),
+                ('crit_damage', '暴伤', lambda v: f"+{v:.0%}"),
+                ('mp_bonus', '真元', lambda v: f"+{v:.0%}"),
+                ('armor_pen', '穿透', lambda v: f"+{v}%"),
+                ('lifesteal', '吸血', lambda v: f"+{v}%"),
+                ('double_hit', '连击', lambda v: f"+{v}%"),
+            ]:
+                val = data.get(key, 0)
+                if val:
+                    combat.append(f"{label}{fmt(val)}")
+            if combat:
+                details.append(f"战斗属性: {', '.join(combat)}")
+            if 'required_level_index' in data and data['required_level_index'] > 0:
+                details.append(f"需求境界: {self._format_required_level(data['required_level_index'])}")
+
+        elif item_type == 'armor':
+            # 防具仅显示战斗属性
+            combat = []
+            for key, label, fmt in [
+                ('dodge_rate', '闪避', lambda v: f"+{v}%"),
+                ('crit_resist', '抗暴', lambda v: f"+{v}%"),
+                ('reflect_pct', '反伤', lambda v: f"+{v}%"),
+                ('block_value', '格挡', lambda v: f"+{v}"),
+                ('hp_regen_pct', '回血', lambda v: f"+{v}%"),
+            ]:
+                val = data.get(key, 0)
+                if val:
+                    combat.append(f"{label}{fmt(val)}")
+            if combat:
+                details.append(f"战斗属性: {', '.join(combat)}")
+            if 'required_level_index' in data and data['required_level_index'] > 0:
+                details.append(f"需求境界: {self._format_required_level(data['required_level_index'])}")
+
+        elif item_type == 'accessory':
             if data.get('weapon_category'):
                 details.append(f"类别: {data['weapon_category']}")
             attrs = []
@@ -769,21 +869,7 @@ class ShopManager:
                     attrs.append(f"{label}+{val}")
             if attrs:
                 details.append(f"属性: {', '.join(attrs)}")
-            # 武器战斗属性
-            if item_type == 'weapon':
-                combat = []
-                for key, label, fmt in [
-                    ('atk_bonus', '攻击力', lambda v: f"+{v:.0%}"),
-                    ('crit_rate', '暴击率', lambda v: f"+{v}%"),
-                    ('crit_damage', '暴伤', lambda v: f"+{v:.0%}"),
-                    ('mp_bonus', '真元', lambda v: f"+{v:.0%}"),
-                ]:
-                    val = data.get(key, 0)
-                    if val:
-                        combat.append(f"{label}{fmt(val)}")
-                if combat:
-                    details.append(f"战斗属性: {', '.join(combat)}")
-            if 'required_level_index' in data:
+            if 'required_level_index' in data and data['required_level_index'] > 0:
                 details.append(f"需求境界: {self._format_required_level(data['required_level_index'])}")
 
         elif item_type in ['main_technique']:
@@ -808,7 +894,7 @@ class ShopManager:
                     attrs.append(f"{label}+{val}")
             if attrs:
                 details.append(f"效果: {', '.join(attrs)}")
-            if 'required_level_index' in data:
+            if 'required_level_index' in data and data['required_level_index'] > 0:
                 details.append(f"需求境界: {self._format_required_level(data['required_level_index'])}")
 
         elif item_type in ['pill', 'exp_pill', 'utility_pill', 'legacy_pill']:
@@ -884,7 +970,7 @@ class ShopManager:
             capacity = data.get('capacity', 0)
             if capacity:
                 details.append(f"容量: {capacity} 格")
-            if 'required_level_index' in data:
+            if 'required_level_index' in data and data['required_level_index'] > 0:
                 details.append(f"需求境界: {self._format_required_level(data['required_level_index'])}")
 
         elif item_type == 'material':

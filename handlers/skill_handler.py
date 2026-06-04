@@ -176,6 +176,9 @@ class SkillHandler:
             yield event.plain_result(f"无法从储物戒取出：{retrieve_msg}")
             return
 
+        # 重新获取玩家对象（retrieve_item 内部已更新 DB，需要刷新本地对象）
+        player = await self.db.get_player_by_id(event.get_sender_id())
+
         # 创建Item对象
         from ..models import Item
         item = Item(

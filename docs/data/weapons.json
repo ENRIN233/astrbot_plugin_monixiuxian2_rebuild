@@ -2312,7 +2312,7 @@
     "name": "火铜符剑",
     "type": "weapon",
     "rank": "地品",
-    "required_level_index": 20,
+    "required_level_index": 12,
     "description": "原级别: 上品符器",
     "physical_damage": 24,
     "magic_damage": 0,
@@ -2328,14 +2328,14 @@
     "crit_rate": 0,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "化神期中期 / 玄体境中期"
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_017",
     "name": "青玉符剑",
     "type": "weapon",
     "rank": "地品",
-    "required_level_index": 20,
+    "required_level_index": 12,
     "description": "原级别: 上品符器",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -2351,14 +2351,14 @@
     "crit_rate": 12,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "化神期中期 / 玄体境中期"
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_018",
     "name": "灵气剑",
     "type": "weapon",
     "rank": "地品",
-    "required_level_index": 20,
+    "required_level_index": 12,
     "description": "原级别: 上品符器",
     "physical_damage": 12,
     "magic_damage": 0,
@@ -2374,14 +2374,14 @@
     "crit_rate": 6,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "化神期中期 / 玄体境中期"
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_019",
     "name": "辟邪惊雷尺",
     "type": "weapon",
     "rank": "地品",
-    "required_level_index": 20,
+    "required_level_index": 12,
     "description": "原级别: 下品法器",
     "physical_damage": 32,
     "magic_damage": 0,
@@ -2397,14 +2397,14 @@
     "crit_rate": 0,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "化神期中期 / 玄体境中期"
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_020",
     "name": "七星剑",
     "type": "weapon",
     "rank": "地品",
-    "required_level_index": 20,
+    "required_level_index": 12,
     "description": "原级别: 下品法器",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -2420,14 +2420,14 @@
     "crit_rate": 16,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "化神期中期 / 玄体境中期"
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_021",
     "name": "流光剑",
     "type": "weapon",
     "rank": "地品",
-    "required_level_index": 20,
+    "required_level_index": 12,
     "description": "原级别: 下品法器",
     "physical_damage": 16,
     "magic_damage": 0,
@@ -2443,14 +2443,14 @@
     "crit_rate": 8,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "化神期中期 / 玄体境中期"
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_022",
     "name": "金光镜",
     "type": "weapon",
     "rank": "地品",
-    "required_level_index": 20,
+    "required_level_index": 12,
     "description": "原级别: 上品法器",
     "physical_damage": 40,
     "magic_damage": 0,
@@ -2466,14 +2466,14 @@
     "crit_rate": 0,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "化神期中期 / 玄体境中期"
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_023",
     "name": "阴阳夺魂针",
     "type": "weapon",
     "rank": "地品",
-    "required_level_index": 20,
+    "required_level_index": 12,
     "description": "原级别: 上品法器",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -2489,14 +2489,14 @@
     "crit_rate": 20,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "化神期中期 / 玄体境中期"
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_024",
     "name": "山河鼎",
     "type": "weapon",
     "rank": "地品",
-    "required_level_index": 20,
+    "required_level_index": 12,
     "description": "原级别: 上品法器",
     "physical_damage": 20,
     "magic_damage": 0,
@@ -2512,14 +2512,14 @@
     "crit_rate": 10,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "化神期中期 / 玄体境中期"
+    "required_level_name": "筑基期后期 / 铜皮境后期"
   },
   {
     "id": "sword_025",
     "name": "离地焰光旗",
     "type": "weapon",
     "rank": "天品",
-    "required_level_index": 30,
+    "required_level_index": 13,
     "description": "原级别: 下品纯阳法器",
     "physical_damage": 120,
     "magic_damage": 0,
@@ -2535,14 +2535,14 @@
     "crit_rate": 10,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "大乘期后期 / 神体境后期"
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_026",
     "name": "青萍剑",
     "type": "weapon",
     "rank": "天品",
-    "required_level_index": 30,
+    "required_level_index": 13,
     "description": "原级别: 下品纯阳法器",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -2558,14 +2558,14 @@
     "crit_rate": 24,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "大乘期后期 / 神体境后期"
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_027",
     "name": "千重峰",
     "type": "weapon",
     "rank": "天品",
-    "required_level_index": 30,
+    "required_level_index": 13,
     "description": "原级别: 下品纯阳法器",
     "physical_damage": 60,
     "magic_damage": 0,
@@ -2581,14 +2581,14 @@
     "crit_rate": 12,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "大乘期后期 / 神体境后期"
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_028",
     "name": "五火七禽扇",
     "type": "weapon",
     "rank": "天品",
-    "required_level_index": 30,
+    "required_level_index": 13,
     "description": "原级别: 上品纯阳法器",
     "physical_damage": 140,
     "magic_damage": 0,
@@ -2604,14 +2604,14 @@
     "crit_damage": 0.0,
     "crit_rate": 0,
     "mp_bonus": 0.0,
-    "required_level_name": "大乘期后期 / 神体境后期"
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_029",
     "name": "青莲宝色旗",
     "type": "weapon",
     "rank": "天品",
-    "required_level_index": 30,
+    "required_level_index": 13,
     "description": "原级别: 上品纯阳法器",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -2627,14 +2627,14 @@
     "crit_damage": 0.0,
     "crit_rate": 28,
     "mp_bonus": 0.0,
-    "required_level_name": "大乘期后期 / 神体境后期"
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_030",
     "name": "嗜魂幡",
     "type": "weapon",
     "rank": "天品",
-    "required_level_index": 30,
+    "required_level_index": 13,
     "description": "原级别: 上品纯阳法器",
     "physical_damage": 70,
     "magic_damage": 0,
@@ -2650,14 +2650,14 @@
     "crit_rate": 14,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "大乘期后期 / 神体境后期"
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_031",
     "name": "绝仙剑",
     "type": "weapon",
     "rank": "天品",
-    "required_level_index": 30,
+    "required_level_index": 13,
     "description": "原级别: 下品通天法器",
     "physical_damage": 160,
     "magic_damage": 0,
@@ -2673,14 +2673,14 @@
     "crit_rate": 0,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "大乘期后期 / 神体境后期"
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_032",
     "name": "落魂钟",
     "type": "weapon",
     "rank": "天品",
-    "required_level_index": 30,
+    "required_level_index": 13,
     "description": "原级别: 下品通天法器",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -2696,14 +2696,14 @@
     "crit_damage": 0.0,
     "crit_rate": 32,
     "mp_bonus": 0.0,
-    "required_level_name": "大乘期后期 / 神体境后期"
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_033",
     "name": "乾天剑",
     "type": "weapon",
     "rank": "天品",
-    "required_level_index": 30,
+    "required_level_index": 13,
     "description": "原级别: 下品通天法器",
     "physical_damage": 80,
     "magic_damage": 0,
@@ -2719,14 +2719,14 @@
     "crit_rate": 16,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "大乘期后期 / 神体境后期"
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_034",
     "name": "乾坤尺",
     "type": "weapon",
     "rank": "天品",
-    "required_level_index": 30,
+    "required_level_index": 13,
     "description": "原级别: 上品通天法器",
     "physical_damage": 180,
     "magic_damage": 0,
@@ -2742,14 +2742,14 @@
     "crit_rate": 0,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "大乘期后期 / 神体境后期"
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_035",
     "name": "天地五方旗",
     "type": "weapon",
     "rank": "天品",
-    "required_level_index": 30,
+    "required_level_index": 13,
     "description": "原级别: 上品通天法器",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -2765,14 +2765,14 @@
     "crit_rate": 36,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "大乘期后期 / 神体境后期"
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_036",
     "name": "红线遁光针",
     "type": "weapon",
     "rank": "天品",
-    "required_level_index": 30,
+    "required_level_index": 13,
     "description": "原级别: 上品通天法器",
     "physical_damage": 90,
     "magic_damage": 0,
@@ -2788,14 +2788,14 @@
     "crit_rate": 18,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "大乘期后期 / 神体境后期"
+    "required_level_name": "金丹期初期 / 铁骨境初期"
   },
   {
     "id": "sword_037",
     "name": "陨仙",
     "type": "weapon",
     "rank": "皇品",
-    "required_level_index": 40,
+    "required_level_index": 16,
     "description": "原级别: 下品仙器",
     "physical_damage": 400,
     "magic_damage": 0,
@@ -2812,14 +2812,14 @@
     "crit_damage": 0.0,
     "crit_rate": 0,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_038",
     "name": "惊雷",
     "type": "weapon",
     "rank": "皇品",
-    "required_level_index": 40,
+    "required_level_index": 16,
     "description": "原级别: 下品仙器",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -2836,14 +2836,14 @@
     "crit_damage": 0.0,
     "crit_rate": 40,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_039",
     "name": "承影",
     "type": "weapon",
     "rank": "皇品",
-    "required_level_index": 40,
+    "required_level_index": 16,
     "description": "原级别: 下品仙器",
     "physical_damage": 200,
     "magic_damage": 0,
@@ -2859,14 +2859,14 @@
     "crit_rate": 20,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_040",
     "name": "无影剑",
     "type": "weapon",
     "rank": "皇品",
-    "required_level_index": 40,
+    "required_level_index": 16,
     "description": "原级别: 上品仙器",
     "physical_damage": 240,
     "magic_damage": 0,
@@ -2882,14 +2882,14 @@
     "crit_damage": 0.0,
     "crit_rate": 24,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_041",
     "name": "风云幡",
     "type": "weapon",
     "rank": "皇品",
-    "required_level_index": 40,
+    "required_level_index": 16,
     "description": "原级别: 上品仙器",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -2905,14 +2905,14 @@
     "crit_damage": 0.0,
     "crit_rate": 48,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_042",
     "name": "青竹蜂云剑",
     "type": "weapon",
     "rank": "皇品",
-    "required_level_index": 40,
+    "required_level_index": 16,
     "description": "原级别: 上品仙器",
     "physical_damage": 480,
     "magic_damage": 0,
@@ -2928,14 +2928,14 @@
     "crit_rate": 0,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "元婴期初期 / 钢筋境初期"
   },
   {
     "id": "sword_043",
     "name": "鸿钧棍",
     "type": "weapon",
     "rank": "帝品",
-    "required_level_index": 50,
+    "required_level_index": 22,
     "description": "原级别: 极品仙器；原爆伤加成: 0.1",
     "physical_damage": 1100,
     "magic_damage": 0,
@@ -2953,14 +2953,14 @@
     "crit_rate": 0,
     "crit_damage": 0.1,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_044",
     "name": "龙渊剑",
     "type": "weapon",
     "rank": "帝品",
-    "required_level_index": 50,
+    "required_level_index": 22,
     "description": "原级别: 极品仙器；原爆伤加成: 0.5",
     "physical_damage": 220,
     "magic_damage": 0,
@@ -2977,14 +2977,14 @@
     "crit_damage": 0.5,
     "crit_rate": 55,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_045",
     "name": "青龙偃月刀",
     "type": "weapon",
     "rank": "帝品",
-    "required_level_index": 50,
+    "required_level_index": 22,
     "description": "原级别: 极品仙器；原爆伤加成: 0.4",
     "physical_damage": 1210,
     "magic_damage": 0,
@@ -3000,14 +3000,14 @@
     "crit_rate": 10,
     "crit_damage": 0.4,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_046",
     "name": "归墟剑",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器；原爆伤加成: 0.4",
     "physical_damage": 6000,
     "magic_damage": 0,
@@ -3024,14 +3024,14 @@
     "crit_rate": 10,
     "crit_damage": 0.4,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_047",
     "name": "十拳剑",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器；原爆伤加成: 0.45",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -3047,14 +3047,14 @@
     "crit_damage": 0.45,
     "crit_rate": 65,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_048",
     "name": "念香",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器；原爆伤加成: 0.4",
     "physical_damage": 2000,
     "magic_damage": 0,
@@ -3071,14 +3071,14 @@
     "crit_rate": 50,
     "crit_damage": 0.4,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_049",
     "name": "月银弓",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器；原爆伤加成: 0.7",
     "physical_damage": 4000,
     "magic_damage": 0,
@@ -3094,14 +3094,14 @@
     "crit_damage": 0.7,
     "crit_rate": 30,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_050",
     "name": "锈铁剑",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器；原爆伤加成: 0.4",
     "physical_damage": 6000,
     "magic_damage": 0,
@@ -3118,14 +3118,14 @@
     "crit_rate": 10,
     "crit_damage": 0.4,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_051",
     "name": "天鳞古戟",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器；原爆伤加成: 0.5",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -3141,14 +3141,14 @@
     "crit_damage": 0.5,
     "crit_rate": 60,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_052",
     "name": "念念",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器；原爆伤加成: 0.4",
     "physical_damage": 6000,
     "magic_damage": 0,
@@ -3165,14 +3165,14 @@
     "lifesteal": 4,
     "crit_rate": 10,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_053",
     "name": "铠罗兵装·角",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器；原爆伤加成: 0.2",
     "physical_damage": 5000,
     "magic_damage": 0,
@@ -3189,14 +3189,14 @@
     "crit_rate": 15,
     "crit_damage": 0.2,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_054",
     "name": "太初无始帝剑",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器；原爆伤加成: 0.45",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -3212,14 +3212,14 @@
     "crit_rate": 65,
     "crit_damage": 0.45,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_055",
     "name": "烧火棍",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器；原爆伤加成: 0.4",
     "physical_damage": 3000,
     "magic_damage": 0,
@@ -3236,14 +3236,14 @@
     "double_hit": 6,
     "crit_rate": 50,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_056",
     "name": "天戟",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器；原爆伤加成: 0.4",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -3259,14 +3259,14 @@
     "crit_damage": 0.4,
     "crit_rate": 70,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_057",
     "name": "誓约胜利之剑",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器",
     "physical_damage": 7000,
     "magic_damage": 0,
@@ -3284,14 +3284,14 @@
     "crit_rate": 40,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_058",
     "name": "金钟罩",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器",
     "physical_damage": 7000,
     "magic_damage": 0,
@@ -3308,14 +3308,14 @@
     "crit_rate": 40,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_059",
     "name": "灵魄玉",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器",
     "physical_damage": 7000,
     "magic_damage": 0,
@@ -3331,14 +3331,14 @@
     "crit_damage": 0.0,
     "crit_rate": 40,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_060",
     "name": "原罪（残缺）",
     "type": "weapon",
     "rank": "帝品",
-    "required_level_index": 50,
+    "required_level_index": 22,
     "description": "原级别: 极品仙器；原爆伤加成: 2",
     "physical_damage": 660,
     "magic_damage": 0,
@@ -3354,14 +3354,14 @@
     "crit_rate": -100,
     "crit_damage": 2.0,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_061",
     "name": "无罪（残缺）",
     "type": "weapon",
     "rank": "帝品",
-    "required_level_index": 50,
+    "required_level_index": 22,
     "description": "原级别: 极品仙器；原爆伤加成: -0.75",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -3379,14 +3379,14 @@
     "crit_rate": 100,
     "crit_damage": -0.75,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_062",
     "name": "轩辕剑",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器；原爆伤加成: 0.5",
     "physical_damage": 4000,
     "magic_damage": 0,
@@ -3403,14 +3403,14 @@
     "crit_rate": 70,
     "crit_damage": 0.5,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_063",
     "name": "黑龙啸天印",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器；原爆伤加成: 0.7",
     "physical_damage": 4000,
     "magic_damage": 0,
@@ -3428,14 +3428,14 @@
     "crit_rate": 60,
     "crit_damage": 0.7,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_064",
     "name": "火之高兴",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器；原爆伤加成: 0.2",
     "physical_damage": 7000,
     "magic_damage": 0,
@@ -3452,14 +3452,14 @@
     "crit_rate": 20,
     "crit_damage": 0.2,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_065",
     "name": "天上天下无双刀",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器；原爆伤加成: 0.6",
     "physical_damage": 6000,
     "magic_damage": 0,
@@ -3476,14 +3476,14 @@
     "armor_pen": 6,
     "crit_rate": 50,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_066",
     "name": "射日弓",
     "type": "weapon",
     "rank": "帝品",
-    "required_level_index": 50,
+    "required_level_index": 22,
     "description": "原级别: 无上仙器；原爆伤加成: 0.75",
     "physical_damage": 880,
     "magic_damage": 0,
@@ -3500,14 +3500,14 @@
     "crit_rate": 70,
     "crit_damage": 0.75,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_067",
     "name": "东皇钟",
     "type": "weapon",
     "rank": "帝品",
-    "required_level_index": 50,
+    "required_level_index": 22,
     "description": "原级别: 无上仙器",
     "physical_damage": 220,
     "magic_damage": 0,
@@ -3523,14 +3523,14 @@
     "crit_damage": 0.0,
     "crit_rate": 10,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_068",
     "name": "灭神戟",
     "type": "weapon",
     "rank": "帝品",
-    "required_level_index": 50,
+    "required_level_index": 22,
     "description": "原级别: 无上仙器；原爆伤加成: 0.2",
     "physical_damage": 1540,
     "magic_damage": 0,
@@ -3547,14 +3547,14 @@
     "crit_damage": 0.2,
     "crit_rate": 20,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_069",
     "name": "天罪",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器；原爆伤加成: 1.25",
     "physical_damage": 7000,
     "magic_damage": 0,
@@ -3570,14 +3570,14 @@
     "crit_rate": 60,
     "crit_damage": 1.25,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_070",
     "name": "冲天槊",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器；原爆伤加成: 0.5",
     "physical_damage": 10000,
     "magic_damage": 0,
@@ -3593,14 +3593,14 @@
     "crit_rate": 50,
     "crit_damage": 0.5,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_071",
     "name": "无始钟",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 6000,
     "magic_damage": 0,
@@ -3617,14 +3617,14 @@
     "crit_rate": 50,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_072",
     "name": "天火双煞弓",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器；原爆伤加成: 0.5",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -3641,14 +3641,14 @@
     "crit_rate": 50,
     "crit_damage": 0.5,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_073",
     "name": "盘龙三节棍",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器；原爆伤加成: 0.5",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -3665,14 +3665,14 @@
     "crit_damage": 0.5,
     "crit_rate": 50,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_074",
     "name": "神仙笔",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器；原爆伤加成: 1",
     "physical_damage": 7000,
     "magic_damage": 5600,
@@ -3689,14 +3689,14 @@
     "crit_rate": 50,
     "crit_damage": 1.0,
     "mp_bonus": 0.7,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_075",
     "name": "天虚旗",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器；原爆伤加成: 0.5",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -3714,14 +3714,14 @@
     "crit_rate": 50,
     "crit_damage": 0.5,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_076",
     "name": "凛日神刀",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器；原爆伤加成: 0.5",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -3737,14 +3737,14 @@
     "crit_rate": 50,
     "crit_damage": 0.5,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_077",
     "name": "穿心枪·盖博尔格",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器；原爆伤加成: 0.6",
     "physical_damage": 5000,
     "magic_damage": 2400,
@@ -3761,14 +3761,14 @@
     "crit_rate": 50,
     "crit_damage": 0.6,
     "mp_bonus": 0.3,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_078",
     "name": "诸葛脊骨剑",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器；原爆伤加成: 0.6",
     "physical_damage": 7000,
     "magic_damage": 0,
@@ -3785,14 +3785,14 @@
     "double_hit": 6,
     "crit_rate": 60,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_079",
     "name": "月夜夏",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 7000,
     "magic_damage": 0,
@@ -3808,14 +3808,14 @@
     "crit_damage": 0.0,
     "crit_rate": 60,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_080",
     "name": "呆毛",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器；原爆伤加成: 0.6",
     "physical_damage": 7000,
     "magic_damage": 0,
@@ -3831,14 +3831,14 @@
     "crit_damage": 0.6,
     "crit_rate": 60,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_081",
     "name": "百辟",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 10000,
     "magic_damage": 0,
@@ -3855,14 +3855,14 @@
     "lifesteal": 3,
     "crit_rate": 0,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_082",
     "name": "龙傲天",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 10000,
     "magic_damage": 0,
@@ -3878,14 +3878,14 @@
     "crit_rate": 0,
     "crit_damage": 0.0,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_083",
     "name": "圣剑·瑟尼欧里斯",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器；原爆伤加成: 0.8",
     "physical_damage": 5000,
     "magic_damage": 0,
@@ -3902,14 +3902,14 @@
     "crit_rate": 80,
     "crit_damage": 0.8,
     "mp_bonus": 0.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_084",
     "name": "少姜",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器；原爆伤加成: 1",
     "physical_damage": 10000,
     "magic_damage": 8000,
@@ -3927,7 +3927,7 @@
     "crit_rate": 100,
     "crit_damage": 1.0,
     "mp_bonus": 1.0,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_085",
@@ -5405,7 +5405,7 @@
     "name": "鱼鬣宝衣",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器",
     "physical_damage": 600,
     "magic_damage": 0,
@@ -5419,14 +5419,14 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "crit_rate": 6,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_164",
     "name": "天蚕战甲",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器",
     "physical_damage": 1200,
     "magic_damage": 0,
@@ -5441,14 +5441,14 @@
     "atk_bonus": 0.25,
     "lifesteal": 3,
     "armor_pen": 8,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_165",
     "name": "血海魔铠",
     "type": "weapon",
     "rank": "帝品",
-    "required_level_index": 50,
+    "required_level_index": 22,
     "description": "原级别: 极品仙器",
     "physical_damage": 440,
     "magic_damage": 0,
@@ -5463,7 +5463,7 @@
     "atk_bonus": 0.2,
     "armor_pen": 5,
     "lifesteal": 3,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "炼虚期初期 / 金刚境初期"
   },
   {
     "id": "sword_166",
@@ -5490,7 +5490,7 @@
     "name": "海姆达尔",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 极品仙器",
     "physical_damage": 1500,
     "magic_damage": 0,
@@ -5504,7 +5504,7 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "double_hit": 6,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_170",
@@ -5530,7 +5530,7 @@
     "name": "父亲甲",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 1500,
     "magic_damage": 0,
@@ -5544,14 +5544,14 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "lifesteal": 7,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_172",
     "name": "轮回魔铠",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 1000,
     "magic_damage": 0,
@@ -5565,14 +5565,14 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "armor_pen": 7,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_173",
     "name": "归墟甲",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 1000,
     "magic_damage": 0,
@@ -5586,14 +5586,14 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "lifesteal": 6,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_174",
     "name": "爆杀龟龟甲",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 1000,
     "magic_damage": 0,
@@ -5608,14 +5608,14 @@
     "atk_bonus": 0.25,
     "lifesteal": 6,
     "double_hit": 5,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_175",
     "name": "断仙",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 1500,
     "magic_damage": 0,
@@ -5630,14 +5630,14 @@
     "atk_bonus": 0.25,
     "armor_pen": 11,
     "crit_rate": 12,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_176",
     "name": "银月忘川之铠甲",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -5652,14 +5652,14 @@
     "atk_bonus": 0.25,
     "crit_rate": 9,
     "armor_pen": 7,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_177",
     "name": "破天之铠",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 5000,
     "magic_damage": 0,
@@ -5673,14 +5673,14 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "crit_rate": 7,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_178",
     "name": "龙皇天衍甲",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 5000,
     "magic_damage": 0,
@@ -5695,14 +5695,14 @@
     "atk_bonus": 0.25,
     "double_hit": 5,
     "lifesteal": 7,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_179",
     "name": "炎魔焦热斗铠",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 2000,
     "magic_damage": 0,
@@ -5716,14 +5716,14 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "armor_pen": 7,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_180",
     "name": "霸王战铠",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 2000,
     "magic_damage": 0,
@@ -5737,14 +5737,14 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "lifesteal": 3,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_181",
     "name": "风神袍",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 2000,
     "magic_damage": 0,
@@ -5759,14 +5759,14 @@
     "atk_bonus": 0.25,
     "double_hit": 5,
     "crit_rate": 9,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_182",
     "name": "踏云天衣",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 2000,
     "magic_damage": 0,
@@ -5780,14 +5780,14 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "crit_damage": 0.94,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_183",
     "name": "鹤羽宝衣",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 2000,
     "magic_damage": 0,
@@ -5801,14 +5801,14 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "crit_damage": 1.19,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_184",
     "name": "天师道袍",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 2000,
     "magic_damage": 0,
@@ -5823,14 +5823,14 @@
     "atk_bonus": 0.25,
     "lifesteal": 4,
     "crit_damage": 0.98,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_185",
     "name": "湮灭仙衣",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 2000,
     "magic_damage": 0,
@@ -5844,14 +5844,14 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "double_hit": 4,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_186",
     "name": "遥远的理想乡",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 0,
     "magic_damage": 0,
@@ -5866,7 +5866,7 @@
     "atk_bonus": 0.25,
     "crit_damage": 1.1,
     "crit_rate": 8,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_187",
@@ -5892,7 +5892,7 @@
     "name": "虚灵衣",
     "type": "weapon",
     "rank": "仙品",
-    "required_level_index": 70,
+    "required_level_index": 32,
     "description": "原级别: 无上仙器",
     "physical_damage": 2000,
     "magic_damage": 0,
@@ -5906,7 +5906,7 @@
     "weapon_category": "剑",
     "atk_bonus": 0.25,
     "crit_damage": 1.11,
-    "required_level_name": "混元大罗金仙"
+    "required_level_name": "地仙 / 地仙体魄"
   },
   {
     "id": "sword_189",

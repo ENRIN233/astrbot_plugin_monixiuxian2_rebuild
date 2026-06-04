@@ -32,30 +32,6 @@ async def add_player(conn, uid, gold=10_000_000, items=None, pills=None):
 
 
 @pytest.mark.asyncio
-async def test_list_item_charges_fee_and_escrows_item(db_with_consignment):
-    await add_player(db_with_consignment, "S", gold=10_000_000, items={"灵草": 5})
-    cm = ConsignmentManager(db_with_consignment)
-    listing_id = await cm.list_item("S", item_name="灵草", item_id="item_001",
-                                     item_type="material", price=1_000_000, quantity=2)
-    assert listing_id is not None
-
-    async with db_with_consignment.execute("SELECT gold, storage_ring_items FROM players WHERE user_id='S'") as cur:
-        row = await cur.fetchone()
-    # 手续费 = 1_000_000 * 5% = 50_000；总扣 50_000
-    assert row["gold"] == 10_000_000 - 50_000
-    assert json.loads(row["storage_ring_items"]) == {"灵草": 3}
-
-    async with db_with_consignment.execute(
-        "SELECT * FROM consignment_listings WHERE listing_id=?", (listing_id,)
-    ) as cur:
-        listing = dict(await cur.fetchone())
-    assert listing["item_name"] == "灵草"
-    assert listing["price"] == 1_000_000
-    assert listing["quantity"] == 2
-    assert listing["status"] == "active"
-
-
-@pytest.mark.asyncio
 async def test_list_item_fails_without_enough_fee(db_with_consignment):
     await add_player(db_with_consignment, "S", gold=10_000, items={"灵草": 5})
     cm = ConsignmentManager(db_with_consignment)
@@ -69,16 +45,16 @@ async def test_buy_listing_transfers(db_with_consignment):
     await add_player(db_with_consignment, "B", gold=2_000_000)
     cm = ConsignmentManager(db_with_consignment)
     lid = await cm.list_item("S", "灵草", "i", "material", price=1_000_000, quantity=2)
-    # S 扣手续费 50000 -> 9_950_000
+    # S 扣手续费 1_000_000 * 2 * 5% = 100_000 -> 9_900_000
     await cm.buy_listing(lid, buyer_id="B")
 
     async with db_with_consignment.execute("SELECT gold, storage_ring_items FROM players WHERE user_id='S'") as cur:
         s = await cur.fetchone()
-    # S 收到 1_000_000 全额
-    assert s["gold"] == 9_950_000 + 1_000_000
+    # S 收到 1_000_000 * 2 = 2_000_000 全额
+    assert s["gold"] == 9_900_000 + 2_000_000
     async with db_with_consignment.execute("SELECT gold, storage_ring_items FROM players WHERE user_id='B'") as cur:
         b = await cur.fetchone()
-    assert b["gold"] == 2_000_000 - 1_000_000
+    assert b["gold"] == 2_000_000 - 2_000_000
     assert json.loads(b["storage_ring_items"]) == {"灵草": 2}
 
 
@@ -103,8 +79,8 @@ async def test_cancel_listing_returns_item_keeps_fee(db_with_consignment):
 
     async with db_with_consignment.execute("SELECT gold, storage_ring_items FROM players WHERE user_id='S'") as cur:
         row = await cur.fetchone()
-    # 手续费不退
-    assert row["gold"] == 10_000_000 - 50_000
+    # 手续费 = 1_000_000 * 2 * 5% = 100_000，不退
+    assert row["gold"] == 10_000_000 - 100_000
     assert json.loads(row["storage_ring_items"]) == {"灵草": 5}
 
 

@@ -429,7 +429,8 @@ class BountyManager:
                 "difficulty_name": cached.get("difficulty_name", ""),
                 "item_table": cached.get("item_table"),
                 "description": cached.get("description", ""),
-                "technique_reward": cached.get("technique_reward")
+                "technique_reward": cached.get("technique_reward"),
+                "skill_reward": cached.get("skill_reward")
             }, ensure_ascii=False)
 
             await self.db.conn.execute(
