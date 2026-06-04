@@ -266,7 +266,7 @@ function renderOverview() {
     page.innerHTML = `
         <h2 class="page-title">总览</h2>
         <div class="info-box">
-            <strong>模拟修仙2</strong> 是一款功能丰富的修仙模拟游戏插件，包含 <strong>30+</strong> 个游戏系统、<strong>80+</strong> 条指令。
+            <strong>模拟修仙2</strong> 是一款功能丰富的修仙模拟游戏插件，包含 <strong>30+</strong> 个游戏系统、<strong>150+</strong> 条指令。
             本资料库汇总了所有数值配置，方便查阅与平衡性分析。
         </div>
         <h3 class="section-title">数据统计</h3>
