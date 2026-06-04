@@ -251,7 +251,6 @@ function renderOverview() {
     const weaponsOnly = weapons.filter(w => w.type === 'weapon');
     const armorsOnly = weapons.filter(w => w.type === 'armor');
     const techniques = items.filter(i => i.type === 'main_technique');
-    const oldPills = items.filter(i => i.type === '丹药');
     const materials = items.filter(i => i.type === '材料');
     const artifacts = items.filter(i => i.type === '法器');
     const manuals = items.filter(i => i.type === '功法');
@@ -282,7 +281,7 @@ function renderOverview() {
             <div class="stat-card"><div class="stat-value">${ringCount}</div><div class="stat-label">储物戒</div></div>
             <div class="stat-card"><div class="stat-value">${recipeCount}</div><div class="stat-label">炼丹配方</div></div>
             <div class="stat-card"><div class="stat-value">${materials.length}</div><div class="stat-label">材料</div></div>
-            <div class="stat-card"><div class="stat-value">${oldPills.length + artifacts.length + manuals.length}</div><div class="stat-label">旧系统道具</div></div>
+            <div class="stat-card"><div class="stat-value">${artifacts.length + manuals.length}</div><div class="stat-label">旧系统道具</div></div>
             <div class="stat-card"><div class="stat-value">${rootCount}</div><div class="stat-label">灵根</div></div>
         </div>
         <h3 class="section-title">丹药分布</h3>
@@ -362,7 +361,7 @@ function renderPills() {
             <div class="sub-tab active" data-pill-tab="breakthrough">突破丹 (${(DATA.pills || []).length})</div>
             <div class="sub-tab" data-pill-tab="exp">修为丹 (${(DATA.exp_pills || []).length})</div>
             <div class="sub-tab" data-pill-tab="utility">功能丹 (${(DATA.utility_pills || []).length})</div>
-            <div class="sub-tab" data-pill-tab="legacy">传统丹药</div>
+
         </div>
         <div id="pills-content"></div>
     `;
@@ -383,7 +382,6 @@ function renderPillTab(tab) {
         case 'breakthrough': renderBreakthroughPills(container); break;
         case 'exp': renderExpPills(container); break;
         case 'utility': renderUtilityPills(container); break;
-        case 'legacy': renderLegacyPills(container); break;
     }
 }
 
@@ -535,36 +533,6 @@ function getPillEffectSummary(p) {
     return effects.join('，') || '-';
 }
 
-function renderLegacyPills(container) {
-    const itemsObj = DATA.items || {};
-    const pills = Object.entries(itemsObj)
-        .filter(([_, v]) => v.type === '丹药')
-        .map(([id, v]) => ({ ...v, id }));
-
-    const headers = ['ID', '名称', '品阶', '价格', '效果'];
-    const rows = pills.map(p => {
-        const eff = p.effect || {};
-        const effects = [];
-        if (eff.add_hp) effects.push(`气血+${formatNum(eff.add_hp)}`);
-        if (eff.add_experience) effects.push(`修为+${formatNum(eff.add_experience)}`);
-        if (eff.add_attack) effects.push(`攻击+${formatNum(eff.add_attack)}`);
-        if (eff.add_defense) effects.push(`防御+${formatNum(eff.add_defense)}`);
-        if (eff.add_breakthrough_bonus) effects.push(`突破+${eff.add_breakthrough_bonus}%`);
-        if (eff.add_lifespan) effects.push(`寿命+${formatNum(eff.add_lifespan)}`);
-        if (eff.add_mp) effects.push(`真元+${formatNum(eff.add_mp)}`);
-        return [
-            `<code>${esc(p.id)}</code>`,
-            `<strong>${esc(p.name)}</strong>`,
-            makeRankBadge(p.rank || ''),
-            `<span data-sortvalue="${p.price || 0}">${formatNum(p.price || 0)}</span>`,
-            effects.join('，') || '-'
-        ];
-    });
-
-    const rankData = pills.map(p => p.rank || '');
-    container.innerHTML = createTable(headers, rows, { rankData });
-    makeTableSortable(container);
-}
 
 function addPillRowClicks(container, pills, type) {
     container.querySelectorAll('tr.clickable').forEach(row => {
