@@ -111,7 +111,7 @@ async function loadAllData() {
         'level_config', 'body_level_config', 'pills', 'exp_pills',
         'utility_pills', 'items', 'weapons', 'storage_rings',
         'alchemy_recipes', 'adventure_config', 'bounty_templates', 'game_config',
-        'skills', 'spiritual_roots'
+        'skills', 'spiritual_roots', 'sect_config'
     ];
     const promises = files.map(async f => {
         try {
@@ -1064,12 +1064,26 @@ function renderSystems() {
     </div>`;
 
     // Sect System
+    const sectCfg = DATA.sect_config || {};
+    const practice = sectCfg.practice || {};
+    const elixirRoom = sectCfg.elixir_room || {};
+    const elixirLevels = elixirRoom.levels || {};
+    const maxPracticeLv = practice.max_level || 50;
+    const atkPerLv = ((practice.atk_per_level || 0.04) * 100).toFixed(0);
+    const elixirMaxLv = Object.keys(elixirLevels).length;
+    const elixirMaxRank = elixirLevels[String(elixirMaxLv)]?.pill_rank_max || '-';
     html += `<div class="system-card">
         <h3>宗门系统</h3>
-        <p>创建或加入宗门，参与宗门战、宗门任务，获取宗门贡献和专属奖励。</p>
+        <p>创建或加入宗门，完成宗门任务获取贡献与资材，升级攻击修炼提升战力，建设丹房领取丹药。</p>
         <ul class="detail-list">
-            <li><span>核心玩法</span><span>创建 / 加入 / 宗门战</span></li>
-            <li><span>奖励</span><span>宗门贡献、专属物品</span></li>
+            <li><span>创建消耗</span><span>${formatNum(sectCfg.create_cost || 10000)} 灵石</span></li>
+            <li><span>创建境界</span><span>筑基（lv${sectCfg.create_level_required || 3}）</span></li>
+            <li><span>每日任务</span><span>3次，贡献+10000 / 资材+100000 / 建设+50000</span></li>
+            <li><span>任务冷却</span><span>10 分钟</span></li>
+            <li><span>攻击修炼</span><span>上限 Lv.${maxPracticeLv}，每级+${atkPerLv}% 攻击力</span></li>
+            <li><span>丹房等级</span><span>${elixirMaxLv} 级，最高品阶上限：${elixirMaxRank >= 1 ? ['凡品','灵品','地品','天品','皇品'][elixirMaxRank-1] || '-' : '-'}</span></li>
+            <li><span>每日资材发放</span><span>12:00，建设度 × ${(sectCfg.material_distribution?.rate || 0.1)}</span></li>
+            <li><span>自动传位</span><span>宗主离线 ${sectCfg.auto_owner_change?.inactive_days || 7} 天</span></li>
         </ul>
     </div>`;
 
@@ -1152,9 +1166,12 @@ function renderSystems() {
     html += '<div class="config-grid">';
     const sectionLabels = {
         cultivation: '修炼配置', combat: '战斗配置', bank: '银行配置',
-        dual_cultivation: '双修配置', spirit_eye: '灵眼配置', rift: '裂隙配置'
+        dual_cultivation: '双修配置', spirit_eye: '灵眼配置', rift: '裂隙配置',
+        practice: '攻击修炼', elixir_room: '丹房配置',
+        material_distribution: '资材发放', auto_owner_change: '自动传位', rename: '宗门改名'
     };
-    Object.entries(config).forEach(([section, data]) => {
+    const allConfig = { ...config, ...(DATA.sect_config || {}) };
+    Object.entries(allConfig).forEach(([section, data]) => {
         if (typeof data !== 'object' || data === null) return;
         html += `<div class="config-card"><h3>${esc(sectionLabels[section] || section)}</h3>`;
         html += renderConfigFields(data);
@@ -1249,10 +1266,15 @@ function renderCommands() {
                 ['我的宗门', '查看宗门信息和成员列表'],
                 ['宗门列表', '查看所有宗门排名'],
                 ['宗门捐献 <数量>', '捐献灵石增加宗门建设度'],
+                ['宗门任务', '执行宗门任务（每日3次，冷却10分钟）'],
                 ['踢出成员 <@某人>', '宗主踢出宗门成员'],
                 ['宗主传位 <@某人>', '将宗主之位传给他人'],
-                ['宗门任务', '查看并执行宗门任务'],
                 ['职位变更 <@某人> <职位>', '变更成员在宗门中的职位'],
+                ['升级修炼 [次数]', '消耗灵石和建设度提升攻击修炼等级'],
+                ['修炼信息', '查看当前攻击修炼等级和效果'],
+                ['丹房建设', '升级宗门丹房（提升丹药品阶和数量）'],
+                ['领取丹药', '每日领取宗门丹房产出的丹药'],
+                ['宗门改名 <新名>', '消耗贡献度修改宗门名称'],
             ]
         },
         {

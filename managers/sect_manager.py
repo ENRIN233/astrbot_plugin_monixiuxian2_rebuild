@@ -40,6 +40,7 @@ class SectManager:
     
     def __init__(self, db: DataBase, config_manager=None, activity_tracker=None):
         self.db = db
+        self.config_manager = config_manager
         self.config = config_manager.sect_config if config_manager else {}
         self.activity_tracker = activity_tracker
     
@@ -236,7 +237,7 @@ class SectManager:
         # 增加宗门建设度和灵石（1灵石 = 10建设度）
         await self.db.ext.donate_to_sect(player.sect_id, stone_amount)
         
-        scale_gained = stone_amount * 10
+        scale_gained = stone_amount * self.config.get("scale_ratio", 10)
         
         return True, f"✨ 捐献成功！消耗 {stone_amount} 灵石，宗门获得 {scale_gained} 建设度！\n你的宗门贡献度：{player.sect_contribution}"
     
@@ -271,7 +272,18 @@ class SectManager:
         
         # 构建信息
         position_name = self.POSITIONS.get(player.sect_position, "未知")
-        
+
+        # 丹房名称
+        elixir_config = self.config.get("elixir_room", {})
+        elixir_levels = elixir_config.get("levels", {})
+        elixir_name = elixir_levels.get(str(sect.elixir_room_level), {}).get("name", "暂无") if sect.elixir_room_level > 0 else "暂无"
+
+        # 修炼上限
+        practice_config = self.config.get("practice", {})
+        construction_per_level = practice_config.get("construction_per_level", 5000)
+        max_level = practice_config.get("max_level", 50)
+        practice_cap = min(sect.sect_scale // construction_per_level, max_level)
+
         info_msg = f"""
 🏛️ 宗门信息
 ━━━━━━━━━━━━━━━
@@ -281,11 +293,12 @@ class SectManager:
 建设度：{sect.sect_scale}
 宗门灵石：{sect.sect_used_stone}
 宗门资材：{sect.sect_materials}
-丹房等级：{sect.elixir_room_level}
+丹房：{elixir_name}
 成员数量：{member_count}人
 
 你的职位：{position_name}
 你的贡献：{player.sect_contribution}
+修炼上限：{practice_cap}级
         """.strip()
         
         sect_data = {
@@ -506,29 +519,28 @@ class SectManager:
             remaining = sect_cd - current_time
             return False, f"❌ 宗门任务冷却中！还需 {remaining//60} 分钟{remaining % 60} 秒。"
 
-        # 每日次数限制（跨日自动重置）
+        # 每日次数限制（跨日自动重置当前玩家，全服重置由后台定时任务处理）
         last_date = extra.get("sect_task_date", "")
         if last_date != today_str:
-            # 新的一天，重置计数
-            await self.db.ext.reset_sect_tasks()
             player.sect_task = 0
             extra["sect_task_date"] = today_str
 
         if player.sect_task >= 3:
             return False, "❌ 今日宗门任务次数已用完（每日3次），明天再来吧！"
 
-        # 执行任务
-        contribution_gain = random.randint(10, 30)
-        stone_gain = contribution_gain * 10
+        # 执行任务（固定奖励）
+        contribution_gain = 10000
+        materials_gain = 100000
+        scale_gain = 50000
 
         player.sect_contribution += contribution_gain
         await self.db.update_player(player)
 
-        # 宗门增加资源
-        await self.db.ext.donate_to_sect(player.sect_id, 0)
+        # 宗门增加资材和建设度
         sect = await self.db.ext.get_sect_by_id(player.sect_id)
         if sect:
-            sect.sect_materials += stone_gain
+            sect.sect_materials += materials_gain
+            sect.sect_scale += scale_gain
             await self.db.ext.update_sect(sect)
 
         # 增加完成次数
@@ -555,12 +567,334 @@ class SectManager:
         return True, (
             f"✨ 完成宗门任务！\n"
             f"获得贡献：{contribution_gain}\n"
-            f"宗门资材：+{stone_gain}\n"
+            f"宗门资材：+{materials_gain}\n"
+            f"宗门建设：+{scale_gain}\n"
             f"📋 今日剩余次数：{remaining_count}/3"
         )
 
+    # ===== 攻击修炼系统 =====
+
+    async def upgrade_practice(self, user_id: str, count: int = 1) -> Tuple[bool, str]:
+        """升级攻击修炼等级
+
+        Args:
+            user_id: 用户ID
+            count: 升级次数
+
+        Returns:
+            (成功标志, 消息)
+        """
+        player = await self.db.get_player_by_id(user_id)
+        if not player:
+            return False, "❌ 你还未踏入修仙之路！"
+
+        if player.sect_id == 0:
+            return False, "❌ 你尚未加入宗门，请加入宗门后再修炼！"
+
+        if player.sect_position == 4:
+            return False, "❌ 外门弟子无法使用宗门修炼资源，请先提升职位！"
+
+        sect = await self.db.ext.get_sect_by_id(player.sect_id)
+        if not sect:
+            return False, "❌ 宗门信息异常！"
+
+        practice_config = self.config.get("practice", {})
+        base_cost = practice_config.get("base_cost", 50000)
+        cost_growth = practice_config.get("cost_growth", 1.25)
+        atk_per_level = practice_config.get("atk_per_level", 0.04)
+        max_level = practice_config.get("max_level", 50)
+        construction_per_level = practice_config.get("construction_per_level", 5000)
+
+        # 宗门修炼等级上限 = 建设度 / construction_per_level，封顶 max_level
+        sect_level_cap = min(sect.sect_scale // construction_per_level, max_level)
+
+        if player.atkpractice >= sect_level_cap:
+            return False, (
+                f"❌ 修炼等级已达当前宗门上限：{sect_level_cap}级！\n"
+                f"请捐献灵石提升宗门建设度来解锁更高等级。"
+            )
+
+        # 限制升级次数不超过上限
+        count = min(count, sect_level_cap - player.atkpractice)
+        if count <= 0:
+            return False, "❌ 无法继续升级！"
+
+        # 计算总成本（逐级累加）
+        total_stone = 0
+        total_materials = 0
+        for i in range(count):
+            level = player.atkpractice + i
+            stone_cost = int(base_cost * (cost_growth ** level))
+            materials_cost = stone_cost  # 资材与灵石 1:1
+            total_stone += stone_cost
+            total_materials += materials_cost
+
+        if player.gold < total_stone:
+            return False, f"❌ 灵石不足！升级到 {player.atkpractice + count} 级需要 {total_stone} 灵石，你只有 {player.gold}。"
+
+        if sect.sect_materials < total_materials:
+            return False, f"❌ 宗门资材不足！需要 {total_materials} 资材，当前只有 {sect.sect_materials}。"
+
+        # 扣除资源
+        player.gold -= total_stone
+        player.atkpractice += count
+        await self.db.update_player(player)
+
+        sect.sect_materials -= total_materials
+        await self.db.ext.update_sect(sect)
+
+        atk_bonus_pct = player.atkpractice * atk_per_level * 100
+        return True, (
+            f"✨ 修炼成功！当前攻击修炼等级：{player.atkpractice}\n"
+            f"攻击力加成：+{atk_bonus_pct:.0f}%\n"
+            f"消耗灵石：{total_stone}，宗门资材：{total_materials}"
+        )
+
+    async def get_practice_info(self, user_id: str) -> Tuple[bool, str]:
+        """查看修炼信息"""
+        player = await self.db.get_player_by_id(user_id)
+        if not player:
+            return False, "❌ 你还未踏入修仙之路！"
+
+        if player.sect_id == 0:
+            return False, "❌ 你尚未加入宗门！"
+
+        sect = await self.db.ext.get_sect_by_id(player.sect_id)
+        if not sect:
+            return False, "❌ 宗门信息异常！"
+
+        practice_config = self.config.get("practice", {})
+        base_cost = practice_config.get("base_cost", 50000)
+        cost_growth = practice_config.get("cost_growth", 1.25)
+        atk_per_level = practice_config.get("atk_per_level", 0.04)
+        max_level = practice_config.get("max_level", 50)
+        construction_per_level = practice_config.get("construction_per_level", 5000)
+
+        sect_level_cap = min(sect.sect_scale // construction_per_level, max_level)
+        current_bonus = player.atkpractice * atk_per_level * 100
+
+        position_name = self.POSITIONS.get(player.sect_position, "未知")
+
+        msg = (
+            f"⚔️ 攻击修炼信息\n"
+            f"━━━━━━━━━━━━━━━\n"
+            f"当前等级：{player.atkpractice}\n"
+            f"宗门上限：{sect_level_cap}级\n"
+            f"攻击力加成：+{current_bonus:.0f}%\n"
+            f"你的职位：{position_name}"
+        )
+
+        if player.atkpractice < sect_level_cap:
+            next_stone = int(base_cost * (cost_growth ** player.atkpractice))
+            next_mats = next_stone * 10
+            msg += f"\n\n下次升级消耗：\n灵石：{next_stone}，资材：{next_mats}"
+
+        return True, msg
+
+    # ===== 丹房系统 =====
+
+    async def upgrade_elixir_room(self, user_id: str) -> Tuple[bool, str]:
+        """建设/升级宗门丹房（宗主专属）"""
+        player = await self.db.get_player_by_id(user_id)
+        if not player:
+            return False, "❌ 你还未踏入修仙之路！"
+
+        if player.sect_id == 0:
+            return False, "❌ 你尚未加入宗门！"
+
+        if player.sect_position != 0:
+            return False, "❌ 只有宗主才能建设丹房！"
+
+        sect = await self.db.ext.get_sect_by_id(player.sect_id)
+        if not sect:
+            return False, "❌ 宗门信息异常！"
+
+        elixir_config = self.config.get("elixir_room", {})
+        levels = elixir_config.get("levels", {})
+        current_level = str(sect.elixir_room_level)
+
+        if current_level == str(len(levels)):
+            return False, "❌ 丹房已达到最高等级！"
+
+        next_level = str(sect.elixir_room_level + 1)
+        if next_level not in levels:
+            return False, "❌ 丹房配置异常！"
+
+        level_config = levels[next_level]
+        cost_scale = level_config["upgrade_cost_scale"]
+        cost_stone = level_config["upgrade_cost_stone"]
+
+        if sect.sect_scale < cost_scale:
+            return False, f"❌ 建设度不足！需要 {cost_scale}，当前 {sect.sect_scale}。"
+
+        if sect.sect_used_stone < cost_stone:
+            return False, f"❌ 宗门灵石不足！需要 {cost_stone}，当前 {sect.sect_used_stone}。"
+
+        # 扣除资源
+        sect.sect_scale -= cost_scale
+        sect.sect_used_stone -= cost_stone
+        sect.elixir_room_level = int(next_level)
+        await self.db.ext.update_sect(sect)
+
+        room_name = level_config["name"]
+        return True, (
+            f"✨ 丹房建设成功！\n"
+            f"当前丹房：{room_name}\n"
+            f"消耗建设度：{cost_scale}，宗门灵石：{cost_stone}"
+        )
+
+    async def claim_sect_pill(self, user_id: str) -> Tuple[bool, str]:
+        """领取宗门丹药（每日一次）"""
+        player = await self.db.get_player_by_id(user_id)
+        if not player:
+            return False, "❌ 你还未踏入修仙之路！"
+
+        if player.sect_id == 0:
+            return False, "❌ 你尚未加入宗门！"
+
+        if player.sect_position == 4:
+            return False, "❌ 外门弟子无法领取丹药，请先提升职位！"
+
+        sect = await self.db.ext.get_sect_by_id(player.sect_id)
+        if not sect:
+            return False, "❌ 宗门信息异常！"
+
+        if sect.elixir_room_level == 0:
+            return False, "❌ 宗门尚未建设丹房！请宗主使用 /丹房建设。"
+
+        elixir_config = self.config.get("elixir_room", {})
+        claim_required = elixir_config.get("claim_contribution_required", 100)
+        if player.sect_contribution < claim_required:
+            return False, f"❌ 贡献不足！需要 {claim_required} 贡献，当前 {player.sect_contribution}。"
+
+        if player.sect_elixir_get == 1:
+            return False, "❌ 今日已领取过丹药，不要贪心哦~"
+
+        # 检查维护费资材
+        maintenance_per_level = elixir_config.get("maintenance_cost_per_level", 5000)
+        maintenance_cost = sect.elixir_room_level * maintenance_per_level
+        if sect.sect_materials < maintenance_cost:
+            return False, f"❌ 宗门资材不足以维护丹房（需要 {maintenance_cost}），请等待资材发放后再领取！"
+
+        levels = elixir_config.get("levels", {})
+        level_config = levels.get(str(sect.elixir_room_level), {})
+        daily_pills = level_config.get("daily_pills", 1)
+        pill_rank_max = level_config.get("pill_rank_max", 5)
+
+        # 选择丹药：从经验丹中筛选等级和品阶均满足条件的
+        pill_names = self._select_random_pills(player.level_index, daily_pills, pill_rank_max)
+
+        # 扣除维护费
+        sect.sect_materials -= maintenance_cost
+        await self.db.ext.update_sect(sect)
+
+        # 发放丹药
+        inventory = player.get_pills_inventory()
+        for pill_name in pill_names:
+            inventory[pill_name] = inventory.get(pill_name, 0) + 1
+        player.set_pills_inventory(inventory)
+
+        # 标记已领取
+        player.sect_elixir_get = 1
+        await self.db.update_player(player)
+
+        pill_list = "、".join(f"{name} x1" for name in pill_names)
+        return True, (
+            f"✨ 成功领取宗门丹药！\n"
+            f"获得：{pill_list}\n"
+            f"（丹房维护消耗资材：{maintenance_cost}）"
+        )
+
+    def _select_random_pills(self, player_level: int, count: int, pill_rank_max: int = 5) -> list:
+        """为丹房领取随机选择丹药（高品阶丹药权重更高）
+
+        Args:
+            player_level: 玩家 level_index
+            count: 发放数量
+            pill_rank_max: 最高品阶（1=凡品, 2=灵品, 3=地品, 4=天品, 5=皇品, 6=帝品, 7=道品, 8=仙品, 9=混元先天）
+        """
+        RANK_MAP = {
+            "凡品": 1, "灵品": 2, "地品": 3, "天品": 4,
+            "皇品": 5, "帝品": 6, "道品": 7, "仙品": 8, "混元先天": 9
+        }
+        # 每个品阶的权重：品阶越高权重越大
+        RANK_WEIGHT = {1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9}
+
+        pill_pool = []  # (name, weight)
+
+        # 仅从经验丹中筛选（exp_pills_data 有 required_level_index 字段）
+        if self.config_manager and hasattr(self.config_manager, 'exp_pills_data'):
+            for name, data in self.config_manager.exp_pills_data.items():
+                if not isinstance(data, dict):
+                    continue
+                req_level = data.get("required_level_index", 99)
+                rank = data.get("rank", "")
+                rank_value = RANK_MAP.get(rank, 99)
+                if req_level <= player_level and rank_value <= pill_rank_max:
+                    weight = RANK_WEIGHT.get(rank_value, 1)
+                    pill_pool.append((name, weight))
+
+        if not pill_pool:
+            # 降级：无合适丹药，返回渡厄丹
+            return ["渡厄丹"] * count
+
+        # 按品阶加权随机选择
+        names, weights = zip(*pill_pool)
+        return [random.choices(names, weights=weights, k=1)[0] for _ in range(count)]
+
+    # ===== 宗门改名 =====
+
+    async def rename_sect(self, user_id: str, new_name: str) -> Tuple[bool, str]:
+        """宗门改名（宗主专属）"""
+        player = await self.db.get_player_by_id(user_id)
+        if not player:
+            return False, "❌ 你还未踏入修仙之路！"
+
+        if player.sect_id == 0:
+            return False, "❌ 你尚未加入宗门！"
+
+        if player.sect_position != 0:
+            return False, "❌ 只有宗主才能改名！"
+
+        # 验证名称
+        valid, error = self._validate_sect_name(new_name)
+        if not valid:
+            return False, error
+
+        rename_config = self.config.get("rename", {})
+        cost_contribution = rename_config.get("cost_contribution", 500)
+
+        if player.sect_contribution < cost_contribution:
+            return False, f"❌ 贡献不足！改名需要 {cost_contribution} 贡献，当前 {player.sect_contribution}。"
+
+        # 检查重名
+        existing = await self.db.ext.get_sect_by_name(new_name)
+        if existing:
+            return False, f"❌ 宗门名称『{new_name}』已被使用！"
+
+        # 执行改名
+        sect = await self.db.ext.get_sect_by_id(player.sect_id)
+        old_name = sect.sect_name if sect else "未知"
+        success = await self.db.ext.update_sect_name(player.sect_id, new_name)
+        if not success:
+            return False, "❌ 改名失败，可能名称重复！"
+
+        # 扣除贡献
+        player.sect_contribution -= cost_contribution
+        await self.db.update_player(player)
+
+        return True, (
+            f"✨ 宗门改名成功！\n"
+            f"『{old_name}』 → 『{new_name}』\n"
+            f"消耗贡献：{cost_contribution}"
+        )
+
     async def handle_owner_death(self, sect_id: int, dead_owner_id: str) -> Tuple[bool, str]:
-        """处理宗主死亡，自动传位或解散宗门"""
+        """处理宗主离线/退游，自动传位或解散宗门。
+
+        注意：此方法为 GM 管理工具，当玩家账号被删除或长期离线时调用。
+        战斗中的"死亡"（HP ≤ 0）不触发此逻辑。
+        """
         members = await self.db.ext.get_sect_members(sect_id)
         # 过滤掉死亡的宗主
         remaining = [m for m in members if m.user_id != dead_owner_id]

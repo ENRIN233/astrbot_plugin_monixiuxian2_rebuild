@@ -1,0 +1,40 @@
+{
+  "create_cost": 10000,
+  "create_level_required": 3,
+  "positions": {
+    "0": {"name": "宗主", "permission": 10},
+    "1": {"name": "长老", "permission": 8},
+    "2": {"name": "亲传弟子", "permission": 5},
+    "3": {"name": "内门弟子", "permission": 2},
+    "4": {"name": "外门弟子", "permission": 1}
+  },
+  "scale_ratio": 10,
+  "practice": {
+    "base_cost": 500000,
+    "cost_growth": 1.22,
+    "atk_per_level": 0.04,
+    "max_level": 50,
+    "construction_per_level": 10000
+  },
+  "elixir_room": {
+    "claim_contribution_required": 500,
+    "levels": {
+      "1": {"name": "黄级丹房", "upgrade_cost_scale": 100000, "upgrade_cost_stone": 500000, "daily_pills": 1, "pill_rank_max": 1},
+      "2": {"name": "玄级丹房", "upgrade_cost_scale": 250000, "upgrade_cost_stone": 1000000, "daily_pills": 2, "pill_rank_max": 2},
+      "3": {"name": "地级丹房", "upgrade_cost_scale": 500000, "upgrade_cost_stone": 2500000, "daily_pills": 3, "pill_rank_max": 3},
+      "4": {"name": "天级丹房", "upgrade_cost_scale": 1000000, "upgrade_cost_stone": 5000000, "daily_pills": 4, "pill_rank_max": 4},
+      "5": {"name": "仙级丹房", "upgrade_cost_scale": 2000000, "upgrade_cost_stone": 10000000, "daily_pills": 5, "pill_rank_max": 5}
+    },
+    "maintenance_cost_per_level": 10000
+  },
+  "material_distribution": {
+    "hour": 12,
+    "rate": 0.1
+  },
+  "auto_owner_change": {
+    "inactive_days": 7
+  },
+  "rename": {
+    "cost_contribution": 500
+  }
+}
