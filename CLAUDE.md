@@ -28,7 +28,7 @@ No linter/formatter is configured. Follow existing style: `snake_case` functions
 ## Architecture (4 layers)
 
 ```
-main.py (entry point, 147 command registrations, 8 background tasks)
+main.py (entry point, 152 command registrations, 10 background tasks)
     |
 handlers/ (29 handler classes — command processing, async generators)
     |
@@ -47,7 +47,7 @@ data/ (SQLite CRUD: data_manager.py, database_extended.py, migration.py v34)
 - **`@require_whitelist`**: AstrBot-level group access control, applied at `main.py`.
 - **JSON-serialized fields**: complex data (techniques, pill effects, storage items) stored as JSON strings in SQLite TEXT columns, with getter/setter on `Player`/`Item` dataclasses.
 - **Transaction safety**: critical ops use `BEGIN IMMEDIATE` with rollback. Trade/consignment use conditional UPDATE for concurrent purchase safety.
-- **Background tasks** (8 in `main.py`): boss spawning, loan checks, spirit eye spawning, bounty expiry, consignment expiry, trade timeout, rift daily broadcast, pavilion refresh. All use exponential backoff retry.
+- **Background tasks** (10 in `main.py`): boss spawning, loan checks, spirit eye spawning, bounty expiry, consignment expiry, trade timeout, rift daily broadcast, pavilion refresh, sect material distribution (daily 12:00), auto sect owner change. All use exponential backoff retry.
 - **`ConfigManager`** (`config_manager.py`): auto-creates missing config files from `data/default_configs.py` defaults.
 - **`ActivityTracker`** (`managers/activity_manager.py`): daily activity system with 10 task types, lazy-loaded in `main.py` and injected into 8 consumer modules. Day reset is self-healing via date comparison (no background task needed).
 - **State conflict architecture**: Two parallel systems block commands during busy states — (1) `@player_required` decorator checks `user_cd.type` against whitelist, (2) individual handler/manager methods check `user_cd.type != IDLE` directly. Many handlers (combat, sect, alchemy, adventure, rift, boss) bypass `@player_required` and do their own state checks.
@@ -69,7 +69,7 @@ data/ (SQLite CRUD: data_manager.py, database_extended.py, migration.py v34)
 - **Weapon buff system**: Weapons have percentage-based combat buffs — `atk_bonus` (attack%), `crit_rate` (crit chance%), `crit_damage` (crit damage additive delta), `mp_bonus` (MP%). These are read by `combat_manager.load_equipment_bonus()` directly from raw config dicts. `crit_damage` uses additive system: stored value is delta from 1.0 base (e.g., 0.56 means 1.56x crit). Native weapons follow 3-pattern distribution per rank (attack/crit/mixed). Nonebot-merged weapons matched by `_source_id` to reference data.
 - **Shentong (神通) system**: 75 active combat skills in `config/skills.json`, 4 types (attack/buff/continuous/control). Single equip slot on Player (`shentong` field). Auto-triggers based on `rate` probability, `turncost` cooldown, and MP cost (`mpcost` as max_mp percentage). Continuous skills use independent `dot_turns` field for DOT duration (longer than `turncost` CD). Skills consume MP + optional HP (`hpcost`). Buff/debuff engine in `managers/skill_manager.py`. Commands: 神通列表/我的神通/装备神通/卸下神通/神通信息. Note: `SkillHandler` is lazily imported in `main.py`, not exported from `handlers/__init__.py`.
 - **Combat attributes**: Weapon special: `crit_rate`, `crit_damage` (additive delta), `armor_pen`, `lifesteal`, `double_hit`. Armor special: `dodge_rate`, `crit_resist`, `reflect_pct`, `block_value`, `hp_regen_pct`. All percentage integers except `crit_damage` (float additive delta) and `hp_regen_pct` (float).
-- **Sect task system**: Instant completion, 10-minute cooldown stored in `user_cd.extra_data["sect_task_cd"]`, daily limit of 3 tracked via `Player.sect_task` with date-based auto-reset in `extra_data["sect_task_date"]`. Does NOT set `user_cd.type` to busy state.
+- **Sect system** (`managers/sect_manager.py`): Full-featured sect with 17 commands. **Sect tasks**: instant completion, fixed rewards (contribution +10,000, materials +100,000, scale +50,000), 10-minute cooldown via `extra_data["sect_task_cd"]`, daily limit of 3 via `Player.sect_task` with date auto-reset. Does NOT set `user_cd.type` to busy state. **Attack practice**: up to Lv.50, each level +4% ATK (integrated into `combat_manager.build_player_combat_stats`), costs lingshi + sect scale. **Elixir room**: 5 levels (黄→仙), upgrades cost lingshi + scale, daily pill claim with weighted random by rank from `exp_pills_data`, `pill_rank_max` limits rank ceiling per level. **Auto owner change**: transfers to highest-contributing member after 7 days offline. **Material distribution**: daily at 12:00, `scale × rate` added to `sect_materials`. **Sect rename**: costs 500 contribution.
 - **Adventure system**: Configurable routes with risk/reward. `/中断历练` for mid-adventure forced exit (counts as completed but no rewards). `/完成历练` for normal settlement after timer expires.
 - **Daily activity system** (v34): 10 daily tasks in `managers/activity_manager.py`. Player fields: `daily_activity` (JSON), `daily_activity_points` (capped at 100), `daily_activity_date`, `daily_activity_rewarded`. Reward: 1x 渡厄丹 at 100 points. Tasks: check_in(+10), adventure(+20×2), rift(+30), bounty(+20×2), shop_buy(+40), harvest(+20), alchemy(+30), smelt(+30), interest(+10), sect(+20).
 - **GM compensation**: GM creates package with `/GM补偿 <物品 数量|物品 数量>`. Players claim with `/补偿`. Items auto-routed: pills → `pills_inventory`, others → `storage_ring_items`.
@@ -83,7 +83,7 @@ data/ (SQLite CRUD: data_manager.py, database_extended.py, migration.py v34)
 
 - All I/O is async. Handlers return `AsyncGenerator` yielding response messages.
 - Database: aiosqlite, single file `sqlite3.db`. `DataBase` class handles reconnection.
-- Config files in `config/` (14+ JSON files). Use `sync_data.py` to copy to `docs/data/` for website SPA.
+- Config files in `config/` (15+ JSON files, including `sect_config.json`). Use `sync_data.py` to copy to `docs/data/` for website SPA.
 - Use `TYPE_CHECKING` imports to avoid circular dependencies.
 - Website SPA: 9 ranks only — 凡品, 灵品, 地品, 天品, 皇品, 帝品, 道品, 仙品, 混元先天.
 - **`extra_data` JSON field** on `UserCd`: prefer for per-system cooldowns that shouldn't block busy state (e.g. `sect_task_cd`, route keys).
