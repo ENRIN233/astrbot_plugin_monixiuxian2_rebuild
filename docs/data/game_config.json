@@ -84,27 +84,33 @@
     "pill_drop_tables": {
       "1": [
         {
-          "name": "三品凝神增益丹",
-          "weight": 100,
+          "name": "修炼加速丹",
+          "weight": 70,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "name": "小爆发丹",
+          "weight": 30,
           "min": 1,
           "max": 1
         }
       ],
       "2": [
         {
-          "name": "三品凝神增益丹",
-          "weight": 50,
-          "min": 1,
-          "max": 1
-        },
-        {
-          "name": "四品破境增益丹",
+          "name": "灵气加速丹",
           "weight": 40,
           "min": 1,
           "max": 1
         },
         {
-          "name": "五品渡劫增益丹",
+          "name": "狂暴丹",
+          "weight": 30,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "name": "幸运丹",
           "weight": 10,
           "min": 1,
           "max": 1
@@ -112,26 +118,26 @@
       ],
       "3": [
         {
-          "name": "四品破境增益丹",
-          "weight": 40,
-          "min": 1,
-          "max": 1
-        },
-        {
-          "name": "五品渡劫增益丹",
+          "name": "天道加速丹",
           "weight": 30,
           "min": 1,
           "max": 1
         },
         {
-          "name": "六品破境增益丹",
+          "name": "狂暴丹·改",
+          "weight": 30,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "name": "天命幸运丹",
           "weight": 20,
           "min": 1,
           "max": 1
         },
         {
-          "name": "七品化神增益丹",
-          "weight": 10,
+          "name": "雷霆丹",
+          "weight": 20,
           "min": 1,
           "max": 1
         }

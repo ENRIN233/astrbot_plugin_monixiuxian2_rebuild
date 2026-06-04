@@ -34,21 +34,22 @@ class RiftManager:
         ],
     }
 
-    # 秘境稀有丹药掉落表（按秘境等级分组，低概率掉落通用增益丹）
+    # 秘境稀有丹药掉落表（按秘境等级分组，低概率掉落功能丹）
     RIFT_PILL_DROP_TABLE = {
         1: [  # 低级秘境 - 3%概率掉落
-            {"name": "三品凝神增益丹", "weight": 100, "min": 1, "max": 1},
+            {"name": "修炼加速丹", "weight": 70, "min": 1, "max": 1},
+            {"name": "小爆发丹", "weight": 30, "min": 1, "max": 1},
         ],
         2: [  # 中级秘境 - 5%概率掉落
-            {"name": "三品凝神增益丹", "weight": 50, "min": 1, "max": 1},
-            {"name": "四品破境增益丹", "weight": 40, "min": 1, "max": 1},
-            {"name": "五品渡劫增益丹", "weight": 10, "min": 1, "max": 1},
+            {"name": "灵气加速丹", "weight": 40, "min": 1, "max": 1},
+            {"name": "狂暴丹", "weight": 30, "min": 1, "max": 1},
+            {"name": "幸运丹", "weight": 10, "min": 1, "max": 1},
         ],
         3: [  # 高级秘境 - 10%概率掉落
-            {"name": "四品破境增益丹", "weight": 40, "min": 1, "max": 1},
-            {"name": "五品渡劫增益丹", "weight": 30, "min": 1, "max": 1},
-            {"name": "六品破境增益丹", "weight": 20, "min": 1, "max": 1},
-            {"name": "七品化神增益丹", "weight": 10, "min": 1, "max": 1},
+            {"name": "天道加速丹", "weight": 30, "min": 1, "max": 1},
+            {"name": "狂暴丹·改", "weight": 30, "min": 1, "max": 1},
+            {"name": "天命幸运丹", "weight": 20, "min": 1, "max": 1},
+            {"name": "雷霆丹", "weight": 20, "min": 1, "max": 1},
         ],
     }
 
