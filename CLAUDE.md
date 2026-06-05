@@ -8,15 +8,17 @@ AstrBot plugin for a text-based idle cultivation (修仙) game. Python 3.8+, run
 
 ## Commands
 
+**Python 路径**: `E:\python\python.exe`（Git Bash 中使用 `/e/python/python.exe`，`python` / `python3` 命令不可用）
+
 ```bash
 pip install -r requirements.txt          # runtime deps (Pillow)
 pip install -r requirements-dev.txt      # dev deps (pytest, pytest-asyncio, aiosqlite)
 pytest                                   # run all tests
 pytest tests/test_trade_manager.py       # run single test file
 pytest -k "test_name"                    # run specific test
-python sync_data.py                      # sync config/*.json to docs/data/ for website
+python.exe sync_data.py                  # sync config/*.json to docs/data/ for website
 node -c docs/app.js                      # verify website JS syntax
-python scripts/rebalance_weapons.py      # rebalance weapon stats from reference data (scripts/)
+python.exe scripts/rebalance_weapons.py  # rebalance weapon stats from reference data (scripts/)
 ```
 
 No linter/formatter is configured. Follow existing style: `snake_case` functions, `PascalCase` classes, `UPPER_CASE` constants, single-underscore private methods, Chinese docstrings.

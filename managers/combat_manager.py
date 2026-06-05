@@ -66,6 +66,7 @@ class CombatStats:
     mp: int  # 当前真元
     max_mp: int  # 最大真元
     atk: int  # 攻击力
+    base_mp: int = 0  # 基础真元（心法加成后、装备百分比加成前，用于技能消耗计算）
     base_def: float = 0.0  # 经验基础防御（用于双层减伤第一层）
     equip_def: int = 0  # 装备+突破防御（用于双层减伤第二层）
     crit_rate: int = 0  # 会心率（百分比）
@@ -140,12 +141,15 @@ class CombatManager:
 
         equip_bonus = load_equipment_bonus(player, config_manager)
 
+        # 记录基础真元（心法加成后、装备百分比加成前）
+        base_mp = mp
         # 武器 mp_bonus 乘算
         mp = int(mp * (1 + equip_bonus.get("mp_pct", 0.0)))
 
         breakthrough_atk = player.physical_damage + player.magic_damage
-        # 心法攻击加成改为百分比乘区
-        final_atk = int(base_atk * (1 + equip_bonus["atk_pct"] + atk_buff + technique_atk_bonus)) + breakthrough_atk + equip_bonus["atk"]
+        # 心法攻击加成改为百分比乘区，atkpractice 每级 4% 加成
+        atk_practice_bonus = player.atkpractice * 0.04
+        final_atk = int(base_atk * (1 + equip_bonus["atk_pct"] + atk_buff + technique_atk_bonus + atk_practice_bonus)) + breakthrough_atk + equip_bonus["atk"]
 
         base_def = math.log(player.experience + 1) * 10
         equip_def = (player.physical_defense + player.magic_defense) + equip_bonus["defense"]
@@ -163,6 +167,7 @@ class CombatManager:
             max_hp=hp,
             mp=mp,
             max_mp=mp,
+            base_mp=base_mp,
             atk=final_atk,
             base_def=base_def,
             equip_def=equip_def,
@@ -181,11 +186,18 @@ class CombatManager:
 
     @staticmethod
     def calc_combat_power(stats: CombatStats, max_hp: int, max_mp: int) -> int:
-        """从 CombatStats 计算战力评分。
+        """从 CombatStats 计算战力评分（PvP 向）。
 
         公式 = log10(期望每回合伤害 × 有效生命值) × 1000，取整。
-        期望每回合伤害 = ATK × crit_mult × double_mult
-        有效生命值 = max_hp × def_mult × dodge_mult × regen_mult
+
+        攻击端：atk × crit_mult × double_mult × armor_pen_mult
+        防御端：max_hp × def_mult × dodge_mult × block_mult × crit_resist_mult
+                × regen_mult × lifesteal_mult × reflect_mult
+
+        所有 14 项战斗属性均参与计算。
+        - armor_pen：无视部分防御，提升期望伤害（攻击端）
+        - crit_resist：降低对手有效暴击率，减少受到的暴击伤害（防御端）
+        - block/lifesteal/reflect：防御端有效 HP 增益
 
         Args:
             stats: 已构建的 CombatStats（来自 build_player_combat_stats）
@@ -195,24 +207,41 @@ class CombatManager:
         # ---- 攻击端 ----
         crit_rate = min(stats.crit_rate, 100)
         crit_mult = 1.0 + crit_rate / 100.0 * max(0.0, stats.crit_damage - 1.0)
+        # 连击：每次触发造成半额伤害，等效 ×(1 + chance×0.5)
         double_mult = 1.0 + min(stats.double_hit, 100) / 100.0 * 0.5
-        expected_atk = stats.atk * crit_mult * double_mult
+        # 穿甲：无视对手装备防御层（约占总防御 85%），线性增伤
+        armor_pen_mult = 1.0 + stats.armor_pen * 0.85 / 100.0
+        expected_dmg = stats.atk * crit_mult * double_mult * armor_pen_mult
 
         # ---- 防御端（有效生命值） ----
-        # base_def 层: reduction = base_def/(base_def+500) → 等效HP乘数 = (base_def+500)/500
+        # 双层减伤等效HP乘数
         base_def_mult = (stats.base_def + 500) / 500.0
-        # equip_def 层: ln(raw+1)*20 → reduction = x/(x+200) → 等效HP乘数 = (x+200)/200
         equip_def_val = math.log(stats.equip_def + 1) * 20 if stats.equip_def > 0 else 0.0
         equip_def_mult = (equip_def_val + 200) / 200.0
-        # 闪避等效HP乘数: 1/(1-dodge/100)
+        # 闪避等效HP乘数
         dodge_mult = 100.0 / max(1, 100 - min(stats.dodge_rate, 95))
-        # 每回合回复等效乘数（粗略近似）
+        # 格挡：用参考伤害（≈自身伤害）估算非暴击减伤比例，下限 0.2 防除零
+        ref_dmg = stats.atk * crit_mult * double_mult
+        block_ratio = stats.block_value / max(ref_dmg, 1)
+        block_mult = 1.0 / max(0.2, 1.0 - block_ratio)
+        # 会心抵抗：降低对手暴击伤害，参考对手 crit_rate=40%, crit_damage=1.8
+        # effective_crit = max(0, 40 - crit_resist)
+        # def_crit_mult = 1 + effective_crit/100 × 0.8 → crit_mult_without_resist / crit_mult_with_resist
+        ref_crit_mult = 1.0 + 0.40 * 0.8  # 1.32
+        eff_crit_mult = 1.0 + max(0, 40 - stats.crit_resist) / 100.0 * 0.8
+        crit_resist_mult = ref_crit_mult / max(eff_crit_mult, 0.01)
+        # 生命回复
         regen_mult = 1.0 + stats.hp_regen_pct / 100.0
+        # 吸血：每回合回复伤害百分比，等效增加生存回合数
+        lifesteal_mult = 1.0 + stats.lifesteal / 100.0
+        # 反伤：反弹伤害同时削弱攻击者，等效增血（÷2 折算）
+        reflect_mult = 1.0 + stats.reflect_pct / 200.0
 
-        effective_hp = max_hp * base_def_mult * equip_def_mult * dodge_mult * regen_mult
+        effective_hp = max_hp * base_def_mult * equip_def_mult * dodge_mult \
+            * block_mult * crit_resist_mult * regen_mult * lifesteal_mult * reflect_mult
 
         # ---- 战力 = log10(攻击 × 生命) ----
-        power = expected_atk * effective_hp
+        power = expected_dmg * effective_hp
         if power <= 0:
             return 0
         return int(math.log10(power + 1) * 1000)
@@ -447,7 +476,7 @@ class CombatManager:
             used_skill = False
             if skill_name and skill_manager and p_state:
                 can_use, _ = skill_manager.check_skill_usable(
-                    skill_name, p_state, player.mp, player.hp, player.max_hp, player.max_mp
+                    skill_name, p_state, player.mp, player.hp, player.max_hp, player.base_mp
                 )
                 if can_use and skill_manager.try_activate_skill(skill_name):
                     orig_hp = scarecrow.hp
@@ -461,7 +490,7 @@ class CombatManager:
                     if skill_data:
                         mp_cost = skill_data.get("mpcost", 0)
                         if mp_cost > 0:
-                            player.mp = max(0, player.mp - int(player.max_mp * mp_cost))
+                            player.mp = max(0, player.mp - int((player.base_mp or player.max_mp) * mp_cost))
                         hp_cost = skill_data.get("hpcost", 0)
                         if hp_cost > 0:
                             player.hp = max(0, player.hp - int(player.max_hp * hp_cost))
@@ -524,7 +553,7 @@ class CombatManager:
         if skill_name and skill_manager and attacker_state:
             can_use, _ = skill_manager.check_skill_usable(
                 skill_name, attacker_state, attacker.mp, attacker.hp, attacker.max_hp,
-                attacker.max_mp
+                attacker.base_mp
             )
             if can_use and skill_manager.try_activate_skill(skill_name):
                 # 闪避判定（技能也受闪避影响）
@@ -535,7 +564,7 @@ class CombatManager:
                     if skill_data:
                         mp_cost = skill_data.get("mpcost", 0)
                         if mp_cost > 0:
-                            attacker.mp -= int(attacker.max_mp * mp_cost)
+                            attacker.mp -= int((attacker.base_mp or attacker.max_mp) * mp_cost)
                         hp_cost = skill_data.get("hpcost", 0)
                         if hp_cost > 0:
                             attacker.hp = max(0, attacker.hp - int(attacker.max_hp * hp_cost))
@@ -563,7 +592,7 @@ class CombatManager:
                     if skill_data:
                         mp_cost = skill_data.get("mpcost", 0)
                         if mp_cost > 0:
-                            attacker.mp -= int(attacker.max_mp * mp_cost)
+                            attacker.mp -= int((attacker.base_mp or attacker.max_mp) * mp_cost)
                         hp_cost = skill_data.get("hpcost", 0)
                         if hp_cost > 0:
                             hp_loss = int(attacker.max_hp * hp_cost)
@@ -689,7 +718,7 @@ class CombatManager:
                 if not p_state.is_sealed:
                     can_use, _ = skill_manager.check_skill_usable(
                         player_skill_name, p_state, player.mp, player.hp, player.max_hp,
-                        player.max_mp
+                        player.base_mp
                     )
                     if can_use and skill_manager.try_activate_skill(player_skill_name):
                         orig_atk = player.atk
@@ -709,7 +738,7 @@ class CombatManager:
                         if sd:
                             mp_cost = sd.get("mpcost", 0)
                             if mp_cost > 0:
-                                player.mp -= int(player.max_mp * mp_cost)
+                                player.mp -= int((player.base_mp or player.max_mp) * mp_cost)
                             hp_cost = sd.get("hpcost", 0)
                             if hp_cost > 0:
                                 player.hp = max(0, player.hp - int(player.max_hp * hp_cost))

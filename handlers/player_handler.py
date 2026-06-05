@@ -1,4 +1,5 @@
 # handlers/player_handler.py
+import math
 import time
 import random
 from datetime import datetime
@@ -134,14 +135,6 @@ class PlayerHandler:
             self.config_manager.weapons_data
         )
 
-        # 成就加成
-        achievement_bonus = {}
-        if self.achievement_mgr:
-            self.achievement_mgr.check_and_unlock(player)
-            achievement_bonus = self.achievement_mgr.get_achievement_bonus(player)
-
-        total_attrs = player.get_total_attributes(equipped_items, pill_multipliers, achievement_bonus)
-
         # 图片生成暂时禁用（缺少资源文件会导致效果很差）
         # 直接使用优化后的文本格式显示
 
@@ -182,6 +175,13 @@ class PlayerHandler:
         # 构建信息显示
         dao_hao = player.user_name if player.user_name else display_name
         
+        # 双层减伤率计算
+        base_def_reduction = combat_stats.base_def / (combat_stats.base_def + 500) * 100 if combat_stats.base_def > 0 else 0
+        equip_def_val = math.log(combat_stats.equip_def + 1) * 20 if combat_stats.equip_def > 0 else 0
+        equip_def_reduction = equip_def_val / (equip_def_val + 200) * 100 if equip_def_val > 0 else 0
+        total_reduction = (1 - (1 - base_def_reduction / 100) * (1 - equip_def_reduction / 100)) * 100
+        mp_pct = f"{player.mp * 100 // combat_stats.max_mp}%" if combat_stats.max_mp > 0 else "0%"
+
         reply_msg = (
             f"📋 道友 {dao_hao} 的信息\n"
             f"━━━━━━━━━━━━━━━\n"
@@ -195,11 +195,21 @@ class PlayerHandler:
             f"  灵根：{player.spiritual_root}\n"
             f"  突破加成：{breakthrough_rate}\n"
             f"\n"
-            f"【修炼属性】\n"
-            f"  修炼方式：{player.cultivation_type}\n"
-            f"  状态：{player.state}\n"
-            f"  寿命：{player.lifespan}\n"
-            f"  精神力：{total_attrs['mental_power']}\n"
+            f"【战斗属性】\n"
+            f"  ❤️ 生命：{combat_stats.max_hp:,}\n"
+            f"  💧 真元：{combat_stats.max_mp:,}（{mp_pct}）\n"
+            f"  ⚔️ 攻击力：{combat_stats.atk:,}\n"
+            f"  🎯 会心率：{combat_stats.crit_rate}%\n"
+            f"  💥 会心伤害：{combat_stats.crit_damage:.2f}x\n"
+            f"  🗡️ 破甲：{combat_stats.armor_pen}%\n"
+            f"  🩸 吸血：{combat_stats.lifesteal}%\n"
+            f"  ⚡ 连击：{combat_stats.double_hit}%\n"
+            f"  💨 闪避率：{combat_stats.dodge_rate}%\n"
+            f"  🛡️ 减伤率：{total_reduction:.1f}%\n"
+            f"  🔄 会心抵抗：{combat_stats.crit_resist}%\n"
+            f"  🔁 反伤：{combat_stats.reflect_pct}%\n"
+            f"  🧱 格挡：{combat_stats.block_value}\n"
+            f"  💚 生命回复：{combat_stats.hp_regen_pct}%/回合\n"
         )
 
         # 计算修炼效率
@@ -228,6 +238,8 @@ class PlayerHandler:
         reply_msg += (
             f"\n"
             f"【修炼效率】\n"
+            f"  修炼方式：{player.cultivation_type}\n"
+            f"  状态：{player.state}\n"
             f"  灵根倍率：x{root_speed:.1f}\n"
         )
         if technique_bonus > 0:
@@ -240,25 +252,10 @@ class PlayerHandler:
         if land_bonus > 0:
             reply_msg += f"  洞天加成：+{land_bonus:.0%}\n"
         reply_msg += f"  总效率：x{total_efficiency:.2f}\n"
-        
-        # 根据修炼类型添加不同属性
-        if player.cultivation_type == "体修":
-            reply_msg += (
-                f"  气血：{player.blood_qi}/{total_attrs.get('max_blood_qi', 0)}\n"
-                f"  物伤：{total_attrs['physical_damage']}\n"
-                f"  法伤：{total_attrs['magic_damage']}\n"
-                f"  物防：{total_attrs['physical_defense']}\n"
-                f"  法防：{total_attrs['magic_defense']}\n"
-            )
-        else:
-            reply_msg += (
-                f"  灵气：{player.spiritual_qi}/{total_attrs.get('max_spiritual_qi', 0)}\n"
-                f"  法伤：{total_attrs['magic_damage']}\n"
-                f"  物伤：{total_attrs['physical_damage']}\n"
-                f"  法防：{total_attrs['magic_defense']}\n"
-                f"  物防：{total_attrs['physical_defense']}\n"
-            )
-        
+        if player.atkpractice > 0:
+            practice_bonus_pct = player.atkpractice * 4
+            reply_msg += f"  攻击修炼：Lv.{player.atkpractice}（攻击力+{practice_bonus_pct}%）\n"
+
         reply_msg += (
             f"\n"
             f"【装备信息】\n"

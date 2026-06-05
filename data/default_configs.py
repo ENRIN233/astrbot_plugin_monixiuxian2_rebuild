@@ -11,6 +11,44 @@ SECT_CONFIG = {
         "4": {"name": "外门弟子", "permission": 1}
     },
     "scale_ratio": 10, # 1灵石 = 10建设度
+    # 攻击修炼配置
+    "practice": {
+        "base_cost": 500000,           # 1级灵石成本（50万起步）
+        "cost_growth": 1.22,           # 每级成本增长系数（满50级总成本约21亿）
+        "atk_per_level": 0.04,         # 每级攻击力提升百分比
+        "max_level": 50,               # 最大修炼等级
+        "construction_per_level": 10000 # 每级所需宗门建设度上限（25级需25万建设度）
+    },
+    # 丹房配置
+    "elixir_room": {
+        "claim_contribution_required": 500,  # 领取丹药最低贡献
+        "levels": {
+            "1": {"name": "黄级丹房", "upgrade_cost_scale": 100000,  "upgrade_cost_stone": 500000,
+                   "daily_pills": 1, "pill_rank_max": 1},
+            "2": {"name": "玄级丹房", "upgrade_cost_scale": 250000, "upgrade_cost_stone": 1000000,
+                   "daily_pills": 2, "pill_rank_max": 2},
+            "3": {"name": "地级丹房", "upgrade_cost_scale": 500000, "upgrade_cost_stone": 2500000,
+                   "daily_pills": 3, "pill_rank_max": 3},
+            "4": {"name": "天级丹房", "upgrade_cost_scale": 1000000, "upgrade_cost_stone": 5000000,
+                   "daily_pills": 4, "pill_rank_max": 4},
+            "5": {"name": "仙级丹房", "upgrade_cost_scale": 2000000, "upgrade_cost_stone": 10000000,
+                   "daily_pills": 5, "pill_rank_max": 5}
+        },
+        "maintenance_cost_per_level": 10000  # 每级每日维护费（资材），5级日耗5万
+    },
+    # 资材发放配置
+    "material_distribution": {
+        "hour": 12,       # 每日发放时间（小时）
+        "rate": 0.1       # 倍率：建设度 * rate = 发放资材
+    },
+    # 自动换宗主配置
+    "auto_owner_change": {
+        "inactive_days": 7  # 宗主离线天数触发自动传位
+    },
+    # 宗门改名配置
+    "rename": {
+        "cost_contribution": 500  # 改名消耗贡献度
+    }
 }
 
 BOSS_CONFIG = {
@@ -28,14 +66,14 @@ BOSS_CONFIG = {
 }
 
 RIFT_CONFIG = {
-    "open_hour_start": 12,
-    "open_hour_end": 18,
+    "open_hour_start": 10,
+    "open_hour_end": 21,
     "rifts": [
-        {"id": 1, "name": "青云秘境", "duration": 1800, "spawn_weight": 30},
-        {"id": 2, "name": "幽冥鬼域", "duration": 3600, "spawn_weight": 25},
-        {"id": 3, "name": "太古遗迹", "duration": 7200, "spawn_weight": 20},
-        {"id": 4, "name": "玄冰地宫", "duration": 5400, "spawn_weight": 15},
-        {"id": 5, "name": "上古遗迹", "duration": 10800, "spawn_weight": 10},
+        {"id": 1, "name": "青云秘境", "duration": 1800, "spawn_weight": 30, "reward_stone": 800000, "reward_exp": 2200},
+        {"id": 2, "name": "幽冥鬼域", "duration": 2700, "spawn_weight": 25, "reward_stone": 1440000, "reward_exp": 3840},
+        {"id": 3, "name": "太古遗迹", "duration": 4500, "spawn_weight": 20, "reward_stone": 2320000, "reward_exp": 7800},
+        {"id": 4, "name": "玄冰地宫", "duration": 3600, "spawn_weight": 15, "reward_stone": 3600000, "reward_exp": 14820},
+        {"id": 5, "name": "上古遗迹", "duration": 5400, "spawn_weight": 10, "reward_stone": 3960000, "reward_exp": 16302},
     ]
 }
 

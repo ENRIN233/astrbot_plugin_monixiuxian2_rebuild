@@ -83,6 +83,11 @@ CMD_SECT_KICK = "踢出成员"
 CMD_SECT_TRANSFER = "宗主传位"
 CMD_SECT_TASK = "宗门任务"
 CMD_SECT_POSITION = "职位变更"
+CMD_UPGRADE_PRACTICE = "升级修炼"
+CMD_SECT_ELIXIR_ROOM = "丹房建设"
+CMD_SECT_ELIXIR_GET = "领取丹药"
+CMD_SECT_RENAME = "宗门改名"
+CMD_PRACTICE_INFO = "修炼信息"
 
 # Boss系统指令
 CMD_BOSS_INFO = "世界Boss"
@@ -329,6 +334,8 @@ class XiuXianPlugin(Star):
         self.trade_check_task = None  # 交易超时检查任务
         self.rift_daily_task = None  # 秘境每日广播任务
         self.pavilion_refresh_task = None  # 商铺自动刷新任务
+        self.sect_material_task = None  # 宗门资材发放任务
+        self.sect_owner_change_task = None  # 自动换宗主任务
 
         access_control_config = self.config.get("ACCESS_CONTROL", {})
         self.whitelist_groups = [str(g) for g in access_control_config.get("WHITELIST_GROUPS", [])]
@@ -398,6 +405,8 @@ class XiuXianPlugin(Star):
         self.trade_check_task = asyncio.create_task(self._schedule_trade_check())
         self.rift_daily_task = asyncio.create_task(self._schedule_rift_daily())
         self.pavilion_refresh_task = asyncio.create_task(self._schedule_pavilion_refresh())
+        self.sect_material_task = asyncio.create_task(self._schedule_sect_material_distribution())
+        self.sect_owner_change_task = asyncio.create_task(self._schedule_auto_sect_owner_change())
         
         logger.info("【修仙插件】已加载。")
 
@@ -418,6 +427,10 @@ class XiuXianPlugin(Star):
             self.rift_daily_task.cancel()
         if self.pavilion_refresh_task:
             self.pavilion_refresh_task.cancel()
+        if self.sect_material_task:
+            self.sect_material_task.cancel()
+        if self.sect_owner_change_task:
+            self.sect_owner_change_task.cancel()
         await self.db.close()
         logger.info("【修仙插件】已卸载。")
         
@@ -546,7 +559,7 @@ class XiuXianPlugin(Star):
             logger.error(f"【修仙插件】Boss击杀广播异常: {e}")
 
     async def _schedule_rift_daily(self):
-        """秘境每日定时广播任务 - 每天12:00自动选择并广播今日秘境"""
+        """秘境每日定时广播任务 - 每天10:00自动选择并广播今日秘境"""
         from datetime import datetime, timedelta
 
         retry_count = 0
@@ -556,13 +569,13 @@ class XiuXianPlugin(Star):
             try:
                 await self.db.ensure_connection()
 
-                # 计算距离下一个12:00的秒数
+                # 计算距离下一个10:00的秒数
                 now = datetime.now()
-                noon_today = now.replace(hour=12, minute=0, second=0, microsecond=0)
-                if now >= noon_today:
-                    target = noon_today + timedelta(days=1)
+                target_today = now.replace(hour=10, minute=0, second=0, microsecond=0)
+                if now >= target_today:
+                    target = target_today + timedelta(days=1)
                 else:
-                    target = noon_today
+                    target = target_today
 
                 delta = (target - now).total_seconds()
                 logger.info(f"【修仙插件】秘境广播将在 {int(delta)} 秒后（{target.strftime('%Y-%m-%d %H:%M')}）执行")
@@ -621,7 +634,7 @@ class XiuXianPlugin(Star):
             f"探索时长：{duration // 60} 分钟\n"
             f"每人每日限探索 1 次\n"
             f"━━━━━━━━━━━━━━━\n"
-            f"⏰ 开放时间：12:00 ~ 18:00\n"
+            f"⏰ 开放时间：10:00 ~ 21:00\n"
             f"💡 使用 /探索秘境 进入"
         )
         await self._broadcast_to_whitelist_groups(broadcast_msg)
@@ -892,6 +905,125 @@ class XiuXianPlugin(Star):
                 retry_count += 1
                 delay = min(60 * (2 ** retry_count), max_retry_delay)
                 logger.info(f"【修仙插件】商铺刷新任务将在 {delay} 秒后重试（第{retry_count}次）")
+                await asyncio.sleep(delay)
+
+    async def _schedule_sect_material_distribution(self):
+        """每日定时发放宗门资材（根据建设度 × 倍率）"""
+        import time as _time
+        retry_count = 0
+        max_retry_delay = 3600
+
+        while True:
+            try:
+                sect_config = self.config_manager.sect_config if hasattr(self, 'config_manager') else {}
+                dist_config = sect_config.get("material_distribution", {})
+                target_hour = dist_config.get("hour", 12)
+                rate = dist_config.get("rate", 0.1)
+
+                # 计算到下一个目标小时的等待时间
+                now = _time.localtime()
+                current_hour = now.tm_hour
+                current_min = now.tm_min
+                current_sec = now.tm_sec
+
+                if current_hour < target_hour:
+                    wait_seconds = (target_hour - current_hour) * 3600 - current_min * 60 - current_sec
+                elif current_hour == target_hour and current_min == 0 and current_sec < 30:
+                    wait_seconds = 0  # 刚好在目标时间，立即执行
+                else:
+                    wait_seconds = (24 - current_hour + target_hour) * 3600 - current_min * 60 - current_sec
+
+                if wait_seconds > 0:
+                    await asyncio.sleep(wait_seconds)
+
+                await self.db.ensure_connection()
+                sects = await self.db.ext.get_all_sects_summary()
+                for s in sects:
+                    materials_gain = int(s["sect_scale"] * rate)
+                    if materials_gain > 0:
+                        await self.db.ext.update_sect_materials(s["sect_id"], materials_gain, operation=1)
+                logger.info(f"【修仙插件】宗门资材发放完成，共 {len(sects)} 个宗门")
+
+                retry_count = 0
+                # 等待到下一个周期（24小时后）
+                await asyncio.sleep(86400 - 60)  # 减去60秒避免漂移
+
+            except asyncio.CancelledError:
+                break
+            except Exception as e:
+                logger.error(f"【修仙插件】宗门资材发放异常: {e}")
+                retry_count += 1
+                delay = min(60 * (2 ** retry_count), max_retry_delay)
+                await asyncio.sleep(delay)
+
+    async def _schedule_auto_sect_owner_change(self):
+        """定期检查不活跃宗主并自动传位"""
+        import time as _time
+        from datetime import datetime, timedelta
+        retry_count = 0
+        max_retry_delay = 3600
+
+        while True:
+            try:
+                sect_config = self.config_manager.sect_config if hasattr(self, 'config_manager') else {}
+                owner_config = sect_config.get("auto_owner_change", {})
+                inactive_days = owner_config.get("inactive_days", 7)
+
+                await asyncio.sleep(3600)  # 每小时检查一次
+
+                await self.db.ensure_connection()
+                sects = await self.db.ext.get_all_sects_summary()
+                today = datetime.now()
+
+                for s in sects:
+                    owner_id = s["sect_owner"]
+                    owner = await self.db.get_player_by_id(owner_id)
+                    if not owner:
+                        continue
+
+                    last_date_str = owner.last_check_in_date
+                    if not last_date_str:
+                        continue
+
+                    try:
+                        last_date = datetime.strptime(last_date_str, "%Y-%m-%d")
+                    except ValueError:
+                        continue
+
+                    if (today - last_date).days < inactive_days:
+                        continue
+
+                    # 宗主不活跃，寻找继承者
+                    members = await self.db.ext.get_sect_members(s["sect_id"])
+                    candidates = [m for m in members if m.user_id != owner_id]
+                    if not candidates:
+                        continue
+
+                    # 按职位（升序）→ 贡献（降序）排序
+                    candidates.sort(key=lambda m: (m.sect_position, -m.sect_contribution))
+                    new_owner = candidates[0]
+
+                    # 执行传位
+                    await self.db.ext.update_player_sect_info(new_owner.user_id, s["sect_id"], 0)
+                    await self.db.ext.update_player_sect_info(owner_id, s["sect_id"], 1)
+                    s_obj = await self.db.ext.get_sect_by_id(s["sect_id"])
+                    if s_obj:
+                        s_obj.sect_owner = new_owner.user_id
+                        await self.db.ext.update_sect(s_obj)
+
+                    logger.info(
+                        f"【修仙插件】宗主自动传位：{s['sect_name']} 宗主 {owner.user_name} 离线超 {inactive_days} 天，"
+                        f"由 {new_owner.user_name} 继任"
+                    )
+
+                retry_count = 0
+
+            except asyncio.CancelledError:
+                break
+            except Exception as e:
+                logger.error(f"【修仙插件】自动换宗主任务异常: {e}")
+                retry_count += 1
+                delay = min(60 * (2 ** retry_count), max_retry_delay)
                 await asyncio.sleep(delay)
 
     @filter.command(CMD_HELP, "显示帮助信息")
@@ -1261,11 +1393,89 @@ class XiuXianPlugin(Star):
 
     @filter.command(CMD_SECT_POSITION, "变更成员职位")
     @require_whitelist
-    async def handle_sect_position(self, event: AstrMessageEvent, target: str = "", position: int = -1):
-        if position < 0:
-            yield event.plain_result(f"请输入目标和职位ID(0-4)，例如：/{CMD_SECT_POSITION} @某人 1")
+    async def handle_sect_position(self, event: AstrMessageEvent, args: str = ""):
+        """职位变更 @某人 <职位ID(0-4)> 或 职位变更 <QQ号> <职位ID>"""
+        import re as _re
+        # ---- 提取目标用户ID ----
+        target_id = None
+        # 尝试从消息链 At 组件提取
+        if hasattr(event, "message_obj") and event.message_obj:
+            for comp in getattr(event.message_obj, "message", []) or []:
+                if isinstance(comp, At):
+                    for attr in ("qq", "target", "uin", "user_id"):
+                        val = getattr(comp, attr, None)
+                        if val:
+                            target_id = str(val).lstrip("@")
+                            break
+                    if target_id:
+                        break
+        # 从原始消息文本提取（主路径：支持 @QQ号 / 纯QQ号 / CQ码）
+        if not target_id:
+            raw = (event.get_message_str() if hasattr(event, "get_message_str") else "") or ""
+            # 剥离命令前缀（/职位变更 或 职位变更）
+            text = raw.lstrip("/").strip()
+            if text.startswith(CMD_SECT_POSITION):
+                text = text[len(CMD_SECT_POSITION):].strip()
+            # CQ码格式 [CQ:at,qq=12345]
+            m = _re.search(r'\[CQ:at,qq=(\d+)\]', text)
+            if m:
+                target_id = m.group(1)
+            else:
+                # @数字 或 纯数字（5位以上）
+                m = _re.search(r'@?(\d{5,12})', text)
+                if m:
+                    target_id = m.group(1)
+        # ---- 提取职位ID ----
+        position = -1
+        raw = (event.get_message_str() if hasattr(event, "get_message_str") else "") or args
+        text = raw.lstrip("/").strip()
+        if text.startswith(CMD_SECT_POSITION):
+            text = text[len(CMD_SECT_POSITION):].strip()
+        m = _re.search(r'(?<!\d)([0-4])(?!\d)', text)
+        if m:
+            position = int(m.group(1))
+        # ---- 校验 ----
+        if not target_id or position < 0:
+            yield event.plain_result(
+                f"用法：/{CMD_SECT_POSITION} @某人 <职位ID>\n"
+                f"　　：/{CMD_SECT_POSITION} <QQ号> <职位ID>\n"
+                f"职位ID：0宗主 1副宗主 2长老 3内门弟子 4外门弟子"
+            )
             return
-        async for r in self.sect_handlers.handle_position_change(event, target, position):
+        async for r in self.sect_handlers.handle_position_change(event, target_id, position):
+            yield r
+
+    @filter.command(CMD_UPGRADE_PRACTICE, "升级攻击修炼等级")
+    @require_whitelist
+    async def handle_upgrade_practice(self, event: AstrMessageEvent, count: int = 1):
+        async for r in self.sect_handlers.handle_upgrade_practice(event, count):
+            yield r
+
+    @filter.command(CMD_PRACTICE_INFO, "查看攻击修炼信息")
+    @require_whitelist
+    async def handle_practice_info(self, event: AstrMessageEvent):
+        async for r in self.sect_handlers.handle_practice_info(event):
+            yield r
+
+    @filter.command(CMD_SECT_ELIXIR_ROOM, "建设/升级宗门丹房")
+    @require_whitelist
+    async def handle_sect_elixir_room(self, event: AstrMessageEvent):
+        async for r in self.sect_handlers.handle_upgrade_elixir_room(event):
+            yield r
+
+    @filter.command(CMD_SECT_ELIXIR_GET, "领取宗门丹药")
+    @require_whitelist
+    async def handle_sect_elixir_get(self, event: AstrMessageEvent):
+        async for r in self.sect_handlers.handle_claim_sect_pill(event):
+            yield r
+
+    @filter.command(CMD_SECT_RENAME, "修改宗门名称")
+    @require_whitelist
+    async def handle_sect_rename(self, event: AstrMessageEvent, new_name: str = ""):
+        if not new_name:
+            yield event.plain_result(f"请输入新名称，例如：/{CMD_SECT_RENAME} 逍遥门")
+            return
+        async for r in self.sect_handlers.handle_rename_sect(event, new_name):
             yield r
 
     # ===== Boss系统指令 =====
@@ -1981,42 +2191,51 @@ class XiuXianPlugin(Star):
         yield event.plain_result(msg)
 
     def _gm_parse_target(self, args: str, event: AstrMessageEvent = None) -> tuple:
-        """从GM指令参数中解析目标QQ号和剩余参数（从消息链组件提取，避免@格式问题）"""
+        """从GM指令参数中解析目标QQ号和剩余参数。
+        与 handle_sect_position 完全相同的解析逻辑：
+        1. 消息链 At 组件（增强）
+        2. get_message_str() 原始文本 → 剥离命令前缀 → CQ码/@数字/纯数字
+        """
         import re
-        # 优先从消息链中提取@目标
+        raw = ""
+        if event:
+            if hasattr(event, "get_message_str"):
+                raw = (event.get_message_str() or "").strip()
+            if not raw:
+                raw = args or ""
+        else:
+            raw = args or ""
+        # 剥离命令前缀（第一个词：如 GM加灵石）
+        m_prefix = re.match(r'\S+\s+(.*)', raw, re.DOTALL)
+        text = m_prefix.group(1).strip() if m_prefix else raw.strip()
+        # ---- 尝试从消息链 At 组件提取（增强路径） ----
+        target_id = None
         if event and hasattr(event, "message_obj") and event.message_obj:
             message_chain = getattr(event.message_obj, "message", []) or []
             for component in message_chain:
                 if isinstance(component, At):
-                    target_id = None
                     for attr in ("qq", "target", "uin", "user_id"):
-                        target_id = getattr(component, attr, None)
-                        if target_id:
+                        val = getattr(component, attr, None)
+                        if val:
+                            target_id = str(val).lstrip("@")
                             break
                     if target_id:
-                        # 从消息链的 Plain 组件中拼接文本，跳过 At 组件
-                        # 这样不会包含 @nickname(qq) 格式的文本
-                        parts = []
-                        for comp in message_chain:
-                            t = getattr(comp, "text", None)
-                            if t and not isinstance(comp, At):
-                                parts.append(t)
-                        full_text = " ".join(parts).strip()
-                        # 去掉GM命令前缀
-                        m = re.match(r'\S+\s+(.*)', full_text, re.DOTALL)
-                        extra = m.group(1).strip() if m else ""
-                        return str(target_id).lstrip("@"), extra
-        # 无@目标：始终从完整消息提取，避免args只含第一个词的问题
-        full_msg = ""
-        if event and hasattr(event, "get_message_str"):
-            full_msg = event.get_message_str() or ""
-            m_prefix = re.match(r'\S+\s+(.*)', full_msg, re.DOTALL)
-            if m_prefix:
-                full_msg = m_prefix.group(1)
-        if not full_msg:
-            return "", ""
-        # 提取纯数字QQ号（5-12位）+ 剩余参数
-        num_match = re.match(r'\s*(\d{5,12})\s*(.*)', full_msg, re.DOTALL)
-        if num_match:
-            return num_match.group(1), num_match.group(2).strip()
-        return "", full_msg.strip()
+                        break
+        # ---- 主路径：从剥离前缀后的文本提取 ----
+        if not target_id:
+            # CQ码格式 [CQ:at,qq=12345]
+            at_match = re.search(r'\[CQ:at,qq=(\d+)\]', text)
+            if at_match:
+                target_id = at_match.group(1)
+                extra = re.sub(r'\[CQ:at,qq=\d+\]', '', text).strip()
+                return target_id, extra
+            # @数字 或 纯数字QQ号（5位以上）
+            num_match = re.search(r'@?(\d{5,12})', text)
+            if num_match:
+                target_id = num_match.group(1)
+                extra = text[num_match.end():].strip()
+                return target_id, extra
+            return "", text.strip()
+        # At 组件命中时，extra 从剥离前缀后的文本中移除目标ID得到
+        extra = text.replace(target_id, "", 1).lstrip().strip()
+        return target_id, extra

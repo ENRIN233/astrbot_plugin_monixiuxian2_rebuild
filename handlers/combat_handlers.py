@@ -241,13 +241,6 @@ class CombatHandlers:
         """稻草人练习（每次攻击固定1伤害，15回合）"""
         user_id = event.get_sender_id()
 
-        # 检查玩家状态
-        user_cd = await self.db.ext.get_user_cd(user_id)
-        if user_cd and user_cd.type != UserStatus.IDLE:
-            current_status = UserStatus.get_name(user_cd.type)
-            yield event.plain_result(f"❌ 你当前正在{current_status}，无法进行练习！")
-            return
-
         player = await self.db.get_player_by_id(user_id)
         if not player:
             yield event.plain_result("❌ 道友尚未踏入仙途，请先使用「我要修仙」")

@@ -1,6 +1,6 @@
 # managers/rift_manager.py
 """
-秘境系统管理器 - 每日随机开放一个秘境，限时12:00-18:00，每人每日一次
+秘境系统管理器 - 每日随机开放一个秘境，限时10:00-21:00，每人每日一次
 """
 
 import random
@@ -18,8 +18,8 @@ if TYPE_CHECKING:
 class RiftManager:
     """秘境系统管理器"""
 
-    DEFAULT_OPEN_HOUR_START = 12
-    DEFAULT_OPEN_HOUR_END = 18
+    DEFAULT_OPEN_HOUR_START = 10
+    DEFAULT_OPEN_HOUR_END = 21
 
     # 秘境物品掉落表（按秘境等级分组）
     RIFT_DROP_TABLE = {
@@ -180,7 +180,7 @@ class RiftManager:
             f"探索时长：{duration // 60} 分钟\n"
             f"已重置 {cleared} 名玩家的探索次数\n"
             f"━━━━━━━━━━━━━━━\n"
-            f"⏰ 开放时间：12:00 ~ 18:00"
+            f"⏰ 开放时间：10:00 ~ 21:00"
         )
         return True, msg, rift_def
 
@@ -260,6 +260,63 @@ class RiftManager:
         rift = await self.db.ext.get_rift_by_id(rift_id) if rift_id else None
         rift_name = rift.rift_name if rift else "未知秘境"
 
+        # 查找秘境配置（获取灵石/修为奖励基数）
+        rift_def = None
+        for r in self.rift_defs:
+            if r["id"] == rift_id:
+                rift_def = r
+                break
+
+        # 灵石/修为奖励（50% 独立概率，等级动态缩放）
+        reward_lines = []
+        got_stone = False
+        got_exp = False
+        if rift_def:
+            level_bonus = 1 + max(0, player.level_index - 3) * 0.06
+            base_stone = rift_def.get("reward_stone", 0)
+            base_exp = rift_def.get("reward_exp", 0)
+
+            if base_stone > 0 and random.randint(1, 100) <= 50:
+                stone_reward = int(base_stone * level_bonus)
+                player.gold += stone_reward
+                got_stone = True
+                reward_lines.append(f"  💰 灵石 +{stone_reward:,}")
+
+            if base_exp > 0 and random.randint(1, 100) <= 50:
+                exp_reward = int(base_exp * level_bonus)
+                player.experience += exp_reward
+                got_exp = True
+                reward_lines.append(f"  ✨ 修为 +{exp_reward:,}")
+
+            if reward_lines:
+                await self.db.update_player(player)
+
+        # 奖励文案
+        if got_stone and got_exp:
+            reward_desc = random.choice([
+                "你在秘境深处发现了一处灵脉，灵气化作灵石与修为涌入体内！",
+                "击杀妖兽后，你从其巢穴中搜刮到大量灵石，同时领悟了新的修炼感悟。",
+                "你破解了一道远古禁制，灵石与传承之力同时涌入体内！",
+            ])
+        elif got_stone:
+            reward_desc = random.choice([
+                "你在岩壁裂缝中发现了一簇灵石矿脉，小心开采后收获颇丰。",
+                "击败妖兽后，你从其腹中发现了大量灵石。",
+                "你偶然触发了一处藏宝机关，灵石散落一地！",
+            ])
+        elif got_exp:
+            reward_desc = random.choice([
+                "你在秘境中偶遇一处灵气浓郁之地，打坐片刻后修为大增！",
+                "你破解了石壁上的功法残篇，领悟良多，修为有所精进。",
+                "秘境中残留的上古意志与你产生了共鸣，修为突飞猛进！",
+            ])
+        else:
+            reward_desc = random.choice([
+                "秘境内危机四伏，你小心翼翼地探索了一番，虽未获得实质性收获，但积累了宝贵的战斗经验。",
+                "你仔细搜寻了每一个角落，可惜此地灵脉枯竭，并无灵石与修为上的收获。",
+                "这片区域似乎早已被前人搜刮一空，你只得空手而归。",
+            ])
+
         # 随机事件
         events = [
             {"desc": "你发现了一处灵泉，修为大增！", "item_chance": 70},
@@ -295,23 +352,50 @@ class RiftManager:
 
                 # 再存非丹药物品到储物戒（store_item 内部自行管理事务和 update_player）
                 item_lines = []
-                for pill_name, pill_count in pill_changes.items():
-                    item_lines.append(f"  · {pill_name} x{pill_count}（丹药背包）")
+                if pill_changes:
+                    pill_desc = random.choice([
+                        "  你发现了一个被藤蔓覆盖的玉瓶，打开后药香扑鼻——",
+                        "  在一处坍塌的丹房废墟中，你找到了几枚尚有药力的丹药——",
+                        "  击败守护妖兽后，你从其巢穴深处翻出了几瓶丹药——",
+                    ])
+                    item_lines.append(pill_desc)
+                    for pill_name, pill_count in pill_changes.items():
+                        item_lines.append(f"  · {pill_name} x{pill_count}（丹药背包）")
 
-                for item_name, count in non_pill_items:
+                equip_items = [(n, c) for n, c in non_pill_items if self._is_equipment_item(n)]
+                other_items = [(n, c) for n, c in non_pill_items if not self._is_equipment_item(n)]
+
+                if equip_items:
+                    equip_desc = random.choice([
+                        "  一道光芒闪过，你从阵法残留中取出了一件宝物——",
+                        "  你拨开尘封已久的石棺，其中赫然躺着一件法器——",
+                        "  秘境深处的器灵将一件珍品托付于你——",
+                    ])
+                    item_lines.append(equip_desc)
+
+                for item_name, count in equip_items:
                     rank = self._get_item_rank(item_name)
                     rank_label = f"({rank})" if rank else ""
-                    is_equip = self._is_equipment_item(item_name)
-                    prefix = "  · ⚔️ " if is_equip else "  · "
-
                     if self.storage_ring_manager:
                         success, _ = await self.storage_ring_manager.store_item(player, item_name, count, silent=True)
                         if success:
-                            item_lines.append(f"{prefix}{item_name}{rank_label} x{count}")
+                            item_lines.append(f"  · ⚔️ {item_name}{rank_label} x{count}")
                         else:
-                            item_lines.append(f"{prefix}{item_name}{rank_label} x{count}（储物戒已满，丢失）")
+                            item_lines.append(f"  · ⚔️ {item_name}{rank_label} x{count}（储物戒已满，丢失）")
                     else:
-                        item_lines.append(f"{prefix}{item_name}{rank_label} x{count}（无法存储）")
+                        item_lines.append(f"  · ⚔️ {item_name}{rank_label} x{count}（无法存储）")
+
+                for item_name, count in other_items:
+                    rank = self._get_item_rank(item_name)
+                    rank_label = f"({rank})" if rank else ""
+                    if self.storage_ring_manager:
+                        success, _ = await self.storage_ring_manager.store_item(player, item_name, count, silent=True)
+                        if success:
+                            item_lines.append(f"  · {item_name}{rank_label} x{count}")
+                        else:
+                            item_lines.append(f"  · {item_name}{rank_label} x{count}（储物戒已满，丢失）")
+                    else:
+                        item_lines.append(f"  · {item_name}{rank_label} x{count}（无法存储）")
 
                 if item_lines:
                     item_msg = "\n\n📦 获得物品：\n" + "\n".join(item_lines)
@@ -319,14 +403,16 @@ class RiftManager:
             # 无论掉落处理是否异常，都必须释放玩家状态
             await self.db.ext.set_user_free(user_id)
 
+        reward_msg = "\n\n🎁 探索奖励：\n" + "\n".join(reward_lines) if reward_lines else ""
+
         msg = (
             f"🌀 探索完成 - {rift_name}\n"
             f"━━━━━━━━━━━━━━━\n\n"
-            f"{event['desc']}{item_msg}"
+            f"{reward_desc}{reward_msg}{item_msg}"
         )
 
         reward_data = {
-            "event": event["desc"],
+            "event": reward_desc,
             "items": dropped_items,
             "rift_name": rift_name
         }
