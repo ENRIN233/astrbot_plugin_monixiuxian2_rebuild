@@ -333,38 +333,23 @@ class RiftManager:
         try:
             dropped_items = await self._roll_rift_drops(player, rift_level, event["item_chance"])
             if dropped_items:
-                # 先分拣丹药和非丹药物品
-                pill_changes = {}  # item_name -> count
-                non_pill_items = []  # (item_name, count)
-                for item_name, count in dropped_items:
-                    if self._is_pill_item(item_name):
-                        pill_changes[item_name] = pill_changes.get(item_name, 0) + count
-                    else:
-                        non_pill_items.append((item_name, count))
+                # 按类型分组用于文案展示
+                pill_items = [(n, c) for n, c in dropped_items if self._is_pill_item(n)]
+                equip_items = [(n, c) for n, c in dropped_items if not self._is_pill_item(n) and self._is_equipment_item(n)]
+                other_items = [(n, c) for n, c in dropped_items if not self._is_pill_item(n) and not self._is_equipment_item(n)]
 
-                # 先存丹药到丹药背包并保存（避免被后续 store_item 的 update_player 覆盖）
-                if pill_changes:
-                    inventory = player.get_pills_inventory()
-                    for pill_name, pill_count in pill_changes.items():
-                        inventory[pill_name] = inventory.get(pill_name, 0) + pill_count
-                    player.set_pills_inventory(inventory)
-                    await self.db.update_player(player)
-
-                # 再存非丹药物品到储物戒（store_item 内部自行管理事务和 update_player）
                 item_lines = []
-                if pill_changes:
+
+                # 丹药文案
+                if pill_items:
                     pill_desc = random.choice([
                         "  你发现了一个被藤蔓覆盖的玉瓶，打开后药香扑鼻——",
                         "  在一处坍塌的丹房废墟中，你找到了几枚尚有药力的丹药——",
                         "  击败守护妖兽后，你从其巢穴深处翻出了几瓶丹药——",
                     ])
                     item_lines.append(pill_desc)
-                    for pill_name, pill_count in pill_changes.items():
-                        item_lines.append(f"  · {pill_name} x{pill_count}（丹药背包）")
 
-                equip_items = [(n, c) for n, c in non_pill_items if self._is_equipment_item(n)]
-                other_items = [(n, c) for n, c in non_pill_items if not self._is_equipment_item(n)]
-
+                # 装备文案
                 if equip_items:
                     equip_desc = random.choice([
                         "  一道光芒闪过，你从阵法残留中取出了一件宝物——",
@@ -373,29 +358,21 @@ class RiftManager:
                     ])
                     item_lines.append(equip_desc)
 
-                for item_name, count in equip_items:
+                # 统一存入储物戒
+                all_items = pill_items + equip_items + other_items
+                for item_name, count in all_items:
                     rank = self._get_item_rank(item_name)
                     rank_label = f"({rank})" if rank else ""
+                    is_equip = self._is_equipment_item(item_name)
+                    prefix = "  · ⚔️ " if is_equip else "  · "
                     if self.storage_ring_manager:
                         success, _ = await self.storage_ring_manager.store_item(player, item_name, count, silent=True)
                         if success:
-                            item_lines.append(f"  · ⚔️ {item_name}{rank_label} x{count}")
+                            item_lines.append(f"{prefix}{item_name}{rank_label} x{count}")
                         else:
-                            item_lines.append(f"  · ⚔️ {item_name}{rank_label} x{count}（储物戒已满，丢失）")
+                            item_lines.append(f"{prefix}{item_name}{rank_label} x{count}（储物戒已满，丢失）")
                     else:
-                        item_lines.append(f"  · ⚔️ {item_name}{rank_label} x{count}（无法存储）")
-
-                for item_name, count in other_items:
-                    rank = self._get_item_rank(item_name)
-                    rank_label = f"({rank})" if rank else ""
-                    if self.storage_ring_manager:
-                        success, _ = await self.storage_ring_manager.store_item(player, item_name, count, silent=True)
-                        if success:
-                            item_lines.append(f"  · {item_name}{rank_label} x{count}")
-                        else:
-                            item_lines.append(f"  · {item_name}{rank_label} x{count}（储物戒已满，丢失）")
-                    else:
-                        item_lines.append(f"  · {item_name}{rank_label} x{count}（无法存储）")
+                        item_lines.append(f"{prefix}{item_name}{rank_label} x{count}（无法存储）")
 
                 if item_lines:
                     item_msg = "\n\n📦 获得物品：\n" + "\n".join(item_lines)
