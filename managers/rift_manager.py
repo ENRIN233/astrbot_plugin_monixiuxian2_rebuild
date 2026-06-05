@@ -358,20 +358,33 @@ class RiftManager:
                     ])
                     item_lines.append(equip_desc)
 
-                # 统一存入储物戒
+                # 统一存入储物戒（单事务，全部成功或全部回滚）
                 all_items = pill_items + equip_items + other_items
-                for item_name, count in all_items:
-                    rank = self._get_item_rank(item_name)
-                    rank_label = f"({rank})" if rank else ""
-                    is_equip = self._is_equipment_item(item_name)
-                    prefix = "  · ⚔️ " if is_equip else "  · "
-                    if self.storage_ring_manager:
-                        success, _ = await self.storage_ring_manager.store_item(player, item_name, count, silent=True)
-                        if success:
-                            item_lines.append(f"{prefix}{item_name}{rank_label} x{count}")
-                        else:
-                            item_lines.append(f"{prefix}{item_name}{rank_label} x{count}（储物戒已满，丢失）")
-                    else:
+                if self.storage_ring_manager:
+                    await self.db.conn.execute("BEGIN IMMEDIATE")
+                    try:
+                        for item_name, count in all_items:
+                            rank = self._get_item_rank(item_name)
+                            rank_label = f"({rank})" if rank else ""
+                            is_equip = self._is_equipment_item(item_name)
+                            prefix = "  · ⚔️ " if is_equip else "  · "
+                            success, reason = await self.storage_ring_manager.store_item(
+                                player, item_name, count, silent=True, external_transaction=True
+                            )
+                            if success:
+                                item_lines.append(f"{prefix}{item_name}{rank_label} x{count}")
+                            else:
+                                item_lines.append(f"{prefix}{item_name}{rank_label} x{count}（{reason}）")
+                        await self.db.conn.commit()
+                    except Exception:
+                        await self.db.conn.rollback()
+                        item_lines.append("  ⚠️ 物品存储异常，所有物品已回滚，请联系管理员。")
+                else:
+                    for item_name, count in all_items:
+                        rank = self._get_item_rank(item_name)
+                        rank_label = f"({rank})" if rank else ""
+                        is_equip = self._is_equipment_item(item_name)
+                        prefix = "  · ⚔️ " if is_equip else "  · "
                         item_lines.append(f"{prefix}{item_name}{rank_label} x{count}（无法存储）")
 
                 if item_lines:
