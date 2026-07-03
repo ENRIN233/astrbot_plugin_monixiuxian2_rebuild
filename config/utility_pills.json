@@ -2,7 +2,7 @@
   {
     "id": "util_1101",
     "name": "生骨丹",
-    "description": "回复状态的5%，洗髓境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的5%，洗髓境以上可以使用",
     "rank": "凡品",
     "subtype": "healing",
     "required_level_index": 1,
@@ -18,7 +18,7 @@
   {
     "id": "util_1102",
     "name": "化瘀丹",
-    "description": "回复状态的10%，练气境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的10%，练气境以上可以使用",
     "rank": "凡品",
     "subtype": "healing",
     "required_level_index": 4,
@@ -34,7 +34,7 @@
   {
     "id": "util_1103",
     "name": "培元丹",
-    "description": "回复状态的15%，化灵境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的15%，化灵境以上可以使用",
     "rank": "凡品",
     "subtype": "healing",
     "required_level_index": 7,
@@ -50,7 +50,7 @@
   {
     "id": "util_1104",
     "name": "固元丹",
-    "description": "回复状态的20%，筑基境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的20%，筑基境以上可以使用",
     "rank": "凡品",
     "subtype": "healing",
     "required_level_index": 10,
@@ -66,7 +66,7 @@
   {
     "id": "util_1105",
     "name": "黄龙丹",
-    "description": "回复状态的25%，结丹境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的25%，结丹境以上可以使用",
     "rank": "凡品",
     "subtype": "healing",
     "required_level_index": 13,
@@ -82,7 +82,7 @@
   {
     "id": "util_1106",
     "name": "回元丹",
-    "description": "回复状态的30%，金丹境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的30%，金丹境以上可以使用",
     "rank": "凡品",
     "subtype": "healing",
     "required_level_index": 16,
@@ -98,7 +98,7 @@
   {
     "id": "util_1107",
     "name": "回春丹",
-    "description": "回复状态的35%，紫府境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的35%，紫府境以上可以使用",
     "rank": "凡品",
     "subtype": "healing",
     "required_level_index": 19,
@@ -114,7 +114,7 @@
   {
     "id": "util_1108",
     "name": "养元丹",
-    "description": "回复状态的40%，凝婴境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的40%，凝婴境以上可以使用",
     "rank": "凡品",
     "subtype": "healing",
     "required_level_index": 22,
@@ -130,7 +130,7 @@
   {
     "id": "util_1109",
     "name": "太元真丹",
-    "description": "回复状态的45%，元婴境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的45%，元婴境以上可以使用",
     "rank": "凡品",
     "subtype": "healing",
     "required_level_index": 25,
@@ -146,7 +146,7 @@
   {
     "id": "util_1110",
     "name": "九阳真丹",
-    "description": "回复状态的50%，化神境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的50%，化神境以上可以使用",
     "rank": "凡品",
     "subtype": "healing",
     "required_level_index": 28,
@@ -162,7 +162,7 @@
   {
     "id": "util_1111",
     "name": "归藏灵丹",
-    "description": "回复状态的60%，炼虚境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的60%，炼虚境以上可以使用",
     "rank": "凡品",
     "subtype": "healing",
     "required_level_index": 31,
@@ -178,7 +178,7 @@
   {
     "id": "util_1112",
     "name": "天命血凝丹",
-    "description": "回复全部状态，出窍境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复全部状态，出窍境以上可以使用",
     "rank": "凡品",
     "subtype": "healing",
     "required_level_index": 34,
@@ -194,7 +194,7 @@
   {
     "id": "util_2000",
     "name": "洗髓丹",
-    "description": "回复状态的20%，筑基境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的20%，筑基境以上可以使用",
     "rank": "凡品",
     "required_level_index": 10,
     "price": 100000,
@@ -210,7 +210,7 @@
   {
     "id": "util_2001",
     "name": "养气丹",
-    "description": "回复状态的25%，结丹境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的25%，结丹境以上可以使用",
     "rank": "凡品",
     "required_level_index": 13,
     "price": 100000,
@@ -226,7 +226,7 @@
   {
     "id": "util_2002",
     "name": "九转丹",
-    "description": "回复状态的30%，金丹境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的30%，金丹境以上可以使用",
     "rank": "凡品",
     "required_level_index": 16,
     "price": 100000,
@@ -242,7 +242,7 @@
   {
     "id": "util_2003",
     "name": "易筋丹",
-    "description": "回复状态的35%，紫府境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的35%，紫府境以上可以使用",
     "rank": "凡品",
     "required_level_index": 19,
     "price": 100000,
@@ -258,7 +258,7 @@
   {
     "id": "util_2004",
     "name": "天尘丹",
-    "description": "回复状态的40%，凝婴境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的40%，凝婴境以上可以使用",
     "rank": "凡品",
     "required_level_index": 22,
     "price": 100000,
@@ -274,7 +274,7 @@
   {
     "id": "util_2005",
     "name": "天元神丹",
-    "description": "回复状态的45%，元婴境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的45%，元婴境以上可以使用",
     "rank": "凡品",
     "required_level_index": 25,
     "price": 100000,
@@ -290,7 +290,7 @@
   {
     "id": "util_2006",
     "name": "太乙碧莹丹",
-    "description": "回复状态的50%，化神境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的50%，化神境以上可以使用",
     "rank": "凡品",
     "required_level_index": 27,
     "price": 100000,
@@ -306,7 +306,7 @@
   {
     "id": "util_2007",
     "name": "六阳长生丹",
-    "description": "回复状态的60%，炼虚境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复状态的60%，炼虚境以上可以使用",
     "rank": "凡品",
     "required_level_index": 31,
     "price": 100000,
@@ -322,7 +322,7 @@
   {
     "id": "util_2008",
     "name": "道源丹",
-    "description": "回复全部状态，出窍境以上可以使用,器师可以无视境界限制使用！",
+    "description": "回复全部状态，出窍境以上可以使用",
     "rank": "凡品",
     "required_level_index": 34,
     "price": 100000,
@@ -338,7 +338,7 @@
   {
     "id": "util_2009",
     "name": "摄魂鬼丸",
-    "description": "使用后可以永久增加720点攻击力,器师可以无视境界限制使用！",
+    "description": "使用后可以永久增加720点攻击力",
     "rank": "凡品",
     "required_level_index": 10,
     "price": 100000,
@@ -354,7 +354,7 @@
   {
     "id": "util_2010",
     "name": "化煞魔丸",
-    "description": "使用后可以永久增加1760点攻击力,器师可以无视境界限制使用！",
+    "description": "使用后可以永久增加1760点攻击力",
     "rank": "凡品",
     "required_level_index": 13,
     "price": 100000,
@@ -370,7 +370,7 @@
   {
     "id": "util_2011",
     "name": "素心真丸",
-    "description": "使用后可以永久增加4160点攻击力,器师可以无视境界限制使用！",
+    "description": "使用后可以永久增加4160点攻击力",
     "rank": "凡品",
     "required_level_index": 16,
     "price": 100000,
@@ -386,7 +386,7 @@
   {
     "id": "util_2012",
     "name": "灭神古丸",
-    "description": "使用后可以永久增加9600点攻击,器师可以无视境界限制使用！",
+    "description": "使用后可以永久增加9600点攻击",
     "rank": "凡品",
     "required_level_index": 19,
     "price": 100000,
@@ -402,7 +402,7 @@
   {
     "id": "util_2013",
     "name": "静禅魔丸",
-    "description": "使用后可以永久增加21760点攻击力,器师可以无视境界限制使用！",
+    "description": "使用后可以永久增加21760点攻击力",
     "rank": "凡品",
     "required_level_index": 22,
     "price": 100000,
@@ -418,7 +418,7 @@
   {
     "id": "util_2014",
     "name": "地仙玄丸",
-    "description": "使用后可以永久增加48640点攻击力,器师可以无视境界限制使用！",
+    "description": "使用后可以永久增加48640点攻击力",
     "rank": "凡品",
     "required_level_index": 25,
     "price": 100000,
@@ -434,7 +434,7 @@
   {
     "id": "util_2015",
     "name": "消冰宝丸",
-    "description": "使用后可以永久增加104840点攻击力,器师可以无视境界限制使用！",
+    "description": "使用后可以永久增加104840点攻击力",
     "rank": "凡品",
     "required_level_index": 28,
     "price": 100000,
@@ -450,7 +450,7 @@
   {
     "id": "util_2016",
     "name": "无涯鬼丸",
-    "description": "使用后可以永久增加304840点攻击力,器师可以无视境界限制使用！",
+    "description": "使用后可以永久增加304840点攻击力",
     "rank": "凡品",
     "required_level_index": 31,
     "price": 100000,
@@ -466,7 +466,7 @@
   {
     "id": "util_2017",
     "name": "太一仙丸",
-    "description": "使用后可以永久增加604840点攻击力,器师可以无视境界限制使用！",
+    "description": "使用后可以永久增加604840点攻击力",
     "rank": "凡品",
     "required_level_index": 34,
     "price": 100000,
@@ -499,7 +499,7 @@
   {
     "id": "util_2018",
     "name": "外道兴奋剂",
-    "description": "使用后可以永久增加3000000点攻击力,器师可以无视境界限制使用！",
+    "description": "使用后可以永久增加3000000点攻击力",
     "rank": "凡品",
     "required_level_index": 55,
     "price": 100000,

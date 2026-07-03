@@ -25,7 +25,7 @@ REROLL_ROOT_COST = 250000
 __all__ = ["PlayerHandler"]
 
 class PlayerHandler:
-    """玩家基础信息处理器 - 支持灵修/体修选择"""
+    """玩家基础信息处理器"""
 
     def __init__(self, db: DataBase, config: AstrBotConfig, config_manager: ConfigManager, achievement_mgr: AchievementManager = None, activity_tracker=None):
         self.db = db
@@ -66,10 +66,10 @@ class PlayerHandler:
             yield event.plain_result(help_msg)
             return
 
-        # 验证职业类型（兼容旧接口，统一为灵修）
+        # 验证修炼类型（保留参数兼容，v36已统一为单一体系）
         cultivation_type = cultivation_type.strip()
         if cultivation_type not in ["灵修", "体修"]:
-            yield event.plain_result(f"职业选择错误！请选择「灵修」或「体修」。")
+            yield event.plain_result(f"修炼类型错误！请选择「灵修」或「体修」。")
             return
 
         # 生成新玩家

@@ -135,17 +135,15 @@ class EquipmentManager:
         return True, ""
 
     def _format_required_level(self, level_index: int) -> str:
-        """格式化需求境界名称（同时显示灵修/体修）"""
+        """格式化需求境界名称"""
         if not self.config_manager:
             return f"境界{level_index}"
 
         names = []
-        # 灵修境界名称
         if 0 <= level_index < len(self.config_manager.level_data):
             name = self.config_manager.level_data[level_index].get("name", "未知境界")
             if name:
                 names.append(name)
-        # （体修境界已合并到统一境界体系）
 
         if not names:
             return f"境界{level_index}"

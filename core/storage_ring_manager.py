@@ -225,7 +225,7 @@ class StorageRingManager:
         return True, ""
 
     def _format_required_level(self, level_index: int) -> str:
-        """格式化需求境界名称（同时显示灵修/体修）"""
+        """格式化需求境界名称"""
         names = []
         if 0 <= level_index < len(self.config_manager.level_data):
             name = self.config_manager.level_data[level_index].get("name", "未知境界")
