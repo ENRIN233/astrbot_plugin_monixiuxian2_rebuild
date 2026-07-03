@@ -143,20 +143,6 @@ class StorageRingHandler:
         return {}
 
     @player_required
-    async def handle_store_item(self, player: Player, event: AstrMessageEvent, args: str):
-        """存入物品到储物戒 - 已禁用手动存入"""
-        yield event.plain_result(
-            "📦 储物戒说明：\n"
-            "物品会在以下情况自动存入储物戒：\n"
-            "  · 商店购买物品\n"
-            "  · 秘境获得物品\n"
-            "  · Boss击杀掉落\n"
-            "  · 悬赏任务奖励\n"
-            "  · 卸下装备\n"
-            "\n⚠️ 不支持手动存入物品"
-        )
-
-    @player_required
     async def handle_retrieve_item(self, player: Player, event: AstrMessageEvent, args: str):
         """从储物戒取出物品"""
         if not args or args.strip() == "":
@@ -549,20 +535,6 @@ class StorageRingHandler:
         lines.append(f"\n共找到 {len(matched)} 种物品")
         
         yield event.plain_result("".join(lines))
-
-    @player_required
-    async def handle_store_all(self, player: Player, event: AstrMessageEvent, category: str = None):
-        """批量存入物品（预留接口，实际物品来源需要其他系统配合）"""
-        yield event.plain_result(
-            f"📦 批量存入功能说明：\n"
-            f"当前物品会在以下情况自动存入储物戒：\n"
-            f"  · 商店购买物品\n"
-            f"  · 历练/秘境获得物品\n"
-            f"  · Boss击杀掉落\n"
-            f"  · 悬赏任务奖励\n"
-            f"  · 卸下装备\n"
-            f"\n所有物品获取后会自动存入储物戒"
-        )
 
     @player_required
     async def handle_retrieve_all(self, player: Player, event: AstrMessageEvent, category: str = None):

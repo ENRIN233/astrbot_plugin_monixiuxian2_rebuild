@@ -139,13 +139,6 @@ class BlessedLandManager:
             f"花费：{upgrade_cost:,} 灵石"
         )
 
-    async def get_total_exp_bonus(self, user_id: str) -> float:
-        """获取所有洞天的总修炼加成"""
-        all_lands = await self.get_user_blessed_land(user_id)
-        if not all_lands:
-            return 0.0
-        return sum(land["exp_bonus"] for land in all_lands)
-
     async def get_blessed_land_info(self, user_id: str) -> str:
         """获取洞天信息展示"""
         all_lands = await self.get_user_blessed_land(user_id)
