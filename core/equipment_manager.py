@@ -66,7 +66,28 @@ class EquipmentManager:
             hp_bonus=item_config.get("hp_bonus", 0.0),
             mp_bonus=item_config.get("mp_bonus", 0.0),
             crit_rate=item_config.get("crit_rate", 0),
-            crit_damage=item_config.get("crit_damage", 0.0)
+            crit_damage=item_config.get("crit_damage", 0.0),
+            # 补全漏读字段：心法/通用
+            closing_exp_bonus=item_config.get("closing_exp_bonus", 0.0),
+            closing_recovery_bonus=item_config.get("closing_recovery_bonus", 0.0),
+            damage_reduction=item_config.get("damage_reduction", 0.0),
+            breakthrough_number=item_config.get("breakthrough_number", 0.0),
+            dual_cultivation_bonus=item_config.get("dual_cultivation_bonus", 0),
+            alchemy_exp_bonus=item_config.get("alchemy_exp_bonus", 0),
+            alchemy_count_bonus=item_config.get("alchemy_count_bonus", 0),
+            harvest_bonus=item_config.get("harvest_bonus", 0),
+            exclusive_weapon_id=item_config.get("exclusive_weapon_id", 0),
+            # 武器战斗属性
+            armor_pen=item_config.get("armor_pen", 0),
+            lifesteal=item_config.get("lifesteal", 0),
+            double_hit=item_config.get("double_hit", 0),
+            # 防具战斗属性
+            def_buff=item_config.get("def_buff", 0.0),
+            dodge_rate=item_config.get("dodge_rate", 0),
+            crit_resist=item_config.get("crit_resist", 0),
+            reflect_pct=item_config.get("reflect_pct", 0),
+            block_value=item_config.get("block_value", 0),
+            hp_regen_pct=item_config.get("hp_regen_pct", 0.0),
         )
 
     def get_equipped_items(self, player: Player, items_data: dict, weapons_data: dict = None, skills_data: dict = None) -> List[Item]:

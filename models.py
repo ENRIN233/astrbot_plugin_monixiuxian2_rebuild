@@ -304,10 +304,13 @@ class Player:
     def get_total_attributes(self, equipped_items: List[Item], pill_multipliers: Optional[dict] = None, achievement_bonus: Optional[dict] = None) -> dict:
         """计算包含装备加成、成就加成和丹药效果的总属性
 
+        此路径与 build_player_combat_stats（实际战斗）保持一致。
+        所有新增的战斗属性（armor_pen、lifesteal 等）均从武器/防具配置中读取。
+
         Args:
-            equipped_items: 已装备的物品列表
+            equipped_items: 已装备的物品列表（含武器、防具、心法、神通）
             pill_multipliers: 丹药属性倍率（可选）
-            achievement_bonus: 成就属性加成（可选，如 {"physical_damage": 5}）
+            achievement_bonus: 成就属性加成（可选）
 
         Returns:
             包含所有属性的字典
@@ -318,7 +321,7 @@ class Player:
             "max_spiritual_qi": self.max_spiritual_qi,
             "blood_qi": self.blood_qi,
             "max_blood_qi": self.max_blood_qi,
-            "exp_multiplier": 0.0,  # 基础修为倍率为0，只来自心法
+            "exp_multiplier": 0.0,  # 基础修为倍率，只来自心法
             "breakthrough_bonus": 0.0,  # 突破成功率加成
             "atk_bonus": 0.0,  # 攻击力百分比加成
             "hp_bonus": 0.0,  # 生命值加成
@@ -333,6 +336,16 @@ class Player:
             "alchemy_exp_bonus": 0,  # 炼丹经验
             "alchemy_count_bonus": 0,  # 出丹数
             "harvest_bonus": 0,  # 采集加成
+            # 战斗属性（与 build_player_combat_stats 对齐）
+            "armor_pen": 0,  # 穿透（武器）
+            "lifesteal": 0,  # 吸血（武器）
+            "double_hit": 0,  # 连击（武器）
+            "def_buff": 0.0,  # 百分比减伤（防具）
+            "dodge_rate": 0,  # 闪避率（防具）
+            "crit_resist": 0,  # 暴击抵抗（防具）
+            "reflect_pct": 0,  # 反伤（防具）
+            "block_value": 0,  # 格挡值（防具）
+            "hp_regen_pct": 0.0,  # 回血百分比（防具）
         }
 
         # 叠加装备属性
@@ -354,6 +367,27 @@ class Player:
                 total["alchemy_exp_bonus"] += item.alchemy_exp_bonus
                 total["alchemy_count_bonus"] += item.alchemy_count_bonus
                 total["harvest_bonus"] += item.harvest_bonus
+
+            # 武器战斗属性
+            if item.item_type == "weapon":
+                total["atk_bonus"] += item.atk_bonus
+                total["mp_bonus"] += item.mp_bonus
+                total["crit_rate"] += item.crit_rate
+                total["crit_damage"] += item.crit_damage
+                total["armor_pen"] += item.armor_pen
+                total["lifesteal"] += item.lifesteal
+                total["double_hit"] += item.double_hit
+                total["damage_reduction"] += item.damage_reduction
+
+            # 防具战斗属性
+            if item.item_type == "armor":
+                total["def_buff"] += item.def_buff
+                total["atk_bonus"] += item.atk_bonus
+                total["dodge_rate"] += item.dodge_rate
+                total["crit_resist"] += item.crit_resist
+                total["reflect_pct"] += item.reflect_pct
+                total["block_value"] += item.block_value
+                total["hp_regen_pct"] += item.hp_regen_pct
 
         # 叠加成就加成
         if achievement_bonus:

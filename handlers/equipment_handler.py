@@ -117,7 +117,10 @@ class EquipmentHandler:
                     w_crit = wdata.get("crit_rate", 0)
                     w_cd = wdata.get("crit_damage", 0)
                     w_mp = wdata.get("mp_bonus", 0)
-                    if w_atk > 0 or w_crit > 0 or w_cd > 0 or w_mp > 0:
+                    w_armor_pen = wdata.get("armor_pen", 0)
+                    w_lifesteal = wdata.get("lifesteal", 0)
+                    w_double_hit = wdata.get("double_hit", 0)
+                    if w_atk > 0 or w_crit > 0 or w_cd > 0 or w_mp > 0 or w_armor_pen > 0 or w_lifesteal > 0 or w_double_hit > 0:
                         equipment_lines.append("\n--- 武器战斗属性 ---\n")
                         if w_atk > 0:
                             equipment_lines.append(f"⚔️ 攻击力 +{w_atk:.0%}\n")
@@ -127,6 +130,39 @@ class EquipmentHandler:
                             equipment_lines.append(f"🔥 暴击伤害 +{w_cd:.0%}\n")
                         if w_mp > 0:
                             equipment_lines.append(f"💧 真元 +{w_mp:.0%}\n")
+                        if w_armor_pen > 0:
+                            equipment_lines.append(f"🗡️ 穿透 +{w_armor_pen}%\n")
+                        if w_lifesteal > 0:
+                            equipment_lines.append(f"🩸 吸血 +{w_lifesteal}%\n")
+                        if w_double_hit > 0:
+                            equipment_lines.append(f"⚡ 连击 +{w_double_hit}%\n")
+
+            # 防具战斗属性
+            if player.armor:
+                adata = self.config_manager.weapons_data.get(player.armor) or self.config_manager.items_data.get(player.armor)
+                if adata:
+                    armor_lines = []
+                    a_def = adata.get("def_buff", 0.0)
+                    a_dodge = adata.get("dodge_rate", 0)
+                    a_crit_resist = adata.get("crit_resist", 0)
+                    a_reflect = adata.get("reflect_pct", 0)
+                    a_block = adata.get("block_value", 0)
+                    a_hp_regen = adata.get("hp_regen_pct", 0.0)
+                    if a_def > 0:
+                        armor_lines.append(f"🛡️ 减伤 +{a_def:.0%}\n")
+                    if a_dodge > 0:
+                        armor_lines.append(f"💨 闪避 +{a_dodge}%\n")
+                    if a_crit_resist > 0:
+                        armor_lines.append(f"🔰 抗暴 +{a_crit_resist}%\n")
+                    if a_reflect > 0:
+                        armor_lines.append(f"🔄 反伤 +{a_reflect}%\n")
+                    if a_block > 0:
+                        armor_lines.append(f"🛡️ 格挡 +{a_block}\n")
+                    if a_hp_regen > 0:
+                        armor_lines.append(f"💚 回血 +{a_hp_regen:.0%}\n")
+                    if armor_lines:
+                        equipment_lines.append("\n--- 防具战斗属性 ---\n")
+                        equipment_lines.extend(armor_lines)
 
         equipment_lines.append("=" * 28)
 
