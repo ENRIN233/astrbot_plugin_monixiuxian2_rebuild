@@ -199,8 +199,9 @@ def player_required(func: Callable[..., Coroutine[any, any, AsyncGenerator[any, 
             yield event.plain_result(loan_warning["warning_message"])
 
         # 板块相关指令提示：匹配入口指令时追加 footer
+        msg_trimmed = message_text.lstrip()
         for cmd in COMMAND_FOOTERS:
-            if message_text.startswith(cmd):
+            if msg_trimmed == cmd or msg_trimmed.startswith(cmd + " "):
                 yield event.plain_result(COMMAND_FOOTERS[cmd])
                 break
 
@@ -208,9 +209,10 @@ def player_required(func: Callable[..., Coroutine[any, any, AsyncGenerator[any, 
 
 
 def _is_command_allowed(message_text: str, allowed_commands: list) -> bool:
-    """检查命令是否在允许列表中"""
+    """检查命令是否在允许列表中（精确前缀匹配）"""
+    text = message_text.lstrip()
     for cmd in allowed_commands:
-        if message_text.startswith(cmd):
+        if text == cmd or text.startswith(cmd + " "):
             return True
     return False
 

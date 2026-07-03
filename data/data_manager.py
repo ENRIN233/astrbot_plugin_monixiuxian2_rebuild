@@ -129,7 +129,7 @@ class DataBase:
         )
         await self.conn.commit()
 
-    async def get_player_by_id(self, user_id: str) -> Player:
+    async def get_player_by_id(self, user_id: str) -> Optional[Player]:
         """根据用户ID获取玩家信息"""
         async with self.conn.execute(
             "SELECT * FROM players WHERE user_id = ?",
@@ -142,7 +142,7 @@ class DataBase:
                 return Player(**filtered_data)
             return None
 
-    async def get_player_by_name(self, user_name: str) -> Player:
+    async def get_player_by_name(self, user_name: str) -> Optional[Player]:
         """根据道号获取玩家信息"""
         async with self.conn.execute(
             "SELECT * FROM players WHERE user_name = ?",

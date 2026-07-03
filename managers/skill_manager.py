@@ -281,7 +281,7 @@ class SkillManager:
     def _apply_defense(raw_damage: int, attacker: "CombatStats",
                        defender: "CombatStats") -> int:
         """百分比减伤（Excel公式：伤害 × (1 - 减伤率 + 穿甲)）"""
-        total_reduction = defender.def_buff - attacker.armor_pen / 100
+        total_reduction = defender.def_buff - attacker.armor_pen / 100 - attacker.sub_break_pct
         return max(1, int(raw_damage * (1 - total_reduction))) if total_reduction != 0 else max(1, raw_damage)
 
 

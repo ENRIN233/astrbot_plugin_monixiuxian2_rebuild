@@ -641,13 +641,13 @@ class DatabaseExtended:
             return dict(row) if row else None
 
     async def complete_bounty(self, user_id: str) -> bool:
-        """完成悬赏任务"""
-        await self.conn.execute(
+        """完成悬赏任务，返回是否真的有进行中的悬赏被完成"""
+        cursor = await self.conn.execute(
             "UPDATE bounty_tasks SET status = 2 WHERE user_id = ? AND status = 1",
             (user_id,)
         )
         await self.conn.commit()
-        return True
+        return cursor.rowcount > 0
     
     async def cancel_bounty(self, user_id: str):
         """取消悬赏任务（含已过期的）"""
@@ -1039,12 +1039,12 @@ class DatabaseExtended:
         """为玩家添加一个神通，返回是否为新获得"""
         import time
         try:
-            await self.conn.execute(
+            cursor = await self.conn.execute(
                 "INSERT OR IGNORE INTO player_skills (user_id, skill_name, acquired_at) VALUES (?, ?, ?)",
                 (user_id, skill_name, int(time.time()))
             )
             await self.conn.commit()
-            return True
+            return cursor.rowcount > 0  # True=新获得, False=已存在
         except Exception:
             return False
 

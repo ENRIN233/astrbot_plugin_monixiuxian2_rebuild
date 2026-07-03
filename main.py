@@ -1537,16 +1537,17 @@ class XiuXianPlugin(Star):
         async for r in self.alchemy_handlers.handle_craft(event, recipe_text):
             yield r
 
-    @filter.command(CMD_EQUIP_FURNACE, "装备炼丹炉", aliases={"卸下炼丹炉"})
+    @filter.command(CMD_EQUIP_FURNACE, "装备炼丹炉")
     @require_whitelist
     async def handle_equip_furnace(self, event: AstrMessageEvent, furnace_name: str = ""):
-        msg = str(event.message)
-        if "卸下" in msg:
-            async for r in self.alchemy_handlers.handle_unequip_furnace(event):
-                yield r
-        else:
-            async for r in self.alchemy_handlers.handle_equip_furnace(event, furnace_name):
-                yield r
+        async for r in self.alchemy_handlers.handle_equip_furnace(event, furnace_name):
+            yield r
+
+    @filter.command(CMD_UNEQUIP_FURNACE, "卸下炼丹炉")
+    @require_whitelist
+    async def handle_unequip_furnace(self, event: AstrMessageEvent):
+        async for r in self.alchemy_handlers.handle_unequip_furnace(event):
+            yield r
 
     # ===== 传承指令 =====
     @filter.command(CMD_IMPART_INFO, "查看传承信息")
