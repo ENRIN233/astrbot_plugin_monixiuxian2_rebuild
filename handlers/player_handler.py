@@ -315,7 +315,7 @@ class PlayerHandler:
             yield event.plain_result("道友已在闭关中，请勿重复进入。")
             return
         
-        # 检查是否在其他活动中（历练、秘境探索等）
+        # 检查是否在其他活动中（闭关、秘境探索等）
         user_cd = await self.db.ext.get_user_cd(player.user_id)
         if user_cd and user_cd.type != UserStatus.IDLE:
             current_status = UserStatus.get_name(user_cd.type)
