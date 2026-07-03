@@ -52,117 +52,112 @@ class EquipmentHandler:
         # 辅修功法
         equipment_lines.append(f"【辅修功法】{player.sub_technique if player.sub_technique else '未装备'}\n")
 
-        # 总属性加成
+        # 总属性加成（合并武器/防具/心法所有属性，消除重复显示）
         if equipped_items:
             equipment_lines.append("\n--- 装备属性加成 ---\n")
             total_attrs = player.get_total_attributes(equipped_items, pill_multipliers)
 
-            # 计算加成值
+            # 修炼类加成
             exp_multiplier = total_attrs["exp_multiplier"]
-
             if exp_multiplier > 0:
                 equipment_lines.append(f"📈 修为倍率 +{exp_multiplier:.1%}\n")
 
-            # 心法额外加成
-            breakthrough_bonus = total_attrs.get("breakthrough_bonus", 0.0)
+            closing_exp_bonus = total_attrs.get("closing_exp_bonus", 0.0)
+            if closing_exp_bonus > 0:
+                equipment_lines.append(f"🧘 闭关经验 +{closing_exp_bonus:.0%}\n")
+
+            closing_recovery_bonus = total_attrs.get("closing_recovery_bonus", 0.0)
+            if closing_recovery_bonus > 0:
+                equipment_lines.append(f"💚 闭关回复 +{closing_recovery_bonus:.0%}\n")
+
+            # 属性加成
             atk_bonus = total_attrs.get("atk_bonus", 0.0)
-            hp_bonus = total_attrs.get("hp_bonus", 0.0)
-            mp_bonus = total_attrs.get("mp_bonus", 0.0)
-            crit_rate = total_attrs.get("crit_rate", 0)
-            crit_damage = total_attrs.get("crit_damage", 0.0)
-            if breakthrough_bonus > 0:
-                equipment_lines.append(f"✨ 突破成功率 +{breakthrough_bonus:.1%}\n")
             if atk_bonus > 0:
                 equipment_lines.append(f"⚔️ 攻击力 +{atk_bonus:.0%}\n")
+
+            hp_bonus = total_attrs.get("hp_bonus", 0.0)
             if hp_bonus > 0:
                 equipment_lines.append(f"❤️ 生命值 +{hp_bonus:.1%}\n")
+
+            mp_bonus = total_attrs.get("mp_bonus", 0.0)
             if mp_bonus > 0:
                 equipment_lines.append(f"💧 真元 +{mp_bonus:.1%}\n")
+
+            # 战斗属性
+            crit_rate = total_attrs.get("crit_rate", 0)
             if crit_rate > 0:
                 equipment_lines.append(f"💥 暴击率 +{crit_rate}%\n")
+
+            crit_damage = total_attrs.get("crit_damage", 0.0)
             if crit_damage > 0:
                 equipment_lines.append(f"🔥 暴击伤害 +{crit_damage:.0%}\n")
 
-            # nonebot 同步属性
-            closing_exp_bonus = total_attrs.get("closing_exp_bonus", 0.0)
-            closing_recovery_bonus = total_attrs.get("closing_recovery_bonus", 0.0)
+            armor_pen = total_attrs.get("armor_pen", 0)
+            if armor_pen > 0:
+                equipment_lines.append(f"🗡️ 穿透 +{armor_pen}%\n")
+
+            lifesteal = total_attrs.get("lifesteal", 0)
+            if lifesteal > 0:
+                equipment_lines.append(f"🩸 吸血 +{lifesteal}%\n")
+
+            double_hit = total_attrs.get("double_hit", 0)
+            if double_hit > 0:
+                equipment_lines.append(f"⚡ 连击 +{double_hit}%\n")
+
+            # 防御类属性
+            def_buff = total_attrs.get("def_buff", 0.0)
+            if def_buff > 0:
+                equipment_lines.append(f"🛡️ 减伤 +{def_buff:.0%}\n")
+
             damage_reduction = total_attrs.get("damage_reduction", 0.0)
+            if damage_reduction > 0:
+                equipment_lines.append(f"🛡️ 心法减伤 +{damage_reduction:.0%}\n")
+
+            dodge_rate = total_attrs.get("dodge_rate", 0)
+            if dodge_rate > 0:
+                equipment_lines.append(f"💨 闪避 +{dodge_rate}%\n")
+
+            crit_resist = total_attrs.get("crit_resist", 0)
+            if crit_resist > 0:
+                equipment_lines.append(f"🔰 抗暴 +{crit_resist}%\n")
+
+            reflect_pct = total_attrs.get("reflect_pct", 0)
+            if reflect_pct > 0:
+                equipment_lines.append(f"🔄 反伤 +{reflect_pct}%\n")
+
+            block_value = total_attrs.get("block_value", 0)
+            if block_value > 0:
+                equipment_lines.append(f"🛡️ 格挡 +{block_value}\n")
+
+            hp_regen_pct = total_attrs.get("hp_regen_pct", 0.0)
+            if hp_regen_pct > 0:
+                equipment_lines.append(f"💚 回血 +{hp_regen_pct:.0%}\n")
+
+            # 突破类加成
+            breakthrough_bonus = total_attrs.get("breakthrough_bonus", 0.0)
+            if breakthrough_bonus > 0:
+                equipment_lines.append(f"✨ 突破成功率 +{breakthrough_bonus:.1%}\n")
+
             breakthrough_number = total_attrs.get("breakthrough_number", 0.0)
-            dual_cultivation_bonus = total_attrs.get("dual_cultivation_bonus", 0)
-            alchemy_exp_bonus = total_attrs.get("alchemy_exp_bonus", 0)
-            alchemy_count_bonus = total_attrs.get("alchemy_count_bonus", 0)
-            harvest_bonus = total_attrs.get("harvest_bonus", 0)
-            if closing_exp_bonus > 0:
-                equipment_lines.append(f"🧘 闭关经验 +{closing_exp_bonus:.0%}\n")
-            if closing_recovery_bonus > 0:
-                equipment_lines.append(f"💚 闭关回复 +{closing_recovery_bonus:.0%}\n")
-            if damage_reduction != 0:
-                equipment_lines.append(f"🛡️ 减伤率 {damage_reduction:+.0%}\n")
             if breakthrough_number > 0:
                 equipment_lines.append(f"🎯 突破概率 +{breakthrough_number:.0f}%\n")
-            if dual_cultivation_bonus > 0:
-                equipment_lines.append(f"💕 双修次数 +{dual_cultivation_bonus}\n")
+
+            # 生产采集类加成
+            alchemy_exp_bonus = total_attrs.get("alchemy_exp_bonus", 0)
             if alchemy_exp_bonus > 0:
                 equipment_lines.append(f"⚗️ 炼丹经验 +{alchemy_exp_bonus}\n")
+
+            alchemy_count_bonus = total_attrs.get("alchemy_count_bonus", 0)
             if alchemy_count_bonus > 0:
                 equipment_lines.append(f"⚗️ 出丹数 +{alchemy_count_bonus}\n")
+
+            harvest_bonus = total_attrs.get("harvest_bonus", 0)
             if harvest_bonus > 0:
                 equipment_lines.append(f"🌾 采集加成 +{harvest_bonus}\n")
 
-            # 武器战斗属性（从 weapons_data 读取，非 Item 模型）
-            if player.weapon:
-                wdata = self.config_manager.weapons_data.get(player.weapon)
-                if wdata:
-                    w_atk = wdata.get("atk_bonus", 0)
-                    w_crit = wdata.get("crit_rate", 0)
-                    w_cd = wdata.get("crit_damage", 0)
-                    w_mp = wdata.get("mp_bonus", 0)
-                    w_armor_pen = wdata.get("armor_pen", 0)
-                    w_lifesteal = wdata.get("lifesteal", 0)
-                    w_double_hit = wdata.get("double_hit", 0)
-                    if w_atk > 0 or w_crit > 0 or w_cd > 0 or w_mp > 0 or w_armor_pen > 0 or w_lifesteal > 0 or w_double_hit > 0:
-                        equipment_lines.append("\n--- 武器战斗属性 ---\n")
-                        if w_atk > 0:
-                            equipment_lines.append(f"⚔️ 攻击力 +{w_atk:.0%}\n")
-                        if w_crit > 0:
-                            equipment_lines.append(f"💥 暴击率 +{w_crit}%\n")
-                        if w_cd > 0:
-                            equipment_lines.append(f"🔥 暴击伤害 +{w_cd:.0%}\n")
-                        if w_mp > 0:
-                            equipment_lines.append(f"💧 真元 +{w_mp:.0%}\n")
-                        if w_armor_pen > 0:
-                            equipment_lines.append(f"🗡️ 穿透 +{w_armor_pen}%\n")
-                        if w_lifesteal > 0:
-                            equipment_lines.append(f"🩸 吸血 +{w_lifesteal}%\n")
-                        if w_double_hit > 0:
-                            equipment_lines.append(f"⚡ 连击 +{w_double_hit}%\n")
-
-            # 防具战斗属性
-            if player.armor:
-                adata = self.config_manager.weapons_data.get(player.armor) or self.config_manager.items_data.get(player.armor)
-                if adata:
-                    armor_lines = []
-                    a_def = adata.get("def_buff", 0.0)
-                    a_dodge = adata.get("dodge_rate", 0)
-                    a_crit_resist = adata.get("crit_resist", 0)
-                    a_reflect = adata.get("reflect_pct", 0)
-                    a_block = adata.get("block_value", 0)
-                    a_hp_regen = adata.get("hp_regen_pct", 0.0)
-                    if a_def > 0:
-                        armor_lines.append(f"🛡️ 减伤 +{a_def:.0%}\n")
-                    if a_dodge > 0:
-                        armor_lines.append(f"💨 闪避 +{a_dodge}%\n")
-                    if a_crit_resist > 0:
-                        armor_lines.append(f"🔰 抗暴 +{a_crit_resist}%\n")
-                    if a_reflect > 0:
-                        armor_lines.append(f"🔄 反伤 +{a_reflect}%\n")
-                    if a_block > 0:
-                        armor_lines.append(f"🛡️ 格挡 +{a_block}\n")
-                    if a_hp_regen > 0:
-                        armor_lines.append(f"💚 回血 +{a_hp_regen:.0%}\n")
-                    if armor_lines:
-                        equipment_lines.append("\n--- 防具战斗属性 ---\n")
-                        equipment_lines.extend(armor_lines)
+            dual_cultivation_bonus = total_attrs.get("dual_cultivation_bonus", 0)
+            if dual_cultivation_bonus > 0:
+                equipment_lines.append(f"💕 双修次数 +{dual_cultivation_bonus}\n")
 
         equipment_lines.append("=" * 28)
 
