@@ -5,7 +5,6 @@ from .sect_manager import SectManager
 from .boss_manager import BossManager
 from .rift_manager import RiftManager
 from .ranking_manager import RankingManager
-from .adventure_manager import AdventureManager
 from .alchemy_manager import AlchemyManager
 from .impart_manager import ImpartManager
 from .bank_manager import BankManager
@@ -15,10 +14,10 @@ from .impart_pk_manager import ImpartPkManager
 from .blessed_land_manager import BlessedLandManager
 from .spirit_farm_manager import SpiritFarmManager
 from .dual_cultivation_manager import DualCultivationManager
-from .spirit_eye_manager import SpiritEyeManager
 from .trade_manager import TradeManager
 from .consignment_manager import ConsignmentManager
 from .achievement_manager import AchievementManager
+from .dungeon_manager import DungeonManager
 
 __all__ = [
     "CombatManager",
@@ -27,7 +26,6 @@ __all__ = [
     "BossManager",
     "RiftManager",
     "RankingManager",
-    "AdventureManager",
     "AlchemyManager",
     "ImpartManager",
     "BankManager",
@@ -37,7 +35,7 @@ __all__ = [
     "BlessedLandManager",
     "SpiritFarmManager",
     "DualCultivationManager",
-    "SpiritEyeManager",
     "TradeManager",
     "ConsignmentManager",
+    "DungeonManager",
 ]

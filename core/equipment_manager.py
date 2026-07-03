@@ -50,40 +50,7 @@ class EquipmentManager:
         if not item_config:
             return None
 
-        # 处理新旧格式兼容性
         item_type = item_config.get("type", "")
-        physical_damage = item_config.get("physical_damage", 0)
-        physical_defense = item_config.get("physical_defense", 0)
-        magic_damage = item_config.get("magic_damage", 0)
-        magic_defense = item_config.get("magic_defense", 0)
-        mental_power = item_config.get("mental_power", 0)
-
-        # 旧格式兼容：处理 items.json 中的法器（equip_effects 格式）
-        if "equip_effects" in item_config:
-            equip_effects = item_config["equip_effects"]
-            # 旧格式 attack -> physical_damage
-            if "attack" in equip_effects:
-                physical_damage = equip_effects["attack"]
-            # 旧格式 defense -> physical_defense
-            if "defense" in equip_effects:
-                physical_defense = equip_effects["defense"]
-            # 旧格式 max_hp 可用于体修的 blood_qi 加成
-
-        # 旧格式兼容：处理类型映射
-        # "法器" + subtype="武器" -> "weapon"
-        # "法器" + subtype="防具" -> "armor"
-        # "法器" + subtype="饰品" -> "accessory" (暂不支持装备)
-        if item_type == "法器":
-            subtype = item_config.get("subtype", "")
-            if subtype == "武器":
-                item_type = "weapon"
-            elif subtype == "防具":
-                item_type = "armor"
-            elif subtype == "饰品":
-                item_type = "accessory"
-        elif item_type == "功法":
-            # 旧格式功法 -> main_technique
-            item_type = "main_technique"
 
         return Item(
             item_id=item_config.get("id", item_name),
@@ -93,11 +60,6 @@ class EquipmentManager:
             rank=item_config.get("rank", ""),
             required_level_index=item_config.get("required_level_index", 0),
             weapon_category=item_config.get("weapon_category", ""),
-            magic_damage=magic_damage,
-            physical_damage=physical_damage,
-            magic_defense=magic_defense,
-            physical_defense=physical_defense,
-            mental_power=mental_power,
             exp_multiplier=item_config.get("exp_multiplier", 0.0),
             breakthrough_bonus=item_config.get("breakthrough_bonus", 0.0),
             atk_bonus=item_config.get("atk_bonus", 0.0),
@@ -148,19 +110,7 @@ class EquipmentManager:
         return equipped
 
     def check_equipment_level_requirement(self, player: Player, item: Item) -> tuple[bool, str]:
-        """检查玩家是否满足装备的境界要求
-
-        Args:
-            player: 玩家对象
-            item: 装备物品
-
-        Returns:
-            (是否满足, 提示消息)
-        """
-        if player.level_index < item.required_level_index:
-            # 获取需求境界名称
-            required_level_name = self._format_required_level(item.required_level_index)
-            return False, f"境界不足！装备【{item.name}】（{item.rank}）需要达到【{required_level_name}】以上"
+        """检查玩家是否满足装备的境界要求（已禁用等级限制）"""
         return True, ""
 
     def _format_required_level(self, level_index: int) -> str:
@@ -171,14 +121,10 @@ class EquipmentManager:
         names = []
         # 灵修境界名称
         if 0 <= level_index < len(self.config_manager.level_data):
-            name = self.config_manager.level_data[level_index].get("level_name", "")
+            name = self.config_manager.level_data[level_index].get("name", "未知境界")
             if name:
                 names.append(name)
-        # 体修境界名称
-        if 0 <= level_index < len(self.config_manager.body_level_data):
-            name = self.config_manager.body_level_data[level_index].get("level_name", "")
-            if name and name not in names:
-                names.append(name)
+        # （体修境界已合并到统一境界体系）
 
         if not names:
             return f"境界{level_index}"
@@ -186,6 +132,8 @@ class EquipmentManager:
 
     async def equip_item(self, player: Player, item: Item) -> tuple[bool, str]:
         """装备物品
+
+        修复：先尝试存放旧装备，成功后再更新装备槽位，防止旧装备丢失。
 
         Args:
             player: 玩家对象
@@ -199,52 +147,41 @@ class EquipmentManager:
         if not can_equip:
             return False, error_msg
 
-        # 根据物品类型装备到相应位置
-        if item.item_type == "weapon":
-            old_item = player.weapon
-            player.weapon = item.name
-            await self.db.update_player(player)
-            if old_item:
-                # 尝试将旧装备存入储物戒
-                storage_msg = await self._store_old_equipment(player, old_item)
-                return True, f"已将【{old_item}】替换为【{item.name}】（{item.rank}）{storage_msg}"
-            else:
-                return True, f"已装备武器【{item.name}】（{item.rank}）"
-
-        elif item.item_type == "armor":
-            old_item = player.armor
-            player.armor = item.name
-            await self.db.update_player(player)
-            if old_item:
-                # 尝试将旧装备存入储物戒
-                storage_msg = await self._store_old_equipment(player, old_item)
-                return True, f"已将【{old_item}】替换为【{item.name}】（{item.rank}）{storage_msg}"
-            else:
-                return True, f"已装备防具【{item.name}】（{item.rank}）"
-
-        elif item.item_type == "main_technique":
-            old_item = player.main_technique
-            player.main_technique = item.name
-            await self.db.update_player(player)
-            if old_item:
-                # 尝试将旧心法存入储物戒
-                storage_msg = await self._store_old_equipment(player, old_item)
-                return True, f"已将主修心法【{old_item}】替换为【{item.name}】（{item.rank}）{storage_msg}"
-            else:
-                return True, f"已装备主修心法【{item.name}】（{item.rank}）"
-
-        elif item.item_type == "shentong":
-            old_skill = player.shentong
-            player.shentong = item.name
-            await self.db.update_player(player)
-            if old_skill:
-                storage_msg = await self._store_old_equipment(player, old_skill)
-                return True, f"已将神通【{old_skill}】替换为【{item.name}】（{item.rank}）{storage_msg}"
-            else:
-                return True, f"已装备神通【{item.name}】（{item.rank}）"
-
-        else:
+        # 确定装备槽位和旧装备名
+        slot_map = {
+            "weapon": "weapon",
+            "armor": "armor",
+            "main_technique": "main_technique",
+            "shentong": "shentong",
+            "sub_technique": "sub_technique",
+        }
+        slot = slot_map.get(item.item_type)
+        if not slot:
             return False, f"未知的装备类型：{item.item_type}"
+
+        old_item = getattr(player, slot, "") or ""
+
+        # 如果有旧装备，先尝试存入储物戒
+        storage_msg = ""
+        if old_item:
+            if not self.storage_ring_manager:
+                return False, f"无法替换【{old_item}】：储物戒系统未初始化"
+            success, msg = await self.storage_ring_manager.store_item(player, old_item, 1, silent=True)
+            if not success:
+                return False, f"无法替换【{old_item}】：储物戒已满，请先腾出空间"
+            storage_msg = f"\n旧装备【{old_item}】已存入储物戒"
+            # store_item 内部已更新了 player，需要刷新
+            player = await self.db.get_player_by_id(player.user_id) or player
+
+        # 旧装备已安全存放，现在更新装备槽位
+        setattr(player, slot, item.name)
+        await self.db.update_player(player)
+
+        if old_item:
+            return True, f"已将【{old_item}】替换为【{item.name}】（{item.rank}）{storage_msg}"
+        else:
+            type_names = {"weapon": "武器", "armor": "防具", "main_technique": "主修心法", "shentong": "神通", "sub_technique": "辅修功法"}
+            return True, f"已装备{type_names.get(item.item_type, '装备')}【{item.name}】（{item.rank}）"
 
     async def unequip_item(self, player: Player, slot_or_name: str) -> tuple[bool, str]:
         """卸下装备
@@ -290,23 +227,13 @@ class EquipmentManager:
             await self.db.update_player(player)
             return True, f"已卸下神通【{item_name}】"
 
+        # 卸下辅修功法
+        if slot_or_name in ["辅修功法", "辅修", "sub_technique"]:
+            if not player.sub_technique:
+                return False, "未装备辅修功法"
+            item_name = player.sub_technique
+            player.sub_technique = ""
+            await self.db.update_player(player)
+            return True, f"已卸下辅修功法【{item_name}】"
+
         return False, f"未找到装备：{slot_or_name}"
-
-    async def _store_old_equipment(self, player: Player, item_name: str) -> str:
-        """尝试将旧装备存入储物戒
-
-        Args:
-            player: 玩家对象
-            item_name: 物品名称
-
-        Returns:
-            存储结果消息
-        """
-        if not self.storage_ring_manager:
-            return ""
-
-        success, msg = await self.storage_ring_manager.store_item(player, item_name, 1, silent=True)
-        if success:
-            return f"\n旧装备【{item_name}】已存入储物戒"
-        else:
-            return f"\n⚠️ 旧装备【{item_name}】存入储物戒失败：{msg}"

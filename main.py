@@ -9,21 +9,22 @@ from .data import DataBase, MigrationManager
 from .config_manager import ConfigManager
 from .handlers import (
     MiscHandler, PlayerHandler, EquipmentHandler, BreakthroughHandler,
-    PillHandler, ShopHandler, StorageRingHandler,
+    PillHandler, StorageRingHandler,
     SectHandlers, BossHandlers, CombatHandlers, RankingHandlers,
-    RiftHandlers, AdventureHandlers, AlchemyHandlers, ImpartHandlers,
+    RiftHandlers, AlchemyHandlers, ImpartHandlers,
     NicknameHandler, BankHandlers, BountyHandlers, ImpartPkHandlers,
-    BlessedLandHandlers, SpiritFarmHandlers, DualCultivationHandlers, SpiritEyeHandlers,
+    BlessedLandHandlers, SpiritFarmHandlers, DualCultivationHandlers,
     TradeHandler, ConsignmentHandler, GMHandlers, AchievementHandler,
-    GamblingHandler,
+    GamblingHandler, DungeonHandlers,
 )
 from .handlers.utils import get_related_commands_footer
 from .managers import (
     CombatManager, SectManager, BossManager, RiftManager,
-    RankingManager, AdventureManager, AlchemyManager, ImpartManager,
+    RankingManager, AlchemyManager, ImpartManager,
     BankManager, BountyManager, ImpartPkManager,
-    BlessedLandManager, SpiritFarmManager, DualCultivationManager, SpiritEyeManager,
+    BlessedLandManager, SpiritFarmManager, DualCultivationManager,
     TradeManager, ConsignmentManager, AchievementManager,
+    DungeonManager,
 )
 
 
@@ -55,12 +56,6 @@ CMD_BREAKTHROUGH_INFO = "突破信息"
 CMD_USE_PILL = "服用丹药"
 CMD_SHOW_PILLS = "丹药背包"
 CMD_PILL_INFO = "丹药信息"
-CMD_PILL_PAVILION = "丹阁"
-CMD_WEAPON_PAVILION = "器阁"
-CMD_TREASURE_PAVILION = "百宝阁"
-CMD_ITEM_INFO = "物品信息"
-CMD_VIEW_ITEM = "查看"
-CMD_BUY = "购买"
 CMD_STORAGE_RING = "储物戒"
 CMD_STORE_ITEM = "存入"
 CMD_RETRIEVE_ITEM = "取出"
@@ -82,6 +77,7 @@ CMD_SECT_DONATE = "宗门捐献"
 CMD_SECT_KICK = "踢出成员"
 CMD_SECT_TRANSFER = "宗主传位"
 CMD_SECT_TASK = "宗门任务"
+CMD_SECT_REFRESH_TASK = "宗门刷新任务"
 CMD_SECT_POSITION = "职位变更"
 CMD_UPGRADE_PRACTICE = "升级修炼"
 CMD_SECT_ELIXIR_ROOM = "丹房建设"
@@ -112,16 +108,18 @@ CMD_RIFT_EXPLORE = "探索秘境"
 CMD_RIFT_COMPLETE = "完成探索"
 CMD_RIFT_EXIT = "退出秘境"
 
-# 历练系统指令
-CMD_ADVENTURE_START = "开始历练"
-CMD_ADVENTURE_COMPLETE = "完成历练"
-CMD_ADVENTURE_ABORT = "中断历练"
-CMD_ADVENTURE_STATUS = "历练状态"
-CMD_ADVENTURE_INFO = "历练信息"
+# 探险副本系统指令
+CMD_DUNGEON_LIST = "探险"
+CMD_DUNGEON_ENTER = "进入探险"
+CMD_DUNGEON_ADVANCE = "探险前进"
+CMD_DUNGEON_STATUS = "探险状态"
+CMD_DUNGEON_RETREAT = "探险撤离"
 
 # 炼丹系统指令
-CMD_ALCHEMY_RECIPES = "丹药配方"
-CMD_ALCHEMY_CRAFT = "炼丹"
+CMD_ALCHEMY_FIND = "炼丹"
+CMD_ALCHEMY_CRAFT = "配方"
+CMD_EQUIP_FURNACE = "装备炼丹炉"
+CMD_UNEQUIP_FURNACE = "卸下炼丹炉"
 
 # 传承系统指令
 CMD_IMPART_INFO = "传承信息"
@@ -157,22 +155,18 @@ CMD_BLESSED_LAND_INFO = "我的洞天"
 CMD_BLESSED_LAND_BUY = "购买洞天"
 CMD_BLESSED_LAND_UPGRADE = "升级洞天"
 
-# Phase 4: 灵田
-CMD_SPIRIT_FARM_INFO = "我的灵田"
+# Phase 4: 灵田（nonebot 迁移版）
+CMD_SPIRIT_FARM_INFO = "灵田"
 CMD_SPIRIT_FARM_CREATE = "开垦灵田"
-CMD_SPIRIT_FARM_PLANT = "种植"
-CMD_SPIRIT_FARM_HARVEST = "收获"
-CMD_SPIRIT_FARM_UPGRADE = "升级灵田"
+CMD_SPIRIT_FARM_UPGRADE_FIELDS = "灵田开垦"
+CMD_SPIRIT_FARM_HARVEST = "灵田收取"
+CMD_SPIRIT_FARM_UPGRADE_HARVEST = "升级收取"
+CMD_SPIRIT_FARM_UPGRADE_FIRE = "升级控火"
 
 # Phase 4: 双修
 CMD_DUAL_CULT_REQUEST = "双修"
 CMD_DUAL_CULT_ACCEPT = "接受双修"
 CMD_DUAL_CULT_REJECT = "拒绝双修"
-
-# Phase 4: 灵眼
-CMD_SPIRIT_EYE_INFO = "灵眼信息"
-CMD_SPIRIT_EYE_CLAIM = "抢占灵眼"
-CMD_SPIRIT_EYE_RELEASE = "释放灵眼"
 
 # 玩家交易系统
 CMD_TRADE_START = "交易"
@@ -230,7 +224,6 @@ CMD_MENU_EXPLORE = "探索"
 CMD_MENU_SECT = "宗门"
 CMD_MENU_COMBAT = "战斗"
 CMD_MENU_RANKING = "排行"
-CMD_MENU_SHOP = "商店"
 CMD_MENU_TRADE = "玩家交易"
 CMD_MENU_BANK = "银行"
 
@@ -255,13 +248,11 @@ class XiuXianPlugin(Star):
         self.activity_tracker = ActivityTracker(self.db)
 
         self.misc_handler = MiscHandler(self.db)
-        self.spirit_eye_mgr = SpiritEyeManager(self.db)
         self.achievement_mgr = AchievementManager(self.config_manager)
-        self.player_handler = PlayerHandler(self.db, self.config, self.config_manager, self.spirit_eye_mgr, self.achievement_mgr, self.activity_tracker)
+        self.player_handler = PlayerHandler(self.db, self.config, self.config_manager, self.achievement_mgr, self.activity_tracker)
         self.equipment_handler = EquipmentHandler(self.db, self.config_manager)
         self.breakthrough_handler = BreakthroughHandler(self.db, self.config_manager, self.config)
         self.pill_handler = PillHandler(self.db, self.config_manager)
-        self.shop_handler = ShopHandler(self.db, self.config, self.config_manager, self.activity_tracker)
         self.storage_ring_handler = StorageRingHandler(self.db, self.config_manager, self.activity_tracker)
         
         # 初始化核心管理器
@@ -275,9 +266,10 @@ class XiuXianPlugin(Star):
         self.boss_mgr = BossManager(self.db, self.combat_mgr, self.config_manager, self.storage_ring_mgr, self.skill_mgr)
         self.rift_mgr = RiftManager(self.db, self.config_manager, self.storage_ring_mgr)
         self.rank_mgr = RankingManager(self.db, self.combat_mgr, self.config_manager)
-        self.adventure_mgr = AdventureManager(self.db, self.storage_ring_mgr)
-        self.alchemy_mgr = AlchemyManager(self.db, self.config_manager, self.storage_ring_mgr, self.activity_tracker)
+        self.spirit_farm_mgr = SpiritFarmManager(self.db, self.config_manager, self.storage_ring_mgr, self.activity_tracker)
+        self.alchemy_mgr = AlchemyManager(self.db, self.config_manager, self.storage_ring_mgr, self.spirit_farm_mgr, self.activity_tracker)
         self.impart_mgr = ImpartManager(self.db)
+        self.dungeon_mgr = DungeonManager(self.db, self.config_manager)
 
         # 初始化新功能处理器
         self.sect_handlers = SectHandlers(self.db, self.sect_mgr)
@@ -285,14 +277,14 @@ class XiuXianPlugin(Star):
         self.combat_handlers = CombatHandlers(self.db, self.combat_mgr, self.config_manager, self.skill_mgr)
         self.ranking_handlers = RankingHandlers(self.db, self.rank_mgr)
         self.rift_handlers = RiftHandlers(self.db, self.rift_mgr)
-        self.adventure_handlers = AdventureHandlers(self.db, self.adventure_mgr)
-        self.alchemy_handlers = AlchemyHandlers(self.db, self.alchemy_mgr)
+        self.alchemy_handlers = AlchemyHandlers(self.db, self.alchemy_mgr, self.config_manager)
         self.impart_handlers = ImpartHandlers(self.db, self.impart_mgr)
         self.nickname_handler = NicknameHandler(self.db)  # Phase 1
+        self.dungeon_handlers = DungeonHandlers(self.db, self.dungeon_mgr)
         
         # Phase 2: 灵石银行和悬赏令
         self.bank_mgr = BankManager(self.db, self.config_manager.game_config, self.activity_tracker)
-        self.bounty_mgr = BountyManager(self.db, self.storage_ring_mgr, self.config_manager.items_data, self.config_manager.skills_data, self.activity_tracker)
+        self.bounty_mgr = BountyManager(self.db, self.storage_ring_mgr, self.config_manager.items_data, self.config_manager.skills_data, self.activity_tracker, game_config=self.config_manager.game_config)
         self.bank_handlers = BankHandlers(self.db, self.bank_mgr)
         self.gambling_handler = GamblingHandler(self.db)
         self.bounty_handlers = BountyHandlers(self.db, self.bounty_mgr)
@@ -304,11 +296,9 @@ class XiuXianPlugin(Star):
         # Phase 4: 扩展功能
         self.blessed_land_mgr = BlessedLandManager(self.db)
         self.blessed_land_handlers = BlessedLandHandlers(self.db, self.blessed_land_mgr)
-        self.spirit_farm_mgr = SpiritFarmManager(self.db, self.storage_ring_mgr, self.activity_tracker)
-        self.spirit_farm_handlers = SpiritFarmHandlers(self.db, self.spirit_farm_mgr)
+        self.spirit_farm_handlers = SpiritFarmHandlers(self.db, self.spirit_farm_mgr, self.config_manager)
         self.dual_cult_mgr = DualCultivationManager(self.db, self.pill_handler.pill_manager)
         self.dual_cult_handlers = DualCultivationHandlers(self.db, self.dual_cult_mgr)
-        self.spirit_eye_handlers = SpiritEyeHandlers(self.db, self.spirit_eye_mgr)
 
         # 神通系统
         from .handlers.skill_handler import SkillHandler
@@ -328,12 +318,10 @@ class XiuXianPlugin(Star):
         
         self.boss_task = None # Boss生成任务
         self.loan_check_task = None # 贷款逾期检查任务
-        self.spirit_eye_task = None # 灵眼生成任务
         self.bounty_check_task = None  # 悬赏过期检查任务
         self.consignment_check_task = None  # 寄售过期检查任务
         self.trade_check_task = None  # 交易超时检查任务
         self.rift_daily_task = None  # 秘境每日广播任务
-        self.pavilion_refresh_task = None  # 商铺自动刷新任务
         self.sect_material_task = None  # 宗门资材发放任务
         self.sect_owner_change_task = None  # 自动换宗主任务
 
@@ -399,38 +387,36 @@ class XiuXianPlugin(Star):
         else:
             logger.info("【修仙插件】Boss系统已禁用，跳过Boss定时生成")
         self.loan_check_task = asyncio.create_task(self._schedule_loan_check())
-        self.spirit_eye_task = asyncio.create_task(self._schedule_spirit_eye_spawn())
         self.bounty_check_task = asyncio.create_task(self._schedule_bounty_check())
         self.consignment_check_task = asyncio.create_task(self._schedule_consignment_check())
         self.trade_check_task = asyncio.create_task(self._schedule_trade_check())
         self.rift_daily_task = asyncio.create_task(self._schedule_rift_daily())
-        self.pavilion_refresh_task = asyncio.create_task(self._schedule_pavilion_refresh())
         self.sect_material_task = asyncio.create_task(self._schedule_sect_material_distribution())
         self.sect_owner_change_task = asyncio.create_task(self._schedule_auto_sect_owner_change())
         
         logger.info("【修仙插件】已加载。")
 
     async def terminate(self):
-        if self.boss_task:
-            self.boss_task.cancel()
-        if self.loan_check_task:
-            self.loan_check_task.cancel()
-        if self.spirit_eye_task:
-            self.spirit_eye_task.cancel()
-        if self.bounty_check_task:
-            self.bounty_check_task.cancel()
-        if self.consignment_check_task:
-            self.consignment_check_task.cancel()
-        if self.trade_check_task:
-            self.trade_check_task.cancel()
-        if self.rift_daily_task:
-            self.rift_daily_task.cancel()
-        if self.pavilion_refresh_task:
-            self.pavilion_refresh_task.cancel()
-        if self.sect_material_task:
-            self.sect_material_task.cancel()
-        if self.sect_owner_change_task:
-            self.sect_owner_change_task.cancel()
+        """优雅关闭：取消所有后台任务 → 等待完成 → 关闭数据库"""
+        task_map = {
+            "boss_task": self.boss_task,
+            "loan_check_task": self.loan_check_task,
+            "bounty_check_task": self.bounty_check_task,
+            "consignment_check_task": self.consignment_check_task,
+            "trade_check_task": self.trade_check_task,
+            "rift_daily_task": self.rift_daily_task,
+            "sect_material_task": self.sect_material_task,
+            "sect_owner_change_task": self.sect_owner_change_task,
+        }
+        pending_tasks = []
+        for name, task in task_map.items():
+            if task and not task.done():
+                task.cancel()
+                pending_tasks.append(task)
+
+        if pending_tasks:
+            await asyncio.gather(*pending_tasks, return_exceptions=True)
+
         await self.db.close()
         logger.info("【修仙插件】已卸载。")
         
@@ -690,63 +676,10 @@ class XiuXianPlugin(Star):
         )
         await self._broadcast_to_whitelist_groups(broadcast_msg)
 
-    async def _schedule_spirit_eye_spawn(self):
-        """灵眼生成定时任务（每2小时生成一个，支持指数退避）"""
-        import time
-        
+    async def _schedule_bounty_check(self):
+        """悬赏过期检查定时任务（每30分钟检查一次，支持指数退避）"""
         retry_count = 0
         max_retry_delay = 3600
-        
-        while True:
-            try:
-                await self.db.ensure_connection()
-                # 每4小时生成一个灵眼
-                spawn_interval = 14400
-                
-                # 检查是否有存储的下次刷新时间
-                next_spawn_str = await self.db.ext.get_system_config("spirit_eye_next_spawn_time")
-                current_time = int(time.time())
-                
-                if next_spawn_str:
-                    next_spawn_time = int(next_spawn_str)
-                    remaining = next_spawn_time - current_time
-                    if remaining > 0:
-                        logger.info(f"【修仙插件】灵眼将在 {remaining} 秒后刷新")
-                        await asyncio.sleep(remaining)
-                else:
-                    next_spawn_time = current_time + spawn_interval
-                    await self.db.ext.set_system_config("spirit_eye_next_spawn_time", str(next_spawn_time))
-                    await asyncio.sleep(spawn_interval)
-                
-                # 生成灵眼
-                success, msg = await self.spirit_eye_mgr.spawn_spirit_eye()
-                if success:
-                    logger.info(f"【修仙插件】{msg}")
-                    await self._broadcast_spirit_eye_spawn(msg)
-
-                # 清理超过4小时未被抢占的灵眼
-                cleaned = await self.spirit_eye_mgr.cleanup_expired_eyes()
-                if cleaned > 0:
-                    logger.info(f"【修仙插件】清理了 {cleaned} 个过期灵眼")
-
-                # 设置下次刷新时间
-                next_spawn_time = int(time.time()) + spawn_interval
-                await self.db.ext.set_system_config("spirit_eye_next_spawn_time", str(next_spawn_time))
-                
-                # 成功后重置重试计数
-                retry_count = 0
-                
-            except asyncio.CancelledError:
-                break
-            except Exception as e:
-                logger.error(f"灵眼生成任务异常: {e}")
-                retry_count += 1
-                delay = min(60 * (2 ** retry_count), max_retry_delay)
-                logger.info(f"【修仙插件】灵眼任务将在 {delay} 秒后重试（第{retry_count}次）")
-                await asyncio.sleep(delay)
-
-    async def _schedule_bounty_check(self):
-        """悬赏过期检查定时任务（每30分钟检查一次）"""
         while True:
             try:
                 await self.db.ensure_connection()
@@ -754,15 +687,21 @@ class XiuXianPlugin(Star):
                 expired = await self.bounty_mgr.check_and_expire_bounties()
                 if expired > 0:
                     logger.info(f"【修仙插件】处理了 {expired} 个过期悬赏任务")
+                retry_count = 0
             except asyncio.CancelledError:
                 break
             except Exception as e:
                 logger.error(f"悬赏检查任务异常: {e}")
-                await asyncio.sleep(60)
+                retry_count += 1
+                delay = min(60 * (2 ** retry_count), max_retry_delay)
+                logger.info(f"【修仙插件】悬赏检查任务将在 {delay} 秒后重试（第{retry_count}次）")
+                await asyncio.sleep(delay)
 
     async def _schedule_consignment_check(self):
-        """寄售行过期检查任务（每小时检查一次，可通过 TRADE.CONSIGNMENT_CHECK_INTERVAL_SECONDS 调整）"""
+        """寄售行过期检查任务（支持指数退避）"""
         interval = int(self.config.get("TRADE", {}).get("CONSIGNMENT_CHECK_INTERVAL_SECONDS", 3600))
+        retry_count = 0
+        max_retry_delay = 3600
         while True:
             try:
                 await self.db.ensure_connection()
@@ -770,15 +709,21 @@ class XiuXianPlugin(Star):
                 expired = await self.consignment_mgr.expire_old_listings()
                 if expired > 0:
                     logger.info(f"【修仙插件】处理了 {expired} 个过期寄售物品")
+                retry_count = 0
             except asyncio.CancelledError:
                 break
             except Exception as e:
                 logger.error(f"寄售过期检查任务异常: {e}")
-                await asyncio.sleep(60)
+                retry_count += 1
+                delay = min(60 * (2 ** retry_count), max_retry_delay)
+                logger.info(f"【修仙插件】寄售检查任务将在 {delay} 秒后重试（第{retry_count}次）")
+                await asyncio.sleep(delay)
 
     async def _schedule_trade_check(self):
-        """交易超时检查任务（每 5 分钟检查一次，可通过 TRADE.TRADE_CHECK_INTERVAL_SECONDS 调整）"""
+        """交易超时检查任务（支持指数退避）"""
         interval = int(self.config.get("TRADE", {}).get("TRADE_CHECK_INTERVAL_SECONDS", 300))
+        retry_count = 0
+        max_retry_delay = 3600
         while True:
             try:
                 await self.db.ensure_connection()
@@ -786,129 +731,18 @@ class XiuXianPlugin(Star):
                 expired = await self.trade_mgr.expire_overdue_trades()
                 if expired > 0:
                     logger.info(f"【修仙插件】处理了 {expired} 个超时交易")
+                retry_count = 0
             except asyncio.CancelledError:
                 break
             except Exception as e:
                 logger.error(f"交易超时检查任务异常: {e}")
-                await asyncio.sleep(60)
-
-    async def _broadcast_spirit_eye_spawn(self, msg: str):
-        """广播灵眼刷新消息"""
-        broadcast_msg = f"👁️ {msg}\n💡 使用 /灵眼信息 查看详情"
-        await self._broadcast_to_whitelist_groups(broadcast_msg)
-
-    async def _broadcast_pavilion_refresh(self, shop_name: str, items: list, offers: list = None):
-        """广播商铺刷新消息"""
-        if not items:
-            return
-        item_names = [item.get("name", "未知") for item in items[:8]]
-        summary = "、".join(item_names)
-        if len(items) > 8:
-            summary += f"等{len(items)}件"
-        cmd_name = shop_name.replace("阁", "阁")  # 丹阁→丹阁, 器阁→器阁, 百宝阁→百宝阁
-        broadcast_msg = (
-            f"🏪 【{shop_name}】新货上架！\n"
-            f"━━━━━━━━━━━━━━━\n"
-            f"📦 本次上架：{summary}\n"
-        )
-        if offers:
-            offer_names = []
-            for o in offers:
-                disc_pct = int((1.0 - o.get('discount', 1.0)) * 100)
-                offer_names.append(f"{o['name']} [{disc_pct}%折]")
-            broadcast_msg += f"🔥 限时特价：{'、'.join(offer_names)}\n"
-        broadcast_msg += f"💡 输入 /{cmd_name} 查看详情"
-        await self._broadcast_to_whitelist_groups(broadcast_msg)
-
-    async def _init_pavilions_if_empty(self):
-        """首次启动时初始化商铺（如果数据库中无数据）"""
-        pavilions = [
-            ("pill_pavilion", self.shop_handler.shop_manager.get_pills_for_display,
-             self.config.get("PAVILION_PILL_COUNT", 10), "丹阁"),
-            ("weapon_pavilion", self.shop_handler.shop_manager.get_weapons_for_display,
-             self.config.get("PAVILION_WEAPON_COUNT", 10), "器阁"),
-            ("treasure_pavilion", self.shop_handler.shop_manager.get_all_items_for_display,
-             self.config.get("PAVILION_TREASURE_COUNT", 15), "百宝阁"),
-        ]
-        for pavilion_id, item_getter, count, display_name in pavilions:
-            _, current_items = await self.shop_handler.db.get_shop_data(pavilion_id)
-            if not current_items:
-                import time as _time
-                new_items = self.shop_handler.shop_manager.generate_pavilion_items(item_getter, count)
-                offer_count = self.config.get("LIMITED_OFFER_COUNT", 2)
-                offer_discount = self.config.get("LIMITED_OFFER_DISCOUNT", 0.7)
-                self.shop_handler.shop_manager.mark_limited_offers(new_items, offer_count, offer_discount)
-                await self.shop_handler.db.update_shop_data(pavilion_id, int(_time.time()), new_items)
-                logger.info(f"【修仙插件】{display_name}首次初始化，生成 {len(new_items)} 件商品")
-
-    async def _schedule_pavilion_refresh(self):
-        """定时自动刷新丹阁/器阁/百宝阁，刷新后群聊广播"""
-        import time
-        retry_count = 0
-        max_retry_delay = 3600
-
-        # 首次启动时初始化空商铺
-        try:
-            await self._init_pavilions_if_empty()
-        except Exception as e:
-            logger.error(f"【修仙插件】商铺初始化异常: {e}")
-
-        while True:
-            try:
-                await self.db.ensure_connection()
-                refresh_hours = self.config.get("PAVILION_REFRESH_HOURS", 6)
-                if refresh_hours <= 0:
-                    await asyncio.sleep(3600)
-                    continue
-
-                # 计算距下一个刷新周期的时间
-                # 读取任意一个商铺的 last_refresh 来对齐周期
-                last_refresh, _ = await self.shop_handler.db.get_shop_data("pill_pavilion")
-                current_time = int(time.time())
-                if last_refresh and last_refresh > 0:
-                    next_refresh = last_refresh + refresh_hours * 3600
-                    remaining = next_refresh - current_time
-                    if remaining > 0:
-                        await asyncio.sleep(remaining)
-                else:
-                    # 无历史记录，立即刷新
-                    pass
-
-                # 检查并刷新每个商铺
-                pavilions = [
-                    ("pill_pavilion", self.shop_handler.shop_manager.get_pills_for_display,
-                     self.config.get("PAVILION_PILL_COUNT", 10), "丹阁"),
-                    ("weapon_pavilion", self.shop_handler.shop_manager.get_weapons_for_display,
-                     self.config.get("PAVILION_WEAPON_COUNT", 10), "器阁"),
-                    ("treasure_pavilion", self.shop_handler.shop_manager.get_all_items_for_display,
-                     self.config.get("PAVILION_TREASURE_COUNT", 15), "百宝阁"),
-                ]
-
-                for pavilion_id, item_getter, count, display_name in pavilions:
-                    last_refresh, current_items = await self.shop_handler.db.get_shop_data(pavilion_id)
-                    if not current_items or self.shop_handler.shop_manager.should_refresh_shop(last_refresh, refresh_hours):
-                        new_items = self.shop_handler.shop_manager.generate_pavilion_items(item_getter, count)
-                        # 标记限时特价商品
-                        offer_count = self.config.get("LIMITED_OFFER_COUNT", 2)
-                        offer_discount = self.config.get("LIMITED_OFFER_DISCOUNT", 0.7)
-                        offers = self.shop_handler.shop_manager.mark_limited_offers(new_items, offer_count, offer_discount)
-                        await self.shop_handler.db.update_shop_data(pavilion_id, int(time.time()), new_items)
-                        await self._broadcast_pavilion_refresh(display_name, new_items, offers)
-                        logger.info(f"【修仙插件】{display_name}自动刷新，{len(new_items)} 件商品，{len(offers)} 件限时特价")
-
-                retry_count = 0
-
-            except asyncio.CancelledError:
-                break
-            except Exception as e:
-                logger.error(f"【修仙插件】商铺刷新任务异常: {e}")
                 retry_count += 1
                 delay = min(60 * (2 ** retry_count), max_retry_delay)
-                logger.info(f"【修仙插件】商铺刷新任务将在 {delay} 秒后重试（第{retry_count}次）")
+                logger.info(f"【修仙插件】交易检查任务将在 {delay} 秒后重试（第{retry_count}次）")
                 await asyncio.sleep(delay)
 
     async def _schedule_sect_material_distribution(self):
-        """每日定时发放宗门资材（根据建设度 × 倍率）"""
+        """每日定时发放宗门资材（根据建设度 × 倍率，支持多时段发放）"""
         import time as _time
         retry_count = 0
         max_retry_delay = 3600
@@ -917,7 +751,10 @@ class XiuXianPlugin(Star):
             try:
                 sect_config = self.config_manager.sect_config if hasattr(self, 'config_manager') else {}
                 dist_config = sect_config.get("material_distribution", {})
-                target_hour = dist_config.get("hour", 12)
+                # 兼容新旧配置：新配置用 hours 列表，旧配置用 hour 单值
+                target_hours = dist_config.get("hours", None)
+                if target_hours is None:
+                    target_hours = [dist_config.get("hour", 12)]
                 rate = dist_config.get("rate", 0.1)
 
                 # 计算到下一个目标小时的等待时间
@@ -926,27 +763,65 @@ class XiuXianPlugin(Star):
                 current_min = now.tm_min
                 current_sec = now.tm_sec
 
-                if current_hour < target_hour:
-                    wait_seconds = (target_hour - current_hour) * 3600 - current_min * 60 - current_sec
-                elif current_hour == target_hour and current_min == 0 and current_sec < 30:
+                # 找到下一个未到达的目标小时
+                next_hour = None
+                for h in sorted(target_hours):
+                    if current_hour < h or (current_hour == h and current_min == 0 and current_sec < 30):
+                        next_hour = h
+                        break
+                if next_hour is None:
+                    # 今天所有时段已过，等到明天最早的时段
+                    next_hour = min(target_hours)
+
+                if current_hour < next_hour:
+                    wait_seconds = (next_hour - current_hour) * 3600 - current_min * 60 - current_sec
+                elif current_hour == next_hour and current_min == 0 and current_sec < 30:
                     wait_seconds = 0  # 刚好在目标时间，立即执行
                 else:
-                    wait_seconds = (24 - current_hour + target_hour) * 3600 - current_min * 60 - current_sec
+                    wait_seconds = (24 - current_hour + next_hour) * 3600 - current_min * 60 - current_sec
 
                 if wait_seconds > 0:
                     await asyncio.sleep(wait_seconds)
 
                 await self.db.ensure_connection()
+
+                # 每次发放防重检查：用 日期+小时 作为 key，避免同一天同一时段重复发放
+                from datetime import datetime
+                now_dt = datetime.now()
+                today_str = now_dt.strftime("%Y-%m-%d")
+                dist_hour = now_dt.hour
+                dist_key = f"{today_str}_{dist_hour}"
+                last_dist = await self.db.ext.get_system_config("sect_material_last_dist_key")
+                if last_dist == dist_key:
+                    # 本时段已发放，等到下一个时段
+                    logger.info(f"【修仙插件】宗门资材 {dist_hour}:00 已发放，跳过")
+                    # 计算到下一个时段的等待时间
+                    remaining_hours = [h for h in sorted(target_hours) if h > dist_hour]
+                    if remaining_hours:
+                        wait_h = remaining_hours[0] - dist_hour
+                    else:
+                        wait_h = 24 - dist_hour + min(target_hours)
+                    await asyncio.sleep(wait_h * 3600 - 60)
+                    continue
+
                 sects = await self.db.ext.get_all_sects_summary()
                 for s in sects:
                     materials_gain = int(s["sect_scale"] * rate)
                     if materials_gain > 0:
                         await self.db.ext.update_sect_materials(s["sect_id"], materials_gain, operation=1)
-                logger.info(f"【修仙插件】宗门资材发放完成，共 {len(sects)} 个宗门")
+
+                # 记录发放标识（日期+小时）
+                await self.db.ext.set_system_config("sect_material_last_dist_key", dist_key)
+                logger.info(f"【修仙插件】宗门资材发放完成（{dist_hour}:00），共 {len(sects)} 个宗门")
 
                 retry_count = 0
-                # 等待到下一个周期（24小时后）
-                await asyncio.sleep(86400 - 60)  # 减去60秒避免漂移
+                # 计算到下一个发放时段的等待时间
+                remaining_hours = [h for h in sorted(target_hours) if h > dist_hour]
+                if remaining_hours:
+                    wait_h = remaining_hours[0] - dist_hour
+                else:
+                    wait_h = 24 - dist_hour + min(target_hours)
+                await asyncio.sleep(wait_h * 3600 - 60)
 
             except asyncio.CancelledError:
                 break
@@ -1095,12 +970,6 @@ class XiuXianPlugin(Star):
         async for r in self.misc_handler.handle_menu_bank(event):
             yield r
 
-    @filter.command(CMD_MENU_SHOP, "商店功能菜单")
-    @require_whitelist
-    async def handle_menu_shop(self, event: AstrMessageEvent):
-        async for r in self.misc_handler.handle_menu_shop(event):
-            yield r
-
     @filter.command(CMD_COMPENSATION, "领取GM补偿")
     @require_whitelist
     async def handle_compensation(self, event: AstrMessageEvent):
@@ -1239,45 +1108,6 @@ class XiuXianPlugin(Star):
         async for r in self.pill_handler.handle_pill_info(event, pill_name):
             yield r
 
-    @filter.command(CMD_PILL_PAVILION, "查看丹阁丹药")
-    @require_whitelist
-    async def handle_pill_pavilion(self, event: AstrMessageEvent):
-        async for r in self.shop_handler.handle_pill_pavilion(event):
-            yield r
-        footer = get_related_commands_footer("丹阁")
-        if footer:
-            yield event.plain_result(footer)
-
-    @filter.command(CMD_WEAPON_PAVILION, "查看器阁武器")
-    @require_whitelist
-    async def handle_weapon_pavilion(self, event: AstrMessageEvent):
-        async for r in self.shop_handler.handle_weapon_pavilion(event):
-            yield r
-
-    @filter.command(CMD_TREASURE_PAVILION, "查看百宝阁物品")
-    @require_whitelist
-    async def handle_treasure_pavilion(self, event: AstrMessageEvent):
-        async for r in self.shop_handler.handle_treasure_pavilion(event):
-            yield r
-
-    @filter.command(CMD_ITEM_INFO, "查看物品详细效果")
-    @require_whitelist
-    async def handle_item_info(self, event: AstrMessageEvent, item_name: str = ""):
-        async for r in self.shop_handler.handle_item_info(event, item_name):
-            yield r
-
-    @filter.command(CMD_VIEW_ITEM, "查看物品详细信息")
-    @require_whitelist
-    async def handle_view_item(self, event: AstrMessageEvent, item_name: str = ""):
-        async for r in self.shop_handler.handle_view_item(event, item_name):
-            yield r
-
-    @filter.command(CMD_BUY, "购买物品")
-    @require_whitelist
-    async def handle_buy(self, event: AstrMessageEvent, item_name: str = ""):
-        async for r in self.shop_handler.handle_buy(event, item_name):
-            yield r
-
     @filter.command(CMD_STORAGE_RING, "查看储物戒信息")
     @require_whitelist
     async def handle_storage_ring(self, event: AstrMessageEvent):
@@ -1362,6 +1192,12 @@ class XiuXianPlugin(Star):
     @require_whitelist
     async def handle_sect_task(self, event: AstrMessageEvent):
         async for r in self.sect_handlers.handle_sect_task(event):
+            yield r
+
+    @filter.command(CMD_SECT_REFRESH_TASK, "刷新宗门任务")
+    @require_whitelist
+    async def handle_sect_refresh_task(self, event: AstrMessageEvent):
+        async for r in self.sect_handlers.handle_refresh_sect_task(event):
             yield r
 
     @filter.command(CMD_SECT_LIST, "查看宗门列表")
@@ -1651,69 +1487,66 @@ class XiuXianPlugin(Star):
         async for r in self.rift_handlers.handle_rift_exit(event):
             yield r
 
-    # ===== 历练指令 =====
-    @filter.command(CMD_ADVENTURE_START, "开始历练")
+    # ===== 探险副本指令 =====
+    @filter.command(CMD_DUNGEON_LIST, "查看探险列表")
     @require_whitelist
-    async def handle_adventure_start(self, event: AstrMessageEvent, route: str = ""):
-        async for r in self.adventure_handlers.handle_start_adventure(event, route):
+    async def handle_dungeon_list(self, event: AstrMessageEvent):
+        async for r in self.dungeon_handlers.handle_dungeon_list(event):
             yield r
-
-    @filter.command(CMD_ADVENTURE_COMPLETE, "完成历练")
-    @require_whitelist
-    async def handle_adventure_complete(self, event: AstrMessageEvent):
-        user_id = event.get_sender_id()
-        success, msg, reward_data = await self.adventure_mgr.finish_adventure(user_id)
-
-        if success:
-            player = await self.db.get_player_by_id(user_id)
-            if player:
-                await self.activity_tracker.track_adventure(player)
-
-        yield event.plain_result(msg)
-
-    @filter.command(CMD_ADVENTURE_ABORT, "中断历练（中途退出，无奖励）")
-    @require_whitelist
-    async def handle_adventure_abort(self, event: AstrMessageEvent):
-        user_id = event.get_sender_id()
-        success, msg = await self.adventure_mgr.abort_adventure(user_id)
-
-        if success:
-            player = await self.db.get_player_by_id(user_id)
-            if player:
-                await self.activity_tracker.track_adventure(player)
-
-        yield event.plain_result(msg)
-
-    @filter.command(CMD_ADVENTURE_STATUS, "查看历练状态")
-    @require_whitelist
-    async def handle_adventure_status(self, event: AstrMessageEvent):
-        async for r in self.adventure_handlers.handle_adventure_status(event):
-            yield r
-
-    @filter.command(CMD_ADVENTURE_INFO, "查看历练系统说明")
-    @require_whitelist
-    async def handle_adventure_info(self, event: AstrMessageEvent):
-        async for r in self.adventure_handlers.handle_adventure_info(event):
-            yield r
-        footer = get_related_commands_footer("历练信息")
+        footer = get_related_commands_footer("探险")
         if footer:
             yield event.plain_result(footer)
 
-    # ===== 炼丹指令 =====
-    @filter.command(CMD_ALCHEMY_RECIPES, "查看丹药配方")
+    @filter.command(CMD_DUNGEON_ENTER, "进入探险副本")
     @require_whitelist
-    async def handle_alchemy_recipes(self, event: AstrMessageEvent):
-        async for r in self.alchemy_handlers.handle_recipes(event):
+    async def handle_dungeon_enter(self, event: AstrMessageEvent, dungeon_name: str = ""):
+        async for r in self.dungeon_handlers.handle_dungeon_enter(event, dungeon_name):
             yield r
-        footer = get_related_commands_footer("丹药配方")
+
+    @filter.command(CMD_DUNGEON_ADVANCE, "探险前进/选择路径")
+    @require_whitelist
+    async def handle_dungeon_advance(self, event: AstrMessageEvent, choice: str = ""):
+        async for r in self.dungeon_handlers.handle_dungeon_advance(event, choice):
+            yield r
+
+    @filter.command(CMD_DUNGEON_STATUS, "查看探险副本状态")
+    @require_whitelist
+    async def handle_dungeon_status(self, event: AstrMessageEvent):
+        async for r in self.dungeon_handlers.handle_dungeon_status(event):
+            yield r
+
+    @filter.command(CMD_DUNGEON_RETREAT, "探险撤离")
+    @require_whitelist
+    async def handle_dungeon_retreat(self, event: AstrMessageEvent):
+        async for r in self.dungeon_handlers.handle_dungeon_retreat(event):
+            yield r
+
+    # ===== 炼丹指令（nonebot迁移版） =====
+    @filter.command(CMD_ALCHEMY_FIND, "扫描药材显示可用配方")
+    @require_whitelist
+    async def handle_alchemy_find(self, event: AstrMessageEvent):
+        async for r in self.alchemy_handlers.handle_find_recipes(event):
+            yield r
+        footer = get_related_commands_footer("炼丹")
         if footer:
             yield event.plain_result(footer)
 
-    @filter.command(CMD_ALCHEMY_CRAFT, "炼制丹药")
+    @filter.command(CMD_ALCHEMY_CRAFT, "执行炼丹（主药XX N 药引YY N 辅药ZZ N）")
     @require_whitelist
-    async def handle_alchemy_craft(self, event: AstrMessageEvent, pill_id: int = 0):
-        async for r in self.alchemy_handlers.handle_craft(event, pill_id):
+    async def handle_alchemy_craft(self, event: AstrMessageEvent, recipe_text: str = ""):
+        async for r in self.alchemy_handlers.handle_craft(event, recipe_text):
             yield r
+
+    @filter.command(CMD_EQUIP_FURNACE, "装备炼丹炉", aliases={"卸下炼丹炉"})
+    @require_whitelist
+    async def handle_equip_furnace(self, event: AstrMessageEvent, furnace_name: str = ""):
+        msg = str(event.message)
+        if "卸下" in msg:
+            async for r in self.alchemy_handlers.handle_unequip_furnace(event):
+                yield r
+        else:
+            async for r in self.alchemy_handlers.handle_equip_furnace(event, furnace_name):
+                yield r
 
     # ===== 传承指令 =====
     @filter.command(CMD_IMPART_INFO, "查看传承信息")
@@ -1857,8 +1690,8 @@ class XiuXianPlugin(Star):
         async for r in self.blessed_land_handlers.handle_upgrade(event, land_type):
             yield r
 
-    # ===== Phase 4: 灵田 =====
-    @filter.command(CMD_SPIRIT_FARM_INFO, "查看灵田")
+    # ===== 灵田（nonebot迁移版） =====
+    @filter.command(CMD_SPIRIT_FARM_INFO, "查看灵田", aliases={"我的灵田"})
     @require_whitelist
     async def handle_spirit_farm_info(self, event: AstrMessageEvent):
         async for r in self.spirit_farm_handlers.handle_farm_info(event):
@@ -1870,22 +1703,28 @@ class XiuXianPlugin(Star):
         async for r in self.spirit_farm_handlers.handle_create_farm(event):
             yield r
 
-    @filter.command(CMD_SPIRIT_FARM_PLANT, "种植灵草 [数量]")
+    @filter.command(CMD_SPIRIT_FARM_UPGRADE_FIELDS, "扩展灵田数量")
     @require_whitelist
-    async def handle_spirit_farm_plant(self, event: AstrMessageEvent, herb_name: str = "", quantity: int = 1):
-        async for r in self.spirit_farm_handlers.handle_plant(event, herb_name, quantity):
+    async def handle_spirit_farm_upgrade_fields(self, event: AstrMessageEvent):
+        async for r in self.spirit_farm_handlers.handle_upgrade_fields(event):
             yield r
 
-    @filter.command(CMD_SPIRIT_FARM_HARVEST, "收获灵草")
+    @filter.command(CMD_SPIRIT_FARM_HARVEST, "收取药材")
     @require_whitelist
     async def handle_spirit_farm_harvest(self, event: AstrMessageEvent):
         async for r in self.spirit_farm_handlers.handle_harvest(event):
             yield r
 
-    @filter.command(CMD_SPIRIT_FARM_UPGRADE, "升级灵田")
+    @filter.command(CMD_SPIRIT_FARM_UPGRADE_HARVEST, "升级收取等级")
     @require_whitelist
-    async def handle_spirit_farm_upgrade(self, event: AstrMessageEvent):
-        async for r in self.spirit_farm_handlers.handle_upgrade_farm(event):
+    async def handle_spirit_farm_upgrade_harvest(self, event: AstrMessageEvent):
+        async for r in self.spirit_farm_handlers.handle_upgrade_harvest(event):
+            yield r
+
+    @filter.command(CMD_SPIRIT_FARM_UPGRADE_FIRE, "升级丹药控火")
+    @require_whitelist
+    async def handle_spirit_farm_upgrade_fire(self, event: AstrMessageEvent):
+        async for r in self.spirit_farm_handlers.handle_upgrade_fire_control(event):
             yield r
 
     # ===== Phase 4: 双修 =====
@@ -1905,25 +1744,6 @@ class XiuXianPlugin(Star):
     @require_whitelist
     async def handle_dual_cult_reject(self, event: AstrMessageEvent):
         async for r in self.dual_cult_handlers.handle_reject(event):
-            yield r
-
-    # ===== Phase 4: 天地灵眼 =====
-    @filter.command(CMD_SPIRIT_EYE_INFO, "查看灵眼")
-    @require_whitelist
-    async def handle_spirit_eye_info(self, event: AstrMessageEvent):
-        async for r in self.spirit_eye_handlers.handle_spirit_eye_info(event):
-            yield r
-
-    @filter.command(CMD_SPIRIT_EYE_CLAIM, "抢占灵眼")
-    @require_whitelist
-    async def handle_spirit_eye_claim(self, event: AstrMessageEvent, eye_id: int = 0):
-        async for r in self.spirit_eye_handlers.handle_claim(event, eye_id):
-            yield r
-
-    @filter.command(CMD_SPIRIT_EYE_RELEASE, "释放灵眼")
-    @require_whitelist
-    async def handle_spirit_eye_release(self, event: AstrMessageEvent):
-        async for r in self.spirit_eye_handlers.handle_release(event):
             yield r
 
     @filter.command(CMD_TRADE_START, "发起即时交易")
@@ -2036,7 +1856,7 @@ class XiuXianPlugin(Star):
         disabled.append(item_name)
         self.config_manager.game_config['disabled_items'] = disabled
         self.config_manager.save_game_config()
-        yield event.plain_result(f"✅ 已禁用「{item_name}」，商店将不再刷新该物品。")
+        yield event.plain_result(f"✅ 已禁用「{item_name}」。")
 
     @filter.command(CMD_ENABLE_ITEM, "启用物品（管理员）")
     @require_whitelist
@@ -2056,7 +1876,7 @@ class XiuXianPlugin(Star):
         disabled.remove(item_name)
         self.config_manager.game_config['disabled_items'] = disabled
         self.config_manager.save_game_config()
-        yield event.plain_result(f"✅ 已启用「{item_name}」，下次商店刷新时会出现。")
+        yield event.plain_result(f"✅ 已启用「{item_name}」。")
 
     @filter.command(CMD_LIST_DISABLED, "查看禁用物品列表")
     @require_whitelist

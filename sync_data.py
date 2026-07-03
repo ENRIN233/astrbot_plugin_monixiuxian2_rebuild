@@ -21,13 +21,13 @@ def _build_level_name_map():
     if os.path.exists(level_path):
         with open(level_path, encoding="utf-8") as f:
             for i, lv in enumerate(json.load(f)):
-                level_map[i] = lv.get("level_name", "")
+                level_map[i] = lv.get("name", "未知境界")
     # Body cultivation levels (merge if name differs)
     body_path = os.path.join(SRC, "body_level_config.json")
     if os.path.exists(body_path):
         with open(body_path, encoding="utf-8") as f:
             for i, lv in enumerate(json.load(f)):
-                body_name = lv.get("level_name", "")
+                body_name = lv.get("name", "未知境界")
                 if i in level_map and body_name and body_name != level_map[i]:
                     level_map[i] = level_map[i] + " / " + body_name
     return level_map

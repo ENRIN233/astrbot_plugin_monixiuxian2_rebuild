@@ -17,7 +17,7 @@ ARMOR_SPECIAL_ATTRS = ['dodge_rate', 'crit_resist', 'reflect_pct', 'block_value'
 
 def load_equipment_bonus(player, config_manager) -> dict:
     """从装备数据中读取所有战斗加成（武器+防具）"""
-    bonus = {"atk": 0, "atk_pct": 0.0, "defense": 0, "mp_pct": 0.0}
+    bonus = {"atk_pct": 0.0, "mp_pct": 0.0, "armor_atk_pct": 0.0, "def_buff": 0.0}
     for attr in WEAPON_SPECIAL_ATTRS + ARMOR_SPECIAL_ATTRS:
         bonus[attr] = 0 if attr not in ('crit_damage', 'hp_regen_pct') else 0.0
 
@@ -28,15 +28,15 @@ def load_equipment_bonus(player, config_manager) -> dict:
     if player.weapon and player.weapon in config_manager.weapons_data:
         wdata = config_manager.weapons_data[player.weapon]
         bonus["atk_pct"] += wdata.get("atk_bonus", 0.0)
-        bonus["atk"] += wdata.get("physical_damage", 0)
-        bonus["atk"] += wdata.get("magic_damage", 0)
-        bonus["defense"] += wdata.get("physical_defense", 0)
-        bonus["defense"] += wdata.get("magic_defense", 0)
         for attr in WEAPON_SPECIAL_ATTRS:
             val = wdata.get(attr, 0)
             if val:
                 bonus[attr] += val
         bonus["mp_pct"] += wdata.get("mp_bonus", 0.0)
+        # 武器减伤率叠加到 def_buff
+        weapon_dmg_red = wdata.get("damage_reduction", 0.0)
+        if weapon_dmg_red:
+            bonus["def_buff"] += weapon_dmg_red
 
     # 防具（在 weapons_data 中）
     if player.armor:
@@ -46,8 +46,8 @@ def load_equipment_bonus(player, config_manager) -> dict:
         elif player.armor in config_manager.items_data:
             adata = config_manager.items_data[player.armor]
         if adata:
-            bonus["defense"] += adata.get("physical_defense", 0)
-            bonus["defense"] += adata.get("magic_defense", 0)
+            bonus["def_buff"] += adata.get("def_buff", 0.0)
+            bonus["armor_atk_pct"] += adata.get("atk_bonus", 0.0)
             for attr in ARMOR_SPECIAL_ATTRS:
                 val = adata.get(attr, 0)
                 if val:
@@ -66,9 +66,11 @@ class CombatStats:
     mp: int  # 当前真元
     max_mp: int  # 最大真元
     atk: int  # 攻击力
-    base_mp: int = 0  # 基础真元（心法加成后、装备百分比加成前，用于技能消耗计算）
-    base_def: float = 0.0  # 经验基础防御（用于双层减伤第一层）
-    equip_def: int = 0  # 装备+突破防御（用于双层减伤第二层）
+    base_mp: int = 0  # 基础真元（心法加成后、装备百分比加成前）
+    raw_base_mp: int = 0  # 原始真元（心法加成前，用于技能消耗百分比计算）
+    base_def: float = 0.0  # 废弃（保留兼容）
+    equip_def: int = 0  # 废弃（保留兼容）
+    def_buff: float = 0.0  # 百分比减伤（来自防具 def_buff + 心法 damage_reduction）
     crit_rate: int = 0  # 会心率（百分比）
     exp: int = 0  # 修为（用于计算攻击力）
     # 新增属性
@@ -81,6 +83,12 @@ class CombatStats:
     reflect_pct: int = 0  # 反伤百分比
     block_value: int = 0  # 格挡固定值
     hp_regen_pct: float = 0.0  # 每回合生命回复百分比
+    damage_reduction: float = 0.0  # 功法减伤率（如 0.1 = 10%减伤）
+    # 辅修功法效果
+    sub_buff_type: int = 0  # 辅修功法效果类型 (1-13)
+    sub_buff_value: int = 0  # 辅修功法主效果数值
+    sub_buff_value2: int = 0  # 辅修功法次要效果数值（仅 type=9）
+    sub_break_pct: float = 0.0  # 辅修功法破甲比例（仅 type=13）
 
 
 class CombatManager:
@@ -88,18 +96,17 @@ class CombatManager:
 
     @staticmethod
     def calculate_hp_mp(experience: int, hp_buff: float = 0.0, mp_buff: float = 0.0, hp_bonus: float = 0.0, mp_bonus: float = 0.0) -> Tuple[int, int]:
-        base_hp = max(200, int(max(0, experience) ** 0.50 * 2 * (1 + hp_buff)) + 200)
-        # 应用心法生命加成
+        # nonebot 公式：HP = exp/2, MP = exp
+        base_hp = max(1000, int(max(0, experience) / 2 * (1 + hp_buff)))
         hp = int(base_hp * (1 + hp_bonus))
-        base_mp = max(10, int(max(0, experience) ** 0.50 * 1 * (1 + mp_buff)))
-        # 应用心法真元加成
+        base_mp = max(100, int(max(0, experience) * (1 + mp_buff)))
         mp = int(base_mp * (1 + mp_bonus))
         return hp, mp
 
     @staticmethod
     def calculate_base_atk(experience: int) -> int:
-        """计算经验基础攻击力（不含装备/突破加成）"""
-        return max(1, int(max(0, experience) ** 0.42))
+        """计算经验基础攻击力（nonebot公式：exp/10）"""
+        return max(100, int(max(0, experience) / 10))
 
     @staticmethod
     def convert_legacy_defense(old_def: int) -> int:
@@ -126,6 +133,7 @@ class CombatManager:
         technique_atk_bonus = 0.0
         technique_crit_rate = 0
         technique_crit_damage = 0.0
+        technique_damage_reduction = 0.0
         if player.main_technique:
             items_data = config_manager.items_data
             technique_data = items_data.get(player.main_technique)
@@ -135,9 +143,13 @@ class CombatManager:
                 technique_atk_bonus = technique_data.get("atk_bonus", 0.0)
                 technique_crit_rate = technique_data.get("crit_rate", 0)
                 technique_crit_damage = technique_data.get("crit_damage", 0.0)
+                technique_damage_reduction = technique_data.get("damage_reduction", 0.0)
 
         hp, mp = cls.calculate_hp_mp(player.experience, hp_buff, mp_buff, technique_hp_bonus, technique_mp_bonus)
         base_atk = cls.calculate_base_atk(player.experience)
+
+        # 记录心法加成前的原始真元（用于技能消耗百分比计算）
+        raw_base_mp = max(100, int(max(0, player.experience) * (1 + mp_buff)))
 
         equip_bonus = load_equipment_bonus(player, config_manager)
 
@@ -146,19 +158,51 @@ class CombatManager:
         # 武器 mp_bonus 乘算
         mp = int(mp * (1 + equip_bonus.get("mp_pct", 0.0)))
 
-        breakthrough_atk = player.physical_damage + player.magic_damage
-        # 心法攻击加成改为百分比乘区，atkpractice 每级 4% 加成
-        atk_practice_bonus = player.atkpractice * 0.04
-        final_atk = int(base_atk * (1 + equip_bonus["atk_pct"] + atk_buff + technique_atk_bonus + atk_practice_bonus)) + breakthrough_atk + equip_bonus["atk"]
+        # nonebot 乘法叠加公式：ATK = base * (practice+1) * (1+technique) * (1+weapon) * (1+armor) + permanent_buff + flat_atk_bonus
+        atk_practice_mult = player.atkpractice * 0.04 + 1
+        # 从永久丹药增益中读取 flat_atk_bonus
+        permanent_gains = player.get_permanent_pill_gains()
+        flat_atk_bonus = permanent_gains.get("_global", {}).get("flat_atk_bonus", 0)
+        final_atk = int(base_atk * atk_practice_mult * (1 + technique_atk_bonus) * (1 + equip_bonus["atk_pct"]) * (1 + equip_bonus.get("armor_atk_pct", 0.0))) + int(atk_buff) + flat_atk_bonus
 
-        base_def = math.log(player.experience + 1) * 10
-        equip_def = (player.physical_defense + player.magic_defense) + equip_bonus["defense"]
+        # 获取辅修功法加成
+        sub_buff_type = 0
+        sub_buff_value = 0
+        sub_buff_value2 = 0
+        sub_break_pct = 0.0
+        if player.sub_technique:
+            sub_data = config_manager.sub_techniques_data.get(player.sub_technique)
+            if sub_data:
+                sub_buff_type = int(sub_data.get("buff_type", 0))
+                sub_buff_value = int(sub_data.get("buff", 0))
+                sub_buff_value2 = int(sub_data.get("buff2", 0))
+                sub_break_pct = float(sub_data.get("break_pct", 0.0))
+                # buff_type 1: 攻击力加成
+                if sub_buff_type == 1:
+                    final_atk = int(final_atk * (1 + sub_buff_value / 100))
+                # buff_type 2: 暴击率加成
+                # (applied below to crit_rate)
+                # buff_type 3: 暴击伤害加成
+                # (applied below to crit_damage)
+                # buff_type 13: 破甲
+                # (applied in combat loop)
+
+        # 防御：百分比减伤（防具 def_buff + 心法 damage_reduction）
+        def_buff = min(0.9, equip_bonus.get("def_buff", 0.0) + technique_damage_reduction)
 
         player.hp = hp
         player.mp = mp
         player.atk = final_atk
 
         crit_rate = int((impart_info.impart_know_per if impart_info else 0) * 100) + equip_bonus.get("crit_rate", 0) + technique_crit_rate
+        # 辅修功法 buff_type 2: 暴击率加成
+        if sub_buff_type == 2:
+            crit_rate += sub_buff_value
+
+        crit_damage_val = max(1.5, 1.0 + equip_bonus.get("crit_damage", 0) + technique_crit_damage + (impart_info.impart_burst_per if impart_info else 0))
+        # 辅修功法 buff_type 3: 暴击伤害加成
+        if sub_buff_type == 3:
+            crit_damage_val += sub_buff_value / 100
 
         return CombatStats(
             user_id=player.user_id,
@@ -168,12 +212,14 @@ class CombatManager:
             mp=mp,
             max_mp=mp,
             base_mp=base_mp,
+            raw_base_mp=raw_base_mp,
             atk=final_atk,
-            base_def=base_def,
-            equip_def=equip_def,
+            base_def=0.0,
+            equip_def=0,
+            def_buff=def_buff,
             crit_rate=crit_rate,
             exp=player.experience,
-            crit_damage=max(1.5, 1.0 + equip_bonus.get("crit_damage", 0) + technique_crit_damage),
+            crit_damage=crit_damage_val,
             armor_pen=equip_bonus.get("armor_pen", 0),
             lifesteal=equip_bonus.get("lifesteal", 0),
             double_hit=equip_bonus.get("double_hit", 0),
@@ -182,28 +228,24 @@ class CombatManager:
             reflect_pct=equip_bonus.get("reflect_pct", 0),
             block_value=equip_bonus.get("block_value", 0),
             hp_regen_pct=equip_bonus.get("hp_regen_pct", 0.0),
+            damage_reduction=technique_damage_reduction,
+            sub_buff_type=sub_buff_type,
+            sub_buff_value=sub_buff_value,
+            sub_buff_value2=sub_buff_value2,
+            sub_break_pct=sub_break_pct,
         )
 
     @staticmethod
-    def calc_combat_power(stats: CombatStats, max_hp: int, max_mp: int) -> int:
-        """从 CombatStats 计算战力评分（PvP 向）。
+    def calc_combat_power(stats: CombatStats, max_hp: int, max_mp: int,
+                          experience: int = 0, root_speed: float = 1.0, realm_spend: float = 1.0) -> int:
+        """计算战力评分。
 
-        公式 = log10(期望每回合伤害 × 有效生命值) × 1000，取整。
-
-        攻击端：atk × crit_mult × double_mult × armor_pen_mult
-        防御端：max_hp × def_mult × dodge_mult × block_mult × crit_resist_mult
-                × regen_mult × lifesteal_mult × reflect_mult
-
-        所有 14 项战斗属性均参与计算。
-        - armor_pen：无视部分防御，提升期望伤害（攻击端）
-        - crit_resist：降低对手有效暴击率，减少受到的暴击伤害（防御端）
-        - block/lifesteal/reflect：防御端有效 HP 增益
-
-        Args:
-            stats: 已构建的 CombatStats（来自 build_player_combat_stats）
-            max_hp: 最大气血（stats.max_hp）
-            max_mp: 最大真元（stats.max_mp，暂未使用，保留扩展）
+        nonebot 公式：power = round(exp * root_speed * realm_spend)
+        如果提供了 experience/root_speed/realm_spend 则使用 nonebot 公式，
+        否则回退到详细战斗公式。
         """
+        if experience > 0:
+            return round(experience * root_speed * realm_spend)
         # ---- 攻击端 ----
         crit_rate = min(stats.crit_rate, 100)
         crit_mult = 1.0 + crit_rate / 100.0 * max(0.0, stats.crit_damage - 1.0)
@@ -214,10 +256,8 @@ class CombatManager:
         expected_dmg = stats.atk * crit_mult * double_mult * armor_pen_mult
 
         # ---- 防御端（有效生命值） ----
-        # 双层减伤等效HP乘数
-        base_def_mult = (stats.base_def + 500) / 500.0
-        equip_def_val = math.log(stats.equip_def + 1) * 20 if stats.equip_def > 0 else 0.0
-        equip_def_mult = (equip_def_val + 200) / 200.0
+        # 百分比减伤等效HP乘数（def_buff 已包含防具 + 心法减伤）
+        def_buff_mult = 1.0 / max(0.01, 1.0 - min(0.9, stats.def_buff)) if stats.def_buff > 0 else 1.0
         # 闪避等效HP乘数
         dodge_mult = 100.0 / max(1, 100 - min(stats.dodge_rate, 95))
         # 格挡：用参考伤害（≈自身伤害）估算非暴击减伤比例，下限 0.2 防除零
@@ -237,7 +277,7 @@ class CombatManager:
         # 反伤：反弹伤害同时削弱攻击者，等效增血（÷2 折算）
         reflect_mult = 1.0 + stats.reflect_pct / 200.0
 
-        effective_hp = max_hp * base_def_mult * equip_def_mult * dodge_mult \
+        effective_hp = max_hp * def_buff_mult * dodge_mult \
             * block_mult * crit_resist_mult * regen_mult * lifesteal_mult * reflect_mult
 
         # ---- 战力 = log10(攻击 × 生命) ----
@@ -274,22 +314,17 @@ class CombatManager:
         is_crit = random.randint(1, 100) <= effective_crit_rate
         result["is_crit"] = is_crit
 
-        # 3. 伤害计算
+        # 3. 伤害计算（Excel公式：攻击 × 伤害减半0.5 × 会心伤害 × 武器加成1.5 × 浮动）
         crit_mult = attacker.crit_damage if is_crit else 1.0
-        damage = int(round(random.uniform(0.95, 1.05), 2) * attacker.atk * crit_mult)
+        damage = int(round(random.uniform(0.95, 1.05), 2) * attacker.atk * 0.5 * crit_mult * 1.5)
         if is_double_hit:
             damage = damage // 2  # 连击伤害减半
 
-        # 4. 双层减伤
-        base_def = defender.base_def  # ln(exp+1) * 10
-        equip_def = math.log(defender.equip_def + 1) * 20 if defender.equip_def > 0 else 0
-        # 穿甲影响装备防御层
-        if attacker.armor_pen > 0:
-            equip_def = equip_def * (1 - attacker.armor_pen / 100)
-        base_reduction = base_def / (base_def + 500) if base_def > 0 else 0
-        equip_reduction = equip_def / (equip_def + 200) if equip_def > 0 else 0
-        total_reduction = 1 - (1 - base_reduction) * (1 - equip_reduction)
-        if total_reduction > 0:
+        # 4. 百分比减伤（Excel公式：伤害 × (1 - 减伤率 + 穿甲)）
+        # 穿甲直接加到减伤率上，可使减伤为负（增伤）
+        # sub_break_pct 来自辅修功法破甲效果
+        total_reduction = defender.def_buff - attacker.armor_pen / 100 - attacker.sub_break_pct
+        if total_reduction != 0:
             damage = max(1, int(damage * (1 - total_reduction)))
 
         # 6. 格挡
@@ -363,12 +398,12 @@ class CombatManager:
             if has_skills:
                 SkillManager.tick_buffs_and_cooldowns(p1_state)
                 SkillManager.tick_buffs_and_cooldowns(p2_state)
-                # DOT结算
-                dot1 = SkillManager.apply_dot_damage(p1_state)
+                # DOT结算（受防御方减伤影响）
+                dot1 = SkillManager.apply_dot_damage(p1_state, player1.def_buff)
                 if dot1 > 0:
                     player1.hp = max(0, player1.hp - dot1)
                     combat_log.append(f"{player1.name} 受到持续伤害 {dot1}，剩余 HP: {player1.hp}")
-                dot2 = SkillManager.apply_dot_damage(p2_state)
+                dot2 = SkillManager.apply_dot_damage(p2_state, player2.def_buff)
                 if dot2 > 0:
                     player2.hp = max(0, player2.hp - dot2)
                     combat_log.append(f"{player2.name} 受到持续伤害 {dot2}，剩余 HP: {player2.hp}")
@@ -421,9 +456,9 @@ class CombatManager:
             player2_final_mp = player2.max_mp
         else:
             player1_final_hp = max(1, player1.hp) if player1.hp > 0 else 1
-            player1_final_mp = player1.mp
+            player1_final_mp = max(0, player1.mp)
             player2_final_hp = max(1, player2.hp) if player2.hp > 0 else 1
-            player2_final_mp = player2.mp
+            player2_final_mp = max(0, player2.mp)
 
         return {
             "winner": winner,
@@ -476,7 +511,7 @@ class CombatManager:
             used_skill = False
             if skill_name and skill_manager and p_state:
                 can_use, _ = skill_manager.check_skill_usable(
-                    skill_name, p_state, player.mp, player.hp, player.max_hp, player.base_mp
+                    skill_name, p_state, player.mp, player.hp, player.max_hp, player.raw_base_mp
                 )
                 if can_use and skill_manager.try_activate_skill(skill_name):
                     orig_hp = scarecrow.hp
@@ -490,12 +525,12 @@ class CombatManager:
                     if skill_data:
                         mp_cost = skill_data.get("mpcost", 0)
                         if mp_cost > 0:
-                            player.mp = max(0, player.mp - int((player.base_mp or player.max_mp) * mp_cost))
+                            player.mp = max(0, player.mp - int((player.raw_base_mp or player.max_mp) * mp_cost))
                         hp_cost = skill_data.get("hpcost", 0)
                         if hp_cost > 0:
                             player.hp = max(0, player.hp - int(player.max_hp * hp_cost))
                         if skill_data.get("turncost", 0) > 0:
-                            p_state.cooldowns[skill_name] = skill_data["turncost"]
+                            p_state.cooldowns[skill_name] = skill_data["turncost"] + 1
                     used_skill = True
                     total_damage += dmg
 
@@ -553,7 +588,7 @@ class CombatManager:
         if skill_name and skill_manager and attacker_state:
             can_use, _ = skill_manager.check_skill_usable(
                 skill_name, attacker_state, attacker.mp, attacker.hp, attacker.max_hp,
-                attacker.base_mp
+                attacker.raw_base_mp
             )
             if can_use and skill_manager.try_activate_skill(skill_name):
                 # 闪避判定（技能也受闪避影响）
@@ -564,22 +599,21 @@ class CombatManager:
                     if skill_data:
                         mp_cost = skill_data.get("mpcost", 0)
                         if mp_cost > 0:
-                            attacker.mp -= int((attacker.base_mp or attacker.max_mp) * mp_cost)
+                            attacker.mp = max(0, attacker.mp - int((attacker.raw_base_mp or attacker.max_mp) * mp_cost))
                         hp_cost = skill_data.get("hpcost", 0)
                         if hp_cost > 0:
                             attacker.hp = max(0, attacker.hp - int(attacker.max_hp * hp_cost))
                         if skill_data.get("turncost", 0) > 0:
-                            attacker_state.cooldowns[skill_name] = skill_data["turncost"]
+                            attacker_state.cooldowns[skill_name] = skill_data["turncost"] + 1
                     used_skill = True
                     combat_log.append(f"{defender.name} 剩余 HP: {max(0, defender.hp)}")
                 else:
                     # 应用buff到攻击者和防御者
                     orig_atk = attacker.atk
-                    orig_def_base = defender.base_def
-                    orig_def_equip = defender.equip_def
+                    orig_def_buff = defender.def_buff
                     attacker.atk = SkillManager.apply_buffs_to_atk(attacker.atk, attacker_state)
-                    defender.base_def, defender.equip_def = SkillManager.apply_buffs_to_def(
-                        defender.base_def, defender.equip_def, defender_state
+                    defender.def_buff = SkillManager.apply_buffs_to_def(
+                        defender.def_buff, defender_state
                     )
 
                     result = skill_manager.execute_skill(
@@ -592,13 +626,13 @@ class CombatManager:
                     if skill_data:
                         mp_cost = skill_data.get("mpcost", 0)
                         if mp_cost > 0:
-                            attacker.mp -= int((attacker.base_mp or attacker.max_mp) * mp_cost)
+                            attacker.mp = max(0, attacker.mp - int((attacker.raw_base_mp or attacker.max_mp) * mp_cost))
                         hp_cost = skill_data.get("hpcost", 0)
                         if hp_cost > 0:
                             hp_loss = int(attacker.max_hp * hp_cost)
                             attacker.hp = max(0, attacker.hp - hp_loss)
                         if skill_data.get("turncost", 0) > 0:
-                            attacker_state.cooldowns[skill_name] = skill_data["turncost"]
+                            attacker_state.cooldowns[skill_name] = skill_data["turncost"] + 1
 
                     # 技能造成的伤害也触发吸血/反伤
                     total_dmg = result.get("total_damage", result.get("instant_damage", 0))
@@ -614,10 +648,11 @@ class CombatManager:
 
                     # 恢复原始数值
                     attacker.atk = orig_atk
-                    defender.base_def = orig_def_base
-                    defender.equip_def = orig_def_equip
+                    defender.def_buff = orig_def_buff
 
                     used_skill = True
+                    # 辅修功法回合后效果（技能攻击）
+                    cls._apply_sub_technique_effects(attacker, defender, total_dmg, combat_log)
                     combat_log.append(f"{defender.name} 剩余 HP: {max(0, defender.hp)}")
 
         # 未使用技能则普通攻击
@@ -663,7 +698,54 @@ class CombatManager:
             else:
                 combat_log.append(f"{attacker.name} 触发连击，但被闪避！")
 
+        # 辅修功法回合后效果
+        cls._apply_sub_technique_effects(attacker, defender, result["damage"], combat_log)
+
         return "hit", defender.hp <= 0
+
+    @classmethod
+    def _apply_sub_technique_effects(cls, attacker: CombatStats, defender: CombatStats,
+                                      damage: int, combat_log: list):
+        """应用辅修功法的回合后效果"""
+        if attacker.sub_buff_type == 0:
+            return
+
+        bt = attacker.sub_buff_type
+        bv = attacker.sub_buff_value
+        bv2 = attacker.sub_buff_value2
+
+        if bt == 4:  # 气血回复
+            heal = int(attacker.max_hp * bv / 100)
+            attacker.hp = min(attacker.max_hp, attacker.hp + heal)
+            combat_log.append(f"{attacker.name} 辅修功法回复 {heal} 气血")
+        elif bt == 5:  # 真元回复
+            heal = int(attacker.max_mp * bv / 100)
+            attacker.mp = min(attacker.max_mp, attacker.mp + heal)
+            combat_log.append(f"{attacker.name} 辅修功法回复 {heal} 真元")
+        elif bt == 6:  # 气血吸取
+            steal = int(damage * bv / 100)
+            if steal > 0:
+                attacker.hp = min(attacker.max_hp, attacker.hp + steal)
+                combat_log.append(f"{attacker.name} 吸取 {steal} 气血")
+        elif bt == 7:  # 真元吸取
+            steal = int(damage * bv / 100)
+            if steal > 0:
+                attacker.mp = min(attacker.max_mp, attacker.mp + steal)
+                combat_log.append(f"{attacker.name} 吸取 {steal} 真元")
+        elif bt == 8:  # 中毒
+            poison = int(defender.max_hp * bv / 100)
+            if poison > 0:
+                defender.hp = max(0, defender.hp - poison)
+                combat_log.append(f"{defender.name} 中毒损失 {poison} 气血")
+        elif bt == 9:  # 双吸
+            hp_steal = int(damage * bv / 100)
+            mp_steal = int(damage * bv2 / 100)
+            if hp_steal > 0:
+                attacker.hp = min(attacker.max_hp, attacker.hp + hp_steal)
+            if mp_steal > 0:
+                attacker.mp = min(attacker.max_mp, attacker.mp + mp_steal)
+            if hp_steal > 0 or mp_steal > 0:
+                combat_log.append(f"{attacker.name} 双吸 {hp_steal} 气血 {mp_steal} 真元")
 
     @classmethod
     def player_vs_boss(
@@ -671,7 +753,8 @@ class CombatManager:
         player: CombatStats,
         boss: CombatStats,
         player_skill_name: str = "",
-        skill_manager=None
+        skill_manager=None,
+        boss_level_index: int = 0
     ) -> Dict:
         from .skill_manager import SkillManager, format_skill_result
 
@@ -681,6 +764,118 @@ class CombatManager:
         combat_log.append(f"{player.name}：HP {player.hp}/{player.max_hp}，ATK {player.atk}，MP {player.mp}/{player.max_mp}")
         combat_log.append(f"{boss.name}：HP {boss.hp}/{boss.max_hp}，ATK {boss.atk}")
         combat_log.append("")
+
+        # ── Boss特殊能力系统 ──
+        # 根据 level_index 确定Buff档位
+        boss_buff = {
+            "atk": 0.0,           # boss_zs: Boss攻击增幅
+            "crit": 0.0,          # boss_hx: Boss会心率增幅
+            "crit_dmg": 0.0,      # boss_bs: Boss会心伤害增幅
+            "reduce_lifesteal": 0.0,  # boss_xx: 降低玩家吸血
+            "reduce_atk": 0.0,    # boss_jg: 降低玩家攻击
+            "reduce_crit": 0.0,   # boss_jh: 降低玩家会心率
+            "reduce_crit_dmg": 0.0,  # boss_jb: 降低玩家会心伤害
+        }
+
+        # 档位定义: (atk, crit, crit_dmg, reduce_atk, reduce_crit, reduce_crit_dmg, reduce_ls_min, reduce_ls_max)
+        _BOSS_BUFF_TIERS = [
+            (0.3, 0.1, 0.5, 0.3, 0.3, 0.5, 0.05, 1.0),   # Tier 2: 神火-天神 (24-33)
+            (0.5, 0.25, 0.9, 0.45, 0.45, 0.8, 0.2, 1.0),  # Tier 3: 虚道-遁一 (36-42)
+            (0.7, 0.45, 1.3, 0.55, 0.6, 1.0, 0.4, 1.0),   # Tier 4: 至尊-真仙 (45-48)
+            (0.9, 0.6, 1.7, 0.62, 0.67, 1.2, 0.6, 1.0),   # Tier 5: 仙王-仙帝 (51-57)
+        ]
+
+        # 确定档位
+        tier_idx = -1
+        if 24 <= boss_level_index <= 33:
+            tier_idx = 0
+        elif 36 <= boss_level_index <= 42:
+            tier_idx = 1
+        elif 45 <= boss_level_index <= 48:
+            tier_idx = 2
+        elif 51 <= boss_level_index <= 57:
+            tier_idx = 3
+
+        boss_has_buff = tier_idx >= 0
+
+        if boss_has_buff:
+            t = _BOSS_BUFF_TIERS[tier_idx]
+            atk_val, crit_val, cdmg_val, r_atk_val, r_crit_val, r_cdmg_val, r_ls_min, r_ls_max = t
+
+            # Slot 1: 进攻型Buff (25% each)
+            slot1 = random.randint(1, 100)
+            if slot1 <= 25:
+                boss_buff["atk"] = atk_val
+            elif slot1 <= 50:
+                boss_buff["crit"] = crit_val
+            elif slot1 <= 75:
+                boss_buff["crit_dmg"] = cdmg_val
+            else:
+                boss_buff["reduce_lifesteal"] = round(random.uniform(r_ls_min, r_ls_max), 2)
+
+            # Slot 2: 削弱型Buff (25% each)
+            slot2 = random.randint(1, 100)
+            if slot2 <= 25:
+                boss_buff["reduce_atk"] = r_atk_val
+            elif slot2 <= 50:
+                boss_buff["reduce_crit"] = r_crit_val
+            elif slot2 <= 75:
+                boss_buff["reduce_crit_dmg"] = r_cdmg_val
+            else:
+                # Slot 2 第4选项: 均匀分配给3个削弱属性
+                boss_buff["reduce_atk"] = r_atk_val
+                boss_buff["reduce_crit"] = r_crit_val
+                boss_buff["reduce_crit_dmg"] = r_cdmg_val
+
+            # 显示Boss Buff信息
+            buff_names = []
+            if boss_buff["atk"] > 0:
+                buff_names.append(f"攻击+{int(boss_buff['atk']*100)}%")
+            if boss_buff["crit"] > 0:
+                buff_names.append(f"会心+{int(boss_buff['crit']*100)}%")
+            if boss_buff["crit_dmg"] > 0:
+                buff_names.append(f"会伤+{boss_buff['crit_dmg']:.1f}")
+            if boss_buff["reduce_lifesteal"] > 0:
+                buff_names.append(f"吸血-{int(boss_buff['reduce_lifesteal']*100)}%")
+            if boss_buff["reduce_atk"] > 0:
+                buff_names.append(f"降攻-{int(boss_buff['reduce_atk']*100)}%")
+            if boss_buff["reduce_crit"] > 0:
+                buff_names.append(f"降会心-{int(boss_buff['reduce_crit']*100)}%")
+            if boss_buff["reduce_crit_dmg"] > 0:
+                buff_names.append(f"降会伤-{boss_buff['reduce_crit_dmg']:.1f}")
+            if buff_names:
+                combat_log.append(f"⚠ {boss.name} 携带特殊能力：{'、'.join(buff_names)}")
+                combat_log.append("")
+
+        # 保存玩家原始属性用于战后恢复
+        orig_player_atk = player.atk
+        orig_player_crit_rate = player.crit_rate
+        orig_player_crit_damage = player.crit_damage
+        orig_player_lifesteal = player.lifesteal
+
+        # Excel规则：打怪伤害翻倍（所有伤害直接×2）
+        player.atk = player.atk * 2
+
+        # 应用Boss削弱Buff到玩家（临时，仅本次战斗）
+        if boss_buff["reduce_atk"] > 0:
+            player.atk = int(player.atk * (1 - boss_buff["reduce_atk"]))
+        if boss_buff["reduce_crit"] > 0:
+            player.crit_rate = max(0, player.crit_rate - int(boss_buff["reduce_crit"] * 100))
+        if boss_buff["reduce_crit_dmg"] > 0:
+            player.crit_damage = max(1.0, player.crit_damage - boss_buff["reduce_crit_dmg"])
+        if boss_buff["reduce_lifesteal"] > 0:
+            player.lifesteal = int(player.lifesteal * (1 - boss_buff["reduce_lifesteal"]))
+
+        # 应用Boss进攻Buff到Boss（保存原始值以便战后恢复）
+        orig_boss_atk = boss.atk
+        orig_boss_crit_rate = boss.crit_rate
+        orig_boss_crit_damage = boss.crit_damage
+        if boss_buff["atk"] > 0:
+            boss.atk = int(boss.atk * (1 + boss_buff["atk"]))
+        if boss_buff["crit"] > 0:
+            boss.crit_rate = min(100, boss.crit_rate + int(boss_buff["crit"] * 100))
+        if boss_buff["crit_dmg"] > 0:
+            boss.crit_damage = boss.crit_damage + boss_buff["crit_dmg"]
 
         has_skill = skill_manager and player_skill_name
         if has_skill:
@@ -693,99 +888,148 @@ class CombatManager:
         max_rounds = 100
         total_damage_dealt = 0
 
-        while player.hp > 0 and boss.hp > 0 and round_num < max_rounds:
-            round_num += 1
-            combat_log.append(f"-- 第 {round_num} 回合 --")
+        try:
+            while player.hp > 0 and boss.hp > 0 and round_num < max_rounds:
+                round_num += 1
+                combat_log.append(f"-- 第 {round_num} 回合 --")
 
-            if has_skill:
-                SkillManager.tick_buffs_and_cooldowns(p_state)
-                SkillManager.tick_buffs_and_cooldowns(boss_state)
-                dot = SkillManager.apply_dot_damage(p_state)
-                if dot > 0:
-                    player.hp = max(0, player.hp - dot)
-                    combat_log.append(f"{player.name} 受到持续伤害 {dot}，剩余 HP: {player.hp}")
+                if has_skill:
+                    SkillManager.tick_buffs_and_cooldowns(p_state)
+                    SkillManager.tick_buffs_and_cooldowns(boss_state)
+                    dot = SkillManager.apply_dot_damage(p_state, player.def_buff)
+                    if dot > 0:
+                        player.hp = max(0, player.hp - dot)
+                        combat_log.append(f"{player.name} 受到持续伤害 {dot}，剩余 HP: {player.hp}")
+                    boss_dot = SkillManager.apply_dot_damage(boss_state, boss.def_buff)
+                    if boss_dot > 0:
+                        boss.hp = max(0, boss.hp - boss_dot)
+                        combat_log.append(f"{boss.name} 受到持续伤害 {boss_dot}，剩余 HP: {max(0, boss.hp)}")
 
-            regen = cls._apply_hp_regen(player)
-            if regen > 0:
-                combat_log.append(f"{player.name} 回复 {regen} HP")
+                regen = cls._apply_hp_regen(player)
+                if regen > 0:
+                    combat_log.append(f"{player.name} 回复 {regen} HP")
 
-            if player.hp <= 0:
-                break
+                if player.hp <= 0:
+                    break
 
-            # 玩家攻击Boss（含技能判定）
-            used_skill = False
-            if has_skill and p_state:
-                if not p_state.is_sealed:
-                    can_use, _ = skill_manager.check_skill_usable(
-                        player_skill_name, p_state, player.mp, player.hp, player.max_hp,
-                        player.base_mp
-                    )
-                    if can_use and skill_manager.try_activate_skill(player_skill_name):
-                        orig_atk = player.atk
-                        orig_def_base = boss.base_def
-                        orig_def_equip = boss.equip_def
-                        player.atk = SkillManager.apply_buffs_to_atk(player.atk, p_state)
-                        boss.base_def, boss.equip_def = SkillManager.apply_buffs_to_def(
-                            boss.base_def, boss.equip_def, boss_state
+                # 玩家攻击Boss（含技能判定）
+                used_skill = False
+                if has_skill and p_state:
+                    if not p_state.is_sealed:
+                        can_use, _ = skill_manager.check_skill_usable(
+                            player_skill_name, p_state, player.mp, player.hp, player.max_hp,
+                            player.raw_base_mp
                         )
+                        if can_use and skill_manager.try_activate_skill(player_skill_name):
+                            orig_atk = player.atk
+                            orig_def_buff = boss.def_buff
+                            player.atk = SkillManager.apply_buffs_to_atk(player.atk, p_state)
+                            boss.def_buff = SkillManager.apply_buffs_to_def(
+                                boss.def_buff, boss_state
+                            )
 
-                        result = skill_manager.execute_skill(
-                            player_skill_name, player, boss, p_state, boss_state
-                        )
-                        combat_log.append(format_skill_result(player.name, boss.name, result))
+                            result = skill_manager.execute_skill(
+                                player_skill_name, player, boss, p_state, boss_state
+                            )
+                            combat_log.append(format_skill_result(player.name, boss.name, result))
 
-                        sd = skill_manager.get_skill_data(player_skill_name)
-                        if sd:
-                            mp_cost = sd.get("mpcost", 0)
-                            if mp_cost > 0:
-                                player.mp -= int((player.base_mp or player.max_mp) * mp_cost)
-                            hp_cost = sd.get("hpcost", 0)
-                            if hp_cost > 0:
-                                player.hp = max(0, player.hp - int(player.max_hp * hp_cost))
-                            if sd.get("turncost", 0) > 0:
-                                p_state.cooldowns[player_skill_name] = sd["turncost"]
+                            sd = skill_manager.get_skill_data(player_skill_name)
+                            if sd:
+                                mp_cost = sd.get("mpcost", 0)
+                                if mp_cost > 0:
+                                    player.mp = max(0, player.mp - int((player.raw_base_mp or player.max_mp) * mp_cost))
+                                hp_cost = sd.get("hpcost", 0)
+                                if hp_cost > 0:
+                                    player.hp = max(0, player.hp - int(player.max_hp * hp_cost))
+                                if sd.get("turncost", 0) > 0:
+                                    p_state.cooldowns[player_skill_name] = sd["turncost"] + 1
 
-                        total_dmg = result.get("total_damage", result.get("instant_damage", 0))
-                        total_damage_dealt += total_dmg
-                        if total_dmg > 0 and player.lifesteal > 0:
-                            heal = int(total_dmg * player.lifesteal / 100)
-                            if heal > 0:
-                                player.hp = min(player.max_hp, player.hp + heal)
+                            total_dmg = result.get("total_damage", result.get("instant_damage", 0))
+                            total_damage_dealt += total_dmg
+                            if total_dmg > 0:
+                                if player.lifesteal > 0:
+                                    heal = int(total_dmg * player.lifesteal / 100)
+                                    if heal > 0:
+                                        player.hp = min(player.max_hp, player.hp + heal)
+                                if boss.reflect_pct > 0:
+                                    reflect = int(total_dmg * boss.reflect_pct / 100)
+                                    if reflect > 0:
+                                        player.hp = max(0, player.hp - reflect)
 
-                        player.atk = orig_atk
-                        boss.base_def = orig_def_base
-                        boss.equip_def = orig_def_equip
-                        used_skill = True
-                        combat_log.append(f"{boss.name} 剩余 HP: {max(0, boss.hp)}")
-                else:
-                    combat_log.append(f"{player.name} 被封印，无法行动！")
+                            player.atk = orig_atk
+                            boss.def_buff = orig_def_buff
+                            used_skill = True
+                            combat_log.append(f"{boss.name} 剩余 HP: {max(0, boss.hp)}")
+                    else:
+                        combat_log.append(f"{player.name} 被封印，无法行动！")
 
-            if not used_skill:
-                result = cls.execute_attack(player, boss)
-                if result["dodged"]:
-                    combat_log.append(f"{player.name} 攻击未命中")
-                else:
-                    # 扣血
-                    boss.hp = max(0, boss.hp - result["damage"])
-                    dmg_text = "会心一击" if result["is_crit"] else "攻击"
-                    combat_log.append(f"{player.name} 发起{dmg_text}，造成 {result['damage']} 点伤害")
-                    total_damage_dealt += result["damage"]
-                    if result["lifesteal_heal"] > 0:
-                        combat_log.append(f"吸血回复 {result['lifesteal_heal']} HP")
-                    if result["triggered_double"]:
-                        double = cls.execute_attack(player, boss, is_double_hit=True)
-                        if not double["dodged"]:
-                            boss.hp = max(0, boss.hp - double["damage"])
-                            combat_log.append(f"连击追加 {double['damage']} 点伤害")
-                            total_damage_dealt += double["damage"]
+                normal_dmg = 0
+                if not used_skill:
+                    result = cls.execute_attack(player, boss)
+                    if result["dodged"]:
+                        combat_log.append(f"{player.name} 攻击未命中")
+                    else:
+                        # 扣血
+                        boss.hp = max(0, boss.hp - result["damage"])
+                        normal_dmg = result["damage"]
+                        dmg_text = "会心一击" if result["is_crit"] else "攻击"
+                        combat_log.append(f"{player.name} 发起{dmg_text}，造成 {result['damage']} 点伤害")
+                        total_damage_dealt += result["damage"]
+                        if result["lifesteal_heal"] > 0:
+                            combat_log.append(f"吸血回复 {result['lifesteal_heal']} HP")
+                        if result["triggered_double"]:
+                            double = cls.execute_attack(player, boss, is_double_hit=True)
+                            if not double["dodged"]:
+                                boss.hp = max(0, boss.hp - double["damage"])
+                                normal_dmg += double["damage"]
+                                combat_log.append(f"连击追加 {double['damage']} 点伤害")
+                                total_damage_dealt += double["damage"]
+
+                # 辅修功法回合后效果（技能和普通攻击都生效）
+                atk_dmg = total_dmg if used_skill else normal_dmg
+                cls._apply_sub_technique_effects(player, boss, atk_dmg, combat_log)
                 combat_log.append(f"{boss.name} 剩余 HP: {max(0, boss.hp)}")
 
-            if boss.hp <= 0:
-                break
+                if boss.hp <= 0:
+                    break
 
-            # Boss攻击
-            cls._execute_turn(boss, player, combat_log)
-            combat_log.append("")
+                # Boss攻击（含特殊能力判定）
+                if boss_has_buff:
+                    boss_roll = random.randint(1, 100)
+                    if boss_roll <= 8:
+                        # 紫玄掌: 5x伤害 + 30%玩家当前气血
+                        raw_dmg = int(boss.atk * 5)
+                        hp_bonus = int(player.hp * 0.3)
+                        effective_def = min(0.9, player.def_buff)
+                        damage = int((raw_dmg + hp_bonus) * (1 - effective_def))
+                        player.hp = max(0, player.hp - damage)
+                        combat_log.append(f"🔥 {boss.name}：紫玄掌！！紫星河！！！造成 {damage} 伤害")
+                    elif boss_roll <= 16:
+                        # 子龙朱雀: 3x伤害，无视50%防御
+                        raw_dmg = int(boss.atk * 3)
+                        effective_def = min(0.9, player.def_buff) * 0.5
+                        damage = int(raw_dmg * (1 - effective_def))
+                        player.hp = max(0, player.hp - damage)
+                        combat_log.append(f"🐉 {boss.name}：子龙朱雀！！！穿透护甲！造成 {damage} 伤害")
+                    else:
+                        # 普通攻击（Boss已获得进攻Buff加成）
+                        cls._execute_turn(boss, player, combat_log)
+                else:
+                    # 无特殊能力的Boss：普通攻击
+                    cls._execute_turn(boss, player, combat_log)
+                combat_log.append("")
+
+        finally:
+            # 恢复玩家原始属性（即使异常也必须恢复）
+            player.atk = orig_player_atk
+            player.crit_rate = orig_player_crit_rate
+            player.crit_damage = orig_player_crit_damage
+            player.lifesteal = orig_player_lifesteal
+
+            # 恢复Boss原始属性
+            boss.atk = orig_boss_atk
+            boss.crit_rate = orig_boss_crit_rate
+            boss.crit_damage = orig_boss_crit_damage
 
         if boss.hp <= 0:
             winner = player.user_id
@@ -806,7 +1050,7 @@ class CombatManager:
             "winner": winner,
             "combat_log": combat_log,
             "player_final_hp": max(1, player.hp),
-            "player_final_mp": player.mp,
+            "player_final_mp": max(0, player.mp),
             "boss_final_hp": max(0, boss.hp),
             "reward": reward,
             "rounds": round_num

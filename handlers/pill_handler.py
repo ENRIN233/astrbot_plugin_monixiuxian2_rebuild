@@ -27,12 +27,8 @@ class PillHandler:
         """同时展示灵修/体修的需求境界名称"""
         names = []
         if 0 <= level_index < len(self.config_manager.level_data):
-            name = self.config_manager.level_data[level_index].get("level_name", "")
+            name = self.config_manager.level_data[level_index].get("name", "未知境界")
             if name:
-                names.append(name)
-        if 0 <= level_index < len(self.config_manager.body_level_data):
-            name = self.config_manager.body_level_data[level_index].get("level_name", "")
-            if name and name not in names:
                 names.append(name)
         if not names:
             return "未知境界"
@@ -238,44 +234,8 @@ class PillHandler:
                 mult = pill_data['cultivation_multiplier']
                 lines.append(f"  修炼速度：{mult:+.0%}")
 
-            if 'physical_damage_multiplier' in pill_data:
-                mult = pill_data['physical_damage_multiplier']
-                lines.append(f"  物伤：{mult:+.0%}")
-
-            if 'magic_damage_multiplier' in pill_data:
-                mult = pill_data['magic_damage_multiplier']
-                lines.append(f"  法伤：{mult:+.0%}")
-
-            if 'physical_defense_multiplier' in pill_data:
-                mult = pill_data['physical_defense_multiplier']
-                lines.append(f"  物防：{mult:+.0%}")
-
-            if 'magic_defense_multiplier' in pill_data:
-                mult = pill_data['magic_defense_multiplier']
-                lines.append(f"  法防：{mult:+.0%}")
-
         elif effect_type == "permanent":
             lines.append("  永久效果（受30%上限限制）：")
-
-            if 'physical_damage_gain' in pill_data:
-                gain = pill_data['physical_damage_gain']
-                lines.append(f"  物伤：{gain:+d}")
-
-            if 'magic_damage_gain' in pill_data:
-                gain = pill_data['magic_damage_gain']
-                lines.append(f"  法伤：{gain:+d}")
-
-            if 'physical_defense_gain' in pill_data:
-                gain = pill_data['physical_defense_gain']
-                lines.append(f"  物防：{gain:+d}")
-
-            if 'magic_defense_gain' in pill_data:
-                gain = pill_data['magic_defense_gain']
-                lines.append(f"  法防：{gain:+d}")
-
-            if 'mental_power_gain' in pill_data:
-                gain = pill_data['mental_power_gain']
-                lines.append(f"  精神力：{gain:+d}")
 
             if 'lifespan_gain' in pill_data:
                 gain = pill_data['lifespan_gain']

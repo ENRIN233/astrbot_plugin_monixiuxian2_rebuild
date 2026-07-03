@@ -19,16 +19,28 @@ if TYPE_CHECKING:
 class BossManager:
     """Boss系统管理器"""
     
-    # Boss境界配置
+    # Boss境界配置（覆盖58级体系，每3级一个档位）
     BOSS_LEVELS = [
-        {"name": "练气", "level_index": 0, "hp_mult": 1.0, "atk_mult": 1.0, "reward_mult": 1.0},
-        {"name": "筑基", "level_index": 3, "hp_mult": 1.5, "atk_mult": 1.2, "reward_mult": 1.5},
-        {"name": "金丹", "level_index": 6, "hp_mult": 2.0, "atk_mult": 1.5, "reward_mult": 2.0},
-        {"name": "元婴", "level_index": 9, "hp_mult": 2.5, "atk_mult": 1.8, "reward_mult": 2.5},
-        {"name": "化神", "level_index": 12, "hp_mult": 3.0, "atk_mult": 2.0, "reward_mult": 3.0},
-        {"name": "炼虚", "level_index": 15, "hp_mult": 4.0, "atk_mult": 2.5, "reward_mult": 4.0},
-        {"name": "合体", "level_index": 18, "hp_mult": 5.0, "atk_mult": 3.0, "reward_mult": 5.0},
-        {"name": "大乘", "level_index": 21, "hp_mult": 6.0, "atk_mult": 3.5, "reward_mult": 6.0},
+        {"name": "练气", "level_index": 0,  "hp_mult": 1.0,  "atk_mult": 1.0,  "reward_mult": 1.0},
+        {"name": "筑基", "level_index": 3,  "hp_mult": 1.5,  "atk_mult": 1.2,  "reward_mult": 1.5},
+        {"name": "金丹", "level_index": 6,  "hp_mult": 2.0,  "atk_mult": 1.5,  "reward_mult": 2.0},
+        {"name": "元婴", "level_index": 9,  "hp_mult": 2.5,  "atk_mult": 1.8,  "reward_mult": 2.5},
+        {"name": "化神", "level_index": 12, "hp_mult": 3.0,  "atk_mult": 2.0,  "reward_mult": 3.0},
+        {"name": "炼虚", "level_index": 15, "hp_mult": 4.0,  "atk_mult": 2.5,  "reward_mult": 4.0},
+        {"name": "合体", "level_index": 18, "hp_mult": 5.0,  "atk_mult": 3.0,  "reward_mult": 5.0},
+        {"name": "大乘", "level_index": 21, "hp_mult": 6.0,  "atk_mult": 3.5,  "reward_mult": 6.0},
+        {"name": "神火", "level_index": 24, "hp_mult": 7.5,  "atk_mult": 4.0,  "reward_mult": 7.5},
+        {"name": "真一", "level_index": 27, "hp_mult": 9.0,  "atk_mult": 4.5,  "reward_mult": 9.0},
+        {"name": "圣祭", "level_index": 30, "hp_mult": 11.0, "atk_mult": 5.0,  "reward_mult": 11.0},
+        {"name": "天神", "level_index": 33, "hp_mult": 13.0, "atk_mult": 5.5,  "reward_mult": 13.0},
+        {"name": "虚道", "level_index": 36, "hp_mult": 16.0, "atk_mult": 6.0,  "reward_mult": 16.0},
+        {"name": "斩我", "level_index": 39, "hp_mult": 19.0, "atk_mult": 7.0,  "reward_mult": 19.0},
+        {"name": "混沌", "level_index": 42, "hp_mult": 23.0, "atk_mult": 8.0,  "reward_mult": 23.0},
+        {"name": "创世", "level_index": 45, "hp_mult": 28.0, "atk_mult": 9.5,  "reward_mult": 28.0},
+        {"name": "金仙", "level_index": 48, "hp_mult": 34.0, "atk_mult": 11.0, "reward_mult": 34.0},
+        {"name": "轮回", "level_index": 51, "hp_mult": 41.0, "atk_mult": 13.0, "reward_mult": 41.0},
+        {"name": "虚神", "level_index": 54, "hp_mult": 50.0, "atk_mult": 15.0, "reward_mult": 50.0},
+        {"name": "仙帝", "level_index": 57, "hp_mult": 60.0, "atk_mult": 18.0, "reward_mult": 60.0},
     ]
     
     # Boss名称池
@@ -46,8 +58,11 @@ class BossManager:
         "mid": [  # 中级Boss (元婴-化神)
             {"name": "灵草", "weight": 50, "min": 4, "max": 10},
         ],
-        "high": [  # 高级Boss (炼虚及以上)
+        "high": [  # 高级Boss (炼虚-天神)
             {"name": "灵草", "weight": 50, "min": 8, "max": 20},
+        ],
+        "ultra": [  # 顶级Boss (虚道及以上)
+            {"name": "灵草", "weight": 50, "min": 15, "max": 40},
         ],
     }
     
@@ -184,8 +199,8 @@ ATK：{atk}
             player_stats.hp = player.hp
             player_stats.mp = player.mp
 
-        # 创建Boss战斗属性
-        boss_equip_def = CombatManager.convert_legacy_defense(boss.defense)
+        # 创建Boss战斗属性（防御转为百分比减伤）
+        boss_def_buff = min(0.8, boss.defense / (boss.defense + 100)) if boss.defense > 0 else 0.0
         boss_stats = CombatStats(
             user_id=str(boss.boss_id),
             name=boss.boss_name,
@@ -195,17 +210,26 @@ ATK：{atk}
             max_mp=boss.max_hp,
             atk=boss.atk,
             base_def=0,
-            equip_def=boss_equip_def,
+            equip_def=0,
+            def_buff=boss_def_buff,
             crit_rate=30,  # Boss固定30%会心率
             exp=boss.stone_reward  # 奖励存在exp字段
         )
         
-        # 5. 开始战斗（含神通支持）
+        # 查找Boss对应的level_index
+        boss_level_index = 0
+        for level in self.levels:
+            if level["name"] == boss.boss_level:
+                boss_level_index = level["level_index"]
+                break
+
+        # 5. 开始战斗（含神通支持+Boss特殊能力）
         player_skill = player.shentong if hasattr(player, 'shentong') and player.shentong else ""
         battle_result = self.combat_mgr.player_vs_boss(
             player_stats, boss_stats,
             player_skill_name=player_skill,
-            skill_manager=self.skill_manager
+            skill_manager=self.skill_manager,
+            boss_level_index=boss_level_index
         )
         
         # 6. 处理战斗结果
@@ -213,9 +237,11 @@ ATK：{atk}
         reward = battle_result["reward"]
         
         if winner == user_id:
-            # 玩家胜利
-            boss.status = 0  # 标记Boss为已击败
-            await self.db.ext.defeat_boss(boss.boss_id)
+            # 玩家胜利 — 乐观锁：仅当Boss仍存活时才发放奖励
+            defeated = await self.db.ext.try_defeat_boss(boss.boss_id)
+            if not defeated:
+                # Boss已被其他玩家击败
+                return False, "❌ Boss已被其他玩家抢先击败了！", None
 
             # 物品掉落
             item_msg = ""
@@ -250,9 +276,9 @@ ATK：{atk}
 HP：{battle_result['player_final_hp']}/{player_stats.max_hp}
             """.strip()
         else:
-            # 玩家失败
+            # 玩家失败 — 仅当Boss仍存活时更新HP
             boss.hp = battle_result["boss_final_hp"]
-            await self.db.ext.update_boss(boss)
+            await self.db.ext.update_boss_hp_if_active(boss.boss_id, boss.hp)
 
             result_msg = f"""
 💀 挑战失败
@@ -338,10 +364,13 @@ ATK：{boss.atk}
             # 计算平均修为
             total_exp = sum(p.experience for p in all_players)
             avg_exp = total_exp // len(all_players) if all_players else 50000
-            
-            # 根据平均修为选择Boss等级
+
+            # 根据平均修为选择Boss等级（用 level_config 的 exp_needed 做阈值）
+            level_data = self.config_manager.get_level_data() if self.config_manager else []
+            exp_map = {d.get("index", i): d.get("exp_needed", 0) for i, d in enumerate(level_data)}
             for config in reversed(self.levels):
-                if avg_exp >= config.get("level_index", 0) * 10000:
+                threshold = exp_map.get(config["level_index"], config["level_index"] * 10000)
+                if avg_exp >= threshold:
                     level_config = config
                     break
             else:
@@ -377,8 +406,10 @@ ATK：{boss.atk}
             drop_table = self.BOSS_DROP_TABLE["low"]
         elif boss_level_index <= 12:  # 元婴-化神
             drop_table = self.BOSS_DROP_TABLE["mid"]
-        else:  # 炼虚及以上
+        elif boss_level_index <= 33:  # 炼虚-天神
             drop_table = self.BOSS_DROP_TABLE["high"]
+        else:  # 虚道及以上
+            drop_table = self.BOSS_DROP_TABLE.get("ultra", self.BOSS_DROP_TABLE["high"])
         
         # Boss击杀100%掉落至少1件物品
         total_weight = sum(item["weight"] for item in drop_table)

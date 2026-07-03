@@ -21,13 +21,6 @@ class Item:
     required_level_index: int = 0  # 需要的最低境界level_index
     weapon_category: str = ""  # 武器类别：剑、刀、阔刀、琴、匕首、符箓、鼎、棍、枪、笔
 
-    # 装备属性加成
-    magic_damage: int = 0  # 法伤加成
-    physical_damage: int = 0  # 物伤加成
-    magic_defense: int = 0  # 法防加成
-    physical_defense: int = 0  # 物防加成
-    mental_power: int = 0  # 精神力加成
-
     # 心法专属属性
     exp_multiplier: float = 0.0  # 修为倍率加成（仅心法有效）
     breakthrough_bonus: float = 0.0  # 突破成功率加成（如 0.02 = +2%）
@@ -36,37 +29,59 @@ class Item:
     mp_bonus: float = 0.0  # 真元百分比加成（如 0.05 = +5%）
     crit_rate: int = 0  # 暴击率加成（百分比整数，如 10 = +10%）
     crit_damage: float = 0.0  # 暴击伤害加成（如 0.5 = 暴击倍率+0.5）
-    mp_bonus: float = 0.0  # 真元百分比加成（武器有效，如 0.3 = +30%）
+
+    # 心法专属属性（nonebot同步）
+    closing_exp_bonus: float = 0.0  # 闭关经验加成（如 0.5 = +50%）
+    closing_recovery_bonus: float = 0.0  # 闭关气血回复加成（如 0.5 = +50%）
+    damage_reduction: float = 0.0  # 减伤率（如 0.1 = 10%减伤）
+    breakthrough_number: float = 0.0  # 突破概率增加（百分比，如 3 = +3%）
+    dual_cultivation_bonus: int = 0  # 每日双修次数增加
+    alchemy_exp_bonus: int = 0  # 炼丹经验加成（每颗丹药）
+    alchemy_count_bonus: int = 0  # 炼丹出丹数加成
+    harvest_bonus: int = 0  # 采集数量加成
+    random_buff: int = 0  # 随机战斗增益（1=启用）
+    exclusive_weapon_id: int = 0  # 专属武器匹配ID
+
+    # 武器战斗属性
+    armor_pen: int = 0  # 穿透（百分比整数）
+    lifesteal: int = 0  # 吸血（百分比整数）
+    double_hit: int = 0  # 连击（百分比整数）
 
     def get_attribute_display(self) -> str:
-        """获取属性加成的显示文本"""
+        """获取属性加成的显示文本（武器只显示战斗属性）"""
         attrs = []
-        if self.magic_damage > 0:
-            attrs.append(f"法伤+{self.magic_damage}")
-        if self.physical_damage > 0:
-            attrs.append(f"物伤+{self.physical_damage}")
-        if self.magic_defense > 0:
-            attrs.append(f"法防+{self.magic_defense}")
-        if self.physical_defense > 0:
-            attrs.append(f"物防+{self.physical_defense}")
-        if self.mental_power > 0:
-            attrs.append(f"精神力+{self.mental_power}")
-        if self.exp_multiplier > 0:
-            attrs.append(f"修为倍率+{self.exp_multiplier:.1%}")
-        if self.breakthrough_bonus > 0:
-            attrs.append(f"突破成功率+{self.breakthrough_bonus:.1%}")
-        if self.atk_bonus > 0:
-            attrs.append(f"攻击力+{self.atk_bonus:.0%}")
-        if self.hp_bonus > 0:
-            attrs.append(f"生命值+{self.hp_bonus:.1%}")
-        if self.mp_bonus > 0:
-            attrs.append(f"真元+{self.mp_bonus:.1%}")
-        if self.crit_rate > 0:
-            attrs.append(f"暴击率+{self.crit_rate}%")
-        if self.crit_damage > 0:
-            attrs.append(f"暴击伤害+{self.crit_damage:.0%}")
-        if self.mp_bonus > 0:
-            attrs.append(f"真元+{self.mp_bonus:.0%}")
+        if self.item_type == "weapon":
+            # 武器：只显示战斗属性
+            if self.atk_bonus > 0:
+                attrs.append(f"攻击力+{self.atk_bonus:.0%}")
+            if self.crit_rate > 0:
+                attrs.append(f"暴击率+{self.crit_rate}%")
+            if self.crit_damage > 0:
+                attrs.append(f"暴击伤害+{self.crit_damage:.0%}")
+            if self.mp_bonus > 0:
+                attrs.append(f"真元+{self.mp_bonus:.0%}")
+            if self.armor_pen > 0:
+                attrs.append(f"穿透+{self.armor_pen}%")
+            if self.lifesteal > 0:
+                attrs.append(f"吸血+{self.lifesteal}%")
+            if self.double_hit > 0:
+                attrs.append(f"连击+{self.double_hit}%")
+        else:
+            # 非武器：显示心法属性
+            if self.exp_multiplier > 0:
+                attrs.append(f"修为倍率+{self.exp_multiplier:.1%}")
+            if self.breakthrough_bonus > 0:
+                attrs.append(f"突破成功率+{self.breakthrough_bonus:.1%}")
+            if self.atk_bonus > 0:
+                attrs.append(f"攻击力+{self.atk_bonus:.0%}")
+            if self.hp_bonus > 0:
+                attrs.append(f"生命值+{self.hp_bonus:.1%}")
+            if self.mp_bonus > 0:
+                attrs.append(f"真元+{self.mp_bonus:.0%}")
+            if self.crit_rate > 0:
+                attrs.append(f"暴击率+{self.crit_rate}%")
+            if self.crit_damage > 0:
+                attrs.append(f"暴击伤害+{self.crit_damage:.0%}")
         return "、".join(attrs) if attrs else "无属性加成"
 
 @dataclass
@@ -102,6 +117,8 @@ class Player:
     main_technique: str = ""  # 主修心法
     techniques: str = "[]"  # 功法列表（JSON字符串，最多3个）
     shentong: str = ""  # 神通（装备的技能名称，单个）
+    sub_technique: str = ""  # 辅修功法（装备的辅修功法名称，单个）
+    furnace: str = ""  # 装备的炼丹炉名称
 
     # 战斗属性（HP/MP/ATK系统）
     hp: int = 0  # 当前气血值
@@ -114,11 +131,6 @@ class Player:
     max_spiritual_qi: int = 1000  # 最大灵气容量（灵修专用）
     blood_qi: int = 0  # 当前气血（体修专用）
     max_blood_qi: int = 0  # 最大气血容量（体修专用）
-    magic_damage: int = 10  # 法伤
-    physical_damage: int = 10  # 物伤
-    magic_defense: int = 5  # 法防
-    physical_defense: int = 5  # 物防
-    mental_power: int = 100  # 精神力
 
     # 宗门系统字段
     sect_id: int = 0  # 宗门ID（0表示未加入宗门）
@@ -126,10 +138,6 @@ class Player:
     sect_contribution: int = 0  # 宗门贡献度
     sect_task: int = 0  # 宗门任务完成次数
     sect_elixir_get: int = 0  # 宗门丹药领取标记（0未领取，1已领取）
-
-    # 洞天福地系统
-    blessed_spot_flag: int = 0  # 是否开启洞天福地（0未开启，1已开启）
-    blessed_spot_name: str = ""  # 洞天福地名称
 
     # 丹药系统字段
     active_pill_effects: str = "[]"  # 当前生效的临时丹药效果（JSON字符串）
@@ -153,16 +161,19 @@ class Player:
     # 银行会员系统
     bank_vip_tier: int = 0  # 银行VIP等级（0初级 1中级 2高级 3顶级 4至尊）
 
+    # 秘境副本系统
+    sleeping_bag_level: int = 0  # 睡袋等级（0~5），影响秘境篝火回灵力
+
     def get_level(self, config_manager: "ConfigManager") -> str:
         """获取境界名称"""
-        level_data = config_manager.get_level_data(self.cultivation_type)
+        level_data = config_manager.get_level_data()
         if 0 <= self.level_index < len(level_data):
-            return level_data[self.level_index]["level_name"]
+            return level_data[self.level_index].get("name", level_data[self.level_index].get("level_name", "未知境界"))
         return "未知境界"
 
     def get_required_exp(self, config_manager: "ConfigManager") -> int:
         """获取突破到下一境界所需的总修为"""
-        level_data = config_manager.get_level_data(self.cultivation_type)
+        level_data = config_manager.get_level_data()
         if self.level_index + 1 < len(level_data):
             return level_data[self.level_index + 1].get("exp_needed", 0)
         return 0
@@ -190,11 +201,30 @@ class Player:
         self.active_pill_effects = json.dumps(effects, ensure_ascii=False)
 
     def get_permanent_pill_gains(self) -> dict:
-        """获取永久丹药累积增益"""
+        """获取永久丹药累积增益（自动迁移旧的按境界存储的倍率到全局）"""
         try:
-            return json.loads(self.permanent_pill_gains)
+            gains = json.loads(self.permanent_pill_gains)
         except json.JSONDecodeError:
             return {}
+
+        # 自动迁移：将旧的按境界存储的倍率字段搬到 _global
+        mult_keys = [
+            "cultivation_multiplier",
+            "death_protection_multiplier",
+        ]
+        migrated = False
+        if "_global" not in gains:
+            gains["_global"] = {}
+        for key, value in list(gains.items()):
+            if key.startswith("level_") and isinstance(value, dict):
+                for mk in mult_keys:
+                    if mk in value and mk not in gains["_global"]:
+                        gains["_global"][mk] = value[mk]
+                        migrated = True
+        if migrated:
+            self.permanent_pill_gains = json.dumps(gains, ensure_ascii=False)
+
+        return gains
 
     def set_permanent_pill_gains(self, gains: dict):
         """设置永久丹药累积增益"""
@@ -288,11 +318,6 @@ class Player:
             "max_spiritual_qi": self.max_spiritual_qi,
             "blood_qi": self.blood_qi,
             "max_blood_qi": self.max_blood_qi,
-            "magic_damage": self.magic_damage,
-            "physical_damage": self.physical_damage,
-            "magic_defense": self.magic_defense,
-            "physical_defense": self.physical_defense,
-            "mental_power": self.mental_power,
             "exp_multiplier": 0.0,  # 基础修为倍率为0，只来自心法
             "breakthrough_bonus": 0.0,  # 突破成功率加成
             "atk_bonus": 0.0,  # 攻击力百分比加成
@@ -300,16 +325,18 @@ class Player:
             "mp_bonus": 0.0,  # 真元加成
             "crit_rate": 0,  # 暴击率加成
             "crit_damage": 0.0,  # 暴击伤害加成
+            "closing_exp_bonus": 0.0,  # 闭关经验加成
+            "closing_recovery_bonus": 0.0,  # 闭关回复加成
+            "damage_reduction": 0.0,  # 减伤率
+            "breakthrough_number": 0.0,  # 突破概率数值
+            "dual_cultivation_bonus": 0,  # 双修次数
+            "alchemy_exp_bonus": 0,  # 炼丹经验
+            "alchemy_count_bonus": 0,  # 出丹数
+            "harvest_bonus": 0,  # 采集加成
         }
 
         # 叠加装备属性
         for item in equipped_items:
-            total["magic_damage"] += item.magic_damage
-            total["physical_damage"] += item.physical_damage
-            total["magic_defense"] += item.magic_defense
-            total["physical_defense"] += item.physical_defense
-            total["mental_power"] += item.mental_power
-
             # 心法专属属性
             if item.item_type == "main_technique":
                 total["exp_multiplier"] += item.exp_multiplier
@@ -319,18 +346,19 @@ class Player:
                 total["mp_bonus"] += item.mp_bonus
                 total["crit_rate"] += item.crit_rate
                 total["crit_damage"] += item.crit_damage
+                total["closing_exp_bonus"] += item.closing_exp_bonus
+                total["closing_recovery_bonus"] += item.closing_recovery_bonus
+                total["damage_reduction"] += item.damage_reduction
+                total["breakthrough_number"] += item.breakthrough_number
+                total["dual_cultivation_bonus"] += item.dual_cultivation_bonus
+                total["alchemy_exp_bonus"] += item.alchemy_exp_bonus
+                total["alchemy_count_bonus"] += item.alchemy_count_bonus
+                total["harvest_bonus"] += item.harvest_bonus
 
         # 叠加成就加成
         if achievement_bonus:
             for attr, val in achievement_bonus.items():
                 if attr in total:
                     total[attr] += val
-
-        # 应用丹药倍率效果
-        if pill_multipliers:
-            total["physical_damage"] = int(total["physical_damage"] * pill_multipliers.get("physical_damage", 1.0))
-            total["magic_damage"] = int(total["magic_damage"] * pill_multipliers.get("magic_damage", 1.0))
-            total["physical_defense"] = int(total["physical_defense"] * pill_multipliers.get("physical_defense", 1.0))
-            total["magic_defense"] = int(total["magic_defense"] * pill_multipliers.get("magic_defense", 1.0))
 
         return total

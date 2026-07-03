@@ -194,11 +194,6 @@ class AchievementManager:
     def _format_bonus_short(self, bonus: dict) -> str:
         """简短格式化属性加成"""
         attr_names = {
-            "physical_damage": "物伤",
-            "magic_damage": "法伤",
-            "physical_defense": "物防",
-            "magic_defense": "法防",
-            "mental_power": "精神力",
             "hp_bonus": "气血",
             "mp_bonus": "真元",
             "lifespan": "寿命",

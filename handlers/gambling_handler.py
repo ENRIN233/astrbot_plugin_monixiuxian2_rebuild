@@ -85,7 +85,7 @@ class GamblingHandler:
     @player_required
     async def handle_gambling(self, player: Player, event: AstrMessageEvent):
         """金银阁主入口：无参显示总览，有参则下注"""
-        # 取原始消息，归一化全角空格/数字，剥离指令前缀（仿 shop_handler.handle_buy）
+        # 取原始消息，归一化全角空格/数字，剥离指令前缀
         raw = event.get_message_str().strip()
         raw = raw.replace("　", " ").translate(_FULLWIDTH_DIGITS)
         if raw.startswith("/"):

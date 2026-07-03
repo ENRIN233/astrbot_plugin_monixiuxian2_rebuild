@@ -8,10 +8,8 @@ from ..models import Player
 # 任务定义: (显示名, 活跃值, 目标次数)
 TASK_DEFINITIONS = {
     "check_in":  ("每日签到",   10, 1),
-    "adventure": ("完成历练",   20, 2),
     "rift":      ("探索秘境",   30, 1),
     "bounty":    ("完成悬赏",   20, 2),
-    "shop_buy":  ("商店购买",   40, 1),
     "harvest":   ("灵田收获",   20, 1),
     "alchemy":   ("炼丹",       30, 1),
     "smelt":     ("炼金",       30, 1),
@@ -20,7 +18,7 @@ TASK_DEFINITIONS = {
 }
 
 # 任务顺序（用于显示）
-TASK_ORDER = ["check_in", "adventure", "rift", "bounty", "shop_buy", "harvest", "alchemy", "smelt", "interest", "sect"]
+TASK_ORDER = ["check_in", "rift", "bounty", "harvest", "alchemy", "smelt", "interest", "sect"]
 
 __all__ = ["ActivityTracker", "TASK_DEFINITIONS", "TASK_ORDER"]
 
@@ -74,12 +72,6 @@ class ActivityTracker:
         self._reset_if_new_day(player, today)
         await self._add_progress(player, "check_in")
 
-    async def track_adventure(self, player: Player):
-        """完成历练"""
-        today = datetime.now().strftime("%Y-%m-%d")
-        self._reset_if_new_day(player, today)
-        await self._add_progress(player, "adventure")
-
     async def track_rift(self, player: Player):
         """完成秘境探索"""
         today = datetime.now().strftime("%Y-%m-%d")
@@ -91,12 +83,6 @@ class ActivityTracker:
         today = datetime.now().strftime("%Y-%m-%d")
         self._reset_if_new_day(player, today)
         await self._add_progress(player, "bounty")
-
-    async def track_shop_buy(self, player: Player):
-        """商店购买"""
-        today = datetime.now().strftime("%Y-%m-%d")
-        self._reset_if_new_day(player, today)
-        await self._add_progress(player, "shop_buy")
 
     async def track_harvest(self, player: Player):
         """灵田收获"""

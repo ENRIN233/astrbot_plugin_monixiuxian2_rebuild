@@ -286,7 +286,9 @@ class GMHandlers:
         pills_inv = player.get_pills_inventory()
         received = []
         for name, count in items.items():
-            if self.config_manager and self.config_manager.is_pill(name):
+            if name == "灵石":
+                player.gold += count
+            elif self.config_manager and self.config_manager.is_pill(name):
                 pills_inv[name] = pills_inv.get(name, 0) + count
             else:
                 storage[name] = storage.get(name, 0) + count

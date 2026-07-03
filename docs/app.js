@@ -54,18 +54,29 @@ function rankClass(rank) {
 }
 
 function rankOrder(rank) {
-    const order = ['凡品','灵品','地品','天品','皇品','帝品','道品','仙品','混元先天'];
+    const order = [
+        '下品符器','人阶下品','人阶上品',
+        '上品符器','下品玄器','上品玄器','黄阶下品','黄阶上品',
+        '下品法器','下品纯阳','上品纯阳','玄阶下品','玄阶上品',
+        '上品法器','下品通天','上品通天','地阶下品','地阶上品',
+        '下品纯阳法器','天阶下品','天阶上品',
+        '上品纯阳法器','仙阶下品',
+        '下品通天法器','仙阶上品',
+        '上品通天法器','下品仙器','上品仙器','极品仙器','仙阶极品',
+        '无上仙器','无上仙法','无上神通',
+        '凡品','灵品','地品','天品','皇品','帝品','道品','仙品','混元先天',
+    ];
     const idx = order.indexOf(rank);
     return idx >= 0 ? idx : 99;
 }
 
 function getRankGlowClass(rank) {
     if (!rank) return '';
-    if (/后天|先天|凡品/.test(rank)) return 'rank-mortal';
-    if (/神丹|虚劫|灵品|地品/.test(rank)) return 'rank-spirit';
-    if (/神海|神劫|神变|界主|天尊|天品|皇品/.test(rank)) return 'rank-heaven';
-    if (/真神|荒神|帝品|道品/.test(rank)) return 'rank-god';
-    if (/圣人|永恒|限定|仙品|混元先天/.test(rank)) return 'rank-holy';
+    if (/凡品|下品符器|人阶/.test(rank)) return 'rank-mortal';
+    if (/灵品|地品|上品符器|玄器|黄阶|玄阶/.test(rank)) return 'rank-spirit';
+    if (/天品|皇品|法器|纯阳|地阶|天阶/.test(rank)) return 'rank-heaven';
+    if (/帝品|道品|通天|仙器|仙阶|仙品/.test(rank)) return 'rank-god';
+    if (/混元先天|无上/.test(rank)) return 'rank-holy';
     return '';
 }
 
@@ -110,7 +121,7 @@ async function loadAllData() {
     const files = [
         'level_config', 'body_level_config', 'pills', 'exp_pills',
         'utility_pills', 'items', 'weapons', 'storage_rings',
-        'alchemy_recipes', 'adventure_config', 'bounty_templates', 'game_config',
+        'alchemy_recipes', 'bounty_templates', 'game_config',
         'skills', 'spiritual_roots', 'sect_config'
     ];
     const promises = files.map(async f => {
@@ -292,8 +303,10 @@ function renderOverview() {
         </div>
         <h3 class="section-title">品阶体系</h3>
         <div class="info-box">
-            凡品 → 灵品 → 地品 → 天品 → 皇品 → 帝品 → 道品 → 仙品 → 混元先天<br>
-            共 <strong>9</strong> 个品阶，覆盖从凡人到混元先天的全部修仙之路。
+            <b>武器</b>：下品符器 → 上品符器 → … → 极品仙器 → 无上仙器（12级）<br>
+            <b>心法</b>：人阶下品 → 人阶上品 → … → 仙阶极品 → 无上仙法（14级）<br>
+            <b>神通</b>：人阶上品 → 黄阶下品 → … → 仙阶极品 → 无上神通（13级）<br>
+            <b>防具</b>：下品符器 → 上品玄器 → … → 极品仙器 → 无上仙器（12级）
         </div>
     `;
 }
@@ -993,10 +1006,10 @@ function renderSystems() {
     const cult = config.cultivation || {};
     html += `<div class="system-card">
         <h3>修炼系统</h3>
-        <p>通过闭关修炼积累修为值，提升境界。支持双修加成、修炼加速丹、心法倍率、灵眼加成、洞天福地等。</p>
+        <p>通过闭关修炼积累修为值，提升境界。支持双修加成、修炼加速丹、心法倍率、洞天福地等。</p>
         <ul class="detail-list">
             <li><span>闭关时长上限</span><span>${fmtDuration((cult.max_cultivation_minutes || 21600) * 60)}</span></li>
-            <li><span>修炼公式</span><span>基础经验 × 分钟数 × 灵根速率 × (1+心法倍率) × 丹药加成 × (1+灵眼) × (1+福地)</span></li>
+            <li><span>修炼公式</span><span>基础经验 × 分钟数 × 灵根速率 × (1+心法倍率) × 丹药加成 × (1+福地)</span></li>
         </ul>
     </div>`;
 
@@ -1026,18 +1039,6 @@ function renderSystems() {
             <li><span>冷却时间</span><span>${fmtDuration(dual.cooldown || 3600)}</span></li>
             <li><span>修为公式</span><span>双方各获得 (A修为+B修为) × 1%</span></li>
             <li><span>请求有效期</span><span>${fmtDuration(dual.request_expire || 300)}</span></li>
-        </ul>
-    </div>`;
-
-    // Spirit Eye
-    const eye = config.spirit_eye || {};
-    const eyeTypes = eye.types || {};
-    html += `<div class="system-card">
-        <h3>灵眼系统</h3>
-        <p>定时在群内刷新灵眼，修士抢占后提升闭关修炼效率。灵眼品阶越高加成越大。</p>
-        <ul class="detail-list">
-            <li><span>刷新间隔</span><span>${fmtDuration(eye.spawn_interval || 7200)}</span></li>
-            ${Object.values(eyeTypes).map(t => `<li><span>${esc(t.name)}</span><span>修炼效率+${((t.cultivation_bonus || 0) * 100).toFixed(0)}%（概率${t.spawn_rate || 0}%）</span></li>`).join('')}
         </ul>
     </div>`;
 
@@ -1099,15 +1100,6 @@ function renderSystems() {
         </ul>
     </div>`;
 
-    // Adventure
-    html += `<div class="system-card">
-        <h3>冒险系统</h3>
-        <p>选择探险路线出发冒险，途中遭遇随机事件，完成冒险获取丰厚回报。</p>
-        <ul class="detail-list">
-            <li><span>路线数</span><span>${(DATA.adventure_config?.routes || []).length} 条</span></li>
-            <li><span>事件类型</span><span>安全 / 标准 / 危险 / 灾难</span></li>
-        </ul>
-    </div>`;
 
     // Alchemy
     html += `<div class="system-card">
@@ -1166,7 +1158,7 @@ function renderSystems() {
     html += '<div class="config-grid">';
     const sectionLabels = {
         cultivation: '修炼配置', combat: '战斗配置', bank: '银行配置',
-        dual_cultivation: '双修配置', spirit_eye: '灵眼配置', rift: '裂隙配置',
+        dual_cultivation: '双修配置', rift: '裂隙配置',
         practice: '攻击修炼', elixir_room: '丹房配置',
         material_distribution: '资材发放', auto_owner_change: '自动传位', rename: '宗门改名'
     };
@@ -1227,19 +1219,8 @@ function renderCommands() {
                 ['我的装备', '查看已装备的武器/防具/心法'],
                 ['装备 <名称>', '从储物戒应用到身上'],
                 ['卸下 <名称>', '从身上放回储物戒'],
-                ['查看 <名称>', '查看任意物品详细信息'],
                 ['服用丹药 <名称> [数量]', '使用丹药获得增益效果'],
                 ['丹药信息 <名称>', '查看指定丹药的详细信息'],
-            ]
-        },
-        {
-            title: '商店系统',
-            icon: '●',
-            cmds: [
-                ['丹阁', '丹药专卖（破境丹/修为丹/功能丹）'],
-                ['器阁', '装备专卖（武器/防具/饰品）'],
-                ['百宝阁', '综合商店（功法/材料/杂物）'],
-                ['购买 <物品名> [数量]', '从当前商店购买物品'],
             ]
         },
         {
@@ -1248,7 +1229,7 @@ function renderCommands() {
             cmds: [
                 ['储物戒', '查看储物空间和物品（分类显示）'],
                 ['搜索物品 <关键词>', '模糊搜索储物戒物品'],
-                ['炼金 <物品名> [数量]', '将物品转化为灵石（市场价20%）'],
+                ['炼金 <物品名> [数量]', '将物品转化为灵石（市场价70%）'],
                 ['更换储物戒 <名称>', '升级储物戒（需支付灵石）'],
                 ['丢弃 <物品名>', '丢弃储物戒中的物品'],
                 ['赠予 <@某人> <物品> [数量]', '将物品赠送给其他玩家'],
@@ -1301,16 +1282,6 @@ function renderCommands() {
                 ['宗门排行', '查看宗门排行榜'],
                 ['存款排行', '查看银行存款排行榜'],
                 ['贡献排行', '查看宗门贡献排行榜'],
-            ]
-        },
-        {
-            title: '历练系统',
-            icon: '❧',
-            cmds: [
-                ['开始历练 <路线名>', '巡山问道/云游四方/猎魔肃清/九死一生'],
-                ['历练状态', '查看当前路线进度与剩余时间'],
-                ['完成历练', '领取路线奖励与奇遇掉落'],
-                ['历练信息', '查看各路线风险、可玩性与收益说明'],
             ]
         },
         {
@@ -1390,15 +1361,6 @@ function renderCommands() {
                 ['双修 <@某人>', '向对方发起双修请求'],
                 ['接受双修', '接受双修，双方各获修为奖励'],
                 ['拒绝双修', '拒绝对方的双修请求'],
-            ]
-        },
-        {
-            title: '天地灵眼',
-            icon: '◎',
-            cmds: [
-                ['灵眼信息', '查看灵眼及可抢占列表'],
-                ['抢占灵眼 <ID>', '占据无主灵眼提升闭关效率'],
-                ['释放灵眼', '释放已占据的灵眼'],
             ]
         },
         {
@@ -1502,86 +1464,16 @@ function renderAlchemy() {
     makeTableSortable(page);
 }
 
-// ===================== Adventure =====================
+// ===================== Bounty (悬赏令) =====================
 
 function renderAdventure() {
     const page = document.getElementById('page-adventure');
     page.classList.add('scroll-wide');
-    const config = DATA.adventure_config || {};
-    const routes = config.routes || [];
-    const eventGroups = config.event_groups || {};
-    const dropTables = config.drop_tables || {};
 
-    let html = '<h2 class="page-title">冒险系统</h2>';
+    let html = '<h2 class="page-title">悬赏令</h2>';
+    html += '<div class="info-box">悬赏任务通过对应标签的活动累计进度，秘境探索也能推进探索类悬赏。</div>';
 
-    // Routes
-    html += '<h3 class="section-title">探险路线</h3>';
-    const headers = ['路线', '风险', '时长', '修为/分', '灵石/分', '经验加成/分', '灵石加成/分', '完成奖励修为', '完成奖励灵石', '疲劳冷却'];
-    const routeRows = routes.map(r => [
-        `<strong>${esc(r.name || r.key || '-')}</strong><br><span style="font-size:11px;color:var(--text-muted)">${esc(r.description || '')}</span>`,
-        esc(r.risk || '-'),
-        `<span data-sortvalue="${r.duration || 0}">${fmtDuration(r.duration)}</span>`,
-        `<span data-sortvalue="${r.base_exp_per_min || 0}">${r.base_exp_per_min || 0}</span>`,
-        `<span data-sortvalue="${r.base_gold_per_min || 0}">${formatNum(r.base_gold_per_min || 0)}</span>`,
-        `<span data-sortvalue="${r.level_bonus_exp || 0}">${r.level_bonus_exp || 0}</span>`,
-        `<span data-sortvalue="${r.level_bonus_gold || 0}">${formatNum(r.level_bonus_gold || 0)}</span>`,
-        `<span data-sortvalue="${r.completion_bonus?.exp || 0}">${formatNum(r.completion_bonus?.exp || 0)}</span>`,
-        `<span data-sortvalue="${r.completion_bonus?.gold || 0}">${formatNum(r.completion_bonus?.gold || 0)}</span>`,
-        `<span data-sortvalue="${r.fatigue_cooldown || 0}">${fmtDuration(r.fatigue_cooldown)}</span>`
-    ]);
-    html += createTable(headers, routeRows);
-
-    // Event weights
-    html += '<h3 class="section-title">事件权重</h3>';
-    const ewHeaders = ['路线', '安全', '标准', '危险', '灾难'];
-    const ewRows = routes.map(r => {
-        const ew = r.event_weights || {};
-        return [
-            `<strong>${esc(r.name || r.key || '-')}</strong>`,
-            `<span data-sortvalue="${ew.safe || 0}">${ew.safe || 0}%</span>`,
-            `<span data-sortvalue="${ew.standard || 0}">${ew.standard || 0}%</span>`,
-            `<span data-sortvalue="${ew.risky || 0}">${ew.risky || 0}%</span>`,
-            `<span data-sortvalue="${ew.disaster || 0}">${ew.disaster || 0}%</span>`
-        ];
-    });
-    html += createTable(ewHeaders, ewRows);
-
-    // Events
-    html += '<h3 class="section-title">随机事件</h3>';
-    Object.entries(eventGroups).forEach(([group, events]) => {
-        if (!Array.isArray(events)) return;
-        html += `<h4 style="color:var(--text-secondary);margin:12px 0 8px;font-size:14px">${esc(group)} (${events.length}个事件)</h4>`;
-        const evHeaders = ['事件', '描述', '修为倍率', '灵石倍率', '物品概率', '额外进度'];
-        const evRows = events.map(e => [
-            `<strong>${esc(e.name || '-')}</strong>`,
-            esc(e.desc || '-'),
-            `<span data-sortvalue="${e.exp_mult || 1}">${e.exp_mult || 1}x</span>`,
-            `<span data-sortvalue="${e.gold_mult || 1}">${e.gold_mult || 1}x</span>`,
-            `<span data-sortvalue="${e.item_chance || 0}">${e.item_chance || 0}</span>`,
-            `<span data-sortvalue="${e.bonus_progress || 0}">${e.bonus_progress || 0}</span>`
-        ]);
-        html += createTable(evHeaders, evRows);
-    });
-
-    // Drop tables
-    html += '<h3 class="section-title">掉落表</h3>';
-    Object.entries(dropTables).forEach(([table, drops]) => {
-        html += `<h4 style="color:var(--text-secondary);margin:12px 0 8px;font-size:14px">${esc(table)}</h4>`;
-        if (Array.isArray(drops)) {
-            const drHeaders = ['物品', '权重'];
-            const drRows = drops.map(d => [
-                esc(d.item || d.name || d.id || '-'),
-                `<span data-sortvalue="${d.weight || 0}">${d.weight || '-'}</span>`
-            ]);
-            html += createTable(drHeaders, drRows);
-        }
-    });
-
-    // ====== Bounty (悬赏令) ======
     const bounties = DATA.bounty_templates || {};
-
-    html += '<h3 class="section-title">悬赏令</h3>';
-    html += '<div class="info-box">悬赏任务通过对应标签的活动累计进度：巡山/云游/猎魔等历练路线提供不同"冒险标签"，秘境探索也能推进探索类悬赏。</div>';
 
     // Difficulties
     if (bounties.difficulties) {
@@ -1821,7 +1713,7 @@ function renderRoots() {
         <div class="info-box">
             灵根决定修炼速度倍率，创建角色时随机获得。<br>
             使用「重铸灵根」可花费 25万灵石 重新随机，服用「换血丹」也可重置灵根。<br>
-            修炼公式：<strong>基础经验 × 分钟数 × 灵根速率 × (1+功法加成) × 丹药加成 × 灵眼加成 × 福地加成</strong>
+            修炼公式：<strong>基础经验 × 分钟数 × 灵根速率 × (1+功法加成) × 丹药加成 × 福地加成</strong>
         </div>
         <h3 class="section-title">数据统计</h3>
         <div class="stats-grid">

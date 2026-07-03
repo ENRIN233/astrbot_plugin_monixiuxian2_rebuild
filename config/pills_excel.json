@@ -1,0 +1,491 @@
+[
+  {
+    "id": 2000,
+    "name": "洗髓丹",
+    "type": "healing",
+    "effect": {"recover_pct": 0.20},
+    "min_level_index": 10,
+    "qiushi_bypass": true,
+    "price": 1200000,
+    "max_uses": -1,
+    "desc": "回复状态的20%，筑基境以上可以使用，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2001,
+    "name": "养气丹",
+    "type": "healing",
+    "effect": {"recover_pct": 0.25},
+    "min_level_index": 13,
+    "qiushi_bypass": true,
+    "price": 1500000,
+    "max_uses": -1,
+    "desc": "回复状态的25%，结丹境以上可以使用，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2002,
+    "name": "九转丹",
+    "type": "healing",
+    "effect": {"recover_pct": 0.30},
+    "min_level_index": 16,
+    "qiushi_bypass": true,
+    "price": 1800000,
+    "max_uses": -1,
+    "desc": "回复状态的30%，金丹境以上可以使用，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2003,
+    "name": "易筋丹",
+    "type": "healing",
+    "effect": {"recover_pct": 0.35},
+    "min_level_index": 19,
+    "qiushi_bypass": true,
+    "price": 2100000,
+    "max_uses": -1,
+    "desc": "回复状态的35%，紫府境以上可以使用，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2004,
+    "name": "天尘丹",
+    "type": "healing",
+    "effect": {"recover_pct": 0.40},
+    "min_level_index": 22,
+    "qiushi_bypass": true,
+    "price": 2400000,
+    "max_uses": -1,
+    "desc": "回复状态的40%，凝婴境以上可以使用，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2005,
+    "name": "天元神丹",
+    "type": "healing",
+    "effect": {"recover_pct": 0.45},
+    "min_level_index": 25,
+    "qiushi_bypass": true,
+    "price": 2700000,
+    "max_uses": -1,
+    "desc": "回复状态的45%，元婴境以上可以使用，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2006,
+    "name": "太乙碧莹丹",
+    "type": "healing",
+    "effect": {"recover_pct": 0.50},
+    "min_level_index": 28,
+    "qiushi_bypass": true,
+    "price": 2900000,
+    "max_uses": -1,
+    "desc": "回复状态的50%，化神境以上可以使用，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2007,
+    "name": "六阳长生丹",
+    "type": "healing",
+    "effect": {"recover_pct": 0.60},
+    "min_level_index": 31,
+    "qiushi_bypass": true,
+    "price": 3300000,
+    "max_uses": -1,
+    "desc": "回复状态的60%，炼虚境以上可以使用，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2008,
+    "name": "道源丹",
+    "type": "healing",
+    "effect": {"recover_pct": 1.00},
+    "min_level_index": 34,
+    "qiushi_bypass": true,
+    "price": 3600000,
+    "max_uses": -1,
+    "desc": "回复全部状态，出窍境以上可以使用，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2009,
+    "name": "摄魂鬼丸",
+    "type": "permanent_atk",
+    "effect": {"atk_bonus": 720},
+    "qiushi_bypass": true,
+    "price": 1200000,
+    "max_uses": -1,
+    "desc": "使用后可以永久增加720点攻击力，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2010,
+    "name": "化煞魔丸",
+    "type": "permanent_atk",
+    "effect": {"atk_bonus": 1760},
+    "qiushi_bypass": true,
+    "price": 1500000,
+    "max_uses": -1,
+    "desc": "使用后可以永久增加1760点攻击力，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2011,
+    "name": "素心真丸",
+    "type": "permanent_atk",
+    "effect": {"atk_bonus": 4160},
+    "qiushi_bypass": true,
+    "price": 1800000,
+    "max_uses": -1,
+    "desc": "使用后可以永久增加4160点攻击力，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2012,
+    "name": "灭神古丸",
+    "type": "permanent_atk",
+    "effect": {"atk_bonus": 9600},
+    "qiushi_bypass": true,
+    "price": 2100000,
+    "max_uses": -1,
+    "desc": "使用后可以永久增加9600点攻击力，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2013,
+    "name": "静禅魔丸",
+    "type": "permanent_atk",
+    "effect": {"atk_bonus": 21760},
+    "qiushi_bypass": true,
+    "price": 2400000,
+    "max_uses": -1,
+    "desc": "使用后可以永久增加21760点攻击力，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2014,
+    "name": "地仙玄丸",
+    "type": "permanent_atk",
+    "effect": {"atk_bonus": 48640},
+    "qiushi_bypass": true,
+    "price": 2700000,
+    "max_uses": -1,
+    "desc": "使用后可以永久增加48640点攻击力，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2015,
+    "name": "消冰宝丸",
+    "type": "permanent_atk",
+    "effect": {"atk_bonus": 104840},
+    "qiushi_bypass": true,
+    "price": 3000000,
+    "max_uses": -1,
+    "desc": "使用后可以永久增加104840点攻击力，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2016,
+    "name": "无涯鬼丸",
+    "type": "permanent_atk",
+    "effect": {"atk_bonus": 304840},
+    "qiushi_bypass": true,
+    "price": 3300000,
+    "max_uses": -1,
+    "desc": "使用后可以永久增加304840点攻击力，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2017,
+    "name": "太一仙丸",
+    "type": "permanent_atk",
+    "effect": {"atk_bonus": 604840},
+    "qiushi_bypass": true,
+    "price": 3600000,
+    "max_uses": -1,
+    "desc": "使用后可以永久增加604840点攻击力，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 2018,
+    "name": "外道兴奋剂",
+    "type": "permanent_atk",
+    "effect": {"atk_bonus": 3000000},
+    "qiushi_bypass": true,
+    "price": 0,
+    "max_uses": -1,
+    "desc": "使用后可以永久增加3000000点攻击力，器师可以无视境界限制使用！"
+  },
+  {
+    "id": 1400,
+    "name": "筑基丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "练气境初期", "bonus": 0.30},
+    "min_level_index": 3,
+    "price": 500000,
+    "max_uses": 3,
+    "desc": "冲击练气境必备的丹药，使突破到练气境的概率提升30%，只可使用三颗！"
+  },
+  {
+    "id": 1401,
+    "name": "聚顶丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "化灵境初期", "bonus": 0.20},
+    "min_level_index": 6,
+    "price": 800000,
+    "max_uses": 3,
+    "desc": "冲击化灵境必备的丹药之一，使突破到化灵境的概率提升20%，只可使用三颗！"
+  },
+  {
+    "id": 1402,
+    "name": "朝元丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "化灵境初期", "bonus": 0.20},
+    "min_level_index": 6,
+    "price": 800000,
+    "max_uses": 3,
+    "desc": "冲击化灵境必备的丹药之一，使突破到化灵境的概率提升20%，只可使用三颗！"
+  },
+  {
+    "id": 1403,
+    "name": "锻脉丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "筑基境初期", "bonus": 0.20},
+    "min_level_index": 9,
+    "price": 1100000,
+    "max_uses": 3,
+    "desc": "冲击筑基境必备的丹药之一，使突破到筑基境的概率提升20%，只可使用三颗！"
+  },
+  {
+    "id": 1404,
+    "name": "护脉丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "筑基境初期", "bonus": 0.20},
+    "min_level_index": 9,
+    "price": 1100000,
+    "max_uses": 3,
+    "desc": "冲击筑基境必备的丹药之一，使突破到筑基境的概率提升20%，只可使用三颗！"
+  },
+  {
+    "id": 1405,
+    "name": "天命淬体丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "结丹境初期", "bonus": 0.10},
+    "min_level_index": 12,
+    "price": 1400000,
+    "max_uses": 3,
+    "desc": "冲击结丹境必备的丹药之一，使突破到结丹境的概率提升10%，只可使用三颗！"
+  },
+  {
+    "id": 1406,
+    "name": "澄心塑魂丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "结丹境初期", "bonus": 0.10},
+    "min_level_index": 12,
+    "price": 1400000,
+    "max_uses": 3,
+    "desc": "冲击结丹境必备的丹药之一，使突破到结丹境的概率提升10%，只可使用三颗！"
+  },
+  {
+    "id": 1407,
+    "name": "混元仙体丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "结丹境初期", "bonus": 0.10},
+    "min_level_index": 12,
+    "price": 1400000,
+    "max_uses": 3,
+    "desc": "冲击结丹境必备的丹药之一，使突破到结丹境的概率提升10%，只可使用三颗！"
+  },
+  {
+    "id": 1408,
+    "name": "黑炎丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "金丹境初期", "bonus": 0.10},
+    "min_level_index": 15,
+    "price": 1700000,
+    "max_uses": 3,
+    "desc": "冲击金丹境必备的丹药之一，使突破到金丹境的概率提升10%，只可使用三颗！"
+  },
+  {
+    "id": 1409,
+    "name": "金血丸",
+    "type": "breakthrough",
+    "effect": {"target_realm": "金丹境初期", "bonus": 0.10},
+    "min_level_index": 15,
+    "price": 1700000,
+    "max_uses": 3,
+    "desc": "冲击金丹境必备的丹药之一，使突破到金丹境的概率提升10%，只可使用三颗！"
+  },
+  {
+    "id": 1410,
+    "name": "虚灵丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "紫府境初期", "bonus": 0.10},
+    "min_level_index": 18,
+    "price": 2000000,
+    "max_uses": 3,
+    "desc": "冲击紫府境必备的丹药之一，使突破到紫府境的概率提升10%，只可使用三颗！"
+  },
+  {
+    "id": 1411,
+    "name": "净明丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "紫府境初期", "bonus": 0.10},
+    "min_level_index": 18,
+    "price": 2000000,
+    "max_uses": 3,
+    "desc": "冲击紫府境必备的丹药之一，使突破到紫府境的概率提升10%，只可使用三颗！"
+  },
+  {
+    "id": 1412,
+    "name": "安神灵液",
+    "type": "breakthrough",
+    "effect": {"target_realm": "凝婴境初期", "bonus": 0.10},
+    "min_level_index": 21,
+    "price": 2300000,
+    "max_uses": 3,
+    "desc": "冲击凝婴境必备的丹药之一，使突破到凝婴境的概率提升10%，只可使用三颗！"
+  },
+  {
+    "id": 1413,
+    "name": "魇龙之血",
+    "type": "breakthrough",
+    "effect": {"target_realm": "凝婴境初期", "bonus": 0.10},
+    "min_level_index": 21,
+    "price": 2300000,
+    "max_uses": 3,
+    "desc": "冲击凝婴境必备的丹药之一，使突破到凝婴境的概率提升10%，只可使用三颗！"
+  },
+  {
+    "id": 1414,
+    "name": "化劫丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "元婴境初期", "bonus": 0.20},
+    "min_level_index": 24,
+    "price": 2600000,
+    "max_uses": 3,
+    "desc": "冲击元婴境必备的丹药，使突破到元婴境的概率提升20%，只可使用三颗！"
+  },
+  {
+    "id": 1415,
+    "name": "太上玄门丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "化神境初期", "bonus": 0.20},
+    "min_level_index": 27,
+    "price": 2900000,
+    "max_uses": 3,
+    "desc": "冲击化神境必备的丹药，使突破到化神境的概率提升20%，只可使用三颗！"
+  },
+  {
+    "id": 1416,
+    "name": "金仙破厄丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "炼虚境初期", "bonus": 0.20},
+    "min_level_index": 30,
+    "price": 3200000,
+    "max_uses": 3,
+    "desc": "冲击炼虚境必备的丹药，使突破到炼虚境的概率提升20%，只可使用三颗！"
+  },
+  {
+    "id": 1417,
+    "name": "太乙炼髓丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "出窍境初期", "bonus": 0.20},
+    "min_level_index": 33,
+    "price": 3500000,
+    "max_uses": 3,
+    "desc": "冲击出窍境必备的丹药，使突破到出窍境的概率提升20%，只可使用三颗！"
+  },
+  {
+    "id": 1418,
+    "name": "混沌丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "分神境初期", "bonus": 0.20},
+    "min_level_index": 36,
+    "price": 3800000,
+    "max_uses": 3,
+    "desc": "冲击分神境必备的丹药，使突破到分神境的概率提升20%，只可使用三颗！"
+  },
+  {
+    "id": 1419,
+    "name": "创世丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "合体境初期", "bonus": 0.20},
+    "min_level_index": 39,
+    "price": 4100000,
+    "max_uses": 3,
+    "desc": "冲击合体境必备的丹药，使突破到合体境的概率提升20%，只可使用三颗！"
+  },
+  {
+    "id": 1420,
+    "name": "极品混沌丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "分神境初期", "bonus": 0.40},
+    "min_level_index": 36,
+    "price": 3800000,
+    "max_uses": 3,
+    "desc": "拍卖行仙品炼丹师炼制，使突破到分神境的概率提升40%，只可使用三颗！"
+  },
+  {
+    "id": 1421,
+    "name": "极品创世丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "合体境初期", "bonus": 0.40},
+    "min_level_index": 39,
+    "price": 4100000,
+    "max_uses": 3,
+    "desc": "拍卖行仙品炼丹师炼制，使突破到合体境的概率提升40%，只可使用三颗！"
+  },
+  {
+    "id": 15100,
+    "name": "九天蕴仙丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "大乘境初期", "bonus": 0.20},
+    "min_level_index": 42,
+    "price": 4400000,
+    "max_uses": 2,
+    "desc": "凡道冲击仙道必备的丹药，使突破到大乘境的概率提升20%，只可使用两颗！"
+  },
+  {
+    "id": 15101,
+    "name": "金仙造化丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "轮回境初期", "bonus": 0.15},
+    "min_level_index": 45,
+    "price": 4700000,
+    "max_uses": 2,
+    "desc": "冲击王道领域必备的丹药，使突破到轮回境的概率提升15%，只可使用两颗！"
+  },
+  {
+    "id": 15102,
+    "name": "大道归一丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "渡劫境初期", "bonus": 0.15},
+    "min_level_index": 48,
+    "price": 5000000,
+    "max_uses": 2,
+    "desc": "王道向帝道前行必备的丹药，使突破到渡劫境的概率提升15%，只可使用两颗！"
+  },
+  {
+    "id": 15103,
+    "name": "菩提证道丹",
+    "type": "breakthrough",
+    "effect": {"target_realm": "渡劫境初期", "bonus": 0.15},
+    "min_level_index": 48,
+    "price": 5300000,
+    "max_uses": 1,
+    "desc": "王道踏入帝道领域必备的丹药，据说其丹方已经彻底失传了...使突破到渡劫境的概率提升15%，只可使用一颗！"
+  },
+  {
+    "id": 15151,
+    "name": "太清玉液丹",
+    "type": "breakthrough_boost",
+    "effect": {"bonus": 0.02},
+    "min_level_index": 40,
+    "price": 4500000,
+    "max_uses": -1,
+    "desc": "使下一次突破成功几率增加2%，合体境以上可使用"
+  },
+  {
+    "id": 15152,
+    "name": "一气鸿蒙丹",
+    "type": "breakthrough_boost",
+    "effect": {"bonus": 0.03},
+    "min_level_index": 43,
+    "price": 0,
+    "max_uses": -1,
+    "desc": "使下一次突破成功几率增加3%，大乘境以上可使用"
+  },
+  {
+    "id": 15153,
+    "name": "三纹清灵丹",
+    "type": "breakthrough_boost",
+    "effect": {"bonus": 0.05},
+    "min_level_index": 46,
+    "price": 0,
+    "max_uses": -1,
+    "desc": "使下一次突破成功几率增加5%，轮回境以上可使用"
+  }
+]

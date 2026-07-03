@@ -65,15 +65,14 @@ class DataBase:
                 weapon, armor, main_technique, techniques,
                 hp, mp, atk, atkpractice,
                 spiritual_qi, max_spiritual_qi, blood_qi, max_blood_qi,
-                magic_damage, physical_damage, magic_defense, physical_defense, mental_power,
                 sect_id, sect_position, sect_contribution, sect_task, sect_elixir_get,
-                blessed_spot_flag, blessed_spot_name,
                 active_pill_effects, permanent_pill_gains, has_resurrection_pill, has_debuff_shield, pills_inventory,
                 storage_ring, storage_ring_items,
-                daily_pill_usage, last_daily_reset, shentong,
+                daily_pill_usage, last_daily_reset, shentong, sub_technique,
                 permanent_pill_usage, achievement_data, bank_vip_tier,
-                daily_activity, daily_activity_points, daily_activity_date, daily_activity_rewarded
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                daily_activity, daily_activity_points, daily_activity_date, daily_activity_rewarded,
+                sleeping_bag_level
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 player.user_id,
@@ -102,18 +101,11 @@ class DataBase:
                 player.max_spiritual_qi,
                 player.blood_qi,
                 player.max_blood_qi,
-                player.magic_damage,
-                player.physical_damage,
-                player.magic_defense,
-                player.physical_defense,
-                player.mental_power,
                 player.sect_id,
                 player.sect_position,
                 player.sect_contribution,
                 player.sect_task,
                 player.sect_elixir_get,
-                player.blessed_spot_flag,
-                player.blessed_spot_name,
                 player.active_pill_effects,
                 player.permanent_pill_gains,
                 player.has_resurrection_pill,
@@ -124,13 +116,15 @@ class DataBase:
                 player.daily_pill_usage,
                 player.last_daily_reset,
                 player.shentong,
+                player.sub_technique,
                 player.permanent_pill_usage,
                 player.achievement_data,
                 player.bank_vip_tier,
                 player.daily_activity,
                 player.daily_activity_points,
                 player.daily_activity_date,
-                player.daily_activity_rewarded
+                player.daily_activity_rewarded,
+                player.sleeping_bag_level
             )
         )
         await self.conn.commit()
@@ -160,7 +154,7 @@ class DataBase:
                 return Player(**filtered_data)
             return None
 
-    async def update_player(self, player: Player):
+    async def update_player(self, player: Player, auto_commit: bool = True):
         """更新玩家信息"""
         await self.conn.execute(
             """
@@ -191,18 +185,11 @@ class DataBase:
                 max_spiritual_qi = ?,
                 blood_qi = ?,
                 max_blood_qi = ?,
-                magic_damage = ?,
-                physical_damage = ?,
-                magic_defense = ?,
-                physical_defense = ?,
-                mental_power = ?,
                 sect_id = ?,
                 sect_position = ?,
                 sect_contribution = ?,
                 sect_task = ?,
                 sect_elixir_get = ?,
-                blessed_spot_flag = ?,
-                blessed_spot_name = ?,
                 active_pill_effects = ?,
                 permanent_pill_gains = ?,
                 has_resurrection_pill = ?,
@@ -212,13 +199,15 @@ class DataBase:
                 storage_ring_items = ?,
                 daily_pill_usage = ?,
                 last_daily_reset = ?,
+                sub_technique = ?,
                 permanent_pill_usage = ?,
                 achievement_data = ?,
                 bank_vip_tier = ?,
                 daily_activity = ?,
                 daily_activity_points = ?,
                 daily_activity_date = ?,
-                daily_activity_rewarded = ?
+                daily_activity_rewarded = ?,
+                sleeping_bag_level = ?
             WHERE user_id = ?
             """,
             (
@@ -248,18 +237,11 @@ class DataBase:
                 player.max_spiritual_qi,
                 player.blood_qi,
                 player.max_blood_qi,
-                player.magic_damage,
-                player.physical_damage,
-                player.magic_defense,
-                player.physical_defense,
-                player.mental_power,
                 player.sect_id,
                 player.sect_position,
                 player.sect_contribution,
                 player.sect_task,
                 player.sect_elixir_get,
-                player.blessed_spot_flag,
-                player.blessed_spot_name,
                 player.active_pill_effects,
                 player.permanent_pill_gains,
                 player.has_resurrection_pill,
@@ -269,6 +251,7 @@ class DataBase:
                 player.storage_ring_items,
                 player.daily_pill_usage,
                 player.last_daily_reset,
+                player.sub_technique,
                 player.permanent_pill_usage,
                 player.achievement_data,
                 player.bank_vip_tier,
@@ -276,10 +259,12 @@ class DataBase:
                 player.daily_activity_points,
                 player.daily_activity_date,
                 player.daily_activity_rewarded,
+                player.sleeping_bag_level,
                 player.user_id
             )
         )
-        await self.conn.commit()
+        if auto_commit:
+            await self.conn.commit()
 
     async def delete_player(self, user_id: str):
         """删除玩家"""
@@ -290,35 +275,46 @@ class DataBase:
         await self.conn.commit()
 
     async def delete_player_cascade(self, user_id: str):
-        """级联删除玩家及所有关联数据"""
-        async def safe_execute(sql: str, params: tuple):
-            try:
+        """级联删除玩家及所有关联数据（事务保护）
+
+        使用 BEGIN IMMEDIATE 确保原子性：
+        - 任何一条 SQL 失败则整体回滚
+        - 补全所有关联表（含 player_skills, dungeon_runs, trades, consignment_listings, gm_compensation_claims）
+        """
+        await self.conn.execute("BEGIN IMMEDIATE")
+        try:
+            tables = [
+                ("DELETE FROM player_skills WHERE user_id = ?", (user_id,)),
+                ("DELETE FROM dungeon_runs WHERE user_id = ?", (user_id,)),
+                ("UPDATE trades SET status = 'cancelled' WHERE (initiator_id = ? OR target_id = ?) AND status = 'pending'",
+                 (user_id, user_id)),
+                ("DELETE FROM consignment_listings WHERE seller_id = ?", (user_id,)),
+                ("DELETE FROM gm_compensation_claims WHERE user_id = ?", (user_id,)),
+                ("DELETE FROM blessed_lands WHERE user_id = ?", (user_id,)),
+                ("DELETE FROM spirit_farms WHERE user_id = ?", (user_id,)),
+                ("DELETE FROM bank_accounts WHERE user_id = ?", (user_id,)),
+                ("UPDATE bank_loans SET status = 'bad_debt' WHERE user_id = ? AND status = 'active'", (user_id,)),
+                ("DELETE FROM bounty_tasks WHERE user_id = ?", (user_id,)),
+                ("DELETE FROM dual_cultivation WHERE user_id = ?", (user_id,)),
+                ("DELETE FROM dual_cultivation_requests WHERE from_id = ? OR target_id = ?", (user_id, user_id)),
+                ("DELETE FROM user_cd WHERE user_id = ?", (user_id,)),
+                ("DELETE FROM buff_info WHERE user_id = ?", (user_id,)),
+                ("DELETE FROM impart_info WHERE user_id = ?", (user_id,)),
+                ("DELETE FROM combat_cooldowns WHERE user_id = ?", (user_id,)),
+                ("DELETE FROM pending_gifts WHERE sender_id = ? OR receiver_id = ?", (user_id, user_id)),
+                ("DELETE FROM player_buffs WHERE user_id = ?", (user_id,)),
+                ("DELETE FROM player_daily_activity WHERE user_id = ?", (user_id,)),
+                ("DELETE FROM achievement_progress WHERE user_id = ?", (user_id,)),
+                # players 表最后删除
+                ("DELETE FROM players WHERE user_id = ?", (user_id,)),
+            ]
+            for sql, params in tables:
                 await self.conn.execute(sql, params)
-            except Exception as e:
-                sql_preview = sql.strip().split(" ")[0]
-                logger.warning(f"[delete_player_cascade] 忽略执行 {sql_preview}: {e}")
 
-        statements = [
-            ("UPDATE spirit_eyes SET owner_id = NULL, owner_name = NULL, claim_time = NULL WHERE owner_id = ?", (user_id,)),
-            ("DELETE FROM blessed_lands WHERE user_id = ?", (user_id,)),
-            ("DELETE FROM spirit_farms WHERE user_id = ?", (user_id,)),
-            ("DELETE FROM bank_accounts WHERE user_id = ?", (user_id,)),
-            ("UPDATE bank_loans SET status = 'bad_debt' WHERE user_id = ? AND status = 'active'", (user_id,)),
-            ("DELETE FROM bounty_tasks WHERE user_id = ?", (user_id,)),
-            ("DELETE FROM dual_cultivation WHERE user_id = ?", (user_id,)),
-            ("DELETE FROM dual_cultivation_requests WHERE from_id = ? OR target_id = ?", (user_id, user_id)),
-            ("DELETE FROM user_cd WHERE user_id = ?", (user_id,)),
-            ("DELETE FROM buff_info WHERE user_id = ?", (user_id,)),
-            ("DELETE FROM impart_info WHERE user_id = ?", (user_id,)),
-            ("DELETE FROM combat_cooldowns WHERE user_id = ?", (user_id,)),
-            ("DELETE FROM pending_gifts WHERE sender_id = ? OR receiver_id = ?", (user_id, user_id)),
-        ]
-
-        for sql, params in statements:
-            await safe_execute(sql, params)
-
-        await self.conn.execute("DELETE FROM players WHERE user_id = ?", (user_id,))
-        await self.conn.commit()
+            await self.conn.commit()
+        except Exception:
+            await self.conn.rollback()
+            raise
 
     async def get_all_players(self):
         """获取所有玩家"""
@@ -327,153 +323,3 @@ class DataBase:
             # 过滤掉 Player 模型中不存在的字段（兼容旧数据库/迁移未完成的情况）
             return [Player(**{k: v for k, v in dict(row).items() if k in PLAYER_FIELDS}) for row in rows]
 
-    # ===== 商店数据操作 =====
-
-    async def get_shop_data(self, shop_id: str = "global") -> Tuple[int, List[dict]]:
-        """获取商店数据
-
-        Args:
-            shop_id: 商店ID，默认为全局商店
-
-        Returns:
-            (last_refresh_time, current_items) 元组
-        """
-        async with self.conn.execute(
-            "SELECT last_refresh_time, current_items FROM shop WHERE shop_id = ?",
-            (shop_id,)
-        ) as cursor:
-            row = await cursor.fetchone()
-            if row:
-                last_refresh_time = row[0]
-                try:
-                    current_items = json.loads(row[1])
-                except json.JSONDecodeError:
-                    current_items = []
-                return last_refresh_time, current_items
-            return 0, []
-
-    async def update_shop_data(self, shop_id: str, last_refresh_time: int, current_items: List[dict]):
-        """更新商店数据
-
-        Args:
-            shop_id: 商店ID
-            last_refresh_time: 最后刷新时间戳
-            current_items: 当前商店物品列表
-        """
-        items_json = json.dumps(current_items, ensure_ascii=False)
-        await self.conn.execute(
-            """
-            INSERT OR REPLACE INTO shop (shop_id, last_refresh_time, current_items)
-            VALUES (?, ?, ?)
-            """,
-            (shop_id, last_refresh_time, items_json)
-        )
-        await self.conn.commit()
-
-    async def decrement_shop_item_stock(self, shop_id: str, item_name: str, quantity: int = 1, external_transaction: bool = False) -> tuple[bool, int, int]:
-        """尝试扣减指定商店物品的库存（原子操作，可批量）
-
-        Args:
-            shop_id: 商店ID
-            item_name: 物品名称
-            quantity: 扣减数量（默认1，最小1）
-            external_transaction: 是否由外部管理事务（True时不执行内部BEGIN/COMMIT/ROLLBACK）
-
-        Returns:
-            (是否成功, last_refresh_time, 扣减后的库存数量)
-        """
-        quantity = max(1, int(quantity))
-        if not external_transaction:
-            await self.conn.execute("BEGIN IMMEDIATE")
-        try:
-            async with self.conn.execute(
-                "SELECT last_refresh_time, current_items FROM shop WHERE shop_id = ?",
-                (shop_id,)
-            ) as cursor:
-                row = await cursor.fetchone()
-
-            if not row:
-                if not external_transaction:
-                    await self.conn.rollback()
-                return False, 0, 0
-
-            last_refresh_time = row[0]
-            try:
-                current_items = json.loads(row[1])
-            except json.JSONDecodeError:
-                current_items = []
-
-            target_index = -1
-            for idx, item in enumerate(current_items):
-                if item.get('name') == item_name:
-                    target_index = idx
-                    break
-
-            if target_index == -1:
-                if not external_transaction:
-                    await self.conn.rollback()
-                return False, last_refresh_time, 0
-
-            stock = current_items[target_index].get('stock', 0)
-            if stock is None or stock <= 0:
-                if not external_transaction:
-                    await self.conn.rollback()
-                return False, last_refresh_time, max(stock or 0, 0)
-
-            if stock < quantity:
-                if not external_transaction:
-                    await self.conn.rollback()
-                return False, last_refresh_time, stock
-
-            new_stock = stock - quantity
-            current_items[target_index]['stock'] = new_stock
-
-            items_json = json.dumps(current_items, ensure_ascii=False)
-            await self.conn.execute(
-                "UPDATE shop SET current_items = ?, last_refresh_time = ? WHERE shop_id = ?",
-                (items_json, last_refresh_time, shop_id)
-            )
-            if not external_transaction:
-                await self.conn.commit()
-            return True, last_refresh_time, new_stock
-        except Exception:
-            if not external_transaction:
-                await self.conn.rollback()
-            raise
-
-    async def increment_shop_item_stock(self, shop_id: str, item_name: str, quantity: int = 1):
-        """回滚库存（在购买失败时恢复库存），支持批量"""
-        quantity = max(1, int(quantity))
-        await self.conn.execute("BEGIN IMMEDIATE")
-        try:
-            async with self.conn.execute(
-                "SELECT last_refresh_time, current_items FROM shop WHERE shop_id = ?",
-                (shop_id,)
-            ) as cursor:
-                row = await cursor.fetchone()
-
-            if not row:
-                await self.conn.rollback()
-                return
-
-            last_refresh_time = row[0]
-            try:
-                current_items = json.loads(row[1])
-            except json.JSONDecodeError:
-                current_items = []
-
-            for item in current_items:
-                if item.get('name') == item_name:
-                    current_stock = item.get('stock', 0) or 0
-                    item['stock'] = current_stock + quantity
-                    break
-
-            items_json = json.dumps(current_items, ensure_ascii=False)
-            await self.conn.execute(
-                "UPDATE shop SET current_items = ?, last_refresh_time = ? WHERE shop_id = ?",
-                (items_json, last_refresh_time, shop_id)
-            )
-            await self.conn.commit()
-        except Exception:
-            await self.conn.rollback()
-            raise

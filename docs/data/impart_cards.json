@@ -1,0 +1,527 @@
+[
+    {
+        "name": "白玫瑰",
+        "type": "atk_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "白日菊",
+        "type": "atk_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "百合",
+        "type": "atk_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "百慕达奶油",
+        "type": "atk_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "彩叶草",
+        "type": "atk_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "翠菊",
+        "type": "atk_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "大理",
+        "type": "atk_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "大岩酮",
+        "type": "atk_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "丁香",
+        "type": "atk_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "粉红蔷薇",
+        "type": "atk_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "画屏春-暗香",
+        "type": "atk_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-采桑",
+        "type": "atk_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-葱茏",
+        "type": "atk_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-风息",
+        "type": "atk_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-风信",
+        "type": "atk_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-风语",
+        "type": "atk_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-眷念",
+        "type": "atk_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-兰舟",
+        "type": "atk_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-赛金",
+        "type": "atk_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-似霞",
+        "type": "atk_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "粉蔷薇",
+        "type": "hp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "风铃草",
+        "type": "hp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "风信子",
+        "type": "hp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "凤梨",
+        "type": "hp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "芙蓉",
+        "type": "hp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "海宇",
+        "type": "hp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "红玫瑰",
+        "type": "hp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "红蔷薇",
+        "type": "hp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "红掌",
+        "type": "hp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "蝴蝶兰",
+        "type": "hp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "画屏春-国香",
+        "type": "hp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-花蕊",
+        "type": "hp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-回眸",
+        "type": "hp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-解红",
+        "type": "hp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-踏樱",
+        "type": "hp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-啼鹃",
+        "type": "hp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-樱浮",
+        "type": "hp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-樱柔",
+        "type": "hp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-早樱",
+        "type": "hp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "黄菊",
+        "type": "mp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "黄玫瑰",
+        "type": "mp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "黄蔷薇",
+        "type": "mp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "火百合",
+        "type": "mp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "金达莱",
+        "type": "mp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "金凤",
+        "type": "mp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "金鱼草",
+        "type": "mp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "菊",
+        "type": "mp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "卡萨布兰卡",
+        "type": "mp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "蓝蔷薇",
+        "type": "mp_bonus",
+        "value": 0.1
+    },
+    {
+        "name": "画屏春-春水",
+        "type": "mp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-繁星",
+        "type": "mp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-佳色",
+        "type": "mp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-灵动",
+        "type": "mp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-倾杯",
+        "type": "mp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-秋霁",
+        "type": "mp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-时令",
+        "type": "mp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-无暇",
+        "type": "mp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-瑶花",
+        "type": "mp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "画屏春-荧惑",
+        "type": "mp_bonus",
+        "value": 0.07
+    },
+    {
+        "name": "向日葵",
+        "type": "crit_rate",
+        "value": 0.05
+    },
+    {
+        "name": "小苍兰",
+        "type": "crit_rate",
+        "value": 0.05
+    },
+    {
+        "name": "雪莲",
+        "type": "crit_rate",
+        "value": 0.05
+    },
+    {
+        "name": "荀麻",
+        "type": "crit_rate",
+        "value": 0.05
+    },
+    {
+        "name": "野蔷薇",
+        "type": "crit_damage",
+        "value": 0.1
+    },
+    {
+        "name": "油桐",
+        "type": "crit_damage",
+        "value": 0.1
+    },
+    {
+        "name": "郁金香",
+        "type": "crit_damage",
+        "value": 0.1
+    },
+    {
+        "name": "鸢尾",
+        "type": "crit_damage",
+        "value": 0.1
+    },
+    {
+        "name": "紫罗兰",
+        "type": "crit_damage",
+        "value": 0.1
+    },
+    {
+        "name": "连翘",
+        "type": "closing_exp_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "莲",
+        "type": "closing_exp_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "铃兰",
+        "type": "closing_exp_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "龙胆",
+        "type": "closing_exp_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "麦秆菊",
+        "type": "closing_exp_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "迷迭香",
+        "type": "closing_exp_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "牡丹",
+        "type": "closing_exp_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "木棉",
+        "type": "closing_exp_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "蒲公英",
+        "type": "closing_exp_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "三色堇",
+        "type": "closing_exp_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "紫玫瑰",
+        "type": "alchemy_count_bonus",
+        "value": 1
+    },
+    {
+        "name": "画屏春-苍翠",
+        "type": "harvest_bonus",
+        "value": 1
+    },
+    {
+        "name": "画屏春-沉沦",
+        "type": "harvest_bonus",
+        "value": 1
+    },
+    {
+        "name": "画屏春-春晴",
+        "type": "harvest_bonus",
+        "value": 1
+    },
+    {
+        "name": "画屏春-蝶桂",
+        "type": "harvest_bonus",
+        "value": 1
+    },
+    {
+        "name": "画屏春-缚灵",
+        "type": "harvest_bonus",
+        "value": 1
+    },
+    {
+        "name": "画屏春-佳人",
+        "type": "harvest_bonus",
+        "value": 1
+    },
+    {
+        "name": "画屏春-晶莹",
+        "type": "harvest_bonus",
+        "value": 1
+    },
+    {
+        "name": "画屏春-生息",
+        "type": "harvest_bonus",
+        "value": 1
+    },
+    {
+        "name": "画屏春-雨润",
+        "type": "harvest_bonus",
+        "value": 1
+    },
+    {
+        "name": "画屏春-早春",
+        "type": "harvest_bonus",
+        "value": 1
+    },
+    {
+        "name": "紫云英",
+        "type": "harvest_bonus",
+        "value": 1
+    },
+    {
+        "name": "玉簪",
+        "type": "dual_cultivation_bonus",
+        "value": 1
+    },
+    {
+        "name": "樱",
+        "type": "dual_cultivation_bonus",
+        "value": 1
+    },
+    {
+        "name": "蓍草",
+        "type": "dual_cultivation_bonus",
+        "value": 1
+    },
+    {
+        "name": "密蒙",
+        "type": "dual_cultivation_bonus",
+        "value": 1
+    },
+    {
+        "name": "波斯菊",
+        "type": "dual_cultivation_bonus",
+        "value": 1
+    },
+    {
+        "name": "山茶",
+        "type": "boss_atk_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "山樱",
+        "type": "boss_atk_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "芍药",
+        "type": "boss_atk_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "时钟",
+        "type": "boss_atk_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "矢车菊",
+        "type": "boss_atk_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "水仙",
+        "type": "boss_atk_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "松虫草",
+        "type": "boss_atk_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "天竺葵",
+        "type": "boss_atk_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "仙客",
+        "type": "boss_atk_bonus",
+        "value": 0.05
+    },
+    {
+        "name": "香水百合",
+        "type": "boss_atk_bonus",
+        "value": 0.05
+    }
+]

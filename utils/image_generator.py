@@ -99,7 +99,7 @@ class ImageGenerator:
 
         # 4. 基本信息 (中间)
         self._draw_section_header(img, "【基本信息】", 600, font_40, color_text)
-        base_keys = ["灵根", "突破状态", "主修功法", "攻击力", "法器", "防具"]
+        base_keys = ["灵根", "突破状态", "主修功法", "攻击力", "武器", "防具"]
         base_list_y = 703
         for i, key in enumerate(base_keys):
             val = detail_map.get(key, "无")

@@ -19,22 +19,98 @@
   "elixir_room": {
     "claim_contribution_required": 500,
     "levels": {
-      "1": {"name": "黄级丹房", "upgrade_cost_scale": 100000, "upgrade_cost_stone": 500000, "daily_pills": 1, "pill_rank_max": 1},
-      "2": {"name": "玄级丹房", "upgrade_cost_scale": 250000, "upgrade_cost_stone": 1000000, "daily_pills": 2, "pill_rank_max": 2},
-      "3": {"name": "地级丹房", "upgrade_cost_scale": 500000, "upgrade_cost_stone": 2500000, "daily_pills": 3, "pill_rank_max": 3},
-      "4": {"name": "天级丹房", "upgrade_cost_scale": 1000000, "upgrade_cost_stone": 5000000, "daily_pills": 4, "pill_rank_max": 4},
-      "5": {"name": "仙级丹房", "upgrade_cost_scale": 2000000, "upgrade_cost_stone": 10000000, "daily_pills": 5, "pill_rank_max": 5}
-    },
-    "maintenance_cost_per_level": 10000
+      "1": {"name": "黄级丹房", "upgrade_cost_scale": 50000000, "upgrade_cost_stone": 0, "daily_pills": 1, "pill_rank_max": 1, "guaranteed_pill": "渡厄丹", "maintenance_cost": 50000000},
+      "2": {"name": "玄级丹房", "upgrade_cost_scale": 60000000, "upgrade_cost_stone": 0, "daily_pills": 2, "pill_rank_max": 2, "guaranteed_pill": "渡厄丹", "maintenance_cost": 60000000},
+      "3": {"name": "地级丹房", "upgrade_cost_scale": 70000000, "upgrade_cost_stone": 0, "daily_pills": 3, "pill_rank_max": 3, "guaranteed_pill": "渡厄丹", "maintenance_cost": 70000000},
+      "4": {"name": "天级丹房", "upgrade_cost_scale": 80000000, "upgrade_cost_stone": 0, "daily_pills": 4, "pill_rank_max": 4, "guaranteed_pill": "渡厄丹", "maintenance_cost": 80000000},
+      "5": {"name": "仙级丹房", "upgrade_cost_scale": 100000000, "upgrade_cost_stone": 0, "daily_pills": 5, "pill_rank_max": 5, "guaranteed_pill": "渡厄丹", "maintenance_cost": 100000000},
+      "6": {"name": "仙王丹房", "upgrade_cost_scale": 1000000000, "upgrade_cost_stone": 0, "daily_pills": 7, "pill_rank_max": 6, "guaranteed_pill": "渡厄丹", "maintenance_cost": 1000000000},
+      "7": {"name": "仙帝丹房", "upgrade_cost_scale": 2000000000, "upgrade_cost_stone": 0, "daily_pills": 9, "pill_rank_max": 7, "guaranteed_pill": "渡厄丹", "maintenance_cost": 2000000000},
+      "8": {"name": "无上丹房", "upgrade_cost_scale": 5000000000, "upgrade_cost_stone": 0, "daily_pills": 11, "pill_rank_max": 8, "guaranteed_pill": "渡厄丹", "maintenance_cost": 5000000000}
+    }
   },
   "material_distribution": {
-    "hour": 12,
-    "rate": 0.1
+    "hours": [11, 12],
+    "rate": 1.0
+  },
+  "member_limits": {
+    "0": {"total": 16, "elder": 3, "direct": 3, "inner": 10},
+    "1": {"total": 24, "elder": 4, "direct": 5, "inner": 15},
+    "2": {"total": 32, "elder": 5, "direct": 6, "inner": 21},
+    "3": {"total": 40, "elder": 6, "direct": 8, "inner": 26},
+    "4": {"total": 48, "elder": 7, "direct": 9, "inner": 31},
+    "5": {"total": 56, "elder": 8, "direct": 11, "inner": 36},
+    "6": {"total": 65, "elder": 9, "direct": 12, "inner": 41},
+    "7": {"total": 72, "elder": 10, "direct": 13, "inner": 46},
+    "8": {"total": 80, "elder": 11, "direct": 15, "inner": 51}
   },
   "auto_owner_change": {
     "inactive_days": 7
   },
   "rename": {
     "cost_contribution": 500
-  }
+  },
+  "tasks": [
+    {"name": "狩猎邪修", "type": "hp", "cost_ratio": 0.45, "exp_ratio": 0.012, "sect_stone": 14000, "material_mult": 10, "scale_mult": 1, "desc": "传闻有邪修在山下村庄劫掠灵石，请下山除之为民除害。"},
+    {"name": "查抄窝点", "type": "hp", "cost_ratio": 0.35, "exp_ratio": 0.01, "sect_stone": 10000, "material_mult": 10, "scale_mult": 1, "desc": "有些弟子不在金银阁消费，私下经营小窝点，请前去查抄。"},
+    {"name": "九转仙丹", "type": "stone", "cost": 900000, "exp_ratio": 0.008, "sect_stone": 15000, "material_mult": 10, "scale_mult": 1, "desc": "山门即将开启，宗门急需灵草炼制九转仙丹，请下山采购。"},
+    {"name": "仗义疏财", "type": "stone", "cost": 1000000, "exp_ratio": 0.0085, "sect_stone": 12000, "material_mult": 10, "scale_mult": 1, "desc": "在宗门外看到一位师弟欠灵石被人追债，请帮忙偿还赌债。"},
+    {"name": "红尘寻宝", "type": "stone", "cost": 1500000, "exp_ratio": 0.009, "sect_stone": 18000, "material_mult": 11, "scale_mult": 1, "desc": "山下月市又开了，虽然多是凡品，请大方买些蒙尘宝物回来。"}
+  ],
+  "task_exp_caps": {"0": 2000000000, "1": 1000000000, "2": 700000000, "3": 500000000, "4": 300000000},
+  "attack_practice_costs": [
+    {"level": 1, "materials": 1000000, "stone": 100000},
+    {"level": 2, "materials": 2000000, "stone": 200000},
+    {"level": 3, "materials": 4000000, "stone": 400000},
+    {"level": 4, "materials": 8000000, "stone": 800000},
+    {"level": 5, "materials": 8000000, "stone": 800000},
+    {"level": 6, "materials": 8000000, "stone": 800000},
+    {"level": 7, "materials": 8000000, "stone": 800000},
+    {"level": 8, "materials": 8000000, "stone": 800000},
+    {"level": 9, "materials": 8000000, "stone": 800000},
+    {"level": 10, "materials": 8000000, "stone": 800000},
+    {"level": 11, "materials": 16000000, "stone": 1600000},
+    {"level": 12, "materials": 16000000, "stone": 1600000},
+    {"level": 13, "materials": 16000000, "stone": 1600000},
+    {"level": 14, "materials": 16000000, "stone": 1600000},
+    {"level": 15, "materials": 16000000, "stone": 1600000},
+    {"level": 16, "materials": 16000000, "stone": 1600000},
+    {"level": 17, "materials": 16000000, "stone": 1600000},
+    {"level": 18, "materials": 16000000, "stone": 1600000},
+    {"level": 19, "materials": 16000000, "stone": 1600000},
+    {"level": 20, "materials": 16000000, "stone": 1600000},
+    {"level": 21, "materials": 32000000, "stone": 3200000},
+    {"level": 22, "materials": 32000000, "stone": 3200000},
+    {"level": 23, "materials": 32000000, "stone": 3200000},
+    {"level": 24, "materials": 32000000, "stone": 3200000},
+    {"level": 25, "materials": 32000000, "stone": 3200000},
+    {"level": 26, "materials": 64000000, "stone": 6400000},
+    {"level": 27, "materials": 64000000, "stone": 6400000},
+    {"level": 28, "materials": 64000000, "stone": 6400000},
+    {"level": 29, "materials": 64000000, "stone": 6400000},
+    {"level": 30, "materials": 64000000, "stone": 6400000},
+    {"level": 31, "materials": 200000000, "stone": 20000000},
+    {"level": 32, "materials": 200000000, "stone": 20000000},
+    {"level": 33, "materials": 200000000, "stone": 20000000},
+    {"level": 34, "materials": 200000000, "stone": 20000000},
+    {"level": 35, "materials": 200000000, "stone": 20000000},
+    {"level": 36, "materials": 500000000, "stone": 50000000},
+    {"level": 37, "materials": 500000000, "stone": 50000000},
+    {"level": 38, "materials": 500000000, "stone": 50000000},
+    {"level": 39, "materials": 500000000, "stone": 50000000},
+    {"level": 40, "materials": 500000000, "stone": 50000000},
+    {"level": 41, "materials": 1000000000, "stone": 100000000},
+    {"level": 42, "materials": 1000000000, "stone": 100000000},
+    {"level": 43, "materials": 1000000000, "stone": 100000000},
+    {"level": 44, "materials": 1000000000, "stone": 100000000},
+    {"level": 45, "materials": 1000000000, "stone": 100000000},
+    {"level": 46, "materials": 3000000000, "stone": 300000000},
+    {"level": 47, "materials": 4000000000, "stone": 400000000},
+    {"level": 48, "materials": 5000000000, "stone": 500000000},
+    {"level": 49, "materials": 6000000000, "stone": 600000000},
+    {"level": 50, "materials": 7000000000, "stone": 700000000}
+  ],
+  "task_refresh_cd": 300,
+  "daily_task_limit": 3,
+  "task_cooldown": 600
 }

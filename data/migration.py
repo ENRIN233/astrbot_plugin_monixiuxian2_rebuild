@@ -5,7 +5,7 @@ from typing import Dict, Callable, Awaitable
 from astrbot.api import logger
 from ..config_manager import ConfigManager
 
-LATEST_DB_VERSION = 34  # v34: 清理删除的高mpcost神通
+LATEST_DB_VERSION = 39  # v39: 添加辅修功法字段
 
 MIGRATION_TASKS: Dict[int, Callable[[aiosqlite.Connection, ConfigManager], Awaitable[None]]] = {}
 
@@ -132,30 +132,6 @@ async def _ensure_table_integrity(conn: aiosqlite.Connection):
         await conn.execute("CREATE INDEX IF NOT EXISTS idx_dual_user ON dual_cultivation(user_id)")
         repaired.append("dual_cultivation")
 
-    if "spirit_eyes" not in existing_tables:
-        await conn.execute("""
-            CREATE TABLE IF NOT EXISTS spirit_eyes (
-                eye_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                eye_type INTEGER NOT NULL DEFAULT 1,
-                eye_name TEXT NOT NULL DEFAULT '下品灵眼',
-                exp_per_hour INTEGER NOT NULL DEFAULT 500,
-                spawn_time INTEGER NOT NULL,
-                owner_id TEXT,
-                owner_name TEXT,
-                claim_time INTEGER,
-                last_collect_time INTEGER
-            )
-        """)
-        await conn.execute("CREATE INDEX IF NOT EXISTS idx_spirit_eyes_owner ON spirit_eyes(owner_id)")
-        import time
-        now = int(time.time())
-        for eye in [(1, "下品灵眼", 15, now), (1, "下品灵眼", 15, now), (2, "中品灵眼", 25, now)]:
-            await conn.execute(
-                "INSERT INTO spirit_eyes (eye_type, eye_name, exp_per_hour, spawn_time) VALUES (?, ?, ?, ?)",
-                eye
-            )
-        repaired.append("spirit_eyes")
-
     if "dual_cultivation_requests" not in existing_tables:
         await conn.execute("""
             CREATE TABLE IF NOT EXISTS dual_cultivation_requests (
@@ -227,17 +203,6 @@ async def _ensure_table_integrity(conn: aiosqlite.Connection):
             except Exception:
                 pass
 
-    # 检查 spirit_eyes 表是否缺少 last_collect_time 字段
-    if "spirit_eyes" in existing_tables and "spirit_eyes" not in repaired:
-        async with conn.execute("PRAGMA table_info(spirit_eyes)") as cursor:
-            columns = {row[1] for row in await cursor.fetchall()}
-        if "last_collect_time" not in columns:
-            try:
-                await conn.execute("ALTER TABLE spirit_eyes ADD COLUMN last_collect_time INTEGER")
-                repaired.append("spirit_eyes.last_collect_time")
-            except Exception:
-                pass
-
     # 检查 rifts 表是否有数据（新安装时 _create_all_tables_v2 不插入秘境数据）
     if "rifts" in existing_tables and "rifts" not in repaired:
         async with conn.execute("SELECT COUNT(*) FROM rifts") as cursor:
@@ -282,6 +247,16 @@ async def _ensure_table_integrity(conn: aiosqlite.Connection):
             )
         """)
         repaired.append("gm_compensation_claims")
+
+    # 秘境副本系统表
+    if "dungeon_runs" not in existing_tables:
+        await conn.execute("""
+            CREATE TABLE IF NOT EXISTS dungeon_runs (
+                user_id TEXT PRIMARY KEY,
+                run_data TEXT NOT NULL DEFAULT '{}'
+            )
+        """)
+        repaired.append("dungeon_runs")
 
     if repaired:
         await conn.commit()
@@ -562,12 +537,7 @@ async def _create_all_tables_v2(conn: aiosqlite.Connection):
             max_spiritual_qi INTEGER NOT NULL DEFAULT 1000,
             blood_qi INTEGER NOT NULL DEFAULT 0,
             max_blood_qi INTEGER NOT NULL DEFAULT 0,
-            magic_damage INTEGER NOT NULL DEFAULT 10,
-            physical_damage INTEGER NOT NULL DEFAULT 10,
-            magic_defense INTEGER NOT NULL DEFAULT 5,
-            physical_defense INTEGER NOT NULL DEFAULT 5,
-            mental_power INTEGER NOT NULL DEFAULT 100,
-            
+
             weapon TEXT NOT NULL DEFAULT '',
             armor TEXT NOT NULL DEFAULT '',
             main_technique TEXT NOT NULL DEFAULT '',
@@ -585,6 +555,9 @@ async def _create_all_tables_v2(conn: aiosqlite.Connection):
             last_daily_reset TEXT NOT NULL DEFAULT '',
             permanent_pill_usage TEXT NOT NULL DEFAULT '{}',
             shentong TEXT NOT NULL DEFAULT '',
+            sub_technique TEXT NOT NULL DEFAULT '',
+            furnace TEXT NOT NULL DEFAULT '',
+            sleeping_bag_level INTEGER NOT NULL DEFAULT 0,
             bank_vip_tier INTEGER NOT NULL DEFAULT 0,
             achievement_data TEXT NOT NULL DEFAULT '{"unlocked": {}, "equipped": ""}',
             monthly_sign_count INTEGER NOT NULL DEFAULT 0,
@@ -850,36 +823,6 @@ async def _create_all_tables_v2(conn: aiosqlite.Connection):
         )
     """)
     await conn.execute("CREATE INDEX IF NOT EXISTS idx_dual_user ON dual_cultivation(user_id)")
-
-    # 创建天地灵眼表
-    await conn.execute("""
-        CREATE TABLE IF NOT EXISTS spirit_eyes (
-            eye_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            eye_type INTEGER NOT NULL DEFAULT 1,
-            eye_name TEXT NOT NULL DEFAULT '下品灵眼',
-            exp_per_hour INTEGER NOT NULL DEFAULT 500,
-            spawn_time INTEGER NOT NULL,
-            owner_id TEXT,
-            owner_name TEXT,
-            claim_time INTEGER,
-            last_collect_time INTEGER
-        )
-    """)
-    await conn.execute("CREATE INDEX IF NOT EXISTS idx_spirit_eyes_owner ON spirit_eyes(owner_id)")
-
-    # 插入初始灵眼（exp_per_hour 存储修炼效率百分比整数）
-    import time
-    now = int(time.time())
-    initial_eyes = [
-        (1, "下品灵眼", 15, now),
-        (1, "下品灵眼", 15, now),
-        (2, "中品灵眼", 25, now),
-    ]
-    for eye in initial_eyes:
-        await conn.execute(
-            "INSERT INTO spirit_eyes (eye_type, eye_name, exp_per_hour, spawn_time) VALUES (?, ?, ?, ?)",
-            eye
-        )
 
     # 创建双修请求表
     await conn.execute("""
@@ -1852,3 +1795,103 @@ async def _migrate_to_v34(conn: aiosqlite.Connection, config_manager: ConfigMana
     )
 
     logger.info("v34迁移完成：清理已删除神通")
+
+
+@migration(35)
+async def _migrate_to_v35(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """迁移到v35 - 秘境副本系统"""
+    logger.info("开始迁移到v35：秘境副本系统")
+
+    # 创建副本运行状态表
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS dungeon_runs (
+            user_id TEXT PRIMARY KEY,
+            run_data TEXT NOT NULL DEFAULT '{}'
+        )
+    """)
+
+    # 玩家新增睡袋等级字段
+    async with conn.execute("PRAGMA table_info(players)") as cursor:
+        columns = {row[1] for row in await cursor.fetchall()}
+
+    if 'sleeping_bag_level' not in columns:
+        await conn.execute(
+            "ALTER TABLE players ADD COLUMN sleeping_bag_level INTEGER NOT NULL DEFAULT 0"
+        )
+
+    logger.info("v35迁移完成：秘境副本系统")
+
+
+@migration(36)
+async def _migrate_to_v36(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """迁移到v36 - nonebot 境界体系（57级统一境界，移除灵修/体修数值分支）
+
+    level_index 映射：旧 0-35 线性映射到新 0-57
+    修为(经验)保持不变
+    突破累积属性重置（由 exp 推导）
+    """
+    logger.info("开始迁移到v36：nonebot 境界体系")
+
+    # 线性映射：旧 index 0-35 → 新 index 0-57
+    OLD_MAX = 35
+    NEW_MAX = 57
+
+    async with conn.execute("SELECT user_id, level_index FROM players") as cursor:
+        rows = await cursor.fetchall()
+
+    for user_id, old_index in rows:
+        old_index = old_index or 0
+        new_index = min(NEW_MAX, round(old_index * NEW_MAX / OLD_MAX))
+        await conn.execute(
+            "UPDATE players SET level_index = ? WHERE user_id = ?",
+            (new_index, user_id)
+        )
+
+    # 重置突破累积属性（nonebot 体系中这些由 exp 推导）
+    await conn.execute(
+        "UPDATE players SET physical_damage = 10, magic_damage = 10, "
+        "physical_defense = 5, magic_defense = 5, mental_power = 100, lifespan = 100"
+    )
+
+    # 统一 cultivation_type
+    await conn.execute(
+        "UPDATE players SET cultivation_type = '灵修'"
+    )
+
+    # 新增炼丹炉装备槽
+    async with conn.execute("PRAGMA table_info(players)") as cursor:
+        columns = {row[1] for row in await cursor.fetchall()}
+    if 'furnace' not in columns:
+        await conn.execute(
+            "ALTER TABLE players ADD COLUMN furnace TEXT NOT NULL DEFAULT ''"
+        )
+
+    await conn.commit()
+    logger.info(f"v36迁移完成：nonebot 境界体系 + 炼丹炉，已迁移 {len(rows)} 个玩家")
+
+
+@migration(37)
+async def v37_remove_flat_attrs(conn):
+    """v37: 移除物攻/魔攻/物防/魔防/灵力 5 个平铺属性"""
+    await conn.execute(
+        "UPDATE players SET physical_damage = 0, magic_damage = 0, "
+        "physical_defense = 0, magic_defense = 0, mental_power = 0"
+    )
+    await conn.commit()
+    logger.info("v37迁移完成：已清零物攻/魔攻/物防/魔防/灵力（列保留兼容）")
+
+
+@migration(38)
+async def v38_drop_spirit_eyes(conn):
+    """v38: 删除 spirit_eyes 表（灵眼系统已移除）"""
+    await conn.execute("DROP TABLE IF EXISTS spirit_eyes")
+    await conn.commit()
+    logger.info("v38迁移完成：已删除 spirit_eyes 表")
+
+
+@migration(39)
+async def v39_add_sub_technique(conn):
+    """v39: 添加辅修功法字段 sub_technique"""
+    await conn.execute("ALTER TABLE players ADD COLUMN sub_technique TEXT NOT NULL DEFAULT ''")
+    await conn.commit()
+    logger.info("v39迁移完成：已添加辅修功法字段 sub_technique")

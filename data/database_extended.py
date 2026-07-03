@@ -5,17 +5,38 @@
 
 import aiosqlite
 import json
-from typing import List, Optional
+from contextlib import asynccontextmanager
+from dataclasses import fields
+from typing import List, Optional, AsyncGenerator
 from ..models_extended import (
-    Sect, BuffInfo, Boss, Rift, ImpartInfo, UserCd
+    Sect, BuffInfo, Boss, Rift, ImpartInfo, UserCd, DungeonRun
 )
 
 
 class DatabaseExtended:
     """数据库扩展操作类"""
-    
+
     def __init__(self, conn: aiosqlite.Connection):
         self.conn = conn
+
+    @asynccontextmanager
+    async def immediate_transaction(self) -> AsyncGenerator[None, None]:
+        """BEGIN IMMEDIATE 事务上下文管理器
+
+        所有多步写操作必须使用此上下文管理器包裹，
+        确保原子性和高并发下避免死锁（DEFERRED 可能死锁）。
+
+        用法:
+            async with db.ext.immediate_transaction():
+                await db.conn.execute(...)
+        """
+        await self.conn.execute("BEGIN IMMEDIATE")
+        try:
+            yield
+            await self.conn.commit()
+        except Exception:
+            await self.conn.rollback()
+            raise
     
     # ===== 宗门系统 CRUD =====
     
@@ -145,13 +166,13 @@ class DatabaseExtended:
             """
             INSERT INTO buff_info (
                 user_id, main_buff, sec_buff, faqi_buff, fabao_weapon,
-                armor_buff, atk_buff, blessed_spot, sub_buff
-            ) VALUES (?, 0, 0, 0, 0, 0, 0, 0, 0)
+                armor_buff, atk_buff, sub_buff
+            ) VALUES (?, 0, 0, 0, 0, 0, 0, 0)
             """,
             (user_id,)
         )
         await self.conn.commit()
-    
+
     async def get_buff_info(self, user_id: str) -> Optional[BuffInfo]:
         """获取用户buff信息"""
         async with self.conn.execute(
@@ -160,7 +181,9 @@ class DatabaseExtended:
         ) as cursor:
             row = await cursor.fetchone()
             if row:
-                return BuffInfo(**dict(row))
+                # 过滤掉 BuffInfo 中不存在的字段（如已废弃的 blessed_spot）
+                valid_fields = {f.name for f in fields(BuffInfo)}
+                return BuffInfo(**{k: v for k, v in dict(row).items() if k in valid_fields})
             return None
     
     async def update_buff_info(self, buff_info: BuffInfo):
@@ -169,13 +192,13 @@ class DatabaseExtended:
             """
             UPDATE buff_info SET
                 main_buff = ?, sec_buff = ?, faqi_buff = ?, fabao_weapon = ?,
-                armor_buff = ?, atk_buff = ?, blessed_spot = ?, sub_buff = ?
+                armor_buff = ?, atk_buff = ?, sub_buff = ?
             WHERE user_id = ?
             """,
             (
                 buff_info.main_buff, buff_info.sec_buff, buff_info.faqi_buff,
                 buff_info.fabao_weapon, buff_info.armor_buff, buff_info.atk_buff,
-                buff_info.blessed_spot, buff_info.sub_buff, buff_info.user_id
+                buff_info.sub_buff, buff_info.user_id
             )
         )
         await self.conn.commit()
@@ -264,6 +287,32 @@ class DatabaseExtended:
             (boss_id,)
         )
         await self.conn.commit()
+
+    async def update_boss_hp_if_active(self, boss_id: int, hp: int) -> bool:
+        """仅当Boss仍存活时更新HP（防止已被击败的Boss被重新激活）
+
+        Returns:
+            True if updated, False if boss was already defeated
+        """
+        cursor = await self.conn.execute(
+            "UPDATE boss SET hp = ? WHERE boss_id = ? AND status = 1",
+            (hp, boss_id)
+        )
+        await self.conn.commit()
+        return cursor.rowcount > 0
+
+    async def try_defeat_boss(self, boss_id: int) -> bool:
+        """尝试标记Boss为已击败（乐观锁：仅当Boss仍存活时生效）
+
+        Returns:
+            True if the boss was successfully defeated (was active), False if already defeated
+        """
+        cursor = await self.conn.execute(
+            "UPDATE boss SET status = 0 WHERE boss_id = ? AND status = 1",
+            (boss_id,)
+        )
+        await self.conn.commit()
+        return cursor.rowcount > 0
     
     # ===== 秘境系统 CRUD =====
     
@@ -380,14 +429,15 @@ class DatabaseExtended:
         )
         await self.conn.commit()
     
-    async def set_user_busy(self, user_id: str, busy_type: int, scheduled_time: int = 0, extra_data: dict = None):
+    async def set_user_busy(self, user_id: str, busy_type: int, scheduled_time: int = 0, extra_data: dict = None, auto_commit: bool = True):
         """设置用户忙碌状态
-        
+
         Args:
             user_id: 用户ID
             busy_type: 0=空闲, 1=闭关, 2=历练, 3=探索秘境
             scheduled_time: 计划完成时间戳
             extra_data: 额外数据（如秘境ID等）
+            auto_commit: 是否自动提交（False时由外部事务管理）
         """
         import time
         import json
@@ -399,7 +449,8 @@ class DatabaseExtended:
             """,
             (busy_type, int(time.time()), scheduled_time, extra_json, user_id)
         )
-        await self.conn.commit()
+        if auto_commit:
+            await self.conn.commit()
     
     async def set_user_free(self, user_id: str):
         """设置用户为空闲状态"""
@@ -407,13 +458,14 @@ class DatabaseExtended:
     
     # ===== Player扩展字段更新方法 =====
     
-    async def update_player_hp_mp(self, user_id: str, hp: int, mp: int):
+    async def update_player_hp_mp(self, user_id: str, hp: int, mp: int, auto_commit: bool = True):
         """更新玩家HP和MP"""
         await self.conn.execute(
             "UPDATE players SET hp = ?, mp = ? WHERE user_id = ?",
-            (hp, mp, user_id)
+            (max(1, hp), max(0, mp), user_id)
         )
-        await self.conn.commit()
+        if auto_commit:
+            await self.conn.commit()
     
     async def update_player_sect_info(self, user_id: str, sect_id: int, sect_position: int):
         """更新玩家宗门信息"""
@@ -461,7 +513,43 @@ class DatabaseExtended:
             from dataclasses import fields
             PLAYER_FIELDS = {f.name for f in fields(Player)}
             return [Player(**{k: v for k, v in dict(row).items() if k in PLAYER_FIELDS}) for row in rows]
-    
+
+    async def get_all_sects_summary(self) -> List[dict]:
+        """获取所有宗门的摘要信息（用于资材发放和自动换宗主）"""
+        async with self.conn.execute(
+            "SELECT sect_id, sect_name, sect_owner, sect_scale, sect_materials FROM sects"
+        ) as cursor:
+            rows = await cursor.fetchall()
+            return [dict(row) for row in rows]
+
+    async def update_sect_name(self, sect_id: int, new_name: str) -> bool:
+        """更新宗门名称，返回是否成功（名称重复则失败）"""
+        try:
+            await self.conn.execute(
+                "UPDATE sects SET sect_name = ? WHERE sect_id = ?",
+                (new_name, sect_id)
+            )
+            await self.conn.commit()
+            return True
+        except Exception:
+            return False
+
+    async def update_player_elixir_get(self, user_id: str, value: int = 1):
+        """更新玩家丹药领取标记"""
+        await self.conn.execute(
+            "UPDATE players SET sect_elixir_get = ? WHERE user_id = ?",
+            (value, user_id)
+        )
+        await self.conn.commit()
+
+    async def update_user_atkpractice(self, user_id: str, level: int):
+        """更新攻击修炼等级"""
+        await self.conn.execute(
+            "UPDATE players SET atkpractice = ? WHERE user_id = ?",
+            (level, user_id)
+        )
+        await self.conn.commit()
+
     # ===== Phase 2: 灵石银行 CRUD =====
     
     async def get_bank_account(self, user_id: str) -> Optional[dict]:
@@ -475,19 +563,20 @@ class DatabaseExtended:
                 return {"balance": row[0], "last_interest_time": row[1]}
             return None
     
-    async def update_bank_account(self, user_id: str, balance: int, last_interest_time: int):
+    async def update_bank_account(self, user_id: str, balance: int, last_interest_time: int, auto_commit: bool = True):
         """更新或创建银行账户"""
         await self.conn.execute(
             """
             INSERT INTO bank_accounts (user_id, balance, last_interest_time)
             VALUES (?, ?, ?)
-            ON CONFLICT(user_id) DO UPDATE SET 
+            ON CONFLICT(user_id) DO UPDATE SET
                 balance = excluded.balance,
                 last_interest_time = excluded.last_interest_time
             """,
             (user_id, balance, last_interest_time)
         )
-        await self.conn.commit()
+        if auto_commit:
+            await self.conn.commit()
     
     # ===== Phase 2: 悬赏令系统 CRUD =====
     
@@ -618,9 +707,10 @@ class DatabaseExtended:
     # ===== 赠予请求系统 CRUD =====
     
     async def create_pending_gift(self, receiver_id: str, sender_id: str, sender_name: str,
-                                   item_name: str, count: int, expires_hours: int = 24) -> int:
+                                   item_name: str, count: int, expires_hours: int = 24,
+                                   auto_commit: bool = True) -> int:
         """创建赠予请求
-        
+
         Args:
             receiver_id: 接收者ID
             sender_id: 发送者ID
@@ -628,14 +718,15 @@ class DatabaseExtended:
             item_name: 物品名称
             count: 物品数量
             expires_hours: 过期时间（小时），默认24小时
-            
+            auto_commit: 是否自动提交（False时由外部事务管理）
+
         Returns:
             新创建的赠予请求ID
         """
         import time
         now = int(time.time())
         expires_at = now + expires_hours * 3600
-        
+
         await self.conn.execute(
             """
             INSERT INTO pending_gifts (
@@ -644,8 +735,9 @@ class DatabaseExtended:
             """,
             (receiver_id, sender_id, sender_name, item_name, count, now, expires_at)
         )
-        await self.conn.commit()
-        
+        if auto_commit:
+            await self.conn.commit()
+
         async with self.conn.execute("SELECT last_insert_rowid()") as cursor:
             row = await cursor.fetchone()
             return row[0] if row else None
@@ -736,6 +828,86 @@ class DatabaseExtended:
             (now,)
         )
         await self.conn.commit()
+
+    async def claim_pending_gift(self, gift_id: int, receiver_id: str) -> Optional[dict]:
+        """CAS 领取赠予：在事务中原子读取+删除，防止并发领取
+
+        利用 BEGIN IMMEDIATE 的排他锁和 DELETE rowcount 检测竞态：
+        - 成功：返回赠予请求内容（item_name, count, sender_id 等）
+        - 失败（已被领取/不存在）：返回 None
+
+        Returns:
+            赠予请求 dict，如果已被他人领取或不存在则返回 None
+        """
+        await self.conn.execute("BEGIN IMMEDIATE")
+        try:
+            cursor = await self.conn.execute(
+                "SELECT id, receiver_id, sender_id, sender_name, item_name, count, created_at, expires_at "
+                "FROM pending_gifts WHERE id = ? AND receiver_id = ?",
+                (gift_id, receiver_id)
+            )
+            row = await cursor.fetchone()
+            if not row:
+                await self.conn.rollback()
+                return None
+
+            gift = {
+                "id": row[0], "receiver_id": row[1], "sender_id": row[2],
+                "sender_name": row[3], "item_name": row[4], "count": row[5],
+                "created_at": row[6], "expires_at": row[7],
+            }
+
+            # 原子删除，通过 rowcount 检测是否已被他人领取
+            cursor = await self.conn.execute(
+                "DELETE FROM pending_gifts WHERE id = ?", (gift_id,)
+            )
+            if cursor.rowcount == 0:
+                await self.conn.rollback()
+                return None
+
+            await self.conn.commit()
+            return gift
+        except Exception:
+            await self.conn.rollback()
+            raise
+
+    async def reject_pending_gift(self, gift_id: int, receiver_id: str) -> Optional[dict]:
+        """CAS 拒绝赠予：在事务中原子读取+删除，防止并发重复处理
+
+        Returns:
+            被拒绝的赠予请求 dict，如果已被处理或不存在则返回 None
+        """
+        await self.conn.execute("BEGIN IMMEDIATE")
+        try:
+            cursor = await self.conn.execute(
+                "SELECT id, receiver_id, sender_id, sender_name, item_name, count, created_at, expires_at "
+                "FROM pending_gifts WHERE id = ? AND receiver_id = ?",
+                (gift_id, receiver_id)
+            )
+            row = await cursor.fetchone()
+            if not row:
+                await self.conn.rollback()
+                return None
+
+            gift = {
+                "id": row[0], "receiver_id": row[1], "sender_id": row[2],
+                "sender_name": row[3], "item_name": row[4], "count": row[5],
+                "created_at": row[6], "expires_at": row[7],
+            }
+
+            # 原子删除，检测是否已被处理
+            cursor = await self.conn.execute(
+                "DELETE FROM pending_gifts WHERE id = ?", (gift_id,)
+            )
+            if cursor.rowcount == 0:
+                await self.conn.rollback()
+                return None
+
+            await self.conn.commit()
+            return gift
+        except Exception:
+            await self.conn.rollback()
+            raise
     
     # ===== Phase 3: 银行贷款系统 CRUD =====
     
@@ -760,34 +932,37 @@ class DatabaseExtended:
                 }
             return None
     
-    async def create_loan(self, user_id: str, principal: int, interest_rate: float, 
-                          borrowed_at: int, due_at: int, loan_type: str = "normal") -> int:
+    async def create_loan(self, user_id: str, principal: int, interest_rate: float,
+                          borrowed_at: int, due_at: int, loan_type: str = "normal", auto_commit: bool = True) -> int:
         """创建贷款记录"""
         await self.conn.execute(
             """INSERT INTO bank_loans (user_id, principal, interest_rate, borrowed_at, due_at, status, loan_type)
                VALUES (?, ?, ?, ?, ?, 'active', ?)""",
             (user_id, principal, interest_rate, borrowed_at, due_at, loan_type)
         )
-        await self.conn.commit()
+        if auto_commit:
+            await self.conn.commit()
         async with self.conn.execute("SELECT last_insert_rowid()") as cursor:
             row = await cursor.fetchone()
             return row[0] if row else 0
     
-    async def close_loan(self, loan_id: int):
+    async def close_loan(self, loan_id: int, auto_commit: bool = True):
         """关闭贷款（标记为已还清）"""
         await self.conn.execute(
             "UPDATE bank_loans SET status = 'closed' WHERE id = ?",
             (loan_id,)
         )
-        await self.conn.commit()
+        if auto_commit:
+            await self.conn.commit()
     
-    async def mark_loan_overdue(self, loan_id: int):
+    async def mark_loan_overdue(self, loan_id: int, auto_commit: bool = True):
         """标记贷款逾期"""
         await self.conn.execute(
             "UPDATE bank_loans SET status = 'overdue' WHERE id = ?",
             (loan_id,)
         )
-        await self.conn.commit()
+        if auto_commit:
+            await self.conn.commit()
     
     async def get_overdue_loans(self, current_time: int) -> List[dict]:
         """获取所有逾期贷款"""
@@ -811,15 +986,16 @@ class DatabaseExtended:
     
     # ===== Phase 3: 银行交易流水 CRUD =====
     
-    async def add_bank_transaction(self, user_id: str, trans_type: str, amount: int, 
-                                    balance_after: int, description: str, created_at: int):
+    async def add_bank_transaction(self, user_id: str, trans_type: str, amount: int,
+                                    balance_after: int, description: str, created_at: int, auto_commit: bool = True):
         """添加银行交易流水"""
         await self.conn.execute(
             """INSERT INTO bank_transactions (user_id, trans_type, amount, balance_after, description, created_at)
                VALUES (?, ?, ?, ?, ?, ?)""",
             (user_id, trans_type, amount, balance_after, description, created_at)
         )
-        await self.conn.commit()
+        if auto_commit:
+            await self.conn.commit()
     
     async def get_bank_transactions(self, user_id: str, limit: int = 20) -> List[dict]:
         """获取用户银行交易流水"""
@@ -981,3 +1157,60 @@ class DatabaseExtended:
         )
         await self.conn.commit()
         return cursor.rowcount > 0
+
+    # ===== 秘境副本系统 CRUD =====
+
+    async def get_dungeon_run(self, user_id: str) -> Optional[DungeonRun]:
+        """获取玩家进行中的副本状态"""
+        async with self.conn.execute(
+            "SELECT run_data FROM dungeon_runs WHERE user_id = ?", (user_id,)
+        ) as cursor:
+            row = await cursor.fetchone()
+            if row:
+                try:
+                    data = json.loads(row[0])
+                    return DungeonRun.from_dict(data)
+                except Exception:
+                    return None
+            return None
+
+    async def save_dungeon_run(self, run: DungeonRun, auto_commit: bool = True):
+        """保存副本状态（INSERT OR REPLACE）"""
+        run_json = json.dumps(run.to_dict(), ensure_ascii=False)
+        await self.conn.execute(
+            "INSERT OR REPLACE INTO dungeon_runs (user_id, run_data) VALUES (?, ?)",
+            (run.user_id, run_json)
+        )
+        if auto_commit:
+            await self.conn.commit()
+
+    async def delete_dungeon_run(self, user_id: str, auto_commit: bool = True):
+        """删除副本状态"""
+        await self.conn.execute(
+            "DELETE FROM dungeon_runs WHERE user_id = ?", (user_id,)
+        )
+        if auto_commit:
+            await self.conn.commit()
+
+    async def get_dungeon_daily_reward(self, user_id: str) -> dict:
+        """获取玩家今日秘境奖励累计 {gold: N, exp: N, date: str}"""
+        from datetime import date as _date
+        today = _date.today().isoformat()
+        key = f"dungeon_daily_{user_id}"
+        val = await self.get_system_config(key)
+        if val:
+            try:
+                data = json.loads(val)
+                if data.get("date") == today:
+                    return data
+            except Exception:
+                pass
+        return {"date": today, "gold": 0, "exp": 0}
+
+    async def add_dungeon_daily_reward(self, user_id: str, gold: int = 0, exp: int = 0):
+        """累加今日秘境奖励"""
+        current = await self.get_dungeon_daily_reward(user_id)
+        current["gold"] += gold
+        current["exp"] += exp
+        key = f"dungeon_daily_{user_id}"
+        await self.set_system_config(key, json.dumps(current, ensure_ascii=False))

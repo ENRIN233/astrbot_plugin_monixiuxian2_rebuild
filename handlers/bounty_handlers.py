@@ -36,28 +36,21 @@ class BountyHandlers:
         lines = ["📜 悬赏令 · 今日委托", "━━━━━━━━━━━━━━━"]
         for i, b in enumerate(bounties, 1):
             reward = b.get("reward", {})
-            tech = b.get("technique_reward")
-            skill = b.get("skill_reward")
+            drop = b.get("drop_reward")
             line = (
                 f"[{i}] {b['name']}（{b.get('difficulty_name', '未知')}·{b.get('category', '任务')}）\n"
                 f"  - 时限：{b.get('time_limit', 0) // 60} 分钟（到时限后自动完成）\n"
                 f"  - 奖励：{reward.get('stone', 0):,} 灵石 + {reward.get('exp', 0):,} 修为"
             )
-            if tech:
-                tech_desc = f"+{int(tech['exp_multiplier']*100-100)}%修炼"
-                if tech.get('breakthrough_bonus', 0) > 0:
-                    tech_desc += f" +{int(tech['breakthrough_bonus']*100)}%突破"
-                if tech.get('atk_bonus', 0) > 0:
-                    tech_desc += f" +{tech['atk_bonus']}攻"
-                if tech.get('hp_bonus', 0) > 0:
-                    tech_desc += f" +{int(tech['hp_bonus']*100)}%生命"
-                if tech.get('mp_bonus', 0) > 0:
-                    tech_desc += f" +{int(tech['mp_bonus']*100)}%真元"
-                line += f"\n  - 功法奖励：【{tech['rank']}】{tech['name']}（{tech_desc}）"
-            if skill:
-                from ..managers.skill_manager import SKILL_TYPE_NAMES
-                type_name = SKILL_TYPE_NAMES.get(skill.get('skill_type', 1), '攻击')
-                line += f"\n  - 神通奖励：【{skill['rank']}】{skill['name']}（{type_name}类）"
+            if drop:
+                dt = drop.get("type", "main_technique")
+                if dt == "skill":
+                    drop_type = "神通"
+                elif dt == "sub_technique":
+                    drop_type = "辅修功法"
+                else:
+                    drop_type = "功法"
+                line += f"\n  - {drop_type}掉落：【{drop.get('rank', '')}】{drop['name']}"
             line += f"\n  - 说明：{b.get('description', '')}"
             lines.append(line)
         lines.append("━━━━━━━━━━━━━━━")

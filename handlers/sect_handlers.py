@@ -114,18 +114,9 @@ class SectHandlers:
         success, msg = await self.sect_mgr.transfer_ownership(user_id, target_id)
         yield event.plain_result(msg)
 
-    async def handle_position_change(self, event: AstrMessageEvent, target: str, position: int):
-        """职位变更"""
+    async def handle_position_change(self, event: AstrMessageEvent, target_id: str, position: int):
+        """职位变更（target_id 已由调用方从消息链/文本中提取）"""
         user_id = event.get_sender_id()
-        target_id = None
-        for component in event.message_obj.message:
-            if isinstance(component, At):
-                target_id = str(component.qq)
-                break
-        
-        if not target_id and target.isdigit():
-             target_id = target
-             
         if not target_id:
             yield event.plain_result("❌ 请指定目标（At或输入ID）")
             return
@@ -134,7 +125,75 @@ class SectHandlers:
         yield event.plain_result(msg)
 
     async def handle_sect_task(self, event: AstrMessageEvent):
-        """执行宗门任务"""
+        """执行宗门任务（显示当前任务信息后执行）"""
         user_id = event.get_sender_id()
+        # 先展示当前任务信息
+        current_task = await self.sect_mgr.get_current_task(user_id)
+        if current_task:
+            task_name = current_task.get("name", "未知任务")
+            task_desc = current_task.get("desc", "")
+            task_type = current_task.get("type", "hp")
+            if task_type == "hp":
+                cost_desc = f"消耗血量（比例 {current_task.get('cost_ratio', 0)}）"
+            else:
+                cost_desc = f"消耗灵石 {current_task.get('cost', 0)}"
+            preview = (
+                f"📜 当前宗门任务：『{task_name}』\n"
+                f"{task_desc}\n"
+                f"代价：{cost_desc}\n"
+                f"━━━━━━━━━━━━━━━\n"
+            )
+            yield event.plain_result(preview)
         success, msg = await self.sect_mgr.perform_sect_task(user_id)
+        yield event.plain_result(msg)
+
+    async def handle_refresh_sect_task(self, event: AstrMessageEvent):
+        """刷新宗门任务"""
+        user_id = event.get_sender_id()
+        success, msg = await self.sect_mgr.refresh_sect_task(user_id)
+        yield event.plain_result(msg)
+
+    async def handle_upgrade_practice(self, event: AstrMessageEvent, count: int = 1):
+        """升级攻击修炼"""
+        user_id = event.get_sender_id()
+        user_cd = await self.db.ext.get_user_cd(user_id)
+        if user_cd and user_cd.type != UserStatus.IDLE:
+            current_status = UserStatus.get_name(user_cd.type)
+            yield event.plain_result(f"❌ 你当前正{current_status}，无法进行此操作！")
+            return
+        success, msg = await self.sect_mgr.upgrade_practice(user_id, count)
+        yield event.plain_result(msg)
+
+    async def handle_practice_info(self, event: AstrMessageEvent):
+        """查看修炼信息（只读，繁忙状态可执行）"""
+        user_id = event.get_sender_id()
+        success, msg = await self.sect_mgr.get_practice_info(user_id)
+        yield event.plain_result(msg)
+
+    async def handle_upgrade_elixir_room(self, event: AstrMessageEvent):
+        """建设宗门丹房"""
+        user_id = event.get_sender_id()
+        user_cd = await self.db.ext.get_user_cd(user_id)
+        if user_cd and user_cd.type != UserStatus.IDLE:
+            current_status = UserStatus.get_name(user_cd.type)
+            yield event.plain_result(f"❌ 你当前正{current_status}，无法进行此操作！")
+            return
+        success, msg = await self.sect_mgr.upgrade_elixir_room(user_id)
+        yield event.plain_result(msg)
+
+    async def handle_claim_sect_pill(self, event: AstrMessageEvent):
+        """领取宗门丹药（只读操作，繁忙状态可执行）"""
+        user_id = event.get_sender_id()
+        success, msg = await self.sect_mgr.claim_sect_pill(user_id)
+        yield event.plain_result(msg)
+
+    async def handle_rename_sect(self, event: AstrMessageEvent, new_name: str):
+        """宗门改名"""
+        user_id = event.get_sender_id()
+        user_cd = await self.db.ext.get_user_cd(user_id)
+        if user_cd and user_cd.type != UserStatus.IDLE:
+            current_status = UserStatus.get_name(user_cd.type)
+            yield event.plain_result(f"❌ 你当前正{current_status}，无法进行此操作！")
+            return
+        success, msg = await self.sect_mgr.rename_sect(user_id, new_name)
         yield event.plain_result(msg)

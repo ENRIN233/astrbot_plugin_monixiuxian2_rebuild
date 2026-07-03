@@ -9,12 +9,6 @@
         "default": [],
         "hint": "请添加允许使用此插件的QQ群号。留空则表示所有群聊都可用。"
       },
-      "SHOP_MANAGERS": {
-        "description": "商店管理员名单",
-        "type": "list",
-        "default": [],
-        "hint": "可以手动刷新商店的用户ID（字符串）。为空则不允许任何人手动刷新商店。"
-      },
       "BOSS_ADMINS": {
         "description": "Boss管理员名单",
         "type": "list",
@@ -42,7 +36,7 @@
       "BASE_EXP_PER_MINUTE": {
         "description": "闭关基础修为（每分钟）",
         "type": "int",
-        "default": 100,
+        "default": 60,
         "hint": "闭关修炼时，每分钟获得的基础修为值（会受灵根倍率影响）。"
       },
       "CHECK_IN_GOLD_MIN": {
@@ -62,60 +56,6 @@
         "type": "list",
         "default": [0.01, 0.1],
         "hint": "突破失败时的死亡概率范围。第一个值为最小概率（1%），第二个值为最大概率（10%）。每次突破失败会在此范围内随机一个死亡概率。"
-      },
-      "PAVILION_REFRESH_HOURS": {
-        "description": "阁楼刷新时间（小时）",
-        "type": "int",
-        "default": 6,
-        "hint": "丹阁、器阁、百宝阁自动刷新的间隔时间（小时）。设置为0则不自动刷新。"
-      },
-      "PAVILION_PILL_COUNT": {
-        "description": "丹阁展示数量",
-        "type": "int",
-        "default": 10,
-        "hint": "丹阁展示的丹药数量。"
-      },
-      "PAVILION_WEAPON_COUNT": {
-        "description": "器阁展示数量",
-        "type": "int",
-        "default": 10,
-        "hint": "器阁展示的武器数量。"
-      },
-      "PAVILION_TREASURE_COUNT": {
-        "description": "百宝阁展示数量",
-        "type": "int",
-        "default": 15,
-        "hint": "百宝阁展示的物品数量。"
-      },
-      "SHOP_DISCOUNT_MIN": {
-        "description": "折扣最小值",
-        "type": "float",
-        "default": 0.8,
-        "hint": "物品折扣的最小值（0.8表示8折）。"
-      },
-      "SHOP_DISCOUNT_MAX": {
-        "description": "折扣最大值",
-        "type": "float",
-        "default": 1.2,
-        "hint": "物品折扣的最大值（1.2表示1.2倍价格）。"
-      },
-      "SHOP_STOCK_DIVISOR": {
-        "description": "库存计算基数",
-        "type": "int",
-        "default": 100,
-        "hint": "库存=物品权重/基数。基数越大，库存越少。"
-      },
-      "LIMITED_OFFER_COUNT": {
-        "description": "限时特价商品数量",
-        "type": "int",
-        "default": 2,
-        "hint": "每次商铺刷新时随机标记的限时特价商品数量。设置为0则不启用限时特价。"
-      },
-      "LIMITED_OFFER_DISCOUNT": {
-        "description": "限时特价额外折扣",
-        "type": "float",
-        "default": 0.7,
-        "hint": "限时特价商品的额外折扣倍率（0.7表示在现价基础上再打7折）。"
       }
     }
   },
@@ -126,79 +66,73 @@
       "PSEUDO_ROOT_SPEED": {
         "description": "伪灵根（废灵根）",
         "type": "float",
-        "default": 0.5,
-        "hint": "资质最差，修炼极其缓慢，万中无一的倒霉蛋。"
+        "default": 0,
+        "hint": "资质最差，无法修炼。"
       },
-      "QUAD_ROOT_SPEED": {
-        "description": "四灵根",
+      "TRUE_ROOT_SPEED": {
+        "description": "真灵根（多灵根组合）",
         "type": "float",
-        "default": 0.6,
-        "hint": "拥有四种灵根，资质平庸，难以有成。"
-      },
-      "TRI_ROOT_SPEED": {
-        "description": "三灵根",
-        "type": "float",
-        "default": 0.75,
-        "hint": "拥有三种灵根，资质一般。"
-      },
-      "DUAL_ROOT_SPEED": {
-        "description": "双灵根",
-        "type": "float",
-        "default": 0.9,
-        "hint": "拥有两种灵根，较为常见。"
+        "default": 1.0,
+        "hint": "双灵根、三灵根、四灵根等多元素组合，修炼速度正常。"
       },
       "WUXING_ROOT_SPEED": {
-        "description": "五行单灵根",
+        "description": "五行单灵根（真灵根）",
         "type": "float",
         "default": 1.0,
         "hint": "金、木、水、火、土单一灵根，修炼速度正常。"
       },
       "THUNDER_ROOT_SPEED": {
-        "description": "雷灵根",
+        "description": "雷灵根（变异灵根）",
         "type": "float",
-        "default": 1.3,
+        "default": 1.2,
         "hint": "天地雷霆之力，变异灵根，稀有。"
       },
       "ICE_ROOT_SPEED": {
-        "description": "冰灵根",
+        "description": "冰灵根（变异灵根）",
         "type": "float",
-        "default": 1.25,
+        "default": 1.2,
         "hint": "极寒冰封之力，变异灵根，稀有。"
       },
       "WIND_ROOT_SPEED": {
-        "description": "风灵根",
+        "description": "风灵根（变异灵根）",
         "type": "float",
-        "default": 1.25,
+        "default": 1.2,
         "hint": "疾风迅雷之力，变异灵根，稀有。"
       },
       "DARK_ROOT_SPEED": {
-        "description": "暗灵根",
+        "description": "暗灵根（变异灵根）",
         "type": "float",
-        "default": 1.3,
+        "default": 1.2,
         "hint": "幽暗深邃之力，变异灵根，稀有。"
       },
       "LIGHT_ROOT_SPEED": {
-        "description": "光灵根",
+        "description": "光灵根（变异灵根）",
         "type": "float",
-        "default": 1.3,
+        "default": 1.2,
         "hint": "神圣光明之力，变异灵根，稀有。"
       },
       "HEAVENLY_ROOT_SPEED": {
         "description": "天灵根",
         "type": "float",
-        "default": 1.5,
+        "default": 1.3,
         "hint": "天选之子，单一属性的极致，极其稀有。"
       },
-      "YIN_YANG_ROOT_SPEED": {
-        "description": "阴阳灵根",
+      "DRAGON_ROOT_SPEED": {
+        "description": "龙灵根",
         "type": "float",
-        "default": 1.8,
-        "hint": "阴阳调和，造化玄机，传说级灵根。"
+        "default": 1.4,
+        "hint": "龙族血脉，掌控空间、时间、言灵之力。"
+      },
+      "SUPER_ROOT_SPEED": {
+        "description": "超灵根",
+        "type": "float",
+        "default": 1.5,
+        "hint": "日月双辉，超越天灵根的稀有存在。"
       },
       "FUSION_ROOT_SPEED": {
         "description": "融合灵根",
         "type": "float",
-        "default": 1.8,
+        "default": 1.7,
         "hint": "五行融合，万法归一，传说级灵根。"
       },
       "CHAOS_ROOT_SPEED": {
@@ -207,17 +141,29 @@
         "default": 2.0,
         "hint": "混沌初开，包罗万象，神话级灵根。"
       },
-      "INNATE_BODY_SPEED": {
-        "description": "先天道体",
-        "type": "float",
-        "default": 2.5,
-        "hint": "天生道体，与天地同寿，禁忌级体质。"
-      },
-      "DIVINE_BODY_SPEED": {
-        "description": "神圣体质",
+      "MECH_CORE_SPEED": {
+        "description": "机械核心",
         "type": "float",
         "default": 2.3,
-        "hint": "神之后裔，天赋异禀，禁忌级体质。"
+        "hint": "超越灵根的机械之力，科技与修仙的融合。"
+      },
+      "OTHERWORLD_SPEED": {
+        "description": "异世界之力",
+        "type": "float",
+        "default": 2.5,
+        "hint": "来自异世界的神秘力量，不受此界法则约束。"
+      },
+      "REINCARNATION_SPEED": {
+        "description": "轮回道果",
+        "type": "float",
+        "default": 4.0,
+        "hint": "历经轮回所证之道果，蕴含无穷造化。"
+      },
+      "TRUE_REINCARNATION_SPEED": {
+        "description": "真·轮回道果",
+        "type": "float",
+        "default": 5.0,
+        "hint": "真正证得的轮回道果，修炼速度登峰造极。"
       }
     }
   },
@@ -226,64 +172,64 @@
     "type": "object",
     "items": {
       "PSEUDO_ROOT_WEIGHT": {
-        "description": "伪灵根权重",
+        "description": "伪灵根权重（25%）",
         "type": "int",
-        "default": 1,
+        "default": 2500,
         "hint": "权重越高，抽到的概率越大。"
       },
-      "QUAD_ROOT_WEIGHT": {
-        "description": "四灵根权重",
+      "TRUE_ROOT_WEIGHT": {
+        "description": "真灵根权重（10%）",
         "type": "int",
-        "default": 10,
+        "default": 1000,
         "hint": "权重越高，抽到的概率越大。"
       },
-      "TRI_ROOT_WEIGHT": {
-        "description": "三灵根权重",
+      "VARIANT_ROOT_WEIGHT": {
+        "description": "变异灵根权重（雷/冰/风/暗/光，18%）",
         "type": "int",
-        "default": 30,
+        "default": 1800,
         "hint": "权重越高，抽到的概率越大。"
       },
-      "DUAL_ROOT_WEIGHT": {
-        "description": "双灵根权重",
+      "HEAVENLY_ROOT_WEIGHT": {
+        "description": "天灵根权重（18%）",
+        "type": "int",
+        "default": 1800,
+        "hint": "权重越高，抽到的概率越大。"
+      },
+      "DRAGON_ROOT_WEIGHT": {
+        "description": "龙灵根权重（13%）",
+        "type": "int",
+        "default": 1300,
+        "hint": "权重越高，抽到的概率越大。"
+      },
+      "SUPER_ROOT_WEIGHT": {
+        "description": "超灵根权重（10%）",
+        "type": "int",
+        "default": 1000,
+        "hint": "权重越高，抽到的概率越大。"
+      },
+      "FUSION_ROOT_WEIGHT": {
+        "description": "融合灵根权重（6%）",
+        "type": "int",
+        "default": 600,
+        "hint": "权重越高，抽到的概率越大。"
+      },
+      "CHAOS_ROOT_WEIGHT": {
+        "description": "混沌灵根权重（3%）",
+        "type": "int",
+        "default": 300,
+        "hint": "权重越高，抽到的概率越大。"
+      },
+      "MECH_ROOT_WEIGHT": {
+        "description": "机械核心权重（1%）",
         "type": "int",
         "default": 100,
         "hint": "权重越高，抽到的概率越大。"
       },
-      "WUXING_ROOT_WEIGHT": {
-        "description": "五行单灵根权重",
+      "OTHERWORLD_ROOT_WEIGHT": {
+        "description": "异世界之力权重（1%）",
         "type": "int",
-        "default": 200,
+        "default": 100,
         "hint": "权重越高，抽到的概率越大。"
-      },
-      "VARIANT_ROOT_WEIGHT": {
-        "description": "变异灵根权重（雷/冰/风/暗/光）",
-        "type": "int",
-        "default": 20,
-        "hint": "权重越高，抽到的概率越大。"
-      },
-      "HEAVENLY_ROOT_WEIGHT": {
-        "description": "天灵根权重",
-        "type": "int",
-        "default": 5,
-        "hint": "权重越高，抽到的概率越大。"
-      },
-      "LEGENDARY_ROOT_WEIGHT": {
-        "description": "传说级灵根权重（阴阳/融合）",
-        "type": "int",
-        "default": 2,
-        "hint": "权重越高，抽到的概率越大。"
-      },
-      "MYTHIC_ROOT_WEIGHT": {
-        "description": "神话级灵根权重（混沌）",
-        "type": "int",
-        "default": 1,
-        "hint": "权重越高，抽到的概率越大。"
-      },
-      "DIVINE_BODY_WEIGHT": {
-        "description": "禁忌级体质权重（先天道体/神圣体质）",
-        "type": "int",
-        "default": 1,
-        "hint": "权重越高，抽到的概率越大。建议设置为极低值。"
       }
     }
   },

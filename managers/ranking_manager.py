@@ -131,15 +131,8 @@ class RankingManager:
         
         for idx, (player, power, attrs) in enumerate(sorted_players, 1):
             name = _safe_name(player, player.user_id)
-            # 显示主要攻击属性（根据修炼类型）
-            if player.cultivation_type == "体修":
-                main_atk = int(attrs['physical_damage'])
-                atk_label = "物伤"
-            else:
-                main_atk = int(attrs['magic_damage'])
-                atk_label = "法伤"
             msg += f"{idx}. {name}\n"
-            msg += f"   战力：{power:,} | {atk_label}：{main_atk:,}\n\n"
+            msg += f"   战力：{power:,}\n\n"
         
         return True, msg
     

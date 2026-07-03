@@ -24,11 +24,11 @@ CMD_VIEW_CATEGORY = "查看分类"
 
 # 物品分类定义
 ITEM_CATEGORIES = {
-    "材料": ["灵草", "精铁", "玄铁", "星辰石", "灵石碎片", "灵兽毛皮", "灵兽内丹", 
-             "妖兽精血", "功法残页", "秘境精华", "天材地宝", "混沌精华", "神兽之骨", 
+    "材料": ["灵草", "精铁", "玄铁", "星辰石", "灵石碎片", "灵兽毛皮", "灵兽内丹",
+             "妖兽精血", "功法残页", "秘境精华", "天材地宝", "混沌精华", "神兽之骨",
              "远古秘籍", "仙器碎片"],
-    "装备": ["武器", "防具", "法器"],
-    "功法": ["心法", "技能"],
+    "装备": ["武器", "防具"],
+    "心法": ["心法", "技能"],
     "其他": []
 }
 
@@ -149,7 +149,7 @@ class StorageRingHandler:
             "📦 储物戒说明：\n"
             "物品会在以下情况自动存入储物戒：\n"
             "  · 商店购买物品\n"
-            "  · 历练/秘境获得物品\n"
+            "  · 秘境获得物品\n"
             "  · Boss击杀掉落\n"
             "  · 悬赏任务奖励\n"
             "  · 卸下装备\n"
@@ -310,22 +310,37 @@ class StorageRingHandler:
             yield event.plain_result("不能赠予物品给自己")
             return
 
-        # 先从储物戒中取出物品
-        success, _ = await self.storage_ring_manager.retrieve_item(player, item_name, count)
-        if not success:
-            yield event.plain_result("赠予失败：无法取出物品")
-            return
+        # 先从储物戒中取出物品（事务包裹 retrieve_item + create_pending_gift）
+        await self.db.conn.execute("BEGIN IMMEDIATE")
+        try:
+            # 重新读取最新玩家数据
+            player = await self.db.get_player_by_id(player.user_id)
+            success, _ = await self.storage_ring_manager.retrieve_item(
+                player, item_name, count, external_transaction=True
+            )
+            if not success:
+                await self.db.conn.rollback()
+                yield event.plain_result("赠予失败：无法取出物品")
+                return
+                await self.db.conn.rollback()
+                yield event.plain_result("赠予失败：无法取出物品")
+                return
 
-        # 存储待处理的赠予请求到数据库
-        sender_name = event.get_sender_name()
-        await self.db.ext.create_pending_gift(
-            receiver_id=target_id,
-            sender_id=player.user_id,
-            sender_name=sender_name,
-            item_name=item_name,
-            count=count,
-            expires_hours=24  # 24小时后过期
-        )
+            # 存储待处理的赠予请求到数据库（不自动提交，由外部事务管理）
+            sender_name = event.get_sender_name()
+            await self.db.ext.create_pending_gift(
+                receiver_id=target_id,
+                sender_id=player.user_id,
+                sender_name=sender_name,
+                item_name=item_name,
+                count=count,
+                expires_hours=24,
+                auto_commit=False  # 24小时后过期
+            )
+            await self.db.conn.commit()
+        except Exception:
+            await self.db.conn.rollback()
+            raise
 
         yield event.plain_result(
             f"📦 赠予请求已发送！\n"
@@ -336,7 +351,7 @@ class StorageRingHandler:
 
     @player_required
     async def handle_accept_gift(self, player: Player, event: AstrMessageEvent):
-        """接收赠予的物品"""
+        """接收赠予的物品（CAS 并发安全）"""
         user_id = player.user_id
 
         # 从数据库获取待处理的赠予请求
@@ -350,25 +365,31 @@ class StorageRingHandler:
         sender_name = gift["sender_name"]
         gift_id = gift["id"]
 
-        # 尝试存入接收者的储物戒
-        success, message = await self.storage_ring_manager.store_item(player, item_name, count)
+        # CAS 领取：只有 status='pending' 且 receiver 匹配才能成功
+        claimed = await self.db.ext.claim_pending_gift(gift_id, user_id)
+        if not claimed:
+            yield event.plain_result("赠予记录已被他人领取或已过期")
+            return
+
+        # 尝试存入接收者的储物戒（使用 external_transaction=True 因为 claim_pending_gift 已提交）
+        success, message = await self.storage_ring_manager.store_item(
+            player, item_name, count, external_transaction=True
+        )
 
         if success:
-            # 删除数据库中的赠予请求
-            await self.db.ext.delete_pending_gift(gift_id)
             yield event.plain_result(
                 f"✅ 已接收来自【{sender_name}】的赠予！\n"
                 f"获得：【{item_name}】x{count}"
             )
         else:
-            # 存入失败，物品返还给发送者
-            sender_id = gift["sender_id"]
+            # 存入失败，物品返还给发送者（单独事务）
+            sender_id = claimed["sender_id"]
             sender_player = await self.db.get_player_by_id(sender_id)
             if sender_player:
-                await self.storage_ring_manager.store_item(sender_player, item_name, count, silent=True)
+                await self.storage_ring_manager.store_item(
+                    sender_player, item_name, count, silent=True, external_transaction=True
+                )
 
-            # 删除数据库中的赠予请求
-            await self.db.ext.delete_pending_gift(gift_id)
             yield event.plain_result(
                 f"❌ 接收失败：{message}\n"
                 f"物品已返还给【{sender_name}】"
@@ -376,7 +397,7 @@ class StorageRingHandler:
 
     @player_required
     async def handle_reject_gift(self, player: Player, event: AstrMessageEvent):
-        """拒绝赠予的物品"""
+        """拒绝赠予的物品（CAS 并发安全）"""
         user_id = player.user_id
 
         # 从数据库获取待处理的赠予请求
@@ -385,19 +406,26 @@ class StorageRingHandler:
             yield event.plain_result("你没有待处理的赠予请求")
             return
 
-        item_name = gift["item_name"]
-        count = gift["count"]
-        sender_id = gift["sender_id"]
-        sender_name = gift["sender_name"]
         gift_id = gift["id"]
 
+        # CAS 拒绝：只有 status='pending' 且 receiver 匹配才能拒绝
+        rejected = await self.db.ext.reject_pending_gift(gift_id, user_id)
+        if not rejected:
+            yield event.plain_result("赠予记录已被处理或已过期")
+            return
+
         # 物品返还给发送者
+        sender_id = rejected["sender_id"]
+        sender_name = rejected["sender_name"]
+        item_name = rejected["item_name"]
+        count = rejected["count"]
+
         sender_player = await self.db.get_player_by_id(sender_id)
         if sender_player:
-            await self.storage_ring_manager.store_item(sender_player, item_name, count, silent=True)
+            await self.storage_ring_manager.store_item(
+                sender_player, item_name, count, silent=True, external_transaction=True
+            )
 
-        # 删除数据库中的赠予请求
-        await self.db.ext.delete_pending_gift(gift_id)
         yield event.plain_result(
             f"已拒绝来自【{sender_name}】的赠予\n"
             f"【{item_name}】x{count} 已返还"
@@ -481,8 +509,8 @@ class StorageRingHandler:
                     result["装备"].append((item_name, count))
                 elif item_type in ["armor", "防具"]:
                     result["装备"].append((item_name, count))
-                elif item_type in ["功法", "main_technique"]:
-                    result["功法"].append((item_name, count))
+                elif item_type == "main_technique":
+                    result["心法"].append((item_name, count))
                 elif item_type in ["material", "材料"]:
                     result["材料"].append((item_name, count))
                 else:
@@ -543,14 +571,14 @@ class StorageRingHandler:
             yield event.plain_result(
                 f"请指定要取出的分类\n"
                 f"用法：{CMD_RETRIEVE_ALL} 分类名\n"
-                f"可用分类：材料、装备、功法、其他\n"
+                f"可用分类：材料、装备、心法、其他\n"
                 f"示例：{CMD_RETRIEVE_ALL} 材料"
             )
             return
         
         category = category.strip()
         if category not in ITEM_CATEGORIES:
-            yield event.plain_result(f"未知分类：{category}\n可用分类：材料、装备、功法、其他")
+            yield event.plain_result(f"未知分类：{category}\n可用分类：材料、装备、心法、其他")
             return
         
         items = player.get_storage_ring_items()
@@ -604,7 +632,7 @@ class StorageRingHandler:
     @player_required
     async def handle_alchemy_transmute(self, player: Player, event: AstrMessageEvent,
                                        item_name: str = "", count: int = 1):
-        """将储物戒物品按市场价20%转化为灵石"""
+        """将储物戒物品按市场价70%转化为灵石"""
         if not item_name or item_name.strip() == "":
             yield event.plain_result(
                 "请指定要炼金的物品\n"
@@ -628,7 +656,7 @@ class StorageRingHandler:
 
         # 查找市场价格
         price = self._get_item_price(item_name)
-        unit_gold = int(price * 0.2)
+        unit_gold = int(price * 0.7)
         total_gold = unit_gold * count
 
         # 执行炼金（事务保护）

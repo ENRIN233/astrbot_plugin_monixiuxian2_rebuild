@@ -1,434 +1,350 @@
 [
-    {
-        "level_name": "炼气期一层",
-        "exp_needed": 0,
-        "success_rate": 1.0,
-        "breakthrough_lifespan_gain": 0,
-        "breakthrough_spiritual_qi_gain": 0,
-        "breakthrough_mental_power_gain": 0,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 0,
-        "breakthrough_physical_defense_gain": 0,
-        "breakthrough_magic_defense_gain": 0
-    },
-    {
-        "level_name": "炼气期二层",
-        "exp_needed": 500,
-        "success_rate": 1.0,
-        "breakthrough_lifespan_gain": 6,
-        "breakthrough_spiritual_qi_gain": 10,
-        "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 8,
-        "breakthrough_physical_defense_gain": 4,
-        "breakthrough_magic_defense_gain": 2
-    },
-    {
-        "level_name": "炼气期三层",
-        "exp_needed": 1200,
-        "success_rate": 1.0,
-        "breakthrough_lifespan_gain": 6,
-        "breakthrough_spiritual_qi_gain": 15,
-        "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 10,
-        "breakthrough_physical_defense_gain": 6,
-        "breakthrough_magic_defense_gain": 4
-    },
-    {
-        "level_name": "炼气期四层",
-        "exp_needed": 2000,
-        "success_rate": 0.95,
-        "breakthrough_lifespan_gain": 6,
-        "breakthrough_spiritual_qi_gain": 20,
-        "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 12,
-        "breakthrough_physical_defense_gain": 8,
-        "breakthrough_magic_defense_gain": 5
-    },
-    {
-        "level_name": "炼气期五层",
-        "exp_needed": 3000,
-        "success_rate": 0.95,
-        "breakthrough_lifespan_gain": 6,
-        "breakthrough_spiritual_qi_gain": 25,
-        "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 15,
-        "breakthrough_physical_defense_gain": 10,
-        "breakthrough_magic_defense_gain": 5
-    },
-    {
-        "level_name": "炼气期六层",
-        "exp_needed": 4500,
-        "success_rate": 0.9,
-        "breakthrough_lifespan_gain": 6,
-        "breakthrough_spiritual_qi_gain": 30,
-        "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 18,
-        "breakthrough_physical_defense_gain": 12,
-        "breakthrough_magic_defense_gain": 6
-    },
-    {
-        "level_name": "炼气期七层",
-        "exp_needed": 6500,
-        "success_rate": 0.85,
-        "breakthrough_lifespan_gain": 6,
-        "breakthrough_spiritual_qi_gain": 35,
-        "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 20,
-        "breakthrough_physical_defense_gain": 14,
-        "breakthrough_magic_defense_gain": 8
-    },
-    {
-        "level_name": "炼气期八层",
-        "exp_needed": 9000,
-        "success_rate": 0.8,
-        "breakthrough_lifespan_gain": 6,
-        "breakthrough_spiritual_qi_gain": 40,
-        "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 25,
-        "breakthrough_physical_defense_gain": 16,
-        "breakthrough_magic_defense_gain": 9
-    },
-    {
-        "level_name": "炼气期九层",
-        "exp_needed": 12000,
-        "success_rate": 0.75,
-        "breakthrough_lifespan_gain": 6,
-        "breakthrough_spiritual_qi_gain": 45,
-        "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 28,
-        "breakthrough_physical_defense_gain": 18,
-        "breakthrough_magic_defense_gain": 9
-    },
-    {
-        "level_name": "炼气期十层",
-        "exp_needed": 16000,
-        "success_rate": 0.7,
-        "breakthrough_lifespan_gain": 6,
-        "breakthrough_spiritual_qi_gain": 50,
-        "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 30,
-        "breakthrough_physical_defense_gain": 20,
-        "breakthrough_magic_defense_gain": 10
-    },
-    {
-        "level_name": "筑基期初期",
-        "exp_needed": 25000,
-        "success_rate": 0.6,
-        "breakthrough_lifespan_gain": 6,
-        "breakthrough_spiritual_qi_gain": 180,
-        "breakthrough_mental_power_gain": 8,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 60,
-        "breakthrough_physical_defense_gain": 42,
-        "breakthrough_magic_defense_gain": 22
-    },
-    {
-        "level_name": "筑基期中期",
-        "exp_needed": 45000,
-        "success_rate": 0.5,
-        "breakthrough_lifespan_gain": 15,
-        "breakthrough_spiritual_qi_gain": 250,
-        "breakthrough_mental_power_gain": 70,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 100,
-        "breakthrough_physical_defense_gain": 68,
-        "breakthrough_magic_defense_gain": 37
-    },
-    {
-        "level_name": "筑基期后期",
-        "exp_needed": 75000,
-        "success_rate": 0.4,
-        "breakthrough_lifespan_gain": 15,
-        "breakthrough_spiritual_qi_gain": 350,
-        "breakthrough_mental_power_gain": 70,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 150,
-        "breakthrough_physical_defense_gain": 101,
-        "breakthrough_magic_defense_gain": 54
-    },
-    {
-        "level_name": "金丹期初期",
-        "exp_needed": 150000,
-        "success_rate": 0.35,
-        "breakthrough_lifespan_gain": 60,
-        "breakthrough_spiritual_qi_gain": 650,
-        "breakthrough_mental_power_gain": 180,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 280,
-        "breakthrough_physical_defense_gain": 185,
-        "breakthrough_magic_defense_gain": 100
-    },
-    {
-        "level_name": "金丹期中期",
-        "exp_needed": 350000,
-        "success_rate": 0.3,
-        "breakthrough_lifespan_gain": 50,
-        "breakthrough_spiritual_qi_gain": 1000,
-        "breakthrough_mental_power_gain": 133,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 450,
-        "breakthrough_physical_defense_gain": 292,
-        "breakthrough_magic_defense_gain": 158
-    },
-    {
-        "level_name": "金丹期后期",
-        "exp_needed": 700000,
-        "success_rate": 0.28,
-        "breakthrough_lifespan_gain": 50,
-        "breakthrough_spiritual_qi_gain": 1500,
-        "breakthrough_mental_power_gain": 133,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 650,
-        "breakthrough_physical_defense_gain": 422,
-        "breakthrough_magic_defense_gain": 227
-    },
-    {
-        "level_name": "元婴期初期",
-        "exp_needed": 1200000,
-        "success_rate": 0.25,
-        "breakthrough_lifespan_gain": 50,
-        "breakthrough_spiritual_qi_gain": 2250,
-        "breakthrough_mental_power_gain": 133,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 1000,
-        "breakthrough_physical_defense_gain": 634,
-        "breakthrough_magic_defense_gain": 341
-    },
-    {
-        "level_name": "元婴期中期",
-        "exp_needed": 2000000,
-        "success_rate": 0.22,
-        "breakthrough_lifespan_gain": 83,
-        "breakthrough_spiritual_qi_gain": 3500,
-        "breakthrough_mental_power_gain": 100,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 1500,
-        "breakthrough_physical_defense_gain": 975,
-        "breakthrough_magic_defense_gain": 525
-    },
-    {
-        "level_name": "元婴期后期",
-        "exp_needed": 3500000,
-        "success_rate": 0.2,
-        "breakthrough_lifespan_gain": 83,
-        "breakthrough_spiritual_qi_gain": 5000,
-        "breakthrough_mental_power_gain": 100,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 2200,
-        "breakthrough_physical_defense_gain": 1430,
-        "breakthrough_magic_defense_gain": 770
-    },
-    {
-        "level_name": "化神期初期",
-        "exp_needed": 6000000,
-        "success_rate": 0.18,
-        "breakthrough_lifespan_gain": 83,
-        "breakthrough_spiritual_qi_gain": 7500,
-        "breakthrough_mental_power_gain": 100,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 3300,
-        "breakthrough_physical_defense_gain": 2112,
-        "breakthrough_magic_defense_gain": 1138
-    },
-    {
-        "level_name": "化神期中期",
-        "exp_needed": 10000000,
-        "success_rate": 0.15,
-        "breakthrough_lifespan_gain": 83,
-        "breakthrough_spiritual_qi_gain": 12500,
-        "breakthrough_mental_power_gain": 100,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 5500,
-        "breakthrough_physical_defense_gain": 3542,
-        "breakthrough_magic_defense_gain": 1907
-    },
-    {
-        "level_name": "化神期后期",
-        "exp_needed": 18000000,
-        "success_rate": 0.12,
-        "breakthrough_lifespan_gain": 83,
-        "breakthrough_spiritual_qi_gain": 17500,
-        "breakthrough_mental_power_gain": 100,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 7500,
-        "breakthrough_physical_defense_gain": 4908,
-        "breakthrough_magic_defense_gain": 2642
-    },
-    {
-        "level_name": "炼虚期初期",
-        "exp_needed": 30000000,
-        "success_rate": 0.1,
-        "breakthrough_lifespan_gain": 83,
-        "breakthrough_spiritual_qi_gain": 27500,
-        "breakthrough_mental_power_gain": 100,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 12000,
-        "breakthrough_physical_defense_gain": 7768,
-        "breakthrough_magic_defense_gain": 4182
-    },
-    {
-        "level_name": "炼虚期中期",
-        "exp_needed": 50000000,
-        "success_rate": 0.09,
-        "breakthrough_lifespan_gain": 283,
-        "breakthrough_spiritual_qi_gain": 40000,
-        "breakthrough_mental_power_gain": 150,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 18000,
-        "breakthrough_physical_defense_gain": 11375,
-        "breakthrough_magic_defense_gain": 6125
-    },
-    {
-        "level_name": "炼虚期后期",
-        "exp_needed": 80000000,
-        "success_rate": 0.08,
-        "breakthrough_lifespan_gain": 283,
-        "breakthrough_spiritual_qi_gain": 55000,
-        "breakthrough_mental_power_gain": 150,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 24000,
-        "breakthrough_physical_defense_gain": 15600,
-        "breakthrough_magic_defense_gain": 8400
-    },
-    {
-        "level_name": "合体期初期",
-        "exp_needed": 130000000,
-        "success_rate": 0.07,
-        "breakthrough_lifespan_gain": 283,
-        "breakthrough_spiritual_qi_gain": 85000,
-        "breakthrough_mental_power_gain": 150,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 38000,
-        "breakthrough_physical_defense_gain": 23725,
-        "breakthrough_magic_defense_gain": 12775
-    },
-    {
-        "level_name": "合体期中期",
-        "exp_needed": 200000000,
-        "success_rate": 0.06,
-        "breakthrough_lifespan_gain": 283,
-        "breakthrough_spiritual_qi_gain": 140000,
-        "breakthrough_mental_power_gain": 150,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 62000,
-        "breakthrough_physical_defense_gain": 39650,
-        "breakthrough_magic_defense_gain": 21350
-    },
-    {
-        "level_name": "合体期后期",
-        "exp_needed": 350000000,
-        "success_rate": 0.05,
-        "breakthrough_lifespan_gain": 283,
-        "breakthrough_spiritual_qi_gain": 200000,
-        "breakthrough_mental_power_gain": 150,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 90000,
-        "breakthrough_physical_defense_gain": 57200,
-        "breakthrough_magic_defense_gain": 30800
-    },
-    {
-        "level_name": "大乘期初期",
-        "exp_needed": 600000000,
-        "success_rate": 0.04,
-        "breakthrough_lifespan_gain": 283,
-        "breakthrough_spiritual_qi_gain": 300000,
-        "breakthrough_mental_power_gain": 150,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 135000,
-        "breakthrough_physical_defense_gain": 84500,
-        "breakthrough_magic_defense_gain": 45500
-    },
-    {
-        "level_name": "大乘期中期",
-        "exp_needed": 1200000000,
-        "success_rate": 0.03,
-        "breakthrough_lifespan_gain": 625,
-        "breakthrough_spiritual_qi_gain": 450000,
-        "breakthrough_mental_power_gain": 225,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 200000,
-        "breakthrough_physical_defense_gain": 126750,
-        "breakthrough_magic_defense_gain": 68250
-    },
-    {
-        "level_name": "大乘期后期",
-        "exp_needed": 3000000000,
-        "success_rate": 0.02,
-        "breakthrough_lifespan_gain": 625,
-        "breakthrough_spiritual_qi_gain": 650000,
-        "breakthrough_mental_power_gain": 225,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 280000,
-        "breakthrough_physical_defense_gain": 185250,
-        "breakthrough_magic_defense_gain": 99750
-    },
-    {
-        "level_name": "渡劫期",
-        "exp_needed": 6000000000,
-        "success_rate": 0.01,
-        "breakthrough_lifespan_gain": 625,
-        "breakthrough_spiritual_qi_gain": 1250000,
-        "breakthrough_mental_power_gain": 225,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 550000,
-        "breakthrough_physical_defense_gain": 354250,
-        "breakthrough_magic_defense_gain": 190750
-    },
-    {
-        "level_name": "地仙",
-        "exp_needed": 12000000000,
-        "success_rate": 0.001,
-        "breakthrough_lifespan_gain": 625,
-        "breakthrough_spiritual_qi_gain": 1750000,
-        "breakthrough_mental_power_gain": 225,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 780000,
-        "breakthrough_physical_defense_gain": 503750,
-        "breakthrough_magic_defense_gain": 271250
-    },
-    {
-        "level_name": "天仙",
-        "exp_needed": 20000000000,
-        "success_rate": 0.0005,
-        "breakthrough_lifespan_gain": 1667,
-        "breakthrough_spiritual_qi_gain": 2500000,
-        "breakthrough_mental_power_gain": 334,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 1100000,
-        "breakthrough_physical_defense_gain": 715000,
-        "breakthrough_magic_defense_gain": 385000
-    },
-    {
-        "level_name": "大罗金仙",
-        "exp_needed": 35000000000,
-        "success_rate": 0.0002,
-        "breakthrough_lifespan_gain": 1667,
-        "breakthrough_spiritual_qi_gain": 3500000,
-        "breakthrough_mental_power_gain": 334,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 1550000,
-        "breakthrough_physical_defense_gain": 1007500,
-        "breakthrough_magic_defense_gain": 542500
-    },
-    {
-        "level_name": "混元大罗金仙",
-        "exp_needed": 60000000000,
-        "success_rate": 0.0001,
-        "breakthrough_lifespan_gain": 1667,
-        "breakthrough_spiritual_qi_gain": 6500000,
-        "breakthrough_mental_power_gain": 334,
-        "breakthrough_physical_damage_gain": 0,
-        "breakthrough_magic_damage_gain": 2800000,
-        "breakthrough_physical_defense_gain": 1852500,
-        "breakthrough_magic_defense_gain": 997500
-    }
+  {
+    "name": "江湖好手",
+    "exp_needed": 100,
+    "success_rate": 1.0,
+    "spend": 1
+  },
+  {
+    "name": "洗髓境初期",
+    "exp_needed": 1000,
+    "success_rate": 0.4,
+    "spend": 1.1
+  },
+  {
+    "name": "洗髓境中期",
+    "exp_needed": 2000,
+    "success_rate": 0.39,
+    "spend": 1.2
+  },
+  {
+    "name": "洗髓境圆满",
+    "exp_needed": 3000,
+    "success_rate": 0.38,
+    "spend": 1.6
+  },
+  {
+    "name": "练气境初期",
+    "exp_needed": 6000,
+    "success_rate": 0.37,
+    "spend": 2.0
+  },
+  {
+    "name": "练气境中期",
+    "exp_needed": 8000,
+    "success_rate": 0.36,
+    "spend": 2.2
+  },
+  {
+    "name": "练气境圆满",
+    "exp_needed": 10000,
+    "success_rate": 0.35,
+    "spend": 2.6
+  },
+  {
+    "name": "化灵境初期",
+    "exp_needed": 20000,
+    "success_rate": 0.34,
+    "spend": 3.0
+  },
+  {
+    "name": "化灵境中期",
+    "exp_needed": 60000,
+    "success_rate": 0.33,
+    "spend": 3.2
+  },
+  {
+    "name": "化灵境圆满",
+    "exp_needed": 90000,
+    "success_rate": 0.32,
+    "spend": 3.6
+  },
+  {
+    "name": "筑基境初期",
+    "exp_needed": 144000,
+    "success_rate": 0.31,
+    "spend": 4.0
+  },
+  {
+    "name": "筑基境中期",
+    "exp_needed": 160000,
+    "success_rate": 0.3,
+    "spend": 4.2
+  },
+  {
+    "name": "筑基境圆满",
+    "exp_needed": 176000,
+    "success_rate": 0.29,
+    "spend": 4.6
+  },
+  {
+    "name": "结丹境初期",
+    "exp_needed": 352000,
+    "success_rate": 0.28,
+    "spend": 5.0
+  },
+  {
+    "name": "结丹境中期",
+    "exp_needed": 384000,
+    "success_rate": 0.27,
+    "spend": 5.2
+  },
+  {
+    "name": "结丹境圆满",
+    "exp_needed": 416000,
+    "success_rate": 0.26,
+    "spend": 5.6
+  },
+  {
+    "name": "金丹境初期",
+    "exp_needed": 832000,
+    "success_rate": 0.25,
+    "spend": 6.0
+  },
+  {
+    "name": "金丹境中期",
+    "exp_needed": 896000,
+    "success_rate": 0.24,
+    "spend": 6.2
+  },
+  {
+    "name": "金丹境圆满",
+    "exp_needed": 960000,
+    "success_rate": 0.23,
+    "spend": 6.6
+  },
+  {
+    "name": "紫府境初期",
+    "exp_needed": 1920000,
+    "success_rate": 0.22,
+    "spend": 7.0
+  },
+  {
+    "name": "紫府境中期",
+    "exp_needed": 2048000,
+    "success_rate": 0.21,
+    "spend": 7.2
+  },
+  {
+    "name": "紫府境圆满",
+    "exp_needed": 2176000,
+    "success_rate": 0.2,
+    "spend": 7.6
+  },
+  {
+    "name": "凝婴境初期",
+    "exp_needed": 4352000,
+    "success_rate": 0.18,
+    "spend": 8.0
+  },
+  {
+    "name": "凝婴境中期",
+    "exp_needed": 4608000,
+    "success_rate": 0.16,
+    "spend": 8.2
+  },
+  {
+    "name": "凝婴境圆满",
+    "exp_needed": 4864000,
+    "success_rate": 0.1,
+    "spend": 8.6
+  },
+  {
+    "name": "元婴境初期",
+    "exp_needed": 9728000,
+    "success_rate": 0.08,
+    "spend": 9.0
+  },
+  {
+    "name": "元婴境中期",
+    "exp_needed": 12348000,
+    "success_rate": 0.06,
+    "spend": 9.2
+  },
+  {
+    "name": "元婴境圆满",
+    "exp_needed": 14968000,
+    "success_rate": 0.01,
+    "spend": 10
+  },
+  {
+    "name": "化神境初期",
+    "exp_needed": 30968000,
+    "success_rate": 0.01,
+    "spend": 12
+  },
+  {
+    "name": "化神境中期",
+    "exp_needed": 35968000,
+    "success_rate": 0.01,
+    "spend": 13
+  },
+  {
+    "name": "化神境圆满",
+    "exp_needed": 40968000,
+    "success_rate": 0.01,
+    "spend": 14
+  },
+  {
+    "name": "炼虚境初期",
+    "exp_needed": 60968000,
+    "success_rate": 0.01,
+    "spend": 15
+  },
+  {
+    "name": "炼虚境中期",
+    "exp_needed": 70968000,
+    "success_rate": 0.01,
+    "spend": 16
+  },
+  {
+    "name": "炼虚境圆满",
+    "exp_needed": 80968000,
+    "success_rate": 0.01,
+    "spend": 17
+  },
+  {
+    "name": "出窍境初期",
+    "exp_needed": 120968000,
+    "success_rate": 0.01,
+    "spend": 18
+  },
+  {
+    "name": "出窍境中期",
+    "exp_needed": 140968000,
+    "success_rate": 0.01,
+    "spend": 19
+  },
+  {
+    "name": "出窍境圆满",
+    "exp_needed": 160968000,
+    "success_rate": 0.01,
+    "spend": 20
+  },
+  {
+    "name": "分神境初期",
+    "exp_needed": 321936000,
+    "success_rate": 0.01,
+    "spend": 21
+  },
+  {
+    "name": "分神境中期",
+    "exp_needed": 450710400,
+    "success_rate": 0.01,
+    "spend": 22
+  },
+  {
+    "name": "分神境圆满",
+    "exp_needed": 579484800,
+    "success_rate": 0.01,
+    "spend": 23
+  },
+  {
+    "name": "合体境初期",
+    "exp_needed": 1158969600,
+    "success_rate": 0.01,
+    "spend": 46
+  },
+  {
+    "name": "合体境中期",
+    "exp_needed": 1622557440,
+    "success_rate": 0.01,
+    "spend": 64
+  },
+  {
+    "name": "合体境圆满",
+    "exp_needed": 2086145280,
+    "success_rate": 0.01,
+    "spend": 76
+  },
+  {
+    "name": "大乘境初期",
+    "exp_needed": 4172290560,
+    "success_rate": 0.01,
+    "spend": 152
+  },
+  {
+    "name": "大乘境中期",
+    "exp_needed": 5841206784,
+    "success_rate": 0.0,
+    "spend": 212
+  },
+  {
+    "name": "大乘境圆满",
+    "exp_needed": 7510123008,
+    "success_rate": 0.0,
+    "spend": 254
+  },
+  {
+    "name": "轮回境初期",
+    "exp_needed": 15020246016,
+    "success_rate": 0.0,
+    "spend": 508
+  },
+  {
+    "name": "轮回境中期",
+    "exp_needed": 21028344422,
+    "success_rate": 0.0,
+    "spend": 711
+  },
+  {
+    "name": "轮回境圆满",
+    "exp_needed": 27036442828,
+    "success_rate": 0.0,
+    "spend": 853
+  },
+  {
+    "name": "渡劫境初期",
+    "exp_needed": 54072885657,
+    "success_rate": 0.0,
+    "spend": 1706
+  },
+  {
+    "name": "渡劫境中期",
+    "exp_needed": 75702039920,
+    "success_rate": 0.0,
+    "spend": 2388
+  },
+  {
+    "name": "渡劫境圆满",
+    "exp_needed": 97331194180,
+    "success_rate": 0.0,
+    "spend": 2865
+  },
+  {
+    "name": "飞升境初期",
+    "exp_needed": 194662388360,
+    "success_rate": 0.0,
+    "spend": 5730
+  },
+  {
+    "name": "飞升境中期",
+    "exp_needed": 272527343704,
+    "success_rate": 0.0,
+    "spend": 8022
+  },
+  {
+    "name": "飞升境圆满",
+    "exp_needed": 350392299048,
+    "success_rate": 0.0,
+    "spend": 9626
+  },
+  {
+    "name": "合道境初期",
+    "exp_needed": 999999999999,
+    "success_rate": 0.0,
+    "spend": 14439
+  },
+  {
+    "name": "合道境中期",
+    "exp_needed": 9999999999999,
+    "success_rate": 0.0,
+    "spend": 14439
+  },
+  {
+    "name": "合道境圆满",
+    "exp_needed": 99999999999999,
+    "success_rate": 0.0,
+    "spend": 14439
+  }
 ]

@@ -124,20 +124,28 @@ class StorageRingManager:
                 await self.db.conn.rollback()
             raise
 
-    async def retrieve_item(self, player: Player, item_name: str, count: int = 1) -> Tuple[bool, str]:
-        """从储物戒取出物品（带事务保护）"""
-        await self.db.conn.execute("BEGIN IMMEDIATE")
+    async def retrieve_item(self, player: Player, item_name: str, count: int = 1,
+                            external_transaction: bool = False) -> Tuple[bool, str]:
+        """从储物戒取出物品（带事务保护）
+
+        Args:
+            external_transaction: 如果为True，表示外部已有事务，跳过内部事务管理
+        """
+        if not external_transaction:
+            await self.db.conn.execute("BEGIN IMMEDIATE")
         try:
             player = await self.db.get_player_by_id(player.user_id)
             items = player.get_storage_ring_items()
 
             if item_name not in items:
-                await self.db.conn.rollback()
+                if not external_transaction:
+                    await self.db.conn.rollback()
                 return False, f"储物戒中没有【{item_name}】"
 
             current_count = items[item_name]
             if count > current_count:
-                await self.db.conn.rollback()
+                if not external_transaction:
+                    await self.db.conn.rollback()
                 return False, f"储物戒中【{item_name}】数量不足（当前：{current_count}个）"
 
             if count >= current_count:
@@ -147,13 +155,15 @@ class StorageRingManager:
 
             player.set_storage_ring_items(items)
             await self.db.update_player(player)
-            await self.db.conn.commit()
+            if not external_transaction:
+                await self.db.conn.commit()
 
             capacity = self.get_ring_capacity(player.storage_ring)
             used = self.get_used_slots(player)
             return True, f"已从储物戒取出【{item_name}】x{count}（{used}/{capacity}格）"
         except Exception:
-            await self.db.conn.rollback()
+            if not external_transaction:
+                await self.db.conn.rollback()
             raise
 
     async def discard_item(self, player: Player, item_name: str, count: int = 1) -> Tuple[bool, str]:
@@ -218,12 +228,8 @@ class StorageRingManager:
         """格式化需求境界名称（同时显示灵修/体修）"""
         names = []
         if 0 <= level_index < len(self.config_manager.level_data):
-            name = self.config_manager.level_data[level_index].get("level_name", "")
+            name = self.config_manager.level_data[level_index].get("name", "未知境界")
             if name:
-                names.append(name)
-        if 0 <= level_index < len(self.config_manager.body_level_data):
-            name = self.config_manager.body_level_data[level_index].get("level_name", "")
-            if name and name not in names:
                 names.append(name)
 
         if not names:

@@ -49,30 +49,17 @@ class EquipmentHandler:
 
         # 神通
         equipment_lines.append(f"【神通】{player.shentong if player.shentong else '未装备'}\n")
+        # 辅修功法
+        equipment_lines.append(f"【辅修功法】{player.sub_technique if player.sub_technique else '未装备'}\n")
 
         # 总属性加成
         if equipped_items:
             equipment_lines.append("\n--- 装备属性加成 ---\n")
             total_attrs = player.get_total_attributes(equipped_items, pill_multipliers)
 
-            # 计算加成值（总属性 - 基础属性）
-            magic_damage_bonus = total_attrs["magic_damage"] - player.magic_damage
-            physical_damage_bonus = total_attrs["physical_damage"] - player.physical_damage
-            magic_defense_bonus = total_attrs["magic_defense"] - player.magic_defense
-            physical_defense_bonus = total_attrs["physical_defense"] - player.physical_defense
-            mental_power_bonus = total_attrs["mental_power"] - player.mental_power
+            # 计算加成值
             exp_multiplier = total_attrs["exp_multiplier"]
 
-            if magic_damage_bonus > 0:
-                equipment_lines.append(f"⚔️ 法伤 +{magic_damage_bonus}\n")
-            if physical_damage_bonus > 0:
-                equipment_lines.append(f"🗡️ 物伤 +{physical_damage_bonus}\n")
-            if magic_defense_bonus > 0:
-                equipment_lines.append(f"🛡️ 法防 +{magic_defense_bonus}\n")
-            if physical_defense_bonus > 0:
-                equipment_lines.append(f"🪨 物防 +{physical_defense_bonus}\n")
-            if mental_power_bonus > 0:
-                equipment_lines.append(f"🧠 精神力 +{mental_power_bonus}\n")
             if exp_multiplier > 0:
                 equipment_lines.append(f"📈 修为倍率 +{exp_multiplier:.1%}\n")
 
@@ -95,6 +82,32 @@ class EquipmentHandler:
                 equipment_lines.append(f"💥 暴击率 +{crit_rate}%\n")
             if crit_damage > 0:
                 equipment_lines.append(f"🔥 暴击伤害 +{crit_damage:.0%}\n")
+
+            # nonebot 同步属性
+            closing_exp_bonus = total_attrs.get("closing_exp_bonus", 0.0)
+            closing_recovery_bonus = total_attrs.get("closing_recovery_bonus", 0.0)
+            damage_reduction = total_attrs.get("damage_reduction", 0.0)
+            breakthrough_number = total_attrs.get("breakthrough_number", 0.0)
+            dual_cultivation_bonus = total_attrs.get("dual_cultivation_bonus", 0)
+            alchemy_exp_bonus = total_attrs.get("alchemy_exp_bonus", 0)
+            alchemy_count_bonus = total_attrs.get("alchemy_count_bonus", 0)
+            harvest_bonus = total_attrs.get("harvest_bonus", 0)
+            if closing_exp_bonus > 0:
+                equipment_lines.append(f"🧘 闭关经验 +{closing_exp_bonus:.0%}\n")
+            if closing_recovery_bonus > 0:
+                equipment_lines.append(f"💚 闭关回复 +{closing_recovery_bonus:.0%}\n")
+            if damage_reduction != 0:
+                equipment_lines.append(f"🛡️ 减伤率 {damage_reduction:+.0%}\n")
+            if breakthrough_number > 0:
+                equipment_lines.append(f"🎯 突破概率 +{breakthrough_number:.0f}%\n")
+            if dual_cultivation_bonus > 0:
+                equipment_lines.append(f"💕 双修次数 +{dual_cultivation_bonus}\n")
+            if alchemy_exp_bonus > 0:
+                equipment_lines.append(f"⚗️ 炼丹经验 +{alchemy_exp_bonus}\n")
+            if alchemy_count_bonus > 0:
+                equipment_lines.append(f"⚗️ 出丹数 +{alchemy_count_bonus}\n")
+            if harvest_bonus > 0:
+                equipment_lines.append(f"🌾 采集加成 +{harvest_bonus}\n")
 
             # 武器战斗属性（从 weapons_data 读取，非 Item 模型）
             if player.weapon:
@@ -138,6 +151,8 @@ class EquipmentHandler:
                 item_config = dict(item_config)
                 if "type" not in item_config:
                     item_config["type"] = "shentong"
+        if not item_config:
+            item_config = self.config_manager.sub_techniques_data.get(item_name)
 
         if not item_config:
             yield event.plain_result(f"未找到物品：{item_name}")
@@ -145,18 +160,8 @@ class EquipmentHandler:
 
         # 检查物品类型是否可装备
         item_type = item_config.get("type", "")
-        equippable_types = ["weapon", "armor", "main_technique", "shentong"]
-        
-        # 兼容旧格式
-        if item_type == "法器":
-            subtype = item_config.get("subtype", "")
-            if subtype == "武器":
-                item_type = "weapon"
-            elif subtype == "防具":
-                item_type = "armor"
-        elif item_type == "功法":
-            item_type = "main_technique"
-        
+        equippable_types = ["weapon", "armor", "main_technique", "shentong", "sub_technique"]
+
         if item_type not in equippable_types:
             yield event.plain_result(f"【{item_name}】不是可装备的物品类型")
             return
@@ -188,12 +193,14 @@ class EquipmentHandler:
             rank=item_config.get("rank", ""),
             required_level_index=item_config.get("required_level_index", 0),
             weapon_category=item_config.get("weapon_category", ""),
-            magic_damage=item_config.get("magic_damage", 0),
-            physical_damage=item_config.get("physical_damage", 0),
-            magic_defense=item_config.get("magic_defense", 0),
-            physical_defense=item_config.get("physical_defense", 0),
-            mental_power=item_config.get("mental_power", 0),
-            exp_multiplier=item_config.get("exp_multiplier", 0.0)
+            exp_multiplier=item_config.get("exp_multiplier", 0.0),
+            atk_bonus=item_config.get("atk_bonus", 0.0),
+            crit_rate=item_config.get("crit_rate", 0),
+            crit_damage=item_config.get("crit_damage", 0.0),
+            mp_bonus=item_config.get("mp_bonus", 0.0),
+            armor_pen=item_config.get("armor_pen", 0),
+            lifesteal=item_config.get("lifesteal", 0),
+            double_hit=item_config.get("double_hit", 0),
         )
 
         # 装备物品
@@ -235,6 +242,8 @@ class EquipmentHandler:
             unequipped_item_name = player.main_technique
         elif slot_or_name in ["神通", "shentong"]:
             unequipped_item_name = player.shentong
+        elif slot_or_name in ["辅修功法", "辅修", "sub_technique"]:
+            unequipped_item_name = player.sub_technique
 
         # 卸下装备
         success, message = await self.equipment_manager.unequip_item(player, slot_or_name)

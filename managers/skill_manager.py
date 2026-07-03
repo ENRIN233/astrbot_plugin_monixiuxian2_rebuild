@@ -149,9 +149,10 @@ class SkillManager:
 
         damages = []
         for mult in atkvalues:
-            raw_dmg = int(caster.atk * mult * random.uniform(0.95, 1.05))
-            # 暴击判定
-            is_crit = random.randint(1, 100) <= caster.crit_rate
+            raw_dmg = int(caster.atk * 0.5 * mult * 1.5 * random.uniform(0.95, 1.05))
+            # 暴击判定（考虑防御方的抗暴击）
+            effective_crit_rate = max(0, caster.crit_rate - defender.crit_resist)
+            is_crit = random.randint(1, 100) <= effective_crit_rate
             if is_crit:
                 raw_dmg = int(raw_dmg * caster.crit_damage)
             # 双层减伤
@@ -180,7 +181,7 @@ class SkillManager:
         atkvalue = skill_data.get("atkvalue", 0)
         if isinstance(atkvalue, list):
             atkvalue = atkvalue[0] if atkvalue else 0
-        instant_dmg = int(caster.atk * float(atkvalue) * random.uniform(0.95, 1.05))
+        instant_dmg = int(caster.atk * 0.5 * float(atkvalue) * 1.5 * random.uniform(0.95, 1.05))
         instant_dmg = max(1, self._apply_defense(instant_dmg, caster, defender))
         defender.hp = max(0, defender.hp - instant_dmg)
 
@@ -257,40 +258,31 @@ class SkillManager:
         return int(base_atk * mult)
 
     @staticmethod
-    def apply_buffs_to_def(base_def: float, equip_def: int,
-                           state: CombatSkillState) -> Tuple[float, int]:
-        """计算含buff的有效防御力"""
+    def apply_buffs_to_def(def_buff: float,
+                           state: CombatSkillState) -> float:
+        """计算含buff的有效减伤率"""
         mult = 1.0
         for buff in state.active_buffs:
             if buff.buff_type == "def_buff":
                 mult += buff.value
-        return base_def * mult, int(equip_def * mult)
+        return min(0.9, def_buff * mult)
 
     @staticmethod
-    def apply_dot_damage(state: CombatSkillState) -> int:
-        """结算DOT伤害，返回总伤害值"""
+    def apply_dot_damage(state: CombatSkillState, defender_def_buff: float = 0.0) -> int:
+        """结算DOT伤害（Excel公式：攻击×神通倍率×(1-减伤率)），返回总伤害值"""
         total = 0
         for buff in state.active_buffs:
             if buff.buff_type == "dot":
-                total += int(buff.base_damage * buff.value)
+                raw = int(buff.base_damage * buff.value)
+                total += max(1, int(raw * (1 - defender_def_buff)))
         return total
 
     @staticmethod
     def _apply_defense(raw_damage: int, attacker: "CombatStats",
                        defender: "CombatStats") -> int:
-        """双层减伤计算（复用 combat_manager 的公式）"""
-        import math as _math
-        base_def = defender.base_def
-        equip_def_raw = defender.equip_def
-        equip_def = _math.log(equip_def_raw + 1) * 20 if equip_def_raw > 0 else 0
-        if attacker.armor_pen > 0:
-            equip_def = equip_def * (1 - attacker.armor_pen / 100)
-
-        base_reduction = base_def / (base_def + 500) if base_def > 0 else 0
-        equip_reduction = equip_def / (equip_def + 200) if equip_def > 0 else 0
-        total_reduction = 1 - (1 - base_reduction) * (1 - equip_reduction)
-
-        return max(1, int(raw_damage * (1 - total_reduction))) if total_reduction > 0 else max(1, raw_damage)
+        """百分比减伤（Excel公式：伤害 × (1 - 减伤率 + 穿甲)）"""
+        total_reduction = defender.def_buff - attacker.armor_pen / 100
+        return max(1, int(raw_damage * (1 - total_reduction))) if total_reduction != 0 else max(1, raw_damage)
 
 
 def format_skill_result(attacker_name: str, defender_name: str, result: dict) -> str:

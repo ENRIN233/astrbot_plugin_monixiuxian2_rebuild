@@ -27,32 +27,6 @@
     "request_expire": 300,
     "comment": "双修配置：每日上限次数、双方修为之和的百分比、请求过期时间"
   },
-  "spirit_eye": {
-    "spawn_interval": 7200,
-    "types": {
-      "1": {
-        "name": "下品灵眼",
-        "cultivation_bonus": 0.15,
-        "spawn_rate": 50
-      },
-      "2": {
-        "name": "中品灵眼",
-        "cultivation_bonus": 0.25,
-        "spawn_rate": 30
-      },
-      "3": {
-        "name": "上品灵眼",
-        "cultivation_bonus": 0.35,
-        "spawn_rate": 15
-      },
-      "4": {
-        "name": "极品灵眼",
-        "cultivation_bonus": 0.50,
-        "spawn_rate": 5
-      }
-    },
-    "comment": "灵眼配置：生成间隔（秒）、修炼效率加成比例、刷新概率"
-  },
   "rift": {
     "default_duration": 1800,
     "drop_tables": {
@@ -178,5 +152,10 @@
       "comment_rank_base_weight": "品级基础权重：控制各品级在掉落池中的相对概率，不依赖 shop_weight"
     },
     "comment": "秘境配置：探索时长（秒）、掉落表、丹药掉落概率、装备掉落配置"
+  },
+  "level_scaling": {
+    "bounty_rift_coefficient": 0.045,
+    "bounty_rift_base_level": 3,
+    "comment": "等级缩放系数：悬赏令/秘境 level_bonus = 1 + max(0, level-base) * coeff。0.045 使满级(57)加成比原满级(30)高约31%"
   }
 }

@@ -18,34 +18,34 @@ class CultivationManager:
             # 废柴系列
             "伪": "PSEUDO_ROOT_SPEED",
 
-            # 多灵根系列
-            "金木水火": "QUAD_ROOT_SPEED",
-            "金木水土": "QUAD_ROOT_SPEED",
-            "金木火土": "QUAD_ROOT_SPEED",
-            "金水火土": "QUAD_ROOT_SPEED",
-            "木水火土": "QUAD_ROOT_SPEED",
+            # 多灵根系列 → 真灵根（Excel: 修炼速度 1.0）
+            "金木水火": "TRUE_ROOT_SPEED",
+            "金木水土": "TRUE_ROOT_SPEED",
+            "金木火土": "TRUE_ROOT_SPEED",
+            "金水火土": "TRUE_ROOT_SPEED",
+            "木水火土": "TRUE_ROOT_SPEED",
 
-            "金木水": "TRI_ROOT_SPEED",
-            "金木火": "TRI_ROOT_SPEED",
-            "金木土": "TRI_ROOT_SPEED",
-            "金水火": "TRI_ROOT_SPEED",
-            "金水土": "TRI_ROOT_SPEED",
-            "金火土": "TRI_ROOT_SPEED",
-            "木水火": "TRI_ROOT_SPEED",
-            "木水土": "TRI_ROOT_SPEED",
-            "木火土": "TRI_ROOT_SPEED",
-            "水火土": "TRI_ROOT_SPEED",
+            "金木水": "TRUE_ROOT_SPEED",
+            "金木火": "TRUE_ROOT_SPEED",
+            "金木土": "TRUE_ROOT_SPEED",
+            "金水火": "TRUE_ROOT_SPEED",
+            "金水土": "TRUE_ROOT_SPEED",
+            "金火土": "TRUE_ROOT_SPEED",
+            "木水火": "TRUE_ROOT_SPEED",
+            "木水土": "TRUE_ROOT_SPEED",
+            "木火土": "TRUE_ROOT_SPEED",
+            "水火土": "TRUE_ROOT_SPEED",
 
-            "金木": "DUAL_ROOT_SPEED",
-            "金水": "DUAL_ROOT_SPEED",
-            "金火": "DUAL_ROOT_SPEED",
-            "金土": "DUAL_ROOT_SPEED",
-            "木水": "DUAL_ROOT_SPEED",
-            "木火": "DUAL_ROOT_SPEED",
-            "木土": "DUAL_ROOT_SPEED",
-            "水火": "DUAL_ROOT_SPEED",
-            "水土": "DUAL_ROOT_SPEED",
-            "火土": "DUAL_ROOT_SPEED",
+            "金木": "TRUE_ROOT_SPEED",
+            "金水": "TRUE_ROOT_SPEED",
+            "金火": "TRUE_ROOT_SPEED",
+            "金土": "TRUE_ROOT_SPEED",
+            "木水": "TRUE_ROOT_SPEED",
+            "木火": "TRUE_ROOT_SPEED",
+            "木土": "TRUE_ROOT_SPEED",
+            "水火": "TRUE_ROOT_SPEED",
+            "水土": "TRUE_ROOT_SPEED",
+            "火土": "TRUE_ROOT_SPEED",
 
             # 五行单灵根
             "金": "WUXING_ROOT_SPEED",
@@ -69,30 +69,48 @@ class CultivationManager:
             "天土": "HEAVENLY_ROOT_SPEED",
             "天雷": "HEAVENLY_ROOT_SPEED",
 
+            # 龙灵根
+            "空间": "DRAGON_ROOT_SPEED",
+            "时间": "DRAGON_ROOT_SPEED",
+            "言灵": "DRAGON_ROOT_SPEED",
+
+            # 超灵根
+            "日": "SUPER_ROOT_SPEED",
+            "月": "SUPER_ROOT_SPEED",
+
             # 传说级
-            "阴阳": "YIN_YANG_ROOT_SPEED",
             "融合": "FUSION_ROOT_SPEED",
 
             # 神话级
             "混沌": "CHAOS_ROOT_SPEED",
 
-            # 禁忌级体质
-            "先天道体": "INNATE_BODY_SPEED",
-            "神圣体质": "DIVINE_BODY_SPEED"
+            # 机械核心
+            "机械核心": "MECH_CORE_SPEED",
+
+            # 异世界之力
+            "异世界之力": "OTHERWORLD_SPEED",
+
+            # 轮回道果
+            "轮回道果": "REINCARNATION_SPEED",
+            "真轮回道果": "TRUE_REINCARNATION_SPEED"
         }
 
-        # 灵根池定义（按权重类别）
+        # 灵根池定义（按权重类别，与 Excel 对齐）
         self.root_pools = {
             "PSEUDO": ["伪"],
-            "QUAD": ["金木水火", "金木水土", "金木火土", "金水火土", "木水火土"],
-            "TRI": ["金木水", "金木火", "金木土", "金水火", "金水土", "金火土", "木水火", "木水土", "木火土", "水火土"],
-            "DUAL": ["金木", "金水", "金火", "金土", "木水", "木火", "木土", "水火", "水土", "火土"],
+            "TRUE": ["金木水火", "金木水土", "金木火土", "金水火土", "木水火土",
+                     "金木水", "金木火", "金木土", "金水火", "金水土", "金火土",
+                     "木水火", "木水土", "木火土", "水火土",
+                     "金木", "金水", "金火", "金土", "木水", "木火", "木土", "水火", "水土", "火土"],
             "WUXING": ["金", "木", "水", "火", "土"],
             "VARIANT": ["雷", "冰", "风", "暗", "光"],
             "HEAVENLY": ["天金", "天木", "天水", "天火", "天土", "天雷"],
-            "LEGENDARY": ["阴阳", "融合"],
-            "MYTHIC": ["混沌"],
-            "DIVINE_BODY": ["先天道体", "神圣体质"]
+            "DRAGON": ["空间", "时间", "言灵"],
+            "SUPER": ["日", "月"],
+            "FUSION": ["融合"],
+            "CHAOS": ["混沌"],
+            "MECH": ["机械核心"],
+            "OTHERWORLD": ["异世界之力"]
         }
 
     def _calculate_base_stats(self, level_index: int, cultivation_type: str = "灵修") -> Dict[str, int]:
@@ -111,81 +129,70 @@ class CultivationManager:
             base_lifespan = level_config.get("base_lifespan", 100 + level_index * 50)
             base_max_spiritual_qi = level_config.get("base_max_spiritual_qi", 50 + level_index * 20)
             base_max_blood_qi = level_config.get("base_max_blood_qi", 50 + level_index * 20)
-            base_mental_power = level_config.get("base_mental_power", 50 + level_index * 20)
-            base_physical_damage = level_config.get("base_physical_damage", 10 + level_index * 8)
-            base_magic_damage = level_config.get("base_magic_damage", 10 + level_index * 8)
-            base_physical_defense = level_config.get("base_physical_defense", 5 + level_index * 4)
-            base_magic_defense = level_config.get("base_magic_defense", 5 + level_index * 4)
 
             return {
                 "lifespan": base_lifespan,
                 "max_spiritual_qi": base_max_spiritual_qi,
-                "max_blood_qi": base_max_blood_qi,
-                "mental_power": base_mental_power,
-                "physical_damage": base_physical_damage,
-                "magic_damage": base_magic_damage,
-                "physical_defense": base_physical_defense,
-                "magic_defense": base_magic_defense
+                "max_blood_qi": base_max_blood_qi
             }
         else:
             # 回退逻辑，使用默认计算
             return {
                 "lifespan": 100 + level_index * 50,
                 "max_spiritual_qi": 50 + level_index * 20,
-                "max_blood_qi": 50 + level_index * 20,
-                "mental_power": 50 + level_index * 20,
-                "physical_damage": 10 + level_index * 8,
-                "magic_damage": 10 + level_index * 8,
-                "physical_defense": 5 + level_index * 4,
-                "magic_defense": 5 + level_index * 4
+                "max_blood_qi": 50 + level_index * 20
             }
 
     def _get_random_spiritual_root(self) -> str:
-        """基于权重随机抽取灵根"""
+        """基于权重随机抽取灵根（与 Excel 对齐）"""
         weights_config = self.config.get("SPIRIT_ROOT_WEIGHTS", {})
 
         # 构建权重池
         weight_pool = []
 
-        # 伪灵根
-        pseudo_weight = weights_config.get("PSEUDO_ROOT_WEIGHT", 1)
+        # 伪灵根 (25%)
+        pseudo_weight = weights_config.get("PSEUDO_ROOT_WEIGHT", 2500)
         weight_pool.extend([("PSEUDO", root) for root in self.root_pools["PSEUDO"]] * pseudo_weight)
 
-        # 四灵根
-        quad_weight = weights_config.get("QUAD_ROOT_WEIGHT", 10)
-        weight_pool.extend([("QUAD", root) for root in self.root_pools["QUAD"]] * quad_weight)
+        # 真灵根 (10%)
+        true_weight = weights_config.get("TRUE_ROOT_WEIGHT", 1000)
+        weight_pool.extend([("TRUE", root) for root in self.root_pools["TRUE"]] * true_weight)
 
-        # 三灵根
-        tri_weight = weights_config.get("TRI_ROOT_WEIGHT", 30)
-        weight_pool.extend([("TRI", root) for root in self.root_pools["TRI"]] * tri_weight)
-
-        # 双灵根
-        dual_weight = weights_config.get("DUAL_ROOT_WEIGHT", 100)
-        weight_pool.extend([("DUAL", root) for root in self.root_pools["DUAL"]] * dual_weight)
-
-        # 五行单灵根
-        wuxing_weight = weights_config.get("WUXING_ROOT_WEIGHT", 200)
+        # 五行单灵根 (included in 真灵根 probability)
+        wuxing_weight = weights_config.get("WUXING_ROOT_WEIGHT", 1000)
         weight_pool.extend([("WUXING", root) for root in self.root_pools["WUXING"]] * wuxing_weight)
 
-        # 变异灵根
-        variant_weight = weights_config.get("VARIANT_ROOT_WEIGHT", 20)
+        # 变异灵根 (18%)
+        variant_weight = weights_config.get("VARIANT_ROOT_WEIGHT", 1800)
         weight_pool.extend([("VARIANT", root) for root in self.root_pools["VARIANT"]] * variant_weight)
 
-        # 天灵根
-        heavenly_weight = weights_config.get("HEAVENLY_ROOT_WEIGHT", 5)
+        # 天灵根 (18%)
+        heavenly_weight = weights_config.get("HEAVENLY_ROOT_WEIGHT", 1800)
         weight_pool.extend([("HEAVENLY", root) for root in self.root_pools["HEAVENLY"]] * heavenly_weight)
 
-        # 传说级
-        legendary_weight = weights_config.get("LEGENDARY_ROOT_WEIGHT", 2)
-        weight_pool.extend([("LEGENDARY", root) for root in self.root_pools["LEGENDARY"]] * legendary_weight)
+        # 龙灵根 (13%)
+        dragon_weight = weights_config.get("DRAGON_ROOT_WEIGHT", 1300)
+        weight_pool.extend([("DRAGON", root) for root in self.root_pools["DRAGON"]] * dragon_weight)
 
-        # 神话级
-        mythic_weight = weights_config.get("MYTHIC_ROOT_WEIGHT", 1)
-        weight_pool.extend([("MYTHIC", root) for root in self.root_pools["MYTHIC"]] * mythic_weight)
+        # 超灵根 (10%)
+        super_weight = weights_config.get("SUPER_ROOT_WEIGHT", 1000)
+        weight_pool.extend([("SUPER", root) for root in self.root_pools["SUPER"]] * super_weight)
 
-        # 禁忌级体质
-        divine_weight = weights_config.get("DIVINE_BODY_WEIGHT", 1)
-        weight_pool.extend([("DIVINE_BODY", root) for root in self.root_pools["DIVINE_BODY"]] * divine_weight)
+        # 融合灵根 (6%)
+        fusion_weight = weights_config.get("FUSION_ROOT_WEIGHT", 600)
+        weight_pool.extend([("FUSION", root) for root in self.root_pools["FUSION"]] * fusion_weight)
+
+        # 混沌灵根 (3%)
+        chaos_weight = weights_config.get("CHAOS_ROOT_WEIGHT", 300)
+        weight_pool.extend([("CHAOS", root) for root in self.root_pools["CHAOS"]] * chaos_weight)
+
+        # 机械核心 (1%)
+        mech_weight = weights_config.get("MECH_ROOT_WEIGHT", 100)
+        weight_pool.extend([("MECH", root) for root in self.root_pools["MECH"]] * mech_weight)
+
+        # 异世界之力 (1%)
+        otherworld_weight = weights_config.get("OTHERWORLD_ROOT_WEIGHT", 100)
+        weight_pool.extend([("OTHERWORLD", root) for root in self.root_pools["OTHERWORLD"]] * otherworld_weight)
 
         if not weight_pool:
             # 兜底方案：默认返回金灵根
@@ -254,70 +261,59 @@ class CultivationManager:
             "天土": "【极品】天选之子，土之极致",
             "天雷": "【极品】天选之子，雷之极致",
 
+            # 龙灵根
+            "空间": "【仙品】掌控空间法则",
+            "时间": "【仙品】窥探时间长河",
+            "言灵": "【仙品】言出法随",
+
+            # 超灵根
+            "日": "【神品】日之精华，至阳至纯",
+            "月": "【神品】月之灵华，至阴至柔",
+
             # 传说级
-            "阴阳": "【传说】阴阳调和，造化玄机",
             "融合": "【传说】五行融合，万法归一",
 
             # 神话级
             "混沌": "【神话】混沌初开，包罗万象",
 
-            # 禁忌级
-            "先天道体": "【禁忌】天生道体，与天地同寿",
-            "神圣体质": "【禁忌】神之后裔，天赋异禀"
+            # 机械核心
+            "机械核心": "【禁忌】可变式羽翼核心自适应科技战甲",
+
+            # 异世界之力
+            "异世界之力": "【超越】直死之魔眼，异界法则",
+
+            # 轮回道果
+            "轮回道果": "【超越】轮回千次不灭，只为臻至巅峰",
+            "真轮回道果": "【超越】轮回万次不灭，只为超越巅峰"
         }
         return descriptions.get(root_name, "【未知】神秘的灵根")
 
     def generate_new_player_stats(self, user_id: str, cultivation_type: str = "灵修") -> Player:
-        """生成新玩家的初始数据
+        """生成新玩家的初始数据（nonebot 统一初始属性）
 
         Args:
             user_id: 用户ID
-            cultivation_type: 修炼类型，"灵修"或"体修"
+            cultivation_type: 保留参数，不再影响属性（兼容旧接口）
         """
-        import random
-
         root = self._get_random_spiritual_root()
         initial_gold = self.config["VALUES"]["INITIAL_GOLD"]
 
-        if cultivation_type == "灵修":
-            # 灵修初始数据：寿命100，修为0，灵气100-1000，法伤5-100，物伤5，法防0，物防5，精神力100-500
-            return Player(
-                user_id=user_id,
-                spiritual_root=f"{root}灵根",
-                cultivation_type="灵修",
-                lifespan=100,
-                experience=0,
-                gold=initial_gold,
-                spiritual_qi=random.randint(100, 1000),
-                max_spiritual_qi=random.randint(100, 1000),
-                blood_qi=0,
-                max_blood_qi=0,
-                magic_damage=random.randint(5, 100),
-                physical_damage=5,
-                magic_defense=0,
-                physical_defense=5,
-                mental_power=random.randint(100, 500)
-            )
-        else:  # 体修
-            # 体修初始数据：寿命50-100，修为0，气血100-500，法伤0，物伤100-500，法防50-200，物防100-500，精神力100-500
-            initial_blood_qi = random.randint(100, 500)
-            return Player(
-                user_id=user_id,
-                spiritual_root=f"{root}灵根",
-                cultivation_type="体修",
-                lifespan=random.randint(50, 100),
-                experience=0,
-                gold=initial_gold,
-                spiritual_qi=0,
-                max_spiritual_qi=0,
-                blood_qi=initial_blood_qi,
-                max_blood_qi=initial_blood_qi,
-                magic_damage=0,
-                physical_damage=random.randint(100, 500),
-                magic_defense=random.randint(50, 200),
-                physical_defense=random.randint(100, 500),
-                mental_power=random.randint(100, 500)
-            )
+        # nonebot 初始属性：HP=500, MP=1000, ATK=100, 修为=0
+        return Player(
+            user_id=user_id,
+            spiritual_root=f"{root}灵根",
+            cultivation_type="灵修",
+            lifespan=100,
+            experience=0,
+            gold=initial_gold,
+            spiritual_qi=0,
+            max_spiritual_qi=0,
+            blood_qi=0,
+            max_blood_qi=0,
+            hp=500,
+            mp=1000,
+            atk=100,
+        )
 
     def get_spiritual_root_speed(self, player: Player) -> float:
         """获取玩家灵根的修炼速度倍率
@@ -342,53 +338,6 @@ class CultivationManager:
         speed = speeds_config.get(config_key, 1.0)
         return speed
 
-    def calculate_cultivation_exp(
-        self,
-        player: Player,
-        minutes: int,
-        technique_bonus: float = 0.0,
-        pill_multipliers: Optional[Dict[str, float]] = None,
-        spirit_eye_bonus: float = 0.0,
-        land_bonus: float = 0.0
-    ) -> int:
-        """计算闭关修炼获得的修为
-
-        Args:
-            player: 玩家对象
-            minutes: 闭关时长（分钟）
-            technique_bonus: 心法提供的修为倍率加成（来自主修心法的exp_multiplier）
-            spirit_eye_bonus: 灵眼修炼效率加成（如 0.15 表示 +15%）
-            land_bonus: 洞天福地修炼效率加成（如 0.5 表示 +50%）
-
-        Returns:
-            int: 获得的修为值
-        """
-        # 获取基础修为配置
-        base_exp = self.config["VALUES"].get("BASE_EXP_PER_MINUTE", 100)
-
-        # 获取灵根速度倍率
-        root_speed = self.get_spiritual_root_speed(player)
-
-        # 获取丹药修炼倍率加成
-        cultivation_pill_bonus = 1.0
-        if pill_multipliers:
-            cultivation_pill_bonus = pill_multipliers.get("cultivation_speed", 1.0)
-
-        # 计算总修为倍率：灵根倍率 * (1 + 心法倍率) * 丹药倍率 * (1 + 灵眼加成) * (1 + 洞天加成)
-        total_multiplier = root_speed * (1.0 + technique_bonus) * cultivation_pill_bonus * (1.0 + spirit_eye_bonus) * (1.0 + land_bonus)
-
-        # 计算总修为：基础修为 * 时长 * 总倍率
-        total_exp = int(base_exp * minutes * total_multiplier)
-
-        logger.info(
-            f"玩家 {player.user_id} 闭关 {minutes} 分钟，"
-            f"基础修为 {base_exp}，灵根倍率 {root_speed}，"
-            f"心法加成 {technique_bonus:.2%}，丹药倍率 {cultivation_pill_bonus:.2f}，"
-            f"灵眼加成 {spirit_eye_bonus:.2%}，洞天加成 {land_bonus:.2%}，"
-            f"获得修为 {total_exp}"
-        )
-        return total_exp
-
     def calculate_cultivation_exp_with_segments(
         self,
         player: Player,
@@ -396,8 +345,8 @@ class CultivationManager:
         end_time: int,
         technique_bonus: float = 0.0,
         raw_pill_effects: Optional[list] = None,
-        spirit_eye_bonus: float = 0.0,
-        land_bonus: float = 0.0
+        land_bonus: float = 0.0,
+        closing_exp_bonus: float = 0.0
     ) -> int:
         """分段计算闭关修为（丹药过期前后的倍率分别计算）
 
@@ -407,15 +356,19 @@ class CultivationManager:
             end_time: 出关时间（Unix时间戳）
             technique_bonus: 心法修为倍率加成
             raw_pill_effects: 原始丹药效果列表（含已过期的）
-            spirit_eye_bonus: 灵眼修炼效率加成
             land_bonus: 洞天福地修炼效率加成
 
         Returns:
             int: 获得的修为值
         """
-        base_exp = self.config["VALUES"].get("BASE_EXP_PER_MINUTE", 100)
+        base_exp = self.config["VALUES"].get("BASE_EXP_PER_MINUTE", 60)
         root_speed = self.get_spiritual_root_speed(player)
-        other_multiplier = root_speed * (1.0 + technique_bonus) * (1.0 + spirit_eye_bonus) * (1.0 + land_bonus)
+
+        # 读取永久丹药修炼倍率加成
+        permanent_gains = player.get_permanent_pill_gains()
+        permanent_cultivation_mult = permanent_gains.get("_global", {}).get("cultivation_multiplier", 0)
+
+        other_multiplier = root_speed * (1.0 + technique_bonus) * (1.0 + closing_exp_bonus) * (1.0 + land_bonus) * (1.0 + permanent_cultivation_mult)
 
         # 从丹药效果中提取修炼加成和过期时间
         pill_segments = []  # [(expiry_time, cultivation_multiplier)]
@@ -433,7 +386,8 @@ class CultivationManager:
             total_exp = int(base_exp * minutes * other_multiplier)
             logger.info(
                 f"玩家 {player.user_id} 闭关 {minutes} 分钟（无丹药分段），"
-                f"基础修为 {base_exp}，其他倍率 {other_multiplier:.4f}，获得修为 {total_exp}"
+                f"基础修为 {base_exp}，其他倍率 {other_multiplier:.4f}，"
+                f"永久丹药修炼加成 {permanent_cultivation_mult:+.0%}，获得修为 {total_exp}"
             )
             return total_exp
 

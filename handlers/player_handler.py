@@ -7,7 +7,6 @@ from astrbot.api.event import AstrMessageEvent
 from astrbot.api import AstrBotConfig
 from ..data import DataBase
 from ..core import CultivationManager, PillManager
-from ..managers.spirit_eye_manager import SpiritEyeManager
 from ..managers.achievement_manager import AchievementManager
 from ..models import Player
 from ..models_extended import UserStatus
@@ -28,13 +27,12 @@ __all__ = ["PlayerHandler"]
 class PlayerHandler:
     """玩家基础信息处理器 - 支持灵修/体修选择"""
 
-    def __init__(self, db: DataBase, config: AstrBotConfig, config_manager: ConfigManager, spirit_eye_mgr: SpiritEyeManager, achievement_mgr: AchievementManager = None, activity_tracker=None):
+    def __init__(self, db: DataBase, config: AstrBotConfig, config_manager: ConfigManager, achievement_mgr: AchievementManager = None, activity_tracker=None):
         self.db = db
         self.config = config
         self.config_manager = config_manager
         self.cultivation_manager = CultivationManager(config, config_manager)
         self.pill_manager = PillManager(self.db, self.config_manager)
-        self.spirit_eye_mgr = spirit_eye_mgr
         self.achievement_mgr = achievement_mgr
         self.activity_tracker = activity_tracker
 
@@ -56,37 +54,19 @@ class PlayerHandler:
             help_msg = (
                 "🌟 欢迎踏入修仙之路！\n"
                 "━━━━━━━━━━━━━━━\n"
-                "请选择你的修炼方式：\n\n"
-                "【灵修】以灵气为主，法术攻击\n"
-                "• 寿命：100\n"
-                "• 灵气：100-1000\n"
-                "• 法伤：5-100\n"
-                "• 物伤：5\n"
-                "• 法防：0\n"
-                "• 物防：5\n"
-                "• 精神力：100-500\n\n"
-                "【体修】以气血为主，肉身强横\n"
-                "• 寿命：50-100\n"
-                "• 气血：100-500\n"
-                "• 法伤：0\n"
-                "• 物伤：100-500\n"
-                "• 法防：50-200\n"
-                "• 物防：100-500\n"
-                "• 精神力：100-500\n"
-                "━━━━━━━━━━━━━━━\n"
+                "初入江湖，你成为了【江湖好手】\n"
+                "初始属性：气血500、真元1000、攻击100\n\n"
                 "⚠️ 修仙风险警告 ⚠️\n"
                 "• 突破失败有概率走火入魔身死道消\n"
                 "• 生命值归零也会导致死亡\n"
                 "• 死亡后所有数据清除，需重新入仙途\n"
                 "━━━━━━━━━━━━━━━\n"
-                f"💡 使用方法：\n"
-                f"  {CMD_START_XIUXIAN} 灵修\n"
-                f"  {CMD_START_XIUXIAN} 体修"
+                f"💡 使用 /我要修仙 确认开始"
             )
             yield event.plain_result(help_msg)
             return
 
-        # 验证职业类型
+        # 验证职业类型（兼容旧接口，统一为灵修）
         cultivation_type = cultivation_type.strip()
         if cultivation_type not in ["灵修", "体修"]:
             yield event.plain_result(f"职业选择错误！请选择「灵修」或「体修」。")
@@ -140,11 +120,21 @@ class PlayerHandler:
 
         # 文本模式 (完整信息显示)
         
-        # 获取战力（复用战斗系统 build_player_combat_stats + calc_combat_power）
+        # 获取战力（nonebot 公式：exp * root_speed * realm_spend）
         from ..managers.combat_manager import CombatManager
         impart_info = await self.db.ext.get_impart_info(player.user_id)
         combat_stats = CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
-        combat_power = CombatManager.calc_combat_power(combat_stats, combat_stats.max_hp, combat_stats.max_mp)
+
+        # 读取灵根倍率
+        root_speed = self.cultivation_manager.get_spiritual_root_speed(player) if hasattr(self, 'cultivation_manager') else 1.0
+        # 读取境界 spend
+        level_data = self.config_manager.get_level_data()
+        realm_spend = level_data[player.level_index].get("spend", 1.0) if player.level_index < len(level_data) else 1.0
+
+        combat_power = CombatManager.calc_combat_power(
+            combat_stats, combat_stats.max_hp, combat_stats.max_mp,
+            experience=player.experience, root_speed=root_speed, realm_spend=realm_spend
+        )
         
         # 获取宗门信息
         sect_name = "无宗门"
@@ -168,6 +158,7 @@ class PlayerHandler:
         weapon_name = player.weapon if player.weapon else "无"
         armor_name = player.armor if player.armor else "无"
         technique_name = player.main_technique if player.main_technique else "无"
+        sub_technique_name = player.sub_technique if player.sub_technique else "无"
         
         # 获取突破状态
         breakthrough_rate = f"+{player.level_up_rate}%" if player.level_up_rate > 0 else "0%"
@@ -220,10 +211,10 @@ class PlayerHandler:
                 technique_bonus = item.exp_multiplier
                 break
         cultivation_pill_bonus = pill_multipliers.get("cultivation_speed", 1.0)
-        spirit_eye_bonus = 0.0
-        my_eye = await self.spirit_eye_mgr.get_user_spirit_eye(player.user_id)
-        if my_eye:
-            spirit_eye_bonus = my_eye.get("exp_per_hour", 0) / 100.0
+        # 分离永久和临时丹药修炼加成
+        permanent_gains = player.get_permanent_pill_gains()
+        perm_cultivation_mult = permanent_gains.get("_global", {}).get("cultivation_multiplier", 0)
+        temp_cultivation_mult = cultivation_pill_bonus - 1.0 - perm_cultivation_mult
         # 洞天加成
         land_bonus = 0.0
         async with self.db.conn.execute(
@@ -233,7 +224,7 @@ class PlayerHandler:
             row = await cursor.fetchone()
             if row and row[0]:
                 land_bonus = row[0]
-        total_efficiency = root_speed * (1.0 + technique_bonus) * cultivation_pill_bonus * (1.0 + spirit_eye_bonus) * (1.0 + land_bonus)
+        total_efficiency = root_speed * (1.0 + technique_bonus) * cultivation_pill_bonus * (1.0 + land_bonus)
 
         reply_msg += (
             f"\n"
@@ -244,11 +235,10 @@ class PlayerHandler:
         )
         if technique_bonus > 0:
             reply_msg += f"  心法加成：+{technique_bonus:.0%}\n"
-        if cultivation_pill_bonus != 1.0:
-            reply_msg += f"  丹药加成：x{cultivation_pill_bonus:.2f}\n"
-        if spirit_eye_bonus > 0:
-            eye_name = my_eye["eye_name"] if my_eye else "灵眼"
-            reply_msg += f"  灵眼加成：+{spirit_eye_bonus:.0%}（{eye_name}）\n"
+        if temp_cultivation_mult > 0:
+            reply_msg += f"  临时丹药：+{temp_cultivation_mult:.0%}\n"
+        if perm_cultivation_mult != 0:
+            reply_msg += f"  永久丹药：{perm_cultivation_mult:+.0%}\n"
         if land_bonus > 0:
             reply_msg += f"  洞天加成：+{land_bonus:.0%}\n"
         reply_msg += f"  总效率：x{total_efficiency:.2f}\n"
@@ -260,7 +250,8 @@ class PlayerHandler:
             f"\n"
             f"【装备信息】\n"
             f"  主修功法：{technique_name}\n"
-            f"  法器：{weapon_name}\n"
+            f"  辅修功法：{sub_technique_name}\n"
+            f"  武器：{weapon_name}\n"
             f"  防具：{armor_name}\n"
         )
 
@@ -377,6 +368,7 @@ class PlayerHandler:
 
         # 获取主修心法的修为加成
         technique_bonus = 0.0
+        closing_exp_bonus = 0.0
         if player.main_technique:
             from ..core import EquipmentManager
             equipment_manager = EquipmentManager(self.db, self.config_manager)
@@ -389,13 +381,8 @@ class PlayerHandler:
             for item in equipped_items:
                 if item.item_type == "main_technique":
                     technique_bonus = item.exp_multiplier
+                    closing_exp_bonus = item.closing_exp_bonus
                     break
-
-        # 获取灵眼修炼效率加成
-        spirit_eye_bonus = 0.0
-        my_eye = await self.spirit_eye_mgr.get_user_spirit_eye(player.user_id)
-        if my_eye:
-            spirit_eye_bonus = my_eye.get("exp_per_hour", 0) / 100.0
 
         # 获取洞天福地修炼效率加成
         land_bonus = 0.0
@@ -414,8 +401,8 @@ class PlayerHandler:
             end_time=end_time,
             technique_bonus=technique_bonus,
             raw_pill_effects=raw_pill_effects,
-            spirit_eye_bonus=spirit_eye_bonus,
-            land_bonus=land_bonus
+            land_bonus=land_bonus,
+            closing_exp_bonus=closing_exp_bonus
         )
 
         # 更新玩家数据
@@ -572,7 +559,7 @@ class PlayerHandler:
             return
 
         if player.state != "空闲":
-            yield event.plain_result("❌ 只有处于空闲状态时才能弃道重修。请先结束闭关/历练等活动。")
+            yield event.plain_result("❌ 只有处于空闲状态时才能弃道重修。请先结束闭关等活动。")
             return
 
         loan = await self.db.ext.get_active_loan(player.user_id)

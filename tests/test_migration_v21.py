@@ -5,21 +5,14 @@ from astrbot_plugin_monixiuxian2.data.migration import MIGRATION_TASKS, LATEST_D
 
 @pytest.mark.asyncio
 async def test_latest_version_is_29():
-    assert LATEST_DB_VERSION == 34
-    assert 21 in MIGRATION_TASKS
-    assert 22 in MIGRATION_TASKS
-    assert 23 in MIGRATION_TASKS
-    assert 24 in MIGRATION_TASKS
-    assert 25 in MIGRATION_TASKS
-    assert 26 in MIGRATION_TASKS
-    assert 27 in MIGRATION_TASKS
-    assert 28 in MIGRATION_TASKS
-    assert 29 in MIGRATION_TASKS
-    assert 30 in MIGRATION_TASKS
-    assert 31 in MIGRATION_TASKS
-    assert 32 in MIGRATION_TASKS
-    assert 33 in MIGRATION_TASKS
-    assert 34 in MIGRATION_TASKS
+    assert LATEST_DB_VERSION == len(MIGRATION_TASKS) + 1, (
+        f"LATEST_DB_VERSION ({LATEST_DB_VERSION}) "
+        f"应比 MIGRATION_TASKS 数量 ({len(MIGRATION_TASKS)}) 大 1 (v1 为初始状态)"
+    )
+    assert LATEST_DB_VERSION >= 38, f"当前版本 {LATEST_DB_VERSION}，预期至少 38"
+    # 确保 v21-当前最新所有迁移任务都已注册
+    for v in range(21, LATEST_DB_VERSION + 1):
+        assert v in MIGRATION_TASKS, f"迁移 v{v} 未注册"
 
 
 @pytest.mark.asyncio

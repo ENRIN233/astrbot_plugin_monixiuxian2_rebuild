@@ -54,14 +54,26 @@ SECT_CONFIG = {
 BOSS_CONFIG = {
     "spawn_interval": 3600,
     "levels": [
-        {"name": "练气", "level_index": 0, "hp_mult": 1.0, "atk_mult": 1.0, "reward_mult": 1.0},
-        {"name": "筑基", "level_index": 3, "hp_mult": 1.5, "atk_mult": 1.2, "reward_mult": 1.5},
-        {"name": "金丹", "level_index": 6, "hp_mult": 2.0, "atk_mult": 1.5, "reward_mult": 2.0},
-        {"name": "元婴", "level_index": 9, "hp_mult": 2.5, "atk_mult": 1.8, "reward_mult": 2.5},
-        {"name": "化神", "level_index": 12, "hp_mult": 3.0, "atk_mult": 2.0, "reward_mult": 3.0},
-        {"name": "炼虚", "level_index": 15, "hp_mult": 4.0, "atk_mult": 2.5, "reward_mult": 4.0},
-        {"name": "合体", "level_index": 18, "hp_mult": 5.0, "atk_mult": 3.0, "reward_mult": 5.0},
-        {"name": "大乘", "level_index": 21, "hp_mult": 6.0, "atk_mult": 3.5, "reward_mult": 6.0},
+        {"name": "练气", "level_index": 0,  "hp_mult": 1.0,  "atk_mult": 1.0,  "reward_mult": 1.0},
+        {"name": "筑基", "level_index": 3,  "hp_mult": 1.5,  "atk_mult": 1.2,  "reward_mult": 1.5},
+        {"name": "金丹", "level_index": 6,  "hp_mult": 2.0,  "atk_mult": 1.5,  "reward_mult": 2.0},
+        {"name": "元婴", "level_index": 9,  "hp_mult": 2.5,  "atk_mult": 1.8,  "reward_mult": 2.5},
+        {"name": "化神", "level_index": 12, "hp_mult": 3.0,  "atk_mult": 2.0,  "reward_mult": 3.0},
+        {"name": "炼虚", "level_index": 15, "hp_mult": 4.0,  "atk_mult": 2.5,  "reward_mult": 4.0},
+        {"name": "合体", "level_index": 18, "hp_mult": 5.0,  "atk_mult": 3.0,  "reward_mult": 5.0},
+        {"name": "大乘", "level_index": 21, "hp_mult": 6.0,  "atk_mult": 3.5,  "reward_mult": 6.0},
+        {"name": "神火", "level_index": 24, "hp_mult": 7.5,  "atk_mult": 4.0,  "reward_mult": 7.5},
+        {"name": "真一", "level_index": 27, "hp_mult": 9.0,  "atk_mult": 4.5,  "reward_mult": 9.0},
+        {"name": "圣祭", "level_index": 30, "hp_mult": 11.0, "atk_mult": 5.0,  "reward_mult": 11.0},
+        {"name": "天神", "level_index": 33, "hp_mult": 13.0, "atk_mult": 5.5,  "reward_mult": 13.0},
+        {"name": "虚道", "level_index": 36, "hp_mult": 16.0, "atk_mult": 6.0,  "reward_mult": 16.0},
+        {"name": "斩我", "level_index": 39, "hp_mult": 19.0, "atk_mult": 7.0,  "reward_mult": 19.0},
+        {"name": "混沌", "level_index": 42, "hp_mult": 23.0, "atk_mult": 8.0,  "reward_mult": 23.0},
+        {"name": "创世", "level_index": 45, "hp_mult": 28.0, "atk_mult": 9.5,  "reward_mult": 28.0},
+        {"name": "金仙", "level_index": 48, "hp_mult": 34.0, "atk_mult": 11.0, "reward_mult": 34.0},
+        {"name": "轮回", "level_index": 51, "hp_mult": 41.0, "atk_mult": 13.0, "reward_mult": 41.0},
+        {"name": "虚神", "level_index": 54, "hp_mult": 50.0, "atk_mult": 15.0, "reward_mult": 50.0},
+        {"name": "仙帝", "level_index": 57, "hp_mult": 60.0, "atk_mult": 18.0, "reward_mult": 60.0},
     ]
 }
 
@@ -119,5 +131,14 @@ ALCHEMY_CONFIG = {
             "effect": {"type": "mp_restore", "value": 50},
             "desc": "恢复50%真元"
         },
+    }
+}
+
+DUNGEON_CONFIG = {
+    "dungeons": [],
+    "global": {
+        "max_runs_per_day": -1,
+        "run_expire_hours": 24,
+        "overdraft_warning_pct": 0.5
     }
 }

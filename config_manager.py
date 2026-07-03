@@ -10,8 +10,7 @@ class ConfigManager:
 
     def __init__(self, base_dir: Path):
         self._base_dir = base_dir
-        self.level_data: List[dict] = []  # 灵修境界数据
-        self.body_level_data: List[dict] = []  # 体修境界数据
+        self.level_data: List[dict] = []  # 境界数据（统一57级体系）
         self.items_data: Dict[str, dict] = {}  # 物品数据，key为物品名称
         self.weapons_data: Dict[str, dict] = {}  # 武器数据，key为武器名称
         self.pills_data: Dict[str, dict] = {}  # 破境丹数据，key为丹药名称
@@ -19,7 +18,12 @@ class ConfigManager:
         self.utility_pills_data: Dict[str, dict] = {}  # 功能丹数据，key为丹药名称
         self.storage_rings_data: Dict[str, dict] = {}  # 储物戒数据，key为储物戒名称
         self.skills_data: Dict[str, dict] = {}  # 神通数据，key为神通名称
+        self.sub_techniques_data: Dict[str, dict] = {}  # 辅修功法数据，key为辅修功法名称
         self.achievements_data: Dict[str, dict] = {}  # 成就数据，key为成就名称
+        self.herbs_data: Dict[str, dict] = {}  # 药材数据，key为药材ID
+        self.furnaces_data: Dict[str, dict] = {}  # 炼丹炉数据，key为炉子ID
+        self.realm_data: Dict[str, dict] = {}  # 境界原始数据（nonebot格式）
+        self.breakthrough_rates_data: Dict[str, int] = {}  # 突破概率（name→百分比）
         
         # 新增系统配置
         self.sect_config: Dict[str, Any] = {}
@@ -30,9 +34,7 @@ class ConfigManager:
         self._load_all()
 
     def get_level_data(self, cultivation_type: str = "灵修") -> List[dict]:
-        """根据修炼类型获取对应的境界数据"""
-        if cultivation_type == "体修":
-            return self.body_level_data
+        """获取境界数据（统一境界体系，不再区分灵修/体修）"""
         return self.level_data
 
     def _load_json_data(self, file_path: Path) -> List[dict]:
@@ -106,7 +108,6 @@ class ConfigManager:
         
         # 加载基础配置
         self.level_data = self._load_json_data(config_dir / "level_config.json")
-        self.body_level_data = self._load_json_data(config_dir / "body_level_config.json")
         self.items_data = self._load_items_data(config_dir / "items.json")
         self.weapons_data = self._load_items_data(config_dir / "weapons.json")
         self.pills_data = self._load_items_data(config_dir / "pills.json")
@@ -114,6 +115,7 @@ class ConfigManager:
         self.utility_pills_data = self._load_items_data(config_dir / "utility_pills.json")
         self.storage_rings_data = self._load_items_data(config_dir / "storage_rings.json")
         self.skills_data = self._load_items_data(config_dir / "skills.json")
+        self.sub_techniques_data = self._load_items_data(config_dir / "sub_techniques.json")
         self.achievements_data = self._load_items_data(config_dir / "achievements.json")
         
         # 加载新系统配置
@@ -122,7 +124,15 @@ class ConfigManager:
         self.rift_config = self._load_config_with_default(config_dir / "rift_config.json", RIFT_CONFIG)
         self.alchemy_config = self._load_config_with_default(config_dir / "alchemy_config.json", ALCHEMY_CONFIG)
         self.alchemy_recipes = self._load_items_data(config_dir / "alchemy_recipes.json")
-        
+        self.herbs_data = self._load_json_data(config_dir / "herbs.json")
+        self.furnaces_data = self._load_json_data(config_dir / "furnaces.json")
+        self.realm_data = self._load_json_data(config_dir / "realm_config.json")
+        self.breakthrough_rates_data = self._load_json_data(config_dir / "breakthrough_rates.json")
+
+        # 秘境副本配置
+        from .data.default_configs import DUNGEON_CONFIG
+        self.dungeon_config = self._load_config_with_default(config_dir / "dungeon_config.json", DUNGEON_CONFIG)
+
         # 加载游戏配置（包含各系统的硬编码参数）
         self.game_config = self._load_config_with_default(config_dir / "game_config.json", {})
         
@@ -130,8 +140,8 @@ class ConfigManager:
 
         logger.info(
             f"配置管理器初始化完成，"
-            f"加载了 {len(self.level_data)} 个灵修境界配置，"
-            f"{len(self.body_level_data)} 个体修境界配置，"
+            f"加载了 {len(self.level_data)} 个境界配置，"
+            f"{len(self.realm_data)} 个境界原始数据，"
             f"以及新系统配置 (宗门/Boss/秘境/炼丹)，"
             f"{len(self.skills_data)} 个神通配置，"
             f"{len(self.achievements_data)} 个成就配置"

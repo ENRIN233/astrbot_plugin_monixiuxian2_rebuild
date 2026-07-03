@@ -62,19 +62,35 @@ class RiftManager:
 
     # 品级→参考等级映射（用于动态装备掉落）
     RANK_LEVEL_MAP = {
-        "凡品": 0, "灵品": 10, "地品": 12, "天品": 13,
-        "皇品": 16, "帝品": 22, "道品": 28, "仙品": 32, "混元先天": 35,
+        "下品符器": 0, "上品符器": 10, "下品玄器": 10, "上品玄器": 10,
+        "下品法器": 12, "下品纯阳": 12, "上品纯阳": 12,
+        "上品法器": 13, "下品通天": 13, "上品通天": 13,
+        "下品纯阳法器": 16, "上品纯阳法器": 22,
+        "下品通天法器": 28,
+        "上品通天法器": 32, "下品仙器": 32, "上品仙器": 32, "极品仙器": 32,
+        "无上仙器": 35,
     }
 
-    # 品级排序（从低到高）
-    RANK_ORDER = ["凡品", "灵品", "地品", "天品", "皇品", "帝品", "道品", "仙品", "混元先天"]
+    # 品级排序（从低到高，18级）
+    RANK_ORDER = [
+        "下品符器", "上品符器", "下品玄器", "上品玄器",
+        "下品法器", "下品纯阳", "上品纯阳",
+        "上品法器", "下品通天", "上品通天",
+        "下品纯阳法器", "上品纯阳法器", "下品通天法器",
+        "上品通天法器", "下品仙器", "上品仙器", "极品仙器",
+        "无上仙器",
+    ]
     DEFAULT_EQUIP_DROP_CHANCE = {1: 2, 2: 5, 3: 10, 4: 15, 5: 20}  # 各秘境等级的装备掉落概率(%)
     DEFAULT_EQUIP_MAX_LEVEL = {1: 12, 2: 22, 3: 35, 4: 35, 5: 35}  # 各秘境等级允许的最高装备等级
     DEFAULT_LEVEL_MATCH_HALF_LIFE = 5.0                 # 等级匹配半衰期
     DEFAULT_WEAPON_ARMOR_RATIO = 50                     # 武器掉落占比(%)
     DEFAULT_RANK_BASE_WEIGHT = {                        # 品级基础权重（控制各品级掉落概率分布）
-        "凡品": 1000, "灵品": 300, "地品": 100, "天品": 30,
-        "皇品": 10, "帝品": 3, "道品": 1, "仙品": 0.3, "混元先天": 0.1,
+        "下品符器": 1000, "上品符器": 500, "下品玄器": 400, "上品玄器": 300,
+        "下品法器": 200, "下品纯阳": 150, "上品纯阳": 100,
+        "上品法器": 60, "下品通天": 40, "上品通天": 30,
+        "下品纯阳法器": 15, "上品纯阳法器": 8, "下品通天法器": 3,
+        "上品通天法器": 1, "下品仙器": 0.8, "上品仙器": 0.5, "极品仙器": 0.3,
+        "无上仙器": 0.1,
     }
 
     def __init__(self, db: DataBase, config_manager=None, storage_ring_manager: "StorageRingManager" = None):
@@ -272,7 +288,10 @@ class RiftManager:
         got_stone = False
         got_exp = False
         if rift_def:
-            level_bonus = 1 + max(0, player.level_index - 3) * 0.06
+            level_cfg = self.config_manager.game_config.get("level_scaling", {}) if self.config_manager else {}
+            coeff = level_cfg.get("bounty_rift_coefficient", 0.045)
+            base_level = level_cfg.get("bounty_rift_base_level", 3)
+            level_bonus = 1 + max(0, player.level_index - base_level) * coeff
             base_stone = rift_def.get("reward_stone", 0)
             base_exp = rift_def.get("reward_exp", 0)
 
@@ -353,7 +372,7 @@ class RiftManager:
                 if equip_items:
                     equip_desc = random.choice([
                         "  一道光芒闪过，你从阵法残留中取出了一件宝物——",
-                        "  你拨开尘封已久的石棺，其中赫然躺着一件法器——",
+                        "  你拨开尘封已久的石棺，其中赫然躺着一件神兵——",
                         "  秘境深处的器灵将一件珍品托付于你——",
                     ])
                     item_lines.append(equip_desc)
@@ -521,7 +540,7 @@ class RiftManager:
         # 筛选合格装备
         candidates = []
         for name, item_cfg in item_source.items():
-            rank = item_cfg.get("rank", "凡品")
+            rank = item_cfg.get("rank", "下品符器")
             rank_level = self._get_rank_level(rank)
             # 秘境等级上限过滤
             if rank_level > max_level:
@@ -568,4 +587,4 @@ class RiftManager:
         for rank, level in sorted_ranks:
             if player_level >= level:
                 return rank
-        return "凡品"
+        return "下品符器"

@@ -1,0 +1,200 @@
+{
+  "dungeons": [
+    {
+      "key": "cave_spirit",
+      "name": "灵脉洞窟",
+      "description": "蕴含远古灵气的神秘洞窟，深处沉睡着灵脉守卫",
+      "min_level": 5,
+      "max_depth": 18,
+      "base_stamina": 20,
+      "daily_reward_cap": 5000,
+      "daily_reward_cap_exp": 3000,
+      "stamina_scaling": {
+        "per_level": 0.35
+      },
+      "depth_tiers": [
+        {"max_depth_pct": 0.33, "mult": 1.0, "label": "浅层"},
+        {"max_depth_pct": 0.66, "mult": 1.5, "label": "深层"},
+        {"max_depth_pct": 1.0, "mult": 2.0, "label": "核心"}
+      ],
+      "node_pool": {
+        "monster": {
+          "weight": 35,
+          "labels": ["灵蝠巢穴", "石傀儡拦路", "毒蛇草丛", "暗影狼群"],
+          "hp_mult": 0.6,
+          "atk_mult": 0.5
+        },
+        "elite": {
+          "weight": 8,
+          "labels": ["灵脉蛟蛇", "岩甲巨蝎", "噬灵鬼藤"],
+          "hp_mult": 2.0,
+          "atk_mult": 1.5,
+          "drop_bonus": 2.0
+        },
+        "treasure": {
+          "weight": 15,
+          "labels": ["角落微光", "残破石台", "灵气凝聚处", "前辈遗物"],
+          "base_gold": 100,
+          "gold_per_depth": 30
+        },
+        "spring": {
+          "weight": 10,
+          "labels": ["灵泉涌出", "清泉石上流", "露珠凝结"],
+          "heal_pct": 0.3,
+          "stamina_restore": 2
+        },
+        "campfire": {
+          "weight": 8,
+          "labels": ["温暖灵焰", "前辈留下的传送阵", "灵气护罩"],
+          "heal_full": true
+        },
+        "theme_mine": {
+          "weight": 12,
+          "labels": ["矿脉闪烁", "灵石裸露", "晶簇洞穴"],
+          "cost_stamina": 2,
+          "base_gold": 200,
+          "gold_per_depth": 50
+        },
+        "nothing": {
+          "weight": 7,
+          "labels": ["安静甬道", "风平浪静", "空旷石室"]
+        },
+        "merchant": {
+          "weight": 5,
+          "labels": ["虚影商人", "灵体摊贩"],
+          "items": [
+            {"name": "凝元丹", "type": "pill", "price": 80, "heal_pct": 0.5},
+            {"name": "回灵散", "type": "pill", "price": 120, "stamina_restore": 5},
+            {"name": "传送符", "type": "escape", "price": 200}
+          ]
+        }
+      },
+      "branch_rules": {
+        "no_duplicate_step1": true,
+        "campfire_on_step3_preferred": true,
+        "elite_on_step1_only": true,
+        "guaranteed_min_reward_per_cycle": 1
+      },
+      "overdraft": {
+        "base_pct": 0.10,
+        "increment_pct": 0.05,
+        "max_pct": 0.40
+      },
+      "sleeping_bag_recovery": [2, 4, 6, 8, 10, 13],
+      "boss": {
+        "name": "灵脉守卫·蛟龙",
+        "hp_mult": 5.0,
+        "atk_mult": 2.0,
+        "reward_choices": 2,
+        "reward_pool": [
+          {"name": "蛟龙角", "type": "material", "weight": 30, "count": 3},
+          {"name": "凝元丹", "type": "pill", "weight": 25, "count": 2},
+          {"name": "灵脉精华", "type": "material", "weight": 20, "count": 5},
+          {"name": "蛟龙鳞甲", "type": "armor", "weight": 15, "count": 1},
+          {"name": "灵脉之心", "type": "material", "weight": 10, "count": 1}
+        ]
+      }
+    },
+    {
+      "key": "abyss_demon",
+      "name": "万妖深渊",
+      "description": "万妖汇聚的幽暗深渊，妖气浓郁到几乎凝为实质",
+      "min_level": 10,
+      "max_depth": 30,
+      "base_stamina": 25,
+      "daily_reward_cap": 10000,
+      "daily_reward_cap_exp": 8000,
+      "stamina_scaling": {
+        "per_level": 0.35
+      },
+      "depth_tiers": [
+        {"max_depth_pct": 0.33, "mult": 1.0, "label": "浅层"},
+        {"max_depth_pct": 0.66, "mult": 2.0, "label": "深层"},
+        {"max_depth_pct": 1.0, "mult": 3.0, "label": "核心"}
+      ],
+      "node_pool": {
+        "monster": {
+          "weight": 30,
+          "labels": ["暗渊蝎群", "幽冥鬼火", "蚀骨蛇阵", "噬魂蝠"],
+          "hp_mult": 0.8,
+          "atk_mult": 0.7
+        },
+        "elite": {
+          "weight": 12,
+          "labels": ["深渊蛟龙", "六臂魔猿", "噬天巨蟒"],
+          "hp_mult": 3.0,
+          "atk_mult": 2.0,
+          "drop_bonus": 3.0
+        },
+        "treasure": {
+          "weight": 12,
+          "labels": ["妖兽巢穴宝箱", "暗渊遗宝", "魔气结晶"],
+          "base_gold": 200,
+          "gold_per_depth": 60
+        },
+        "spring": {
+          "weight": 8,
+          "labels": ["深渊灵泉", "魔气净化池"],
+          "heal_pct": 0.25,
+          "stamina_restore": 2
+        },
+        "campfire": {
+          "weight": 6,
+          "labels": ["安全结界", "前辈遗留的阵法"],
+          "heal_full": true
+        },
+        "theme_mine": {
+          "weight": 10,
+          "labels": ["魔晶矿脉", "暗渊灵石层", "深渊晶簇"],
+          "cost_stamina": 3,
+          "base_gold": 400,
+          "gold_per_depth": 80
+        },
+        "nothing": {
+          "weight": 7,
+          "labels": ["寂静通道", "暂时安全"]
+        },
+        "merchant": {
+          "weight": 5,
+          "labels": ["深渊行商", "游荡灵体"],
+          "items": [
+            {"name": "凝元丹", "type": "pill", "price": 80, "heal_pct": 0.5},
+            {"name": "回灵散", "type": "pill", "price": 120, "stamina_restore": 5},
+            {"name": "传送符", "type": "escape", "price": 200},
+            {"name": "破障丹", "type": "pill", "price": 300, "temp_atk_pct": 0.2}
+          ]
+        }
+      },
+      "branch_rules": {
+        "no_duplicate_step1": true,
+        "campfire_on_step3_preferred": true,
+        "elite_on_step1_only": true,
+        "guaranteed_min_reward_per_cycle": 1
+      },
+      "overdraft": {
+        "base_pct": 0.12,
+        "increment_pct": 0.06,
+        "max_pct": 0.45
+      },
+      "sleeping_bag_recovery": [2, 4, 6, 8, 10, 13],
+      "boss": {
+        "name": "深渊魔君",
+        "hp_mult": 8.0,
+        "atk_mult": 3.0,
+        "reward_choices": 2,
+        "reward_pool": [
+          {"name": "魔君之眼", "type": "material", "weight": 25, "count": 2},
+          {"name": "渡厄丹", "type": "pill", "weight": 25, "count": 1},
+          {"name": "深渊结晶", "type": "material", "weight": 20, "count": 3},
+          {"name": "魔君战甲", "type": "armor", "weight": 15, "count": 1},
+          {"name": "天劫石", "type": "material", "weight": 15, "count": 1}
+        ]
+      }
+    }
+  ],
+  "global": {
+    "max_runs_per_day": -1,
+    "run_expire_hours": 24,
+    "overdraft_warning_pct": 0.5
+  }
+}

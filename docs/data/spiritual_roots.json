@@ -1,92 +1,112 @@
 [
   {
-    "rarity": "废柴",
-    "roots": ["伪"],
-    "speed": 0.5,
-    "speed_display": "×0.5",
-    "weight": 1,
-    "total_weight": 1,
-    "probability": "0.04%",
-    "description": "废灵根，修炼速度极慢，仅为五行单灵根的一半"
-  },
-  {
     "rarity": "凡品",
-    "roots": ["金木水火", "金木水土", "金木火土", "金水火土", "木水火土", "金木水", "金木火", "金木土", "金水火", "金水土", "金火土", "木水火", "木水土", "木火土", "水火土"],
-    "speed": 0.6,
-    "speed_display": "×0.6",
-    "weight": 30,
-    "total_weight": 450,
-    "probability": "1.21%",
-    "description": "四灵根(×0.6)与三灵根(×0.75)，灵根驳杂，修炼速度较慢"
+    "roots": ["伪灵根"],
+    "speed": 0,
+    "speed_display": "×0",
+    "weight": 2500,
+    "total_weight": 2500,
+    "probability": "4.22%",
+    "description": "器师，修炼速度为0"
   },
   {
-    "rarity": "良品",
-    "roots": ["金木", "金水", "金火", "金土", "木水", "木火", "木土", "水火", "水土", "火土"],
-    "speed": 0.9,
-    "speed_display": "×0.9",
-    "weight": 100,
-    "total_weight": 1000,
-    "probability": "4.02%",
-    "description": "双灵根，灵根较为纯粹，修炼速度接近基准"
-  },
-  {
-    "rarity": "上品",
-    "roots": ["金", "木", "水", "火", "土"],
+    "rarity": "下品",
+    "roots": ["金木水火灵根", "金木水土灵根", "金木火土灵根", "金水火土灵根", "木水火土灵根", "金木水灵根", "金木火灵根", "金木土灵根", "金水火灵根", "金水土灵根", "金火土灵根", "木水火灵根", "木水土灵根", "木火土灵根", "水火土灵根", "金木灵根", "金水灵根", "金火灵根", "金土灵根", "木水灵根", "木火灵根", "木土灵根", "水火灵根", "水土灵根", "火土灵根"],
     "speed": 1.0,
     "speed_display": "×1.0",
-    "weight": 200,
-    "total_weight": 1000,
-    "probability": "8.04%",
+    "weight": 1000,
+    "total_weight": 25000,
+    "probability": "42.16%",
+    "description": "多元素灵根，灵根驳杂但均衡，修炼速度为基准值"
+  },
+  {
+    "rarity": "中品",
+    "roots": ["金灵根", "木灵根", "水灵根", "火灵根", "土灵根"],
+    "speed": 1.0,
+    "speed_display": "×1.0",
+    "weight": 1000,
+    "total_weight": 5000,
+    "probability": "8.43%",
     "description": "五行单灵根，灵根纯粹，修炼速度为基准值"
   },
   {
-    "rarity": "稀有",
-    "roots": ["雷", "冰", "风", "暗", "光"],
-    "speed": 1.25,
-    "speed_display": "×1.25~1.3",
-    "weight": 20,
-    "total_weight": 100,
-    "probability": "0.80%",
-    "description": "变异灵根：冰/风×1.25，雷/暗/光×1.3，超越五行的特殊灵根"
+    "rarity": "上品",
+    "roots": ["雷灵根", "冰灵根", "风灵根", "暗灵根", "光灵根"],
+    "speed": 1.2,
+    "speed_display": "×1.2",
+    "weight": 1800,
+    "total_weight": 9000,
+    "probability": "15.18%",
+    "description": "变异灵根，超越五行的特殊属性，修炼速度提升20%"
   },
   {
     "rarity": "极品",
-    "roots": ["天金", "天木", "天水", "天火", "天土", "天雷"],
+    "roots": ["天金灵根", "天木灵根", "天水灵根", "天火灵根", "天土灵根", "天雷灵根"],
+    "speed": 1.3,
+    "speed_display": "×1.3",
+    "weight": 1800,
+    "total_weight": 10800,
+    "probability": "18.21%",
+    "description": "天灵根，天选之子，修炼速度提升30%"
+  },
+  {
+    "rarity": "仙品",
+    "roots": ["空间灵根", "时间灵根", "言灵灵根"],
+    "speed": 1.4,
+    "speed_display": "×1.4",
+    "weight": 1300,
+    "total_weight": 3900,
+    "probability": "6.58%",
+    "description": "龙灵根，龙族血脉，掌控空间、时间、言灵之力"
+  },
+  {
+    "rarity": "神品",
+    "roots": ["日灵根", "月灵根"],
     "speed": 1.5,
     "speed_display": "×1.5",
-    "weight": 5,
-    "total_weight": 30,
-    "probability": "0.20%",
-    "description": "天灵根，天赋异禀，修炼速度提升50%"
+    "weight": 1000,
+    "total_weight": 2000,
+    "probability": "3.37%",
+    "description": "超灵根，日月双辉，超越天灵根的稀有存在"
   },
   {
     "rarity": "传说",
-    "roots": ["阴阳", "融合"],
-    "speed": 1.8,
-    "speed_display": "×1.8",
-    "weight": 2,
-    "total_weight": 4,
-    "probability": "0.08%",
-    "description": "传说级灵根，万中无一，修炼速度提升80%"
+    "roots": ["融合灵根"],
+    "speed": 1.7,
+    "speed_display": "×1.7",
+    "weight": 600,
+    "total_weight": 600,
+    "probability": "1.01%",
+    "description": "融合灵根，五行融合万法归一，传说级灵根"
   },
   {
     "rarity": "神话",
-    "roots": ["混沌"],
+    "roots": ["混沌灵根"],
     "speed": 2.0,
     "speed_display": "×2.0",
-    "weight": 1,
-    "total_weight": 1,
-    "probability": "0.04%",
-    "description": "神话级灵根，开天辟地之力，修炼速度翻倍"
+    "weight": 300,
+    "total_weight": 300,
+    "probability": "0.51%",
+    "description": "混沌灵根，混沌初开包罗万象，神话级灵根"
   },
   {
     "rarity": "禁忌",
-    "roots": ["先天道体", "神圣体质"],
+    "roots": ["机械核心灵根"],
     "speed": 2.3,
-    "speed_display": "×2.3~2.5",
-    "weight": 1,
-    "total_weight": 2,
-    "probability": "0.04%",
-    "description": "禁忌级体质：神圣体质×2.3，先天道体×2.5，超越灵根范畴"
+    "speed_display": "×2.3",
+    "weight": 100,
+    "total_weight": 100,
+    "probability": "0.17%",
+    "description": "机械核心，超越灵根的机械之力，科技与修仙的融合"
+  },
+  {
+    "rarity": "超越",
+    "roots": ["异世界之力灵根"],
+    "speed": 2.5,
+    "speed_display": "×2.5",
+    "weight": 100,
+    "total_weight": 100,
+    "probability": "0.17%",
+    "description": "异世界之力，来自异世界的神秘力量，不受此界法则约束"
   }
 ]
