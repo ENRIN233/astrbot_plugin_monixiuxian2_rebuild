@@ -331,20 +331,20 @@
   },
   {
     "name": "合道境初期",
-    "exp_needed": 999999999999,
+    "exp_needed": 700784598096,
     "success_rate": 0.0,
     "spend": 14439
   },
   {
     "name": "合道境中期",
-    "exp_needed": 9999999999999,
+    "exp_needed": 1000000000000,
     "success_rate": 0.0,
-    "spend": 14439
+    "spend": 16537
   },
   {
     "name": "合道境圆满",
-    "exp_needed": 99999999999999,
+    "exp_needed": 2000000000000,
     "success_rate": 0.0,
-    "spend": 14439
+    "spend": 18898
   }
 ]

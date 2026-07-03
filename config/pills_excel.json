@@ -190,7 +190,7 @@
   },
   {
     "id": 2018,
-    "name": "外道兴奋剂",
+    "name": "杀伐圣丹",
     "type": "permanent_atk",
     "effect": {"atk_bonus": 3000000},
     "qiushi_bypass": true,
