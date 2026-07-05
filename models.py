@@ -144,7 +144,7 @@ class Player:
     permanent_pill_gains: str = "{}"  # 永久丹药累积增益（JSON字符串）
     has_resurrection_pill: str = ""  # 回生丹类型（空字符串=无，"回生丹"=损失15%属性，"涅槃重生丹"=无损失）
     has_debuff_shield: bool = False  # 是否拥有一次负面效果免疫
-    pills_inventory: str = "{}"  # 丹药背包（JSON字符串，格式：{pill_id: count}）
+    pills_inventory: str = "{}"  # 丹药背包（JSON字符串，格式：{pill_name: count}）
     permanent_pill_usage: str = "{}"  # 永久丹药使用次数（JSON字符串，格式：{pill_name: count}）
 
     # 储物戒系统字段

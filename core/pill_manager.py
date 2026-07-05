@@ -634,6 +634,13 @@ class PillManager:
         breakthrough_boost_applied = False
         breakthrough_bonus_val = effect.get("breakthrough_bonus", 0)
         if subtype == "breakthrough_boost" and breakthrough_bonus_val > 0:
+            # 检查境界下限限制
+            min_level = pill_data.get("min_level_index", 0)
+            if min_level > 0 and min_level > player.level_index:
+                level_data = self.config_manager.get_level_data()
+                required_name = level_data[min(min_level, len(level_data) - 1)].get("name", "未知境界") if level_data else "未知境界"
+                return False, f"你的境界不足以使用【{pill_name}】（需要 {required_name} 以上）"
+
             # 检查 max_uses 限制
             max_uses = pill_data.get("max_uses", 0)
             if max_uses > 0:
@@ -649,26 +656,29 @@ class PillManager:
             # 存储为临时活跃效果（突破时读取）
             current_time = int(time.time())
             effects = player.get_active_pill_effects()
-            # 查找是否已有同名效果（累加 bonus）
-            existing = None
-            for eff in effects:
-                if eff.get("pill_name") == pill_name and eff.get("subtype") == "breakthrough_boost":
-                    existing = eff
-                    break
+            has_target = pill_data.get("target_level_index") is not None
 
-            if existing:
-                existing["breakthrough_bonus"] = existing.get("breakthrough_bonus", 0) + breakthrough_bonus_val * actual_quantity
-            else:
-                effects.append({
-                    "pill_name": pill_name,
-                    "pill_id": pill_data.get("id", ""),
-                    "subtype": "breakthrough_boost",
-                    "start_time": current_time,
-                    "expiry_time": 0,  # 不自动过期，突破后消费
-                    "duration_minutes": 0,
-                    "breakthrough_bonus": breakthrough_bonus_val * actual_quantity,
-                    "target_level_index": pill_data.get("target_level_index"),  # 记录目标境界，用于过滤
-                })
+            # 同类丹药互斥：境界丹和通用丹各自只能生效1种
+            # 新丹药有 target_level_index → 移除所有带 target_level_index 的 breakthrough_boost 效果
+            # 新丹药无 target_level_index → 移除所有不带 target_level_index 的 breakthrough_boost 效果
+            effects = [
+                eff for eff in effects
+                if not (
+                    eff.get("subtype") == "breakthrough_boost"
+                    and (eff.get("target_level_index") is not None) == has_target
+                )
+            ]
+
+            effects.append({
+                "pill_name": pill_name,
+                "pill_id": pill_data.get("id", ""),
+                "subtype": "breakthrough_boost",
+                "start_time": current_time,
+                "expiry_time": 0,  # 不自动过期，突破后消费
+                "duration_minutes": 0,
+                "breakthrough_bonus": breakthrough_bonus_val * actual_quantity,
+                "target_level_index": pill_data.get("target_level_index"),  # 记录目标境界，用于过滤
+            })
             player.set_active_pill_effects(effects)
 
             # 记录服用次数
@@ -940,11 +950,22 @@ class PillManager:
         Args:
             player: 玩家对象
             target_level_index: 目标境界索引，用于过滤特定境界的突破丹效果（None 表示不过滤）
+
+        Returns:
+            dict: {
+                "temp_bonus": float,  # 临时加成总和
+                "has_temp_effects": bool,  # 是否有活跃效果
+                "permanent_death_multiplier": float,  # 死亡概率倍率
+            }
         """
         effects = player.get_active_pill_effects()
         current_time = int(time.time())
-        temp_bonus = 0.0
         has_temp_effects = False
+
+        # 分类取最大值：境界丹最多取 1 种（最高值），通用丹最多取 1 种，debuff 累加
+        best_realm_bonus = 0.0
+        best_universal_bonus = 0.0
+        debuff_total = 0.0
 
         for effect in effects:
             expiry_time = effect.get("expiry_time", 0)
@@ -952,14 +973,32 @@ class PillManager:
                 continue
 
             subtype = effect.get("subtype", "")
-            if subtype in {"breakthrough_boost", "breakthrough_debuff", "death_protection"}:
-                # 突破加成丹药需匹配目标境界（无 target_level_index 的为通用丹药，始终生效）
-                if subtype == "breakthrough_boost" and target_level_index is not None:
-                    effect_target = effect.get("target_level_index")
-                    if effect_target is not None and effect_target != target_level_index:
-                        continue  # 跳过不匹配的境界特定丹药
-                temp_bonus += effect.get("breakthrough_bonus", 0)
-                has_temp_effects = True
+            if subtype not in {"breakthrough_boost", "breakthrough_debuff", "death_protection"}:
+                continue
+
+            # 突破加成丹药需匹配目标境界（无 target_level_index 的为通用丹药，始终生效）
+            if subtype == "breakthrough_boost" and target_level_index is not None:
+                effect_target = effect.get("target_level_index")
+                if effect_target is not None and effect_target != target_level_index:
+                    continue  # 跳过不匹配的境界特定丹药
+
+            bonus = effect.get("breakthrough_bonus", 0)
+            if bonus == 0:
+                continue
+
+            if subtype == "breakthrough_debuff":
+                debuff_total += bonus  # debuff 累加
+            elif effect.get("target_level_index") is not None:
+                # 境界丹：取最高值
+                if bonus > best_realm_bonus:
+                    best_realm_bonus = bonus
+            else:
+                # 通用丹：取最高值
+                if bonus > best_universal_bonus:
+                    best_universal_bonus = bonus
+            has_temp_effects = True
+
+        temp_bonus = best_realm_bonus + best_universal_bonus + debuff_total
 
         permanent_multiplier = 1.0
         permanent_gains = player.get_permanent_pill_gains()

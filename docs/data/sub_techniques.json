@@ -154,17 +154,6 @@
     "type": "sub_technique"
   },
   {
-    "id": "10404",
-    "name": "玄清天衍录",
-    "rank": "天阶下品",
-    "description": "7%真元回复",
-    "buff_type": 5,
-    "buff": 7,
-    "buff2": 0,
-    "break_pct": 0.0,
-    "type": "sub_technique"
-  },
-  {
     "id": "10408",
     "name": "血毒经",
     "rank": "天阶下品",

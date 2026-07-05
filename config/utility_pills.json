@@ -495,21 +495,5 @@
       "death_protection": true
     },
     "max_uses": 1
-  },
-  {
-    "id": "util_2018",
-    "name": "外道兴奋剂",
-    "description": "使用后可以永久增加3000000点攻击力",
-    "rank": "凡品",
-    "required_level_index": 55,
-    "price": 100000,
-    "shop_weight": 500,
-    "_source": "alchemy_recipe",
-    "_source_id": "2018",
-    "subtype": "combat_boost",
-    "effect_type": "instant",
-    "effect": {
-      "atk_bonus": 3000000
-    }
   }
 ]

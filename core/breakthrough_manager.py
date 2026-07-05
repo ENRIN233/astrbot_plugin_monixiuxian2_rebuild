@@ -12,16 +12,30 @@ from ..config_manager import ConfigManager
 def is_major_realm_transition(current_level_index: int, target_level_index: int) -> bool:
     """判断是否为主要境界突破（圆满 -> 下一境界初期）
 
-    主要境界突破 = 目标境界是新境界的初期阶段，
-    即 current_level_index 的下一境界是新境界的开始。
-
-    58级体系中，每3级为一个大境界（初期/中期/圆满），
-    所以 level_index % 3 == 2 表示圆满阶段。
-    从圆满突破到下一个大境界的初期就是主要境界突破。
+    58级体系中（0=江湖好手），每3级为一个大境界（初期/中期/圆满）：
+    - level_index % 3 == 0 表示圆满
+    - 从圆满突破到下一个大境界的初期就是主要境界突破
     """
     next_index = current_level_index + 1
-    # 当前境界是圆满（index % 3 == 2）且目标就是下一境界（初期）
-    return current_level_index % 3 == 2 and target_level_index == next_index
+    # 当前境界是圆满（index % 3 == 0）且目标就是下一境界（初期）
+    return current_level_index > 0 and current_level_index % 3 == 0 and target_level_index == next_index
+
+
+def get_max_breakthrough_rate(target_level_index: int) -> float:
+    """根据目标境界获取最大突破成功率上限
+
+    Args:
+        target_level_index: 目标境界索引
+
+    Returns:
+        最大成功率（小数），如 0.25 = 25%
+    """
+    if target_level_index >= 40:
+        return 0.10  # 合体境及以上最高 10%
+    elif target_level_index >= 25:
+        return 0.25  # 元婴境至分神境最高 25%
+    else:
+        return 1.0   # 之前无上限
 
 
 class BreakthroughManager:
@@ -97,19 +111,22 @@ class BreakthroughManager:
         ]
 
         final_rate = base_success_rate + temp_bonus
-        max_rate = 1.0  # 默认最大100%
+        max_rate = get_max_breakthrough_rate(next_level_index)
 
         if temp_bonus:
             info_lines.append(f"临时丹药加成：{temp_bonus:+.1%}")
 
-        # 失败累积加成：每次失败+1%，无上限
+        # 失败累积加成：每次失败+1%，轮回境后不再累积
         failure_bonus = 0.0
         if player.level_up_rate > 0:
-            failure_bonus = player.level_up_rate / 100.0
-            info_lines.append(f"失败累积加成：+{failure_bonus:.1%}（{player.level_up_rate}次）")
-            final_rate += failure_bonus
+            if player.level_index < 46:
+                failure_bonus = player.level_up_rate / 100.0
+                info_lines.append(f"失败累积加成：+{failure_bonus:.1%}（{player.level_up_rate}次）")
+                final_rate += failure_bonus
+            else:
+                info_lines.append(f"失败累积加成：轮回境后失效（剩余 {player.level_up_rate} 次无效累积）")
 
-        # 新增：主修心法加成
+        # 主修心法加成
         technique_bonus = 0.0
         technique_number = 0.0
         if player.main_technique:
@@ -128,7 +145,7 @@ class BreakthroughManager:
 
         # 如果使用了破境丹，记录日志（加成已通过 temp_bonus 从 active_pill_effects 计入，不重复添加）
         if pill_name:
-            pill_data = self.config_manager.utility_pills_data.get(pill_name)
+            pill_data = self.config_manager.pills_data.get(pill_name)
             if pill_data and pill_data.get("subtype") == "breakthrough_boost":
                 effect = pill_data.get("effect", {})
                 breakthrough_bonus = effect.get("breakthrough_bonus", 0)
@@ -138,6 +155,8 @@ class BreakthroughManager:
                 logger.warning(f"无效的破境丹：{pill_name}")
 
         final_rate = max(0.0, min(final_rate, max_rate))
+        if max_rate < 1.0:
+            info_lines.append(f"⚠️ 此境界突破上限：{max_rate:.0%}")
         info_lines.append(f"最终成功率：{final_rate:.1%}")
         info = "\n".join(info_lines)
 
@@ -323,9 +342,13 @@ class BreakthroughManager:
                     exp_penalty = max(1, int(player.experience * penalty_rate))
                     player.experience = max(0, int(player.experience) - exp_penalty)
 
-                # 失败累积加成 +1%（无上限）
-                player.level_up_rate += 1
-                current_failure_bonus = player.level_up_rate / 100.0
+                # 失败累积加成：轮回境前 +1%（无上限），轮回境后失效
+                can_accumulate_failure = player.level_index < 46
+                if can_accumulate_failure:
+                    player.level_up_rate += 1
+                    current_failure_bonus = player.level_up_rate / 100.0
+                else:
+                    current_failure_bonus = 0.0
 
                 await self.db.update_player(player)
 
@@ -340,10 +363,13 @@ class BreakthroughManager:
                 ]
                 scene = random.choice(fail_scenes)
 
-                # 失败累积提示（每10次为一格，最多10格）
-                filled = min(10, player.level_up_rate // 10)
-                bar = "█" * filled + "░" * (10 - filled)
-                bonus_line = f"🔥 失败累积：+{current_failure_bonus:.1%} [{bar}]（已失败{player.level_up_rate}次）"
+                if can_accumulate_failure:
+                    # 失败累积提示（每10次为一格，最多10格）
+                    filled = min(10, player.level_up_rate // 10)
+                    bar = "█" * filled + "░" * (10 - filled)
+                    bonus_line = f"🔥 失败累积：+{current_failure_bonus:.1%} [{bar}]（已失败{player.level_up_rate}次）"
+                else:
+                    bonus_line = "⛔ 轮回境后突破失败不再累积额外概率"
 
                 if has_death_protection:
                     exp_line = "⚡ 渡厄金丹效果触发，修为完好无损！"
@@ -362,7 +388,7 @@ class BreakthroughManager:
                     f"{exp_line}\n"
                     f"━━━━━━━━━━━━━━━\n"
                     f"{bonus_line}\n"
-                    f"下次突破成功率将提升！\n"
+                    f"{'下次突破成功率将提升！' if can_accumulate_failure else '须靠丹药与心法突破瓶颈！'}\n"
                     f"━━━━━━━━━━━━━━━\n"
                     f"道途坎坷，百折不挠方能证道。\n"
                     f"请继续修炼，来日再战！"

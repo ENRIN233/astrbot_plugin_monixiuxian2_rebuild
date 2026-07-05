@@ -59,8 +59,8 @@ class AlchemyHandlers:
             if count <= 0:
                 yield event.plain_result(f"❌ {name} 数量必须大于 0")
                 return
-            if count > 5:
-                yield event.plain_result(f"❌ 单种药材最多使用 5 个")
+            if count > 11:
+                yield event.plain_result(f"❌ 单种药材最多使用 11 个")
                 return
 
         success, msg = await self.alchemy_mgr.craft(

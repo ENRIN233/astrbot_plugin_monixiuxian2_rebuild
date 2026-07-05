@@ -68,7 +68,7 @@ class BreakthroughHandler:
                 technique_number = technique_data.get("breakthrough_number", 0.0)
 
         available_pills = []
-        for pill_name, pill_data in self.config_manager.utility_pills_data.items():
+        for pill_name, pill_data in self.config_manager.pills_data.items():
             subtype = pill_data.get("subtype", "")
             if subtype != "breakthrough_boost":
                 continue
@@ -76,15 +76,26 @@ class BreakthroughHandler:
             target_level = pill_data.get("target_level_index")
             if target_level is not None and target_level != player.level_index + 1:
                 continue
+            # 检查境界下限限制
+            min_level = pill_data.get("min_level_index", 0)
+            if min_level > 0 and min_level > player.level_index:
+                continue
             effect = pill_data.get("effect", {})
             breakthrough_bonus = effect.get("breakthrough_bonus", 0)
-            final_rate = min(base_success_rate + temp_bonus + failure_bonus + technique_bonus + technique_number / 100.0 + breakthrough_bonus, 1.0)
+            # 标记丹药类型用于显示
+            pill_type = "通用" if target_level is None else "境界"
+            final_rate = min(base_success_rate + failure_bonus + technique_bonus + technique_number / 100.0 + breakthrough_bonus, 1.0)
             available_pills.append({
                 "name": pill_name,
                 "rank": pill_data.get("rank", ""),
+                "type": pill_type,
                 "final_rate": final_rate,
                 "max_rate": 1.0,
             })
+
+        # 计算最大突破上限
+        from ..core.breakthrough_manager import get_max_breakthrough_rate
+        max_cap = get_max_breakthrough_rate(target_level_index)
 
         # 构建信息显示
         info_lines = [
@@ -101,11 +112,17 @@ class BreakthroughHandler:
             f"基础成功率：{base_success_rate:.1%}\n",
         ]
 
-        # 失败累积加成（每次+1%，无上限）
+        if max_cap < 1.0:
+            info_lines.append(f"⚠️ 此境界突破上限：{max_cap:.0%}\n")
+
+        # 失败累积加成（轮回境前有效）
         if player.level_up_rate > 0:
-            filled = min(10, player.level_up_rate // 10)
-            bar = "█" * filled + "░" * (10 - filled)
-            info_lines.append(f"失败累积加成：+{failure_bonus:.1%} [{bar}]（已失败{player.level_up_rate}次）\n")
+            if player.level_index < 46:
+                filled = min(10, player.level_up_rate // 10)
+                bar = "█" * filled + "░" * (10 - filled)
+                info_lines.append(f"失败累积加成：+{failure_bonus:.1%} [{bar}]（已失败{player.level_up_rate}次）\n")
+            else:
+                info_lines.append(f"失败累积加成：轮回境后失效（剩余 {player.level_up_rate} 次无效累积）\n")
 
         if technique_bonus > 0:
             info_lines.append(f"主修心法加成：+{technique_bonus:.1%}\n")
@@ -120,23 +137,41 @@ class BreakthroughHandler:
 
         if available_pills:
             info_lines.append(f"\n【可用破境丹】\n")
-            for pill in available_pills:
-                info_lines.append(
-                    f"• {pill['name']}（{pill['rank']}）\n"
-                    f"  使用后成功率：{pill['final_rate']:.1%}（最高{pill['max_rate']:.1%}）\n"
-                )
+            # 按类型分组显示
+            realm_pills = [p for p in available_pills if p["type"] == "境界"]
+            universal_pills = [p for p in available_pills if p["type"] == "通用"]
+            if realm_pills:
+                info_lines.append(f"【境界丹】（主要境界突破可用，最多生效1种）\n")
+                for pill in realm_pills:
+                    info_lines.append(
+                        f"  • {pill['name']}（{pill['rank']}）\n"
+                        f"    成功率 +{pill['final_rate'] - base_success_rate:.0%} → {pill['final_rate']:.1%}\n"
+                    )
+            if universal_pills:
+                info_lines.append(f"【通用丹】（任意突破可用，最多生效1种，可叠加境界丹）\n")
+                for pill in universal_pills:
+                    info_lines.append(
+                        f"  • {pill['name']}（{pill['rank']}）\n"
+                        f"    成功率 +{pill['final_rate'] - base_success_rate:.0%} → {pill['final_rate']:.1%}\n"
+                    )
         else:
             info_lines.append(f"\n暂无适用的破境丹\n")
 
         # 突破说明
         success_flavor = "肉身更强" if player.cultivation_type == "体修" else "实力大增"
+        failure_hint = (
+            f"• 失败累积：每次失败+1%成功率，突破成功后重置"
+            f"{'（轮回境后失效）' if player.level_index >= 46 else ''}\n"
+        )
         info_lines.extend([
             f"━━━━━━━━━━━━━━━\n",
             f"【突破说明】\n",
             f"• 使用命令：{CMD_BREAKTHROUGH} 或 {CMD_BREAKTHROUGH} [破境丹名称]\n",
             f"• 突破成功：境界提升，{success_flavor}\n",
             f"• 突破失败：损失0.1%~1%修为，有概率死亡\n",
-            f"• 失败累积：每次失败+1%成功率（无上限），突破成功后重置\n",
+            failure_hint,
+            f"• 境界丹仅在大境界突破时可用（每种最多1种）\n",
+            f"• 通用丹任意突破可用（最多1种，可叠加境界丹）\n",
             f"• 破境丹：使用后持续生效，突破失败不消失，突破成功后才消耗\n",
             f"• 死亡后：所有数据清除，需重新入仙途\n",
             f"=" * 28
@@ -159,7 +194,7 @@ class BreakthroughHandler:
         # 如果指定了破境丹，验证其有效性
         if pill_name and pill_name.strip():
             pill_name = pill_name.strip()
-            pill_data = self.config_manager.utility_pills_data.get(pill_name)
+            pill_data = self.config_manager.pills_data.get(pill_name)
 
             if not pill_data:
                 yield event.plain_result(f"未找到破境丹：{pill_name}")
@@ -167,6 +202,17 @@ class BreakthroughHandler:
 
             if pill_data.get("subtype") != "breakthrough_boost":
                 yield event.plain_result(f"{pill_name} 不是破境丹")
+                return
+
+            # 检查境界下限限制
+            min_level = pill_data.get("min_level_index", 0)
+            if min_level > 0 and min_level > player.level_index:
+                current_level_name = level_data[player.level_index].get("name", "未知境界")
+                yield event.plain_result(
+                    f"{pill_name} 在当前境界无法使用\n"
+                    f"当前境界：{current_level_name}\n"
+                    f"此丹药至少需要：{level_data[min_level].get('name', '未知境界')}以上"
+                )
                 return
 
             # 检查是否适用于当前突破

@@ -167,11 +167,11 @@ class AlchemyManager:
                         continue
                     _, p_herb = p_data
 
-                    # 尝试不同用量 (1-5)
-                    for i_num in range(1, min(6, i_count + 1)):
-                        for o_num in range(1, min(6, o_count + 1)):
-                            for p_num in range(1, min(6, p_count + 1)):
-                                if i_num + o_num + p_num > 10:
+                    # 尝试不同用量 (1-11)
+                    for i_num in range(1, min(12, i_count + 1)):
+                        for o_num in range(1, min(12, o_count + 1)):
+                            for p_num in range(1, min(12, p_count + 1)):
+                                if i_num + o_num + p_num > 23:
                                     continue
 
                                 # 寒热调和
@@ -240,15 +240,18 @@ class AlchemyManager:
         _, cat_herb = cat_data
         _, aux_herb = aux_data
 
-        # 检查数量
+        # 检查数量（先累计同名药材的总需求，防止主药和辅药用同种药材时重复计算）
         ring_items = player.get_storage_ring_items()
+        herb_needs = {}
         for name, need in [(main_name, main_count), (catalyst_name, catalyst_count), (aux_name, aux_count)]:
-            if ring_items.get(name, 0) < need:
-                return False, f"❌ {name} 数量不足（需要 {need}，拥有 {ring_items.get(name, 0)}）"
+            herb_needs[name] = herb_needs.get(name, 0) + need
+        for name, total_need in herb_needs.items():
+            if ring_items.get(name, 0) < total_need:
+                return False, f"❌ {name} 数量不足（需要 {total_need}，拥有 {ring_items.get(name, 0)}）"
 
         # 总用量限制
-        if main_count + catalyst_count + aux_count > 10:
-            return False, "❌ 总用量不能超过 10"
+        if main_count + catalyst_count + aux_count > 23:
+            return False, "❌ 总用量不能超过 23（单种药材最多 11 个）"
 
         # 寒热调和
         if not self.check_harmony(main_herb, cat_herb, main_count, catalyst_count):
@@ -288,9 +291,12 @@ class AlchemyManager:
         pill_count = 1 + fire_control + alchemy_count_bonus + furnace_buff
         pill_count = max(1, pill_count)
 
-        # 消耗药材
+        # 消耗药材（检查返回值，防止同种药材重复消耗时数据不一致）
         for name, need in [(main_name, main_count), (catalyst_name, catalyst_count), (aux_name, aux_count)]:
-            await self.storage_ring_manager.remove_item(player, name, need, silent=True)
+            if need > 0:
+                success, msg = await self.storage_ring_manager.remove_item(player, name, need, silent=True)
+                if not success:
+                    return False, f"❌ {name} 消耗失败：{msg}"
 
         # 产出丹药 → 存入丹药背包（pills_inventory）
         pill_name = recipe["name"]

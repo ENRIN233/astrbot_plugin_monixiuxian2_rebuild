@@ -146,55 +146,55 @@
   {
     "name": "凝婴境圆满",
     "exp_needed": 4864000,
-    "success_rate": 0.1,
+    "success_rate": 0.14,
     "spend": 8.6
   },
   {
     "name": "元婴境初期",
     "exp_needed": 9728000,
-    "success_rate": 0.08,
+    "success_rate": 0.12,
     "spend": 9.0
   },
   {
     "name": "元婴境中期",
     "exp_needed": 12348000,
-    "success_rate": 0.06,
+    "success_rate": 0.1,
     "spend": 9.2
   },
   {
     "name": "元婴境圆满",
     "exp_needed": 14968000,
-    "success_rate": 0.01,
+    "success_rate": 0.08,
     "spend": 10
   },
   {
     "name": "化神境初期",
     "exp_needed": 30968000,
-    "success_rate": 0.01,
+    "success_rate": 0.07,
     "spend": 12
   },
   {
     "name": "化神境中期",
     "exp_needed": 35968000,
-    "success_rate": 0.01,
+    "success_rate": 0.06,
     "spend": 13
   },
   {
     "name": "化神境圆满",
     "exp_needed": 40968000,
-    "success_rate": 0.01,
+    "success_rate": 0.05,
     "spend": 14
   },
   {
     "name": "炼虚境初期",
     "exp_needed": 60968000,
-    "success_rate": 0.01,
+    "success_rate": 0.03,
     "spend": 15
   },
   {
     "name": "炼虚境中期",
     "exp_needed": 70968000,
-    "success_rate": 0.01,
+    "success_rate": 0.02,
     "spend": 16
   },
   {
@@ -266,85 +266,85 @@
   {
     "name": "大乘境中期",
     "exp_needed": 5841206784,
-    "success_rate": 0.0,
+    "success_rate": 0.01,
     "spend": 212
   },
   {
     "name": "大乘境圆满",
     "exp_needed": 7510123008,
-    "success_rate": 0.0,
+    "success_rate": 0.01,
     "spend": 254
   },
   {
     "name": "轮回境初期",
     "exp_needed": 15020246016,
-    "success_rate": 0.0,
+    "success_rate": 0.01,
     "spend": 508
   },
   {
     "name": "轮回境中期",
     "exp_needed": 21028344422,
-    "success_rate": 0.0,
+    "success_rate": 0.01,
     "spend": 711
   },
   {
     "name": "轮回境圆满",
     "exp_needed": 27036442828,
-    "success_rate": 0.0,
+    "success_rate": 0.01,
     "spend": 853
   },
   {
     "name": "渡劫境初期",
     "exp_needed": 54072885657,
-    "success_rate": 0.0,
+    "success_rate": 0.01,
     "spend": 1706
   },
   {
     "name": "渡劫境中期",
     "exp_needed": 75702039920,
-    "success_rate": 0.0,
+    "success_rate": 0.01,
     "spend": 2388
   },
   {
     "name": "渡劫境圆满",
     "exp_needed": 97331194180,
-    "success_rate": 0.0,
+    "success_rate": 0.01,
     "spend": 2865
   },
   {
     "name": "飞升境初期",
     "exp_needed": 194662388360,
-    "success_rate": 0.0,
+    "success_rate": 0.01,
     "spend": 5730
   },
   {
     "name": "飞升境中期",
     "exp_needed": 272527343704,
-    "success_rate": 0.0,
+    "success_rate": 0.01,
     "spend": 8022
   },
   {
     "name": "飞升境圆满",
     "exp_needed": 350392299048,
-    "success_rate": 0.0,
+    "success_rate": 0.01,
     "spend": 9626
   },
   {
     "name": "合道境初期",
-    "exp_needed": 999999999999,
-    "success_rate": 0.0,
+    "exp_needed": 700784598096,
+    "success_rate": 0.01,
     "spend": 14439
   },
   {
     "name": "合道境中期",
-    "exp_needed": 9999999999999,
-    "success_rate": 0.0,
-    "spend": 14439
+    "exp_needed": 1000000000000,
+    "success_rate": 0.01,
+    "spend": 16537
   },
   {
     "name": "合道境圆满",
-    "exp_needed": 99999999999999,
+    "exp_needed": 2000000000000,
     "success_rate": 0.0,
-    "spend": 14439
+    "spend": 18898
   }
 ]
