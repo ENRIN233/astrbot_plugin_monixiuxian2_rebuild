@@ -166,6 +166,36 @@ class StorageRingManager:
                 await self.db.conn.rollback()
             raise
 
+    async def remove_item(self, player: Player, item_name: str, count: int = 1,
+                          silent: bool = False) -> Tuple[bool, str]:
+        """从储物戒移除物品（消耗/使用，不产生日志）
+
+        Args:
+            silent: 为 True 时返回简短成功消息
+
+        Returns:
+            (success, message)
+        """
+        items = player.get_storage_ring_items()
+        if item_name not in items:
+            return False, f"储物戒中没有【{item_name}】"
+
+        current_count = items[item_name]
+        if count > current_count:
+            return False, f"【{item_name}】数量不足（当前：{current_count}，需要：{count}）"
+
+        if count >= current_count:
+            del items[item_name]
+        else:
+            items[item_name] = current_count - count
+
+        player.set_storage_ring_items(items)
+        await self.db.update_player(player)
+
+        if silent:
+            return True, ""
+        return True, f"已从储物戒移除【{item_name}】x{count}"
+
     async def discard_item(self, player: Player, item_name: str, count: int = 1) -> Tuple[bool, str]:
         """丢弃储物戒中的物品（带事务保护）"""
         await self.db.conn.execute("BEGIN IMMEDIATE")
