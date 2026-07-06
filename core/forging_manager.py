@@ -306,7 +306,94 @@ class ForgingManager:
         result.sort(key=lambda r: r["rank_required"])
         return result
 
-    # ── Decomposition ──
+    # ── Fusion ──
+
+    async def fuse(self, player: Player, id1: str, id2: str) -> Tuple[bool, str]:
+        """融合原罪+无罪→天罪
+
+        消耗两把残缺神器，按最高品质产出天罪，继承双方词条（去重取高值）。
+        """
+        inst1 = await self.db_extended.get_weapon_instance(id1)
+        inst2 = await self.db_extended.get_weapon_instance(id2)
+
+        if not inst1 or not inst2:
+            return False, "❌ 武器实例不存在"
+        if inst1["user_id"] != player.user_id or inst2["user_id"] != player.user_id:
+            return False, "❌ 这不是你的武器"
+        if inst1.get("is_equipped") or inst2.get("is_equipped"):
+            return False, "❌ 请先卸下装备再融合"
+
+        t1 = inst1["template_name"]
+        t2 = inst2["template_name"]
+        # 验证配方来源：原罪(forge_053a) + 无罪(forge_053b)
+        s1 = inst1.get("source_recipe", "")
+        s2 = inst2.get("source_recipe", "")
+        if not ({s1, s2} == {"forge_053a", "forge_053b"}):
+            return False, "❌ 融合需要一把「原罪（残缺）」和一把「无罪（残缺）」"
+
+        # 品质取最高
+        QUAL_ORDER = ["下品", "中品", "上品", "极品"]
+        q1 = inst1.get("quality", "下品")
+        q2 = inst2.get("quality", "下品")
+        best_quality = q1 if QUAL_ORDER.index(q1) >= QUAL_ORDER.index(q2) else q2
+        best_qmult = QUALITY_MULT.get(best_quality, 1.5)
+
+        # 词条继承：合并两把的词条，按 attr 去重取高值
+        def _parse_affixes(inst):
+            raw = inst.get("affixes", "[]")
+            if isinstance(raw, str):
+                try:
+                    import json as _j
+                    return _j.loads(raw)
+                except Exception:
+                    return []
+            return raw if isinstance(raw, list) else []
+
+        affix1 = _parse_affixes(inst1)
+        affix2 = _parse_affixes(inst2)
+        merged = {}
+        for a in affix1 + affix2:
+            attr = a.get("attr", "")
+            if attr and (attr not in merged or a.get("val", 0) > merged[attr]["val"]):
+                merged[attr] = a
+        inherited = list(merged.values())
+
+        # 从天罪模板读取属性
+        template = self.config_manager.weapons_data.get("天罪")
+        if not template:
+            return False, "❌ 装备模板「天罪」不存在"
+
+        instance_id = self._generate_instance_id()
+        stats = self._calc_instance_stats(template, best_qmult)
+        data = {
+            "instance_id": instance_id,
+            "template_name": "天罪",
+            "item_type": "weapon",
+            "quality": best_quality,
+            "quality_mult": best_qmult,
+            "enhance_level": 0,
+            "affixes": inherited,
+            "source_recipe": "forge_053_fusion",
+            **stats,
+        }
+        await self.db_extended.create_weapon_instance(player.user_id, data)
+
+        # 删除两把来源武器
+        await self.db_extended.delete_weapon_instance(player.user_id, id1)
+        await self.db_extended.delete_weapon_instance(player.user_id, id2)
+
+        affix_names = [a["name"] for a in inherited]
+        affix_str = f"词条: {' '.join(affix_names)}" if affix_names else "无词条"
+        lines = [
+            "✨ 融合成功！",
+            "━━━━━━━━━━━━━━━",
+            f"原罪（{q1}）+ 无罪（{q2}）→ 天罪（{best_quality}）",
+            f"属性：ATK+{stats.get('atk_bonus', 0)*100:.0f}% 暴击+{stats.get('crit_rate', 0)}%",
+            f"继承：{affix_str}",
+            "━━━━━━━━━━━━━━━",
+            "💡 使用 /装备 <序号> 装备天罪",
+        ]
+        return True, "\n".join(lines)
 
     async def decompose(self, player: Player, instance_id: str) -> Tuple[bool, str]:
         """分解武器/防具实例，回收部分材料到储物戒"""

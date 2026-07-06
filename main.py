@@ -60,6 +60,7 @@ CMD_FORGE = "锻造"
 CMD_FORGE_LIST = "锻造配方"
 CMD_FORGE_INFO = "锻造信息"
 CMD_DECOMPOSE = "分解"
+CMD_FUSE = "融合"
 CMD_BREAKTHROUGH = "突破"
 CMD_BREAKTHROUGH_INFO = "突破信息"
 CMD_USE_PILL = "服用丹药"
@@ -1133,6 +1134,12 @@ class XiuXianPlugin(Star):
     @require_whitelist
     async def handle_decompose(self, event: AstrMessageEvent, instance_id: str = ""):
         async for r in self.forging_handler.handle_decompose(event, instance_id):
+            yield r
+
+    @filter.command(CMD_FUSE, "融合原罪+无罪→天罪")
+    @require_whitelist
+    async def handle_fuse(self, event: AstrMessageEvent, arg1: str = "", arg2: str = ""):
+        async for r in self.forging_handler.handle_fuse(event, arg1, arg2):
             yield r
 
     @filter.command(CMD_WEAPON_LIST, "查看武器库")

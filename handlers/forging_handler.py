@@ -112,14 +112,41 @@ class ForgingHandler:
             return
 
         # 序号匹配
-        if instance_id.isdigit() and self.db_extended:
-            idx = int(instance_id) - 1
+        resolved = await self._resolve_index(player, instance_id)
+        if resolved is None and instance_id.isdigit():
+            yield event.plain_result(
+                f"❌ 序号超出范围，使用 /武器列表 查看可用序号"
+            )
+            return
+
+        success, msg = await self.forging_mgr.decompose(player, resolved or instance_id)
+        yield event.plain_result(msg)
+
+    @player_required
+    async def handle_fuse(self, player: Player, event, arg1: str = "", arg2: str = ""):
+        """融合原罪+无罪→天罪
+
+        格式：/融合 <序号1/ID1> <序号2/ID2>
+        """
+        if not arg1 or not arg2:
+            yield event.plain_result(
+                "❌ 请指定两把武器的序号或ID\n"
+                "格式：/融合 <序号1/ID1> <序号2/ID2>\n"
+                "需要一把「原罪（残缺）」和一把「无罪（残缺）」"
+            )
+            return
+
+        id1 = await self._resolve_index(player, arg1) or arg1
+        id2 = await self._resolve_index(player, arg2) or arg2
+
+        success, msg = await self.forging_mgr.fuse(player, id1, id2)
+        yield event.plain_result(msg)
+
+    async def _resolve_index(self, player: Player, raw: str) -> str | None:
+        """将数字序号解析为 instance_id"""
+        if raw.isdigit() and self.db_extended:
+            idx = int(raw) - 1
             instances = await self.db_extended.get_player_weapon_instances(player.user_id)
             if 0 <= idx < len(instances):
-                instance_id = instances[idx]["instance_id"]
-            else:
-                yield event.plain_result(f"❌ 序号超出范围，共有 {len(instances)} 件实例")
-                return
-
-        success, msg = await self.forging_mgr.decompose(player, instance_id)
-        yield event.plain_result(msg)
+                return instances[idx]["instance_id"]
+        return None
