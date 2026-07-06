@@ -7,6 +7,7 @@ from ..data import DataBase
 if TYPE_CHECKING:
     from ..config_manager import ConfigManager
     from .storage_ring_manager import StorageRingManager
+    from ..data.database_extended import DatabaseExtended
 
 class EquipmentManager:
     """装备管理器 - 处理装备的穿戴、卸下和属性计算"""
@@ -15,6 +16,7 @@ class EquipmentManager:
         self.db = db
         self.config_manager = config_manager
         self.storage_ring_manager = storage_ring_manager
+        self.db_extended = None  # 由外部注入（DatabaseExtended实例）
 
     def parse_item_from_name(self, item_name: str, items_data: dict, weapons_data: dict = None, skills_data: dict = None) -> Optional[Item]:
         """从物品名称解析为Item对象
@@ -166,6 +168,31 @@ class EquipmentManager:
         if not can_equip:
             return False, error_msg
 
+        # ── 如果是锻造武器/防具实例（item_id 以 forge_ 开头）──
+        if item.item_id and str(item.item_id).startswith("forge_"):
+            if not self.db_extended:
+                return False, "❌ 武器实例系统未初始化"
+            # 清除同槽位装备状态，再装备新实例
+            success = await self.db_extended.equip_weapon_instance(
+                player.user_id, item.item_id, item.item_type
+            )
+            if not success:
+                return False, "❌ 装备失败：武器实例不存在或不属于你"
+
+            # 更新玩家槽位
+            if item.item_type == "weapon":
+                player.equipped_weapon = item.item_id
+            elif item.item_type == "armor":
+                player.equipped_armor = item.item_id
+            else:
+                return False, f"❌ 未知的装备类型：{item.item_type}"
+            await self.db.update_player(player)
+
+            quality_tag = item.rank if item.rank else ""
+            return True, f"已装备锻造【{item.name}】（{quality_tag}）"
+
+        # ── 以下是非锻造装备的原有逻辑 ──
+
         # 确定装备槽位和旧装备名
         slot_map = {
             "weapon": "weapon",
@@ -214,6 +241,14 @@ class EquipmentManager:
         """
         # 尝试按槽位卸下
         if slot_or_name in ["武器", "weapon"]:
+            # 先检查锻造实例
+            if player.equipped_weapon and player.equipped_weapon.startswith("forge_"):
+                iid = player.equipped_weapon
+                if self.db_extended:
+                    await self.db_extended.unequip_weapon_instance(player.user_id, iid)
+                player.equipped_weapon = ""
+                await self.db.update_player(player)
+                return True, f"已卸下锻造武器【{iid}】"
             if not player.weapon:
                 return False, "未装备武器"
             item_name = player.weapon
@@ -222,6 +257,14 @@ class EquipmentManager:
             return True, f"已卸下武器【{item_name}】"
 
         elif slot_or_name in ["防具", "armor"]:
+            # 先检查锻造实例
+            if player.equipped_armor and player.equipped_armor.startswith("forge_"):
+                iid = player.equipped_armor
+                if self.db_extended:
+                    await self.db_extended.unequip_weapon_instance(player.user_id, iid)
+                player.equipped_armor = ""
+                await self.db.update_player(player)
+                return True, f"已卸下锻造防具【{iid}】"
             if not player.armor:
                 return False, "未装备防具"
             item_name = player.armor
