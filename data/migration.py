@@ -5,7 +5,7 @@ from typing import Dict, Callable, Awaitable
 from astrbot.api import logger
 from ..config_manager import ConfigManager
 
-LATEST_DB_VERSION = 39  # v39: 添加辅修功法字段
+LATEST_DB_VERSION = 40  # v40: 锻造系统（weapon_instances表 + 装备字段）
 
 MIGRATION_TASKS: Dict[int, Callable[[aiosqlite.Connection, ConfigManager], Awaitable[None]]] = {}
 
@@ -247,6 +247,41 @@ async def _ensure_table_integrity(conn: aiosqlite.Connection):
             )
         """)
         repaired.append("gm_compensation_claims")
+
+    # v40: 锻造系统表
+    if "weapon_instances" not in existing_tables:
+        await conn.execute("""
+            CREATE TABLE IF NOT EXISTS weapon_instances (
+                instance_id TEXT PRIMARY KEY,
+                user_id TEXT NOT NULL,
+                template_name TEXT NOT NULL,
+                item_type TEXT NOT NULL DEFAULT 'weapon',
+                quality TEXT NOT NULL DEFAULT '下品',
+                quality_mult REAL NOT NULL DEFAULT 1.0,
+                enhance_level INTEGER DEFAULT 0,
+                source_recipe TEXT DEFAULT '',
+                atk_bonus REAL DEFAULT 0.0,
+                crit_rate INTEGER DEFAULT 0,
+                crit_damage REAL DEFAULT 0.0,
+                armor_pen INTEGER DEFAULT 0,
+                lifesteal INTEGER DEFAULT 0,
+                double_hit INTEGER DEFAULT 0,
+                damage_reduction REAL DEFAULT 0.0,
+                mp_bonus REAL DEFAULT 0.0,
+                def_buff REAL DEFAULT 0.0,
+                dodge_rate INTEGER DEFAULT 0,
+                crit_resist INTEGER DEFAULT 0,
+                reflect_pct INTEGER DEFAULT 0,
+                block_value INTEGER DEFAULT 0,
+                hp_regen_pct REAL DEFAULT 0.0,
+                affixes TEXT DEFAULT '[]',
+                is_equipped INTEGER DEFAULT 0,
+                in_storage INTEGER DEFAULT 1,
+                created_at TEXT DEFAULT (datetime('now'))
+            )
+        """)
+        await conn.execute("CREATE INDEX IF NOT EXISTS idx_wi_user ON weapon_instances(user_id)")
+        repaired.append("weapon_instances")
 
     # 秘境副本系统表
     if "dungeon_runs" not in existing_tables:
@@ -896,6 +931,39 @@ async def _create_all_tables_v2(conn: aiosqlite.Connection):
             PRIMARY KEY (user_id, comp_id)
         )
     """)
+
+    # v40: 锻造系统表
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS weapon_instances (
+            instance_id    TEXT PRIMARY KEY,
+            user_id        TEXT NOT NULL,
+            template_name  TEXT NOT NULL,
+            item_type      TEXT NOT NULL DEFAULT 'weapon',
+            quality        TEXT NOT NULL DEFAULT '下品',
+            quality_mult   REAL NOT NULL DEFAULT 1.0,
+            enhance_level  INTEGER DEFAULT 0,
+            source_recipe  TEXT DEFAULT '',
+            atk_bonus      REAL DEFAULT 0.0,
+            crit_rate      INTEGER DEFAULT 0,
+            crit_damage    REAL DEFAULT 0.0,
+            armor_pen      INTEGER DEFAULT 0,
+            lifesteal      INTEGER DEFAULT 0,
+            double_hit     INTEGER DEFAULT 0,
+            damage_reduction REAL DEFAULT 0.0,
+            mp_bonus       REAL DEFAULT 0.0,
+            def_buff       REAL DEFAULT 0.0,
+            dodge_rate     INTEGER DEFAULT 0,
+            crit_resist    INTEGER DEFAULT 0,
+            reflect_pct    INTEGER DEFAULT 0,
+            block_value    INTEGER DEFAULT 0,
+            hp_regen_pct   REAL DEFAULT 0.0,
+            affixes        TEXT DEFAULT '[]',
+            is_equipped    INTEGER DEFAULT 0,
+            in_storage     INTEGER DEFAULT 1,
+            created_at     TEXT DEFAULT (datetime('now'))
+        )
+    """)
+    await conn.execute("CREATE INDEX IF NOT EXISTS idx_wi_user ON weapon_instances(user_id)")
 
     logger.info("数据库表已创建完成（v2 - 完整修仙系统）")
 
@@ -1895,3 +1963,57 @@ async def v39_add_sub_technique(conn):
     await conn.execute("ALTER TABLE players ADD COLUMN sub_technique TEXT NOT NULL DEFAULT ''")
     await conn.commit()
     logger.info("v39迁移完成：已添加辅修功法字段 sub_technique")
+
+
+@migration(40)
+async def v40_add_forging_system(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """v40: 锻造系统 — weapon_instances表 + 玩家锻造/装备字段"""
+    logger.info("开始迁移到v40：锻造系统")
+
+    # 1. 武器实例表
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS weapon_instances (
+            instance_id    TEXT PRIMARY KEY,
+            user_id        TEXT NOT NULL,
+            template_name  TEXT NOT NULL,
+            item_type      TEXT NOT NULL DEFAULT 'weapon',
+            quality        TEXT NOT NULL DEFAULT '下品',
+            quality_mult   REAL NOT NULL DEFAULT 1.0,
+            enhance_level  INTEGER DEFAULT 0,
+            source_recipe  TEXT DEFAULT '',
+            atk_bonus      REAL DEFAULT 0.0,
+            crit_rate      INTEGER DEFAULT 0,
+            crit_damage    REAL DEFAULT 0.0,
+            armor_pen      INTEGER DEFAULT 0,
+            lifesteal      INTEGER DEFAULT 0,
+            double_hit     INTEGER DEFAULT 0,
+            damage_reduction REAL DEFAULT 0.0,
+            mp_bonus       REAL DEFAULT 0.0,
+            def_buff       REAL DEFAULT 0.0,
+            dodge_rate     INTEGER DEFAULT 0,
+            crit_resist    INTEGER DEFAULT 0,
+            reflect_pct    INTEGER DEFAULT 0,
+            block_value    INTEGER DEFAULT 0,
+            hp_regen_pct   REAL DEFAULT 0.0,
+            affixes        TEXT DEFAULT '[]',
+            is_equipped    INTEGER DEFAULT 0,
+            in_storage     INTEGER DEFAULT 1,
+            created_at     TEXT DEFAULT (datetime('now'))
+        )
+    """)
+    await conn.execute("CREATE INDEX IF NOT EXISTS idx_wi_user ON weapon_instances(user_id)")
+
+    # 2. 玩家新字段（ALTER TABLE ADD COLUMN）
+    for col in [
+        ("equipped_weapon", "TEXT NOT NULL DEFAULT ''"),
+        ("equipped_armor", "TEXT NOT NULL DEFAULT ''"),
+        ("forging_exp", "INTEGER NOT NULL DEFAULT 0"),
+        ("forging_level", "INTEGER NOT NULL DEFAULT 1"),
+    ]:
+        try:
+            await conn.execute(f"ALTER TABLE players ADD COLUMN {col[0]} {col[1]}")
+        except Exception:
+            pass  # 字段可能已存在
+
+    await conn.commit()
+    logger.info("v40迁移完成：锻造系统")
