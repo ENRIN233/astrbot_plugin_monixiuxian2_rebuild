@@ -244,11 +244,16 @@ class EquipmentManager:
             # 先检查锻造实例
             if player.equipped_weapon and player.equipped_weapon.startswith("forge_"):
                 iid = player.equipped_weapon
+                # 获取实例名称用于显示
+                display_name = iid
                 if self.db_extended:
+                    inst = await self.db_extended.get_weapon_instance(iid)
+                    if inst:
+                        display_name = f"{inst['template_name']}·{inst.get('quality', '?')}"
                     await self.db_extended.unequip_weapon_instance(player.user_id, iid)
                 player.equipped_weapon = ""
                 await self.db.update_player(player)
-                return True, f"已卸下锻造武器【{iid}】"
+                return True, f"已卸下锻造武器【{display_name}】"
             if not player.weapon:
                 return False, "未装备武器"
             item_name = player.weapon
@@ -260,11 +265,15 @@ class EquipmentManager:
             # 先检查锻造实例
             if player.equipped_armor and player.equipped_armor.startswith("forge_"):
                 iid = player.equipped_armor
+                display_name = iid
                 if self.db_extended:
+                    inst = await self.db_extended.get_weapon_instance(iid)
+                    if inst:
+                        display_name = f"{inst['template_name']}·{inst.get('quality', '?')}"
                     await self.db_extended.unequip_weapon_instance(player.user_id, iid)
                 player.equipped_armor = ""
                 await self.db.update_player(player)
-                return True, f"已卸下锻造防具【{iid}】"
+                return True, f"已卸下锻造防具【{display_name}】"
             if not player.armor:
                 return False, "未装备防具"
             item_name = player.armor
