@@ -1,5 +1,7 @@
 # handlers/equipment_handler.py
 
+import json
+
 from astrbot.api.event import AstrMessageEvent
 from ..data import DataBase
 from ..core import EquipmentManager, PillManager, StorageRingManager
@@ -10,8 +12,10 @@ from .utils import player_required
 CMD_SHOW_EQUIPMENT = "我的装备"
 CMD_EQUIP_ITEM = "装备"
 CMD_UNEQUIP_ITEM = "卸下"
+CMD_WEAPON_LIST = "武器列表"
 
 __all__ = ["EquipmentHandler"]
+
 
 class EquipmentHandler:
     """装备系统处理器"""
@@ -22,6 +26,56 @@ class EquipmentHandler:
         self.storage_ring_manager = StorageRingManager(db, config_manager)
         self.equipment_manager = EquipmentManager(db, config_manager, self.storage_ring_manager)
         self.pill_manager = PillManager(db, config_manager)
+        self.db_extended = None  # 由外部注入
+
+    @player_required
+    async def handle_weapon_list(self, player: Player, event: AstrMessageEvent, args: str = ""):
+        """显示玩家的所有武器/防具实例（支持分页）"""
+        if not self.db_extended:
+            yield event.plain_result("❌ 武器实例系统未初始化")
+            return
+
+        instances = await self.db_extended.get_player_weapon_instances(player.user_id)
+        if not instances:
+            yield event.plain_result("你的武器库是空的！使用 /锻造 来打造武器")
+            return
+
+        # 分页
+        page = 1
+        try:
+            page = max(1, int(args))
+        except (ValueError, TypeError):
+            pass
+        per_page = 8
+        total_pages = (len(instances) + per_page - 1) // per_page
+        page = min(page, total_pages)
+        start = (page - 1) * per_page
+        page_items = instances[start:start + per_page]
+
+        lines = [f"⚔️ 我的武器库（第 {page}/{total_pages} 页）", "━━━━━━━━━━━━━━━"]
+        for inst in page_items:
+            try:
+                affixes = json.loads(inst.get("affixes", "[]"))
+            except (json.JSONDecodeError, TypeError):
+                affixes = []
+            affix_str = " ".join(f'{a.get("name","?")}+{a.get("val","?")}' for a in affixes)
+
+            equipped_mark = " ⭐" if inst.get("is_equipped") else ""
+            quality = inst.get("quality", "下品")
+            template = inst.get("template_name", "?")
+            iid_short = inst.get("instance_id", "?")[:12]
+            atk = inst.get("atk_bonus", 0.0) * 100
+            crit = inst.get("crit_rate", 0)
+
+            lines.append(
+                f"  {iid_short}  {template}·{quality}{equipped_mark}\n"
+                f"    ATK+{atk:.0f}% 暴击+{crit}% {affix_str}"
+            )
+
+        lines.append("━━━━━━━━━━━━━━━")
+        lines.append("💡 使用 /装备 <实例ID> 装备 | /分解 <实例ID> 分解")
+
+        yield event.plain_result("\n".join(lines))
 
     @player_required
     async def handle_show_equipment(self, player: Player, event: AstrMessageEvent):
@@ -42,10 +96,23 @@ class EquipmentHandler:
         # 构建装备显示
         equipment_lines = [
             f"=== {display_name} 的装备 ===\n",
-            f"【武器】{player.weapon if player.weapon else '未装备'}\n",
-            f"【防具】{player.armor if player.armor else '未装备'}\n",
-            f"【主修心法】{player.main_technique if player.main_technique else '未装备'}\n",
         ]
+
+        # 武器（优先显示锻造实例）
+        if player.equipped_weapon:
+            weapon_text = f"{player.equipped_weapon[:12]}（锻造）"
+        else:
+            weapon_text = player.weapon if player.weapon else "未装备"
+        equipment_lines.append(f"【武器】{weapon_text}\n")
+
+        # 防具（优先显示锻造实例）
+        if player.equipped_armor:
+            armor_text = f"{player.equipped_armor[:12]}（锻造）"
+        else:
+            armor_text = player.armor if player.armor else "未装备"
+        equipment_lines.append(f"【防具】{armor_text}\n")
+
+        equipment_lines.append(f"【主修心法】{player.main_technique if player.main_technique else '未装备'}\n")
 
         # 神通
         equipment_lines.append(f"【神通】{player.shentong if player.shentong else '未装备'}\n")
@@ -171,6 +238,46 @@ class EquipmentHandler:
             return
 
         item_name = item_name.strip()
+
+        # ── 检查是否为锻造武器实例ID ──
+        if item_name.startswith("forge_") and self.db_extended:
+            inst = await self.db_extended.get_weapon_instance(item_name)
+            if not inst:
+                yield event.plain_result(f"❌ 武器实例 {item_name} 不存在")
+                return
+            if inst["user_id"] != player.user_id:
+                yield event.plain_result(f"❌ 这不是你的武器")
+                return
+
+            # 从实例构建 Item 对象
+            from ..models import Item as ItemModel
+            item = ItemModel(
+                item_id=inst["instance_id"],
+                name=inst["template_name"],
+                item_type=inst["item_type"],
+                rank=inst["quality"],
+                required_level_index=0,
+                atk_bonus=inst.get("atk_bonus", 0.0),
+                crit_rate=inst.get("crit_rate", 0),
+                crit_damage=inst.get("crit_damage", 0.0),
+                mp_bonus=inst.get("mp_bonus", 0.0),
+                armor_pen=inst.get("armor_pen", 0),
+                lifesteal=inst.get("lifesteal", 0),
+                double_hit=inst.get("double_hit", 0),
+                damage_reduction=inst.get("damage_reduction", 0.0),
+                def_buff=inst.get("def_buff", 0.0),
+                dodge_rate=inst.get("dodge_rate", 0),
+                crit_resist=inst.get("crit_resist", 0),
+                reflect_pct=inst.get("reflect_pct", 0),
+                block_value=inst.get("block_value", 0),
+                hp_regen_pct=inst.get("hp_regen_pct", 0.0),
+            )
+
+            success, msg = await self.equipment_manager.equip_item(player, item)
+            yield event.plain_result(msg)
+            return
+
+        # ── 以下是原有逻辑（非锻造装备）──
 
         # 检查物品是否存在于配置中（先查items再查weapons再查skills）
         item_config = self.config_manager.items_data.get(item_name)
