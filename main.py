@@ -18,6 +18,8 @@ from .handlers import (
     GamblingHandler, DungeonHandlers,
 )
 from .handlers.utils import get_related_commands_footer
+from .core.forging_manager import ForgingManager
+from .data.database_extended import DatabaseExtended
 from .managers import (
     CombatManager, SectManager, BossManager, RiftManager,
     RankingManager, AlchemyManager, ImpartManager,
@@ -51,6 +53,13 @@ CMD_ACTIVITY_REWARD = "活跃奖励"
 CMD_SHOW_EQUIPMENT = "我的装备"
 CMD_EQUIP_ITEM = "装备"
 CMD_UNEQUIP_ITEM = "卸下"
+CMD_WEAPON_LIST = "武器列表"
+
+# 锻造系统指令
+CMD_FORGE = "锻造"
+CMD_FORGE_LIST = "锻造配方"
+CMD_FORGE_INFO = "锻造信息"
+CMD_DECOMPOSE = "分解"
 CMD_BREAKTHROUGH = "突破"
 CMD_BREAKTHROUGH_INFO = "突破信息"
 CMD_USE_PILL = "服用丹药"
@@ -315,6 +324,18 @@ class XiuXianPlugin(Star):
         self.consignment_handler = None
         self.gm_handlers = GMHandlers(self.db, self.config_manager)
         self.achievement_handler = AchievementHandler(self.db, self.achievement_mgr)
+
+        # 锻造系统
+        self.db_extended = DatabaseExtended(self.db.conn)
+        self.forging_mgr = ForgingManager(
+            self.db, self.db_extended, self.config_manager, self.storage_ring_mgr
+        )
+        self.forging_handler = ForgingHandler(self.db, self.forging_mgr, self.config_manager)
+
+        # 注入 db_extended 到需要锻造系统支持的地方
+        self.equipment_manager = self.equipment_handler.equipment_manager
+        self.equipment_manager.db_extended = self.db_extended
+        self.equipment_handler.db_extended = self.db_extended
         
         self.boss_task = None # Boss生成任务
         self.loan_check_task = None # 贷款逾期检查任务
@@ -1075,6 +1096,38 @@ class XiuXianPlugin(Star):
     @require_whitelist
     async def handle_unequip_item(self, event: AstrMessageEvent, slot_or_name: str = ""):
         async for r in self.equipment_handler.handle_unequip_item(event, slot_or_name):
+            yield r
+
+    # ===== 锻造系统指令 =====
+
+    @filter.command(CMD_FORGE, "锻造装备")
+    @require_whitelist
+    async def handle_forge(self, event: AstrMessageEvent, recipe_name: str = "", quantity: int = 1):
+        async for r in self.forging_handler.handle_forge(event, recipe_name, quantity):
+            yield r
+
+    @filter.command(CMD_FORGE_LIST, "查看可锻造配方")
+    @require_whitelist
+    async def handle_forge_list(self, event: AstrMessageEvent):
+        async for r in self.forging_handler.handle_forge_list(event):
+            yield r
+
+    @filter.command(CMD_FORGE_INFO, "查看锻造等级和信息")
+    @require_whitelist
+    async def handle_forge_info(self, event: AstrMessageEvent):
+        async for r in self.forging_handler.handle_forge_info(event):
+            yield r
+
+    @filter.command(CMD_DECOMPOSE, "分解锻造武器回收材料")
+    @require_whitelist
+    async def handle_decompose(self, event: AstrMessageEvent, instance_id: str = ""):
+        async for r in self.forging_handler.handle_decompose(event, instance_id):
+            yield r
+
+    @filter.command(CMD_WEAPON_LIST, "查看武器库")
+    @require_whitelist
+    async def handle_weapon_list(self, event: AstrMessageEvent, args: str = ""):
+        async for r in self.equipment_handler.handle_weapon_list(event, args):
             yield r
 
     @filter.command(CMD_BREAKTHROUGH_INFO, "查看突破信息")
