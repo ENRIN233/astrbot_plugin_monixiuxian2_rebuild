@@ -318,6 +318,7 @@ class DataBase:
                 ("DELETE FROM player_buffs WHERE user_id = ?", (user_id,)),
                 ("DELETE FROM player_daily_activity WHERE user_id = ?", (user_id,)),
                 ("DELETE FROM achievement_progress WHERE user_id = ?", (user_id,)),
+                ("DELETE FROM weapon_instances WHERE user_id = ?", (user_id,)),
                 # players 表最后删除
                 ("DELETE FROM players WHERE user_id = ?", (user_id,)),
             ]

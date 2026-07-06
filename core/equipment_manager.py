@@ -179,11 +179,13 @@ class EquipmentManager:
             if not success:
                 return False, "❌ 装备失败：武器实例不存在或不属于你"
 
-            # 更新玩家槽位
+            # 更新玩家槽位（同时清空旧字段，防止双持有）
             if item.item_type == "weapon":
                 player.equipped_weapon = item.item_id
+                player.weapon = ""
             elif item.item_type == "armor":
                 player.equipped_armor = item.item_id
+                player.armor = ""
             else:
                 return False, f"❌ 未知的装备类型：{item.item_type}"
             await self.db.update_player(player)
