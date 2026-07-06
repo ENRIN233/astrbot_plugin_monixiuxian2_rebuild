@@ -114,16 +114,28 @@ class EquipmentHandler:
             f"=== {display_name} 的装备 ===\n",
         ]
 
-        # 武器（优先显示锻造实例）
+        # 武器（优先显示锻造实例，显示名称+品质而非ID）
         if player.equipped_weapon:
-            weapon_text = f"{player.equipped_weapon[:12]}（锻造）"
+            inst = None
+            if self.db_extended:
+                inst = await self.db_extended.get_weapon_instance(player.equipped_weapon)
+            if inst:
+                weapon_text = f"{inst['template_name']}·{inst.get('quality', '?')}（锻造）"
+            else:
+                weapon_text = player.weapon if player.weapon else "未装备"
         else:
             weapon_text = player.weapon if player.weapon else "未装备"
         equipment_lines.append(f"【武器】{weapon_text}\n")
 
-        # 防具（优先显示锻造实例）
+        # 防具（优先显示锻造实例，显示名称+品质而非ID）
         if player.equipped_armor:
-            armor_text = f"{player.equipped_armor[:12]}（锻造）"
+            inst = None
+            if self.db_extended:
+                inst = await self.db_extended.get_weapon_instance(player.equipped_armor)
+            if inst:
+                armor_text = f"{inst['template_name']}·{inst.get('quality', '?')}（锻造）"
+            else:
+                armor_text = player.armor if player.armor else "未装备"
         else:
             armor_text = player.armor if player.armor else "未装备"
         equipment_lines.append(f"【防具】{armor_text}\n")
