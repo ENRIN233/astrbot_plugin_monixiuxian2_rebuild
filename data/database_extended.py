@@ -1239,9 +1239,8 @@ class DatabaseExtended:
 
     async def create_weapon_instance(self, user_id: str, data: dict) -> str:
         """创建武器/防具实例，返回 instance_id"""
-        import json as _json
         instance_id = data["instance_id"]
-        affixes_json = _json.dumps(data.get("affixes", []), ensure_ascii=False)
+        affixes_json = json.dumps(data.get("affixes", []), ensure_ascii=False)
         await self.conn.execute("""
             INSERT INTO weapon_instances (
                 instance_id, user_id, template_name, item_type,
@@ -1277,17 +1276,17 @@ class DatabaseExtended:
         """
         await self.conn.execute("BEGIN IMMEDIATE")
         try:
-            # 仅清除该 item_type 的装备状态
+            # 清除该 item_type 的装备状态，同时将旧武器设为 in_storage=1（防止 limbo）
             await self.conn.execute(
-                "UPDATE weapon_instances SET is_equipped = 0 WHERE user_id = ? AND item_type = ?",
+                "UPDATE weapon_instances SET is_equipped = 0, in_storage = 1 WHERE user_id = ? AND item_type = ?",
                 (user_id, item_type)
             )
             # 装备目标实例
-            await self.conn.execute(
+            cursor = await self.conn.execute(
                 "UPDATE weapon_instances SET is_equipped = 1, in_storage = 0 WHERE instance_id = ? AND user_id = ?",
                 (instance_id, user_id)
             )
-            if self.conn.total_changes == 0:
+            if cursor.rowcount == 0:
                 await self.conn.rollback()
                 return False
             await self.conn.commit()
@@ -1298,21 +1297,19 @@ class DatabaseExtended:
 
     async def unequip_weapon_instance(self, user_id: str, instance_id: str) -> bool:
         """卸下武器实例"""
-        await self.conn.execute("""
+        cursor = await self.conn.execute("""
             UPDATE weapon_instances
             SET is_equipped = 0, in_storage = 1
             WHERE instance_id = ? AND user_id = ?
         """, (instance_id, user_id))
-        affected = self.conn.total_changes
         await self.conn.commit()
-        return affected > 0
+        return cursor.rowcount > 0
 
     async def delete_weapon_instance(self, user_id: str, instance_id: str) -> bool:
         """删除武器/防具实例（用于分解等）"""
-        await self.conn.execute(
+        cursor = await self.conn.execute(
             "DELETE FROM weapon_instances WHERE instance_id = ? AND user_id = ?",
             (instance_id, user_id)
         )
-        affected = self.conn.total_changes
         await self.conn.commit()
-        return affected > 0
+        return cursor.rowcount > 0
