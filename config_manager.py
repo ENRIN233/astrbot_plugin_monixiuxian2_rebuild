@@ -30,6 +30,7 @@ class ConfigManager:
         self.boss_config: Dict[str, Any] = {}
         self.rift_config: Dict[str, Any] = {}
         self.alchemy_config: Dict[str, Any] = {}
+        self.forging_recipes: Dict[str, dict] = {}  # 锻造配方，key为配方ID
         
         self._load_all()
 
@@ -124,6 +125,7 @@ class ConfigManager:
         self.rift_config = self._load_config_with_default(config_dir / "rift_config.json", RIFT_CONFIG)
         self.alchemy_config = self._load_config_with_default(config_dir / "alchemy_config.json", ALCHEMY_CONFIG)
         self.alchemy_recipes = self._load_items_data(config_dir / "alchemy_recipes.json")
+        self.forging_recipes = self._load_items_data(config_dir / "forging_recipes.json")
         self.herbs_data = self._load_json_data(config_dir / "herbs.json")
         self.furnaces_data = self._load_json_data(config_dir / "furnaces.json")
         self.realm_data = self._load_json_data(config_dir / "realm_config.json")
