@@ -30,7 +30,7 @@ class EquipmentHandler:
 
     @player_required
     async def handle_weapon_list(self, player: Player, event: AstrMessageEvent, args: str = ""):
-        """显示玩家的所有武器/防具实例（支持分页）"""
+        """显示玩家的所有武器/防具实例（支持分页 + 序号匹配）"""
         if not self.db_extended:
             yield event.plain_result("❌ 武器实例系统未初始化")
             return
@@ -52,8 +52,9 @@ class EquipmentHandler:
         start = (page - 1) * per_page
         page_items = instances[start:start + per_page]
 
-        lines = [f"⚔️ 我的武器库（第 {page}/{total_pages} 页）", "━━━━━━━━━━━━━━━"]
-        for inst in page_items:
+        lines = [f"⚔️ 我的武器库（第 {page}/{total_pages} 页，共 {len(instances)} 件）", "━━━━━━━━━━━━━━━"]
+        for idx, inst in enumerate(page_items):
+            global_idx = start + idx + 1  # 全局序号（1-indexed）
             try:
                 affixes = json.loads(inst.get("affixes", "[]"))
             except (json.JSONDecodeError, TypeError):
@@ -63,19 +64,34 @@ class EquipmentHandler:
             equipped_mark = " ⭐" if inst.get("is_equipped") else ""
             quality = inst.get("quality", "下品")
             template = inst.get("template_name", "?")
-            iid_short = inst.get("instance_id", "?")[:12]
             atk = inst.get("atk_bonus", 0.0) * 100
             crit = inst.get("crit_rate", 0)
 
             lines.append(
-                f"  {iid_short}  {template}·{quality}{equipped_mark}\n"
+                f"  {global_idx}. {template}·{quality}{equipped_mark}\n"
                 f"    ATK+{atk:.0f}% 暴击+{crit}% {affix_str}"
             )
 
         lines.append("━━━━━━━━━━━━━━━")
-        lines.append("💡 使用 /装备 <实例ID> 装备 | /分解 <实例ID> 分解")
+        lines.append("💡 使用 /装备 <序号/ID> 装备 | /分解 <序号/ID> 分解")
 
         yield event.plain_result("\n".join(lines))
+
+    async def _resolve_instance_id(self, player: Player, raw: str) -> str | None:
+        """将用户输入（序号或实例ID）解析为 instance_id"""
+        if not self.db_extended:
+            return None
+        # 如果是纯数字，按序号匹配（从玩家的完整实例列表）
+        if raw.isdigit():
+            idx = int(raw) - 1  # 转为 0-indexed
+            instances = await self.db_extended.get_player_weapon_instances(player.user_id)
+            if 0 <= idx < len(instances):
+                return instances[idx]["instance_id"]
+            return None
+        # 否则当作实例ID
+        if raw.startswith("forge_"):
+            return raw
+        return None
 
     @player_required
     async def handle_show_equipment(self, player: Player, event: AstrMessageEvent):
@@ -239,11 +255,18 @@ class EquipmentHandler:
 
         item_name = item_name.strip()
 
-        # ── 检查是否为锻造武器实例ID ──
-        if item_name.startswith("forge_") and self.db_extended:
-            inst = await self.db_extended.get_weapon_instance(item_name)
+        # ── 检查是否为锻造武器实例（序号或ID） ──
+        if self.db_extended and (item_name.startswith("forge_") or item_name.isdigit()):
+            resolved_id = await self._resolve_instance_id(player, item_name)
+            if not resolved_id:
+                yield event.plain_result(
+                    f"❌ 未找到锻造实例「{item_name}」\n"
+                    f"使用 /武器列表 查看可用的序号和实例ID"
+                )
+                return
+            inst = await self.db_extended.get_weapon_instance(resolved_id)
             if not inst:
-                yield event.plain_result(f"❌ 武器实例 {item_name} 不存在")
+                yield event.plain_result(f"❌ 武器实例不存在")
                 return
             if inst["user_id"] != player.user_id:
                 yield event.plain_result(f"❌ 这不是你的武器")

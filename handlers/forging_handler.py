@@ -101,15 +101,25 @@ class ForgingHandler:
     async def handle_decompose(self, player: Player, event, instance_id: str = ""):
         """分解武器/防具实例回收材料
 
-        格式：/分解 <实例ID>
+        格式：/分解 <序号/ID>
         """
         if not instance_id:
             yield event.plain_result(
-                "❌ 请指定要分解的武器实例ID\n"
-                "格式：/分解 <实例ID>\n"
+                "❌ 请指定要分解的武器序号或ID\n"
+                "格式：/分解 <序号/ID>\n"
                 "使用 /武器列表 查看拥有的武器实例"
             )
             return
+
+        # 序号匹配
+        if instance_id.isdigit() and self.db_extended:
+            idx = int(instance_id) - 1
+            instances = await self.db_extended.get_player_weapon_instances(player.user_id)
+            if 0 <= idx < len(instances):
+                instance_id = instances[idx]["instance_id"]
+            else:
+                yield event.plain_result(f"❌ 序号超出范围，共有 {len(instances)} 件实例")
+                return
 
         success, msg = await self.forging_mgr.decompose(player, instance_id)
         yield event.plain_result(msg)
