@@ -207,8 +207,9 @@ class GMHandlers:
             f"修炼路线：{player.cultivation_type}\n"
             f"储物戒：{player.storage_ring}（{item_count}件物品）\n"
             f"丹药：{pill_count}种\n"
-            f"武器：{player.weapon or '无'}\n"
-            f"防具：{player.armor or '无'}"
+            f"武器：{player.weapon or '无'}（实例: {player.equipped_weapon or '无'}）\n"
+            f"防具：{player.armor or '无'}（实例: {player.equipped_armor or '无'}）\n"
+            f"锻造等级：Lv.{player.forging_level} 经验：{player.forging_exp}"
         )
 
     # ===== 补偿系统 =====

@@ -156,7 +156,11 @@ class PlayerHandler:
         
         # 获取装备信息
         weapon_name = player.weapon if player.weapon else "无"
+        if player.equipped_weapon:
+            weapon_name = f"{player.equipped_weapon[:12]}（锻造）"
         armor_name = player.armor if player.armor else "无"
+        if player.equipped_armor:
+            armor_name = f"{player.equipped_armor[:12]}（锻造）"
         technique_name = player.main_technique if player.main_technique else "无"
         sub_technique_name = player.sub_technique if player.sub_technique else "无"
         
