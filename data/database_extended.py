@@ -1219,7 +1219,7 @@ class DatabaseExtended:
     # 锻造系统 — weapon_instances DAO
     # ────────────────────────────────────────────
 
-    async def get_player_weapon_instances(self, user_id: str) -> list[dict]:
+    async def get_player_weapon_instances(self, user_id: str) -> List[dict]:
         """获取玩家的所有武器/防具实例（含装备中的，按创建时间倒序）"""
         async with self.conn.execute(
             "SELECT * FROM weapon_instances WHERE user_id = ? ORDER BY created_at DESC",
@@ -1228,7 +1228,7 @@ class DatabaseExtended:
             rows = await cursor.fetchall()
             return [dict(row) for row in rows]
 
-    async def get_weapon_instance(self, instance_id: str) -> dict | None:
+    async def get_weapon_instance(self, instance_id: str) -> Optional[dict]:
         """获取单个武器/防具实例"""
         async with self.conn.execute(
             "SELECT * FROM weapon_instances WHERE instance_id = ?",

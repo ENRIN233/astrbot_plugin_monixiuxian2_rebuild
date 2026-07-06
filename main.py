@@ -325,12 +325,10 @@ class XiuXianPlugin(Star):
         self.gm_handlers = GMHandlers(self.db, self.config_manager)
         self.achievement_handler = AchievementHandler(self.db, self.achievement_mgr)
 
-        # 锻造系统
-        self.db_extended = DatabaseExtended(self.db.conn)
-        self.forging_mgr = ForgingManager(
-            self.db, self.db_extended, self.config_manager, self.storage_ring_mgr
-        )
-        self.forging_handler = ForgingHandler(self.db, self.forging_mgr, self.config_manager)
+        # 锻造系统（db_extended 推迟到 initialize() 中创建，需要 db.conn）
+        self.db_extended = None
+        self.forging_mgr = None
+        self.forging_handler = None
 
         # 注入 db_extended 到需要锻造系统支持的地方
         self.equipment_manager = self.equipment_handler.equipment_manager
@@ -398,6 +396,18 @@ class XiuXianPlugin(Star):
         self.consignment_mgr = ConsignmentManager(self.db, config=trade_config)
         self.trade_handler = TradeHandler(self.db, self.trade_mgr)
         self.consignment_handler = ConsignmentHandler(self.db, self.consignment_mgr, self.config_manager)
+
+        # 锻造系统：在数据库连接后初始化
+        self.db_extended = DatabaseExtended(self.db.conn)
+        self.forging_mgr = ForgingManager(
+            self.db, self.db_extended, self.config_manager, self.storage_ring_mgr
+        )
+        self.forging_handler = ForgingHandler(self.db, self.forging_mgr, self.config_manager)
+
+        # 注入 db_extended 到需要锻造系统支持的地方
+        self.equipment_manager = self.equipment_handler.equipment_manager
+        self.equipment_manager.db_extended = self.db_extended
+        self.equipment_handler.db_extended = self.db_extended
 
         # 确保系统配置表存在
         await self.db.ext.ensure_system_config_table()
