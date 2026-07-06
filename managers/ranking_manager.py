@@ -119,7 +119,7 @@ class RankingManager:
 
             # 构建 CombatStats 并计算战力（不含丹药临时效果，更公平）
             impart_info = await self.db.ext.get_impart_info(player.user_id)
-            combat_stats = CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
+            combat_stats = await CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
             combat_power = CombatManager.calc_combat_power(combat_stats, combat_stats.max_hp, combat_stats.max_mp)
             player_power.append((player, combat_power, total_attrs))
         

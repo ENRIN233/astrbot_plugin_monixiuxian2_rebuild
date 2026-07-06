@@ -32,8 +32,8 @@ class ImpartPkManager:
         defender_impart = await self.db.ext.get_impart_info(defender.user_id)
 
         # 使用统一的 CombatStats 构建方法
-        atk_stats = CombatManager.build_player_combat_stats(attacker, attacker_impart, self.config_manager)
-        def_stats = CombatManager.build_player_combat_stats(defender, defender_impart, self.config_manager)
+        atk_stats = await CombatManager.build_player_combat_stats(attacker, attacker_impart, self.config_manager)
+        def_stats = await CombatManager.build_player_combat_stats(defender, defender_impart, self.config_manager)
 
         # 使用统一的 PvP 战斗机制（切磋模式，不消耗HP/MP）
         result = self.combat_mgr.player_vs_player(atk_stats, def_stats, combat_type=1)

@@ -408,6 +408,7 @@ class XiuXianPlugin(Star):
         self.equipment_manager = self.equipment_handler.equipment_manager
         self.equipment_manager.db_extended = self.db_extended
         self.equipment_handler.db_extended = self.db_extended
+        self.combat_mgr.db_extended = self.db_extended
 
         # 确保系统配置表存在
         await self.db.ext.ensure_system_config_table()

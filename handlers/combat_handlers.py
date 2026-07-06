@@ -96,7 +96,7 @@ class CombatHandlers:
             return None
 
         impart_info = await self.db.ext.get_impart_info(user_id)
-        stats = CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
+        stats = await CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
 
         # 持久化更新后的 HP/MP/ATK
         await self.db.update_player(player)

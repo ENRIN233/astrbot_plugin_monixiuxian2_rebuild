@@ -221,11 +221,11 @@ ATK：{atk}
 
         # 如果没有初始化战斗属性，先计算并持久化
         if player.hp == 0 or player.mp == 0:
-            player_stats = CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
+            player_stats = await CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
             await self.db.update_player(player)
         else:
             # 使用现有属性，仅构建 CombatStats
-            player_stats = CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
+            player_stats = await CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
             player_stats.hp = player.hp
             player_stats.mp = player.mp
 

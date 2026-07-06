@@ -82,7 +82,7 @@ class DungeonManager:
         # 构建玩家战斗属性来计算血量
         from .combat_manager import CombatManager
         impart_info = await self.db.ext.get_impart_info(user_id)
-        stats = CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
+        stats = await CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
 
         # 灵力计算（基础 + 境界缩放）
         base_stamina = dungeon.get("base_stamina", 20)
@@ -258,7 +258,7 @@ class DungeonManager:
         # 构建战斗属性（用于战斗节点）
         from .combat_manager import CombatManager
         impart_info = await self.db.ext.get_impart_info(run.user_id)
-        player_stats = CombatManager.build_player_combat_stats(
+        player_stats = await CombatManager.build_player_combat_stats(
             player, impart_info, self.config_manager
         )
         player_stats.hp = run.hp
@@ -463,7 +463,7 @@ class DungeonManager:
         boss_config = dungeon.get("boss", {})
         from .combat_manager import CombatManager
         impart_info = await self.db.ext.get_impart_info(run.user_id)
-        player_stats = CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
+        player_stats = await CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
         # 使用副本内血量
         player_stats.hp = run.hp
         player_stats.max_hp = run.max_hp
@@ -549,7 +549,7 @@ class DungeonManager:
 
         from .combat_manager import CombatManager
         impart_info = await self.db.ext.get_impart_info(run.user_id)
-        player_stats = CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
+        player_stats = await CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
         player_stats.hp = run.hp
         player_stats.max_hp = run.max_hp
 

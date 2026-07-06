@@ -137,6 +137,9 @@ class CombatStats:
 class CombatManager:
     """战斗系统管理器"""
 
+    # 锻造系统：由 main.py 注入 DatabaseExtended 实例
+    db_extended = None
+
     @staticmethod
     def calculate_hp_mp(experience: int, hp_buff: float = 0.0, mp_buff: float = 0.0, hp_bonus: float = 0.0, mp_bonus: float = 0.0) -> Tuple[int, int]:
         # nonebot 公式：HP = exp/2, MP = exp
@@ -164,7 +167,7 @@ class CombatManager:
         return int(math.exp(old_def / 10) - 1)
 
     @classmethod
-    def build_player_combat_stats(cls, player, impart_info, config_manager, cached_instances: dict = None) -> 'CombatStats':
+    async def build_player_combat_stats(cls, player, impart_info, config_manager, cached_instances: dict = None) -> 'CombatStats':
         """从玩家数据构建 CombatStats（统一入口）
 
         Args:
@@ -200,6 +203,21 @@ class CombatManager:
 
         # 记录心法加成前的原始真元（用于技能消耗百分比计算）
         raw_base_mp = max(100, int(max(0, player.experience) * (1 + mp_buff)))
+
+        # ── 查询锻造武器实例缓存（新增，通过类属性注入 DatabaseExtended）──
+        if cached_instances is None and cls.db_extended:
+            instance_ids = []
+            if player.equipped_weapon and player.equipped_weapon.startswith("forge_"):
+                instance_ids.append(player.equipped_weapon)
+            if player.equipped_armor and player.equipped_armor.startswith("forge_"):
+                instance_ids.append(player.equipped_armor)
+            if instance_ids:
+                cached = {}
+                for iid in instance_ids:
+                    inst = await cls.db_extended.get_weapon_instance(iid)
+                    if inst:
+                        cached[iid] = inst
+                cached_instances = cached
 
         equip_bonus = load_equipment_bonus(player, config_manager, cached_instances=cached_instances)
 

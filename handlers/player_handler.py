@@ -123,7 +123,7 @@ class PlayerHandler:
         # 获取战力（nonebot 公式：exp * root_speed * realm_spend）
         from ..managers.combat_manager import CombatManager
         impart_info = await self.db.ext.get_impart_info(player.user_id)
-        combat_stats = CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
+        combat_stats = await CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
 
         # 读取灵根倍率
         root_speed = self.cultivation_manager.get_spiritual_root_speed(player) if hasattr(self, 'cultivation_manager') else 1.0
