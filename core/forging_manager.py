@@ -211,6 +211,10 @@ class ForgingManager:
                 )
 
         # 消耗材料（通过 StorageRingManager.discard_item）
+        # NOTE: discard_item 和 create_weapon_instance 各自有独立事务，
+        # 目前无跨方法事务支持。材料检查在消耗前已通过，如果 create_weapon_instance 异常退出，
+        # 已消耗的材料可能无法自动回滚（需要 GM 补偿）。
+        for mat_name, total_need in total_ingredients.items():
         for mat_name, total_need in total_ingredients.items():
             success, msg = await self.storage_ring_manager.discard_item(
                 player, mat_name, total_need
@@ -258,7 +262,7 @@ class ForgingManager:
 
         # 累计锻造经验并处理升级
         player.forging_exp += total_exp
-        while player.forging_exp >= player.forging_level * 30:
+        while player.forging_level > 0 and player.forging_exp >= player.forging_level * 30:
             player.forging_exp -= player.forging_level * 30
             player.forging_level += 1
 
@@ -338,10 +342,14 @@ class ForgingManager:
         for mat_name, mat_count in ingredients.items():
             refund = max(1, int(mat_count * rate))
             if refund > 0:
-                await self.storage_ring_manager.store_item(
+                ok, store_msg = await self.storage_ring_manager.store_item(
                     player, mat_name, refund, silent=True
                 )
-                returns.append(f"{mat_name}×{refund}")
+                if ok:
+                    returns.append(f"{mat_name}×{refund}")
+                else:
+                    # 储物戒满时跳过该材料但继续处理其他（实例已标记删除不可回滚）
+                    returns.append(f"{mat_name}×{refund}⚠️")
 
         await self.db_extended.delete_weapon_instance(player.user_id, instance_id)
 
