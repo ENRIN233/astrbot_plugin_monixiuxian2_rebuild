@@ -1,0 +1,470 @@
+{
+  "forge_001": {
+    "name": "精铁剑",
+    "rank_required": 1,
+    "ingredients": {"精铁": 2, "紫金沙": 1},
+    "output_template": "精铁符剑",
+    "output_type": "weapon",
+    "forge_exp": 15,
+    "quality_rates": {"下品": 0.40, "中品": 0.35, "上品": 0.20, "极品": 0.05}
+  },
+  "forge_002": {
+    "name": "桃木剑",
+    "rank_required": 1,
+    "ingredients": {"精铁": 1, "百年灵草": 2},
+    "output_template": "桃木符剑",
+    "output_type": "weapon",
+    "forge_exp": 15,
+    "quality_rates": {"下品": 0.40, "中品": 0.35, "上品": 0.20, "极品": 0.05}
+  },
+  "forge_005": {
+    "name": "修士袍",
+    "rank_required": 1,
+    "ingredients": {"百年灵草": 3, "精铁": 1, "灵兽骨": 1},
+    "output_template": "修士道袍",
+    "output_type": "armor",
+    "forge_exp": 15,
+    "quality_rates": {"下品": 0.40, "中品": 0.35, "上品": 0.20, "极品": 0.05}
+  },
+  "forge_003": {
+    "name": "青玉剑",
+    "rank_required": 5,
+    "ingredients": {"精铁": 3, "紫金沙": 2, "魔核碎片": 1, "天火熔晶": 1},
+    "output_template": "青玉符剑",
+    "output_type": "weapon",
+    "forge_exp": 35,
+    "quality_rates": {"下品": 0.40, "中品": 0.35, "上品": 0.20, "极品": 0.05}
+  },
+  "forge_004": {
+    "name": "火铜剑",
+    "rank_required": 5,
+    "ingredients": {"精铁": 3, "赤炎石": 3, "天火熔晶": 1},
+    "output_template": "火铜符剑",
+    "output_type": "weapon",
+    "forge_exp": 35,
+    "quality_rates": {"下品": 0.40, "中品": 0.35, "上品": 0.20, "极品": 0.05}
+  },
+  "forge_006": {
+    "name": "化尘袍",
+    "rank_required": 5,
+    "ingredients": {"百年灵草": 3, "赤炎石": 2, "魔核碎片": 1, "精铁": 2, "灵兽骨": 1},
+    "output_template": "化尘道袍",
+    "output_type": "armor",
+    "forge_exp": 35,
+    "quality_rates": {"下品": 0.40, "中品": 0.35, "上品": 0.20, "极品": 0.05}
+  },
+  "forge_007": {
+    "name": "流光剑",
+    "rank_required": 10,
+    "ingredients": {"精铁": 4, "亡者之息": 3, "幽魂草": 3, "魔核碎片": 2, "九幽寒铁": 1},
+    "output_template": "流光剑",
+    "output_type": "weapon",
+    "forge_exp": 80,
+    "quality_rates": {"下品": 0.30, "中品": 0.35, "上品": 0.25, "极品": 0.10}
+  },
+  "forge_009": {
+    "name": "七星剑",
+    "rank_required": 10,
+    "ingredients": {"精铁": 4, "星辉晶砂": 2, "紫金沙": 3, "魔核碎片": 2},
+    "output_template": "七星剑",
+    "output_type": "weapon",
+    "forge_exp": 80,
+    "quality_rates": {"下品": 0.30, "中品": 0.35, "上品": 0.25, "极品": 0.10}
+  },
+  "forge_010": {
+    "name": "阴磷甲",
+    "rank_required": 10,
+    "ingredients": {"百年灵草": 4, "赤炎石": 3, "亡者之息": 2, "精铁": 3},
+    "output_template": "阴磷甲",
+    "output_type": "armor",
+    "forge_exp": 80,
+    "quality_rates": {"下品": 0.30, "中品": 0.35, "上品": 0.25, "极品": 0.10}
+  },
+  "forge_011": {
+    "name": "金光镜",
+    "rank_required": 15,
+    "ingredients": {"精铁": 5, "赤炎石": 4, "星辉晶砂": 2, "灵兽骨": 2, "天火熔晶": 1},
+    "output_template": "金光镜",
+    "output_type": "weapon",
+    "forge_exp": 120,
+    "quality_rates": {"下品": 0.30, "中品": 0.35, "上品": 0.25, "极品": 0.10}
+  },
+  "forge_012": {
+    "name": "阴阳针",
+    "rank_required": 15,
+    "ingredients": {"精铁": 5, "亡者之息": 4, "幽魂草": 4, "魔核碎片": 3, "九幽寒铁": 1},
+    "output_template": "阴阳夺魂针",
+    "output_type": "weapon",
+    "forge_exp": 120,
+    "quality_rates": {"下品": 0.30, "中品": 0.35, "上品": 0.25, "极品": 0.10}
+  },
+  "forge_013": {
+    "name": "御灵盾",
+    "rank_required": 15,
+    "ingredients": {"百年灵草": 6, "紫金沙": 4, "灵兽骨": 3, "玄冰之核": 1},
+    "output_template": "御灵盾",
+    "output_type": "armor",
+    "forge_exp": 120,
+    "quality_rates": {"下品": 0.30, "中品": 0.35, "上品": 0.25, "极品": 0.10}
+  },
+  "forge_014": {
+    "name": "离地焰光旗",
+    "rank_required": 20,
+    "ingredients": {"精铁": 6, "赤炎石": 5, "天火熔晶": 3, "星辉晶砂": 3},
+    "output_template": "离地焰光旗",
+    "output_type": "weapon",
+    "forge_exp": 180,
+    "quality_rates": {"下品": 0.25, "中品": 0.30, "上品": 0.30, "极品": 0.15}
+  },
+  "forge_015": {
+    "name": "青萍剑",
+    "rank_required": 20,
+    "ingredients": {"精铁": 6, "星辉晶砂": 4, "月光粉尘": 2, "紫金沙": 5, "天火熔晶": 1},
+    "output_template": "青萍剑",
+    "output_type": "weapon",
+    "forge_exp": 180,
+    "quality_rates": {"下品": 0.25, "中品": 0.30, "上品": 0.30, "极品": 0.15}
+  },
+  "forge_016": {
+    "name": "凤血魔袍",
+    "rank_required": 20,
+    "ingredients": {"百年灵草": 6, "赤炎石": 4, "天火熔晶": 2, "灵兽骨": 3},
+    "output_template": "凤血魔袍",
+    "output_type": "armor",
+    "forge_exp": 180,
+    "quality_rates": {"下品": 0.25, "中品": 0.30, "上品": 0.30, "极品": 0.15}
+  },
+  "forge_017": {
+    "name": "五火七禽扇",
+    "rank_required": 25,
+    "ingredients": {"精铁": 8, "赤炎石": 6, "天火熔晶": 4, "星辉晶砂": 4},
+    "output_template": "五火七禽扇",
+    "output_type": "weapon",
+    "forge_exp": 250,
+    "quality_rates": {"下品": 0.25, "中品": 0.30, "上品": 0.30, "极品": 0.15}
+  },
+  "forge_018": {
+    "name": "青莲宝色旗",
+    "rank_required": 25,
+    "ingredients": {"精铁": 8, "月光粉尘": 3, "星辉晶砂": 5, "玄冰之核": 2},
+    "output_template": "青莲宝色旗",
+    "output_type": "weapon",
+    "forge_exp": 250,
+    "quality_rates": {"下品": 0.25, "中品": 0.30, "上品": 0.30, "极品": 0.15}
+  },
+  "forge_019": {
+    "name": "避水法袍",
+    "rank_required": 25,
+    "ingredients": {"百年灵草": 8, "玄冰之核": 2, "月光粉尘": 2, "紫金沙": 5},
+    "output_template": "避水法袍",
+    "output_type": "armor",
+    "forge_exp": 250,
+    "quality_rates": {"下品": 0.25, "中品": 0.30, "上品": 0.30, "极品": 0.15}
+  },
+  "forge_020": {
+    "name": "绝仙剑",
+    "rank_required": 30,
+    "ingredients": {"精铁": 10, "龙骨髓": 3, "亡者之息": 5, "星辉晶砂": 5},
+    "output_template": "绝仙剑",
+    "output_type": "weapon",
+    "forge_exp": 320,
+    "quality_rates": {"下品": 0.20, "中品": 0.30, "上品": 0.30, "极品": 0.20}
+  },
+  "forge_021": {
+    "name": "落魂钟",
+    "rank_required": 30,
+    "ingredients": {"精铁": 10, "幽魂草": 6, "亡者之息": 5, "月光粉尘": 3, "九幽寒铁": 2},
+    "output_template": "落魂钟",
+    "output_type": "weapon",
+    "forge_exp": 320,
+    "quality_rates": {"下品": 0.20, "中品": 0.30, "上品": 0.30, "极品": 0.20}
+  },
+  "forge_008": {
+    "name": "青溪袍",
+    "rank_required": 30,
+    "ingredients": {"百年灵草": 10, "玄冰之核": 2, "紫金沙": 5, "月光粉尘": 1, "灵兽骨": 2},
+    "output_template": "青溪法袍",
+    "output_type": "armor",
+    "forge_exp": 320,
+    "quality_rates": {"下品": 0.20, "中品": 0.30, "上品": 0.30, "极品": 0.20}
+  },
+  "forge_022": {
+    "name": "乾坤尺",
+    "rank_required": 35,
+    "ingredients": {"精铁": 12, "天火熔晶": 5, "星辉晶砂": 6, "赤炎石": 6},
+    "output_template": "乾坤尺",
+    "output_type": "weapon",
+    "forge_exp": 400,
+    "quality_rates": {"下品": 0.20, "中品": 0.30, "上品": 0.30, "极品": 0.20}
+  },
+  "forge_023": {
+    "name": "天地五方旗",
+    "rank_required": 35,
+    "ingredients": {"精铁": 12, "月光粉尘": 4, "星辉晶砂": 6, "玄冰之核": 3, "灵兽骨": 2},
+    "output_template": "天地五方旗",
+    "output_type": "weapon",
+    "forge_exp": 400,
+    "quality_rates": {"下品": 0.20, "中品": 0.30, "上品": 0.30, "极品": 0.20}
+  },
+  "forge_024": {
+    "name": "驱厄灵袍",
+    "rank_required": 35,
+    "ingredients": {"百年灵草": 12, "龙骨髓": 2, "玄冰之核": 3, "九幽寒铁": 2, "妖丹": 1},
+    "output_template": "驱厄灵袍",
+    "output_type": "armor",
+    "forge_exp": 400,
+    "quality_rates": {"下品": 0.20, "中品": 0.30, "上品": 0.30, "极品": 0.20}
+  },
+  "forge_025": {
+    "name": "陨仙",
+    "rank_required": 40,
+    "ingredients": {"精铁": 15, "龙骨髓": 2, "九幽寒铁": 4, "亡者之息": 6, "星辉晶砂": 6},
+    "output_template": "陨仙",
+    "output_type": "weapon",
+    "forge_exp": 500,
+    "quality_rates": {"下品": 0.15, "中品": 0.25, "上品": 0.30, "极品": 0.30}
+  },
+  "forge_026": {
+    "name": "惊雷",
+    "rank_required": 40,
+    "ingredients": {"精铁": 15, "月光粉尘": 5, "幽魂草": 6, "亡者之息": 6, "九幽寒铁": 2},
+    "output_template": "惊雷",
+    "output_type": "weapon",
+    "forge_exp": 500,
+    "quality_rates": {"下品": 0.15, "中品": 0.25, "上品": 0.30, "极品": 0.30}
+  },
+  "forge_027": {
+    "name": "三阳道袍",
+    "rank_required": 40,
+    "ingredients": {"百年灵草": 15, "天火熔晶": 4, "玄冰之核": 3, "妖丹": 1, "紫金沙": 8},
+    "output_template": "三阳道袍",
+    "output_type": "armor",
+    "forge_exp": 500,
+    "quality_rates": {"下品": 0.15, "中品": 0.25, "上品": 0.30, "极品": 0.30}
+  },
+  "forge_028": {
+    "name": "无影剑",
+    "rank_required": 45,
+    "ingredients": {"精铁": 15, "龙骨髓": 5, "星辉晶砂": 8, "月光粉尘": 4, "灵兽骨": 2},
+    "output_template": "无影剑",
+    "output_type": "weapon",
+    "forge_exp": 600,
+    "quality_rates": {"下品": 0.15, "中品": 0.25, "上品": 0.30, "极品": 0.30}
+  },
+  "forge_029": {
+    "name": "青竹蜂云剑",
+    "rank_required": 45,
+    "ingredients": {"精铁": 18, "龙骨髓": 6, "赤炎石": 8, "星辉晶砂": 6, "天火熔晶": 3, "妖丹": 1},
+    "output_template": "青竹蜂云剑",
+    "output_type": "weapon",
+    "forge_exp": 600,
+    "quality_rates": {"下品": 0.15, "中品": 0.25, "上品": 0.30, "极品": 0.30}
+  },
+  "forge_030": {
+    "name": "皇鳞甲",
+    "rank_required": 45,
+    "ingredients": {"百年灵草": 18, "龙骨髓": 4, "玄冰之核": 4, "月光粉尘": 3, "灵兽骨": 3, "妖丹": 1},
+    "output_template": "皇鳞甲",
+    "output_type": "armor",
+    "forge_exp": 600,
+    "quality_rates": {"下品": 0.15, "中品": 0.25, "上品": 0.30, "极品": 0.30}
+  },
+  "forge_031": {
+    "name": "归墟剑",
+    "rank_required": 50,
+    "ingredients": {"精铁": 20, "龙骨髓": 3, "九幽寒铁": 5, "星辉晶砂": 8, "亡者之息": 6, "妖丹": 1},
+    "output_template": "归墟剑",
+    "output_type": "weapon",
+    "forge_exp": 800,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_032": {
+    "name": "龙渊剑",
+    "rank_required": 50,
+    "ingredients": {"精铁": 20, "龙骨髓": 6, "星辉晶砂": 6, "月光粉尘": 5, "混沌源石": 1},
+    "output_template": "龙渊剑",
+    "output_type": "weapon",
+    "forge_exp": 800,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_033": {
+    "name": "鸿钧棍",
+    "rank_required": 50,
+    "ingredients": {"精铁": 20, "龙骨髓": 4, "天火熔晶": 6, "玄冰之核": 5, "赤炎石": 8, "妖丹": 1},
+    "output_template": "鸿钧棍",
+    "output_type": "weapon",
+    "forge_exp": 800,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_044": {
+    "name": "天蚕战甲",
+    "rank_required": 50,
+    "ingredients": {"百年灵草": 20, "龙骨髓": 2, "九幽寒铁": 4, "月光粉尘": 4, "玄冰之核": 3, "妖丹": 1},
+    "output_template": "天蚕战甲",
+    "output_type": "armor",
+    "forge_exp": 800,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_034": {
+    "name": "青龙偃月刀",
+    "rank_required": 50,
+    "ingredients": {"精铁": 22, "龙骨髓": 5, "星辉晶砂": 8, "赤炎石": 6, "天火熔晶": 2, "妖丹": 1},
+    "output_template": "青龙偃月刀",
+    "output_type": "weapon",
+    "forge_exp": 800,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_035": {
+    "name": "天戟",
+    "rank_required": 50,
+    "ingredients": {"精铁": 20, "龙骨髓": 6, "星辉晶砂": 7, "月光粉尘": 4, "妖丹": 1},
+    "output_template": "天戟",
+    "output_type": "weapon",
+    "forge_exp": 800,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_036": {
+    "name": "念香",
+    "rank_required": 50,
+    "ingredients": {"精铁": 20, "龙骨髓": 5, "星辉晶砂": 6, "月光粉尘": 5, "灵兽骨": 2, "妖丹": 1},
+    "output_template": "念香",
+    "output_type": "weapon",
+    "forge_exp": 800,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_037": {
+    "name": "誓约胜利之剑",
+    "rank_required": 50,
+    "ingredients": {"精铁": 25, "龙骨髓": 7, "星辉晶砂": 8, "赤炎石": 5, "混沌源石": 2},
+    "output_template": "誓约胜利之剑",
+    "output_type": "weapon",
+    "forge_exp": 900,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_038": {
+    "name": "十拳剑",
+    "rank_required": 50,
+    "ingredients": {"精铁": 20, "龙骨髓": 6, "星辉晶砂": 8, "亡者之息": 5, "天火熔晶": 2, "妖丹": 1},
+    "output_template": "十拳剑",
+    "output_type": "weapon",
+    "forge_exp": 800,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_039": {
+    "name": "鱼鬣宝衣",
+    "rank_required": 50,
+    "ingredients": {"百年灵草": 22, "龙骨髓": 4, "月光粉尘": 5, "玄冰之核": 3, "混沌源石": 1},
+    "output_template": "鱼鬣宝衣",
+    "output_type": "armor",
+    "forge_exp": 800,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_040": {
+    "name": "海姆达尔",
+    "rank_required": 50,
+    "ingredients": {"百年灵草": 22, "龙骨髓": 4, "月光粉尘": 4, "星辉晶砂": 6, "妖丹": 1},
+    "output_template": "海姆达尔",
+    "output_type": "armor",
+    "forge_exp": 800,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_051": {
+    "name": "轩辕剑",
+    "rank_required": 55,
+    "ingredients": {"精铁": 25, "龙骨髓": 8, "星辉晶砂": 10, "月光粉尘": 6, "妖丹": 2},
+    "output_template": "轩辕剑",
+    "output_type": "weapon",
+    "forge_exp": 1200,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_052": {
+    "name": "冲天槊",
+    "rank_required": 55,
+    "ingredients": {"精铁": 30, "龙骨髓": 8, "赤炎石": 10, "天火熔晶": 5, "星辉晶砂": 8, "妖丹": 3},
+    "output_template": "冲天槊",
+    "output_type": "weapon",
+    "forge_exp": 1500,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_053a": {
+    "name": "原罪",
+    "rank_required": 55,
+    "ingredients": {"精铁": 15, "亡者之息": 8, "幽魂草": 8, "魔核碎片": 5, "九幽寒铁": 3, "混沌源石": 1},
+    "output_template": "原罪（残缺）",
+    "output_type": "weapon",
+    "forge_exp": 800,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_053b": {
+    "name": "无罪",
+    "rank_required": 55,
+    "ingredients": {"百年灵草": 15, "月光粉尘": 6, "星辉晶砂": 6, "玄冰之核": 3, "妖丹": 1},
+    "output_template": "无罪（残缺）",
+    "output_type": "weapon",
+    "forge_exp": 800,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_054": {
+    "name": "射日弓",
+    "rank_required": 55,
+    "ingredients": {"百年灵草": 20, "龙骨髓": 7, "月光粉尘": 8, "星辉晶砂": 8, "玄冰之核": 3, "灵兽骨": 2, "妖丹": 2},
+    "output_template": "射日弓",
+    "output_type": "weapon",
+    "forge_exp": 1200,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_055": {
+    "name": "神仙笔",
+    "rank_required": 55,
+    "ingredients": {"精铁": 20, "百年灵草": 15, "龙骨髓": 6, "月光粉尘": 8, "星辉晶砂": 10, "混沌源石": 2},
+    "output_template": "神仙笔",
+    "output_type": "weapon",
+    "forge_exp": 1200,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_056": {
+    "name": "月痕甲",
+    "rank_required": 55,
+    "ingredients": {"百年灵草": 25, "龙骨髓": 6, "月光粉尘": 6, "玄冰之核": 4, "妖丹": 1, "混沌源石": 1},
+    "output_template": "月痕甲",
+    "output_type": "armor",
+    "forge_exp": 1200,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_057": {
+    "name": "炎魔焦热斗铠",
+    "rank_required": 55,
+    "ingredients": {"百年灵草": 25, "赤炎石": 10, "天火熔晶": 6, "星辉晶砂": 6, "妖丹": 2},
+    "output_template": "炎魔焦热斗铠",
+    "output_type": "armor",
+    "forge_exp": 1200,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_058": {
+    "name": "凤麟",
+    "rank_required": 55,
+    "ingredients": {"百年灵草": 30, "龙骨髓": 7, "月光粉尘": 8, "玄冰之核": 5, "灵兽骨": 2, "妖丹": 2},
+    "output_template": "凤麟",
+    "output_type": "armor",
+    "forge_exp": 1300,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_059": {
+    "name": "铁布衫",
+    "rank_required": 55,
+    "ingredients": {"百年灵草": 30, "龙骨髓": 5, "玄冰之核": 6, "月光粉尘": 4, "妖丹": 3},
+    "output_template": "铁布衫",
+    "output_type": "armor",
+    "forge_exp": 1500,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  },
+  "forge_060": {
+    "name": "虚灵衣",
+    "rank_required": 55,
+    "ingredients": {"百年灵草": 25, "龙骨髓": 5, "月光粉尘": 6, "星辉晶砂": 8, "妖丹": 2},
+    "output_template": "虚灵衣",
+    "output_type": "armor",
+    "forge_exp": 1200,
+    "quality_rates": {"下品": 0.10, "中品": 0.20, "上品": 0.30, "极品": 0.40}
+  }
+}
