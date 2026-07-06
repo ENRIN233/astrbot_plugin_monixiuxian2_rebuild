@@ -71,8 +71,9 @@ class DataBase:
                 daily_pill_usage, last_daily_reset, shentong, sub_technique,
                 permanent_pill_usage, achievement_data, bank_vip_tier,
                 daily_activity, daily_activity_points, daily_activity_date, daily_activity_rewarded,
-                sleeping_bag_level
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                sleeping_bag_level,
+                equipped_weapon, equipped_armor, forging_exp, forging_level
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 player.user_id,
@@ -124,7 +125,11 @@ class DataBase:
                 player.daily_activity_points,
                 player.daily_activity_date,
                 player.daily_activity_rewarded,
-                player.sleeping_bag_level
+                player.sleeping_bag_level,
+                player.equipped_weapon,
+                player.equipped_armor,
+                player.forging_exp,
+                player.forging_level
             )
         )
         await self.conn.commit()
@@ -207,7 +212,11 @@ class DataBase:
                 daily_activity_points = ?,
                 daily_activity_date = ?,
                 daily_activity_rewarded = ?,
-                sleeping_bag_level = ?
+                sleeping_bag_level = ?,
+                equipped_weapon = ?,
+                equipped_armor = ?,
+                forging_exp = ?,
+                forging_level = ?
             WHERE user_id = ?
             """,
             (
@@ -260,6 +269,10 @@ class DataBase:
                 player.daily_activity_date,
                 player.daily_activity_rewarded,
                 player.sleeping_bag_level,
+                player.equipped_weapon,
+                player.equipped_armor,
+                player.forging_exp,
+                player.forging_level,
                 player.user_id
             )
         )

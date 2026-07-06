@@ -120,6 +120,12 @@ class Player:
     sub_technique: str = ""  # 辅修功法（装备的辅修功法名称，单个）
     furnace: str = ""  # 装备的炼丹炉名称
 
+    # 锻造系统字段
+    equipped_weapon: str = ""  # 当前装备的武器实例ID（如"forge_xxx"），空=未装备
+    equipped_armor: str = ""  # 当前装备的防具实例ID
+    forging_exp: int = 0  # 锻造经验
+    forging_level: int = 1  # 锻造等级
+
     # 战斗属性（HP/MP/ATK系统）
     hp: int = 0  # 当前气血值
     mp: int = 0  # 当前真元值
