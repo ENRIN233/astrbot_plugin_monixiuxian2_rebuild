@@ -1214,3 +1214,105 @@ class DatabaseExtended:
         current["exp"] += exp
         key = f"dungeon_daily_{user_id}"
         await self.set_system_config(key, json.dumps(current, ensure_ascii=False))
+
+    # ────────────────────────────────────────────
+    # 锻造系统 — weapon_instances DAO
+    # ────────────────────────────────────────────
+
+    async def get_player_weapon_instances(self, user_id: str) -> list[dict]:
+        """获取玩家的所有武器/防具实例（含装备中的，按创建时间倒序）"""
+        async with self.conn.execute(
+            "SELECT * FROM weapon_instances WHERE user_id = ? ORDER BY created_at DESC",
+            (user_id,)
+        ) as cursor:
+            rows = await cursor.fetchall()
+            return [dict(row) for row in rows]
+
+    async def get_weapon_instance(self, instance_id: str) -> dict | None:
+        """获取单个武器/防具实例"""
+        async with self.conn.execute(
+            "SELECT * FROM weapon_instances WHERE instance_id = ?",
+            (instance_id,)
+        ) as cursor:
+            row = await cursor.fetchone()
+            return dict(row) if row else None
+
+    async def create_weapon_instance(self, user_id: str, data: dict) -> str:
+        """创建武器/防具实例，返回 instance_id"""
+        import json as _json
+        instance_id = data["instance_id"]
+        affixes_json = _json.dumps(data.get("affixes", []), ensure_ascii=False)
+        await self.conn.execute("""
+            INSERT INTO weapon_instances (
+                instance_id, user_id, template_name, item_type,
+                quality, quality_mult, enhance_level,
+                atk_bonus, crit_rate, crit_damage, armor_pen,
+                lifesteal, double_hit, damage_reduction, mp_bonus,
+                def_buff, dodge_rate, crit_resist, reflect_pct,
+                block_value, hp_regen_pct, affixes,
+                source_recipe, is_equipped, in_storage
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 1)
+        """, (
+            instance_id, user_id, data["template_name"], data["item_type"],
+            data["quality"], data["quality_mult"], data.get("enhance_level", 0),
+            data.get("atk_bonus", 0.0), data.get("crit_rate", 0),
+            data.get("crit_damage", 0.0), data.get("armor_pen", 0),
+            data.get("lifesteal", 0), data.get("double_hit", 0),
+            data.get("damage_reduction", 0.0), data.get("mp_bonus", 0.0),
+            data.get("def_buff", 0.0), data.get("dodge_rate", 0),
+            data.get("crit_resist", 0), data.get("reflect_pct", 0),
+            data.get("block_value", 0), data.get("hp_regen_pct", 0.0),
+            affixes_json, data.get("source_recipe", ""),
+        ))
+        await self.conn.commit()
+        return instance_id
+
+    async def equip_weapon_instance(self, user_id: str, instance_id: str, item_type: str) -> bool:
+        """装备武器/防具实例（按 item_type 仅清除同槽位）
+
+        Args:
+            user_id: 玩家ID
+            instance_id: 实例ID
+            item_type: "weapon" 或 "armor" — 仅清除该槽位，防止卸下另一槽位
+        """
+        await self.conn.execute("BEGIN IMMEDIATE")
+        try:
+            # 仅清除该 item_type 的装备状态
+            await self.conn.execute(
+                "UPDATE weapon_instances SET is_equipped = 0 WHERE user_id = ? AND item_type = ?",
+                (user_id, item_type)
+            )
+            # 装备目标实例
+            await self.conn.execute(
+                "UPDATE weapon_instances SET is_equipped = 1, in_storage = 0 WHERE instance_id = ? AND user_id = ?",
+                (instance_id, user_id)
+            )
+            if self.conn.total_changes == 0:
+                await self.conn.rollback()
+                return False
+            await self.conn.commit()
+            return True
+        except Exception:
+            await self.conn.rollback()
+            raise
+
+    async def unequip_weapon_instance(self, user_id: str, instance_id: str) -> bool:
+        """卸下武器实例"""
+        await self.conn.execute("""
+            UPDATE weapon_instances
+            SET is_equipped = 0, in_storage = 1
+            WHERE instance_id = ? AND user_id = ?
+        """, (instance_id, user_id))
+        affected = self.conn.total_changes
+        await self.conn.commit()
+        return affected > 0
+
+    async def delete_weapon_instance(self, user_id: str, instance_id: str) -> bool:
+        """删除武器/防具实例（用于分解等）"""
+        await self.conn.execute(
+            "DELETE FROM weapon_instances WHERE instance_id = ? AND user_id = ?",
+            (instance_id, user_id)
+        )
+        affected = self.conn.total_changes
+        await self.conn.commit()
+        return affected > 0
