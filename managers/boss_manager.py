@@ -51,19 +51,48 @@ class BossManager:
         "天魔", "地魔", "魔神", "妖神", "邪神"
     ]
     
-    # Boss物品掉落表
+    # Boss物品掉落表（含锻造材料，高阶Boss掉落的低阶材料数量大幅增加）
     BOSS_DROP_TABLE = {
-        "low": [  # 低级Boss (练气-金丹)
+        "low": [  # 低级Boss (洗髓~金丹, level_index 0-18)
             {"name": "灵草", "weight": 50, "min": 2, "max": 5},
+            {"name": "精铁", "weight": 30, "min": 1, "max": 3},
+            {"name": "百年灵草", "weight": 20, "min": 1, "max": 2},
+            {"name": "紫金沙", "weight": 10, "min": 1, "max": 1},
         ],
-        "mid": [  # 中级Boss (元婴-化神)
-            {"name": "灵草", "weight": 50, "min": 4, "max": 10},
+        "mid": [  # 中级Boss (紫府~化神, level_index 19-30)
+            {"name": "灵草", "weight": 30, "min": 4, "max": 10},
+            {"name": "精铁", "weight": 20, "min": 2, "max": 5},
+            {"name": "百年灵草", "weight": 15, "min": 2, "max": 4},
+            {"name": "紫金沙", "weight": 15, "min": 1, "max": 3},
+            {"name": "魔核碎片", "weight": 10, "min": 1, "max": 2},
+            {"name": "赤炎石", "weight": 10, "min": 1, "max": 2},
         ],
-        "high": [  # 高级Boss (炼虚-天神)
-            {"name": "灵草", "weight": 50, "min": 8, "max": 20},
+        "high": [  # 高级Boss (炼虚~合体, level_index 31-42)
+            {"name": "灵草", "weight": 20, "min": 8, "max": 20},
+            {"name": "精铁", "weight": 15, "min": 5, "max": 15},
+            {"name": "百年灵草", "weight": 10, "min": 5, "max": 10},
+            {"name": "紫金沙", "weight": 15, "min": 2, "max": 5},
+            {"name": "魔核碎片", "weight": 15, "min": 2, "max": 4},
+            {"name": "赤炎石", "weight": 15, "min": 2, "max": 4},
+            {"name": "亡者之息", "weight": 10, "min": 1, "max": 3},
+            {"name": "幽魂草", "weight": 10, "min": 1, "max": 3},
+            {"name": "灵兽骨", "weight": 8, "min": 1, "max": 2},
         ],
-        "ultra": [  # 顶级Boss (虚道及以上)
-            {"name": "灵草", "weight": 50, "min": 15, "max": 40},
+        "ultra": [  # 顶级Boss (大乘~合道, level_index 43-57)
+            {"name": "灵草", "weight": 15, "min": 15, "max": 40},
+            {"name": "精铁", "weight": 12, "min": 15, "max": 40},
+            {"name": "百年灵草", "weight": 10, "min": 10, "max": 30},
+            {"name": "亡者之息", "weight": 15, "min": 3, "max": 6},
+            {"name": "幽魂草", "weight": 15, "min": 3, "max": 6},
+            {"name": "星辉晶砂", "weight": 12, "min": 2, "max": 5},
+            {"name": "灵兽骨", "weight": 10, "min": 3, "max": 8},
+            {"name": "天火熔晶", "weight": 8, "min": 2, "max": 4},
+            {"name": "九幽寒铁", "weight": 8, "min": 2, "max": 4},
+            {"name": "玄冰之核", "weight": 8, "min": 1, "max": 3},
+            {"name": "月光粉尘", "weight": 8, "min": 1, "max": 3},
+            {"name": "龙骨髓", "weight": 5, "min": 1, "max": 2},
+            {"name": "妖丹", "weight": 3, "min": 1, "max": 1},
+            {"name": "混沌源石", "weight": 3, "min": 1, "max": 1},
         ],
     }
     
