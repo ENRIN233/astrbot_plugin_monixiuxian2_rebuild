@@ -6,6 +6,7 @@
 
 import random
 import math
+import json
 from typing import Tuple, Dict, Optional, List
 from dataclasses import dataclass, field
 
@@ -15,8 +16,27 @@ WEAPON_SPECIAL_ATTRS = ['crit_rate', 'crit_damage', 'armor_pen', 'lifesteal', 'd
 ARMOR_SPECIAL_ATTRS = ['dodge_rate', 'crit_resist', 'reflect_pct', 'block_value', 'hp_regen_pct']
 
 
-def load_equipment_bonus(player, config_manager) -> dict:
-    """从装备数据中读取所有战斗加成（武器+防具）"""
+def _apply_forge_affixes(bonus: dict, affixes_data) -> None:
+    """将武器实例的词条属性累加到 bonus 字典"""
+    try:
+        affixes = json.loads(affixes_data) if isinstance(affixes_data, str) else affixes_data
+        for affix in affixes:
+            attr = affix.get("attr", "")
+            val = affix.get("val", 0)
+            if attr in bonus:
+                bonus[attr] += val
+    except (json.JSONDecodeError, TypeError):
+        pass
+
+
+def load_equipment_bonus(player, config_manager, cached_instances: dict = None) -> dict:
+    """从装备数据中读取所有战斗加成（武器+防具）
+
+    Args:
+        player: 玩家对象
+        config_manager: 配置管理器
+        cached_instances: 武器实例缓存（可选），key=instance_id, value=实例dict
+    """
     bonus = {"atk_pct": 0.0, "mp_pct": 0.0, "armor_atk_pct": 0.0, "def_buff": 0.0}
     for attr in WEAPON_SPECIAL_ATTRS + ARMOR_SPECIAL_ATTRS:
         bonus[attr] = 0 if attr not in ('crit_damage', 'hp_regen_pct') else 0.0
@@ -52,6 +72,29 @@ def load_equipment_bonus(player, config_manager) -> dict:
                 val = adata.get(attr, 0)
                 if val:
                     bonus[attr] += val
+
+    # ── 锻造武器实例（新增，从参数取缓存，无竞态）──
+    cached = cached_instances or {}
+    if player.equipped_weapon and player.equipped_weapon.startswith("forge_"):
+        instance = cached.get(player.equipped_weapon)
+        if instance and instance.get("item_type") == "weapon":
+            bonus["atk_pct"] += instance.get("atk_bonus", 0.0)
+            for attr in WEAPON_SPECIAL_ATTRS:
+                bonus[attr] += instance.get(attr, 0)
+            bonus["mp_pct"] += instance.get("mp_bonus", 0.0)
+            weapon_dmg_red = instance.get("damage_reduction", 0.0)
+            if weapon_dmg_red:
+                bonus["def_buff"] += weapon_dmg_red
+            _apply_forge_affixes(bonus, instance.get("affixes", "[]"))
+
+    if player.equipped_armor and player.equipped_armor.startswith("forge_"):
+        instance = cached.get(player.equipped_armor)
+        if instance and instance.get("item_type") == "armor":
+            bonus["def_buff"] += instance.get("def_buff", 0.0)
+            bonus["armor_atk_pct"] += instance.get("atk_bonus", 0.0)
+            for attr in ARMOR_SPECIAL_ATTRS:
+                bonus[attr] += instance.get(attr, 0)
+            _apply_forge_affixes(bonus, instance.get("affixes", "[]"))
 
     return bonus
 
@@ -121,8 +164,15 @@ class CombatManager:
         return int(math.exp(old_def / 10) - 1)
 
     @classmethod
-    def build_player_combat_stats(cls, player, impart_info, config_manager) -> 'CombatStats':
-        """从玩家数据构建 CombatStats（统一入口）"""
+    def build_player_combat_stats(cls, player, impart_info, config_manager, cached_instances: dict = None) -> 'CombatStats':
+        """从玩家数据构建 CombatStats（统一入口）
+
+        Args:
+            player: 玩家对象
+            impart_info: 传承信息
+            config_manager: 配置管理器
+            cached_instances: 武器实例缓存（可选），key=instance_id, value=实例dict
+        """
         hp_buff = impart_info.impart_hp_per if impart_info else 0.0
         mp_buff = impart_info.impart_mp_per if impart_info else 0.0
         atk_buff = impart_info.impart_atk_per if impart_info else 0.0
@@ -151,7 +201,7 @@ class CombatManager:
         # 记录心法加成前的原始真元（用于技能消耗百分比计算）
         raw_base_mp = max(100, int(max(0, player.experience) * (1 + mp_buff)))
 
-        equip_bonus = load_equipment_bonus(player, config_manager)
+        equip_bonus = load_equipment_bonus(player, config_manager, cached_instances=cached_instances)
 
         # 记录基础真元（心法加成后、装备百分比加成前）
         base_mp = mp
