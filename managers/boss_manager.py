@@ -20,27 +20,28 @@ class BossManager:
     """Boss系统管理器"""
     
     # Boss境界配置（覆盖58级体系，每3级一个档位）
+    # 数值设计：保证有装备时玩家可存活5回合+，Boss靠HP量提供挑战
     BOSS_LEVELS = [
-        {"name": "练气", "level_index": 0,  "hp_mult": 1.0,  "atk_mult": 1.0,  "reward_mult": 1.0},
-        {"name": "筑基", "level_index": 3,  "hp_mult": 1.5,  "atk_mult": 1.2,  "reward_mult": 1.5},
-        {"name": "金丹", "level_index": 6,  "hp_mult": 2.0,  "atk_mult": 1.5,  "reward_mult": 2.0},
-        {"name": "元婴", "level_index": 9,  "hp_mult": 2.5,  "atk_mult": 1.8,  "reward_mult": 2.5},
-        {"name": "化神", "level_index": 12, "hp_mult": 3.0,  "atk_mult": 2.0,  "reward_mult": 3.0},
-        {"name": "炼虚", "level_index": 15, "hp_mult": 4.0,  "atk_mult": 2.5,  "reward_mult": 4.0},
-        {"name": "合体", "level_index": 18, "hp_mult": 5.0,  "atk_mult": 3.0,  "reward_mult": 5.0},
-        {"name": "大乘", "level_index": 21, "hp_mult": 6.0,  "atk_mult": 3.5,  "reward_mult": 6.0},
-        {"name": "神火", "level_index": 24, "hp_mult": 7.5,  "atk_mult": 4.0,  "reward_mult": 7.5},
-        {"name": "真一", "level_index": 27, "hp_mult": 9.0,  "atk_mult": 4.5,  "reward_mult": 9.0},
-        {"name": "圣祭", "level_index": 30, "hp_mult": 11.0, "atk_mult": 5.0,  "reward_mult": 11.0},
-        {"name": "天神", "level_index": 33, "hp_mult": 13.0, "atk_mult": 5.5,  "reward_mult": 13.0},
-        {"name": "虚道", "level_index": 36, "hp_mult": 16.0, "atk_mult": 6.0,  "reward_mult": 16.0},
-        {"name": "斩我", "level_index": 39, "hp_mult": 19.0, "atk_mult": 7.0,  "reward_mult": 19.0},
-        {"name": "混沌", "level_index": 42, "hp_mult": 23.0, "atk_mult": 8.0,  "reward_mult": 23.0},
-        {"name": "创世", "level_index": 45, "hp_mult": 28.0, "atk_mult": 9.5,  "reward_mult": 28.0},
-        {"name": "金仙", "level_index": 48, "hp_mult": 34.0, "atk_mult": 11.0, "reward_mult": 34.0},
-        {"name": "轮回", "level_index": 51, "hp_mult": 41.0, "atk_mult": 13.0, "reward_mult": 41.0},
-        {"name": "虚神", "level_index": 54, "hp_mult": 50.0, "atk_mult": 15.0, "reward_mult": 50.0},
-        {"name": "仙帝", "level_index": 57, "hp_mult": 60.0, "atk_mult": 18.0, "reward_mult": 60.0},
+        {"name": "练气", "level_index": 0,  "hp_mult": 1.4,  "atk_mult": 1.4,  "reward_mult": 1.4},
+        {"name": "筑基", "level_index": 3,  "hp_mult": 2.1,  "atk_mult": 1.5,  "reward_mult": 2.1},
+        {"name": "金丹", "level_index": 6,  "hp_mult": 2.8,  "atk_mult": 1.7,  "reward_mult": 2.8},
+        {"name": "元婴", "level_index": 9,  "hp_mult": 3.5,  "atk_mult": 1.7,  "reward_mult": 3.5},
+        {"name": "化神", "level_index": 12, "hp_mult": 4.2,  "atk_mult": 1.8,  "reward_mult": 4.2},
+        {"name": "炼虚", "level_index": 15, "hp_mult": 4.9,  "atk_mult": 1.8,  "reward_mult": 4.9},
+        {"name": "合体", "level_index": 18, "hp_mult": 5.6,  "atk_mult": 1.8,  "reward_mult": 5.6},
+        {"name": "大乘", "level_index": 21, "hp_mult": 6.3,  "atk_mult": 2.0,  "reward_mult": 6.3},
+        {"name": "神火", "level_index": 24, "hp_mult": 7.0,  "atk_mult": 2.0,  "reward_mult": 7.0},
+        {"name": "真一", "level_index": 27, "hp_mult": 7.7,  "atk_mult": 2.0,  "reward_mult": 7.7},
+        {"name": "圣祭", "level_index": 30, "hp_mult": 8.4,  "atk_mult": 2.1,  "reward_mult": 8.4},
+        {"name": "天神", "level_index": 33, "hp_mult": 9.1,  "atk_mult": 2.1,  "reward_mult": 9.1},
+        {"name": "虚道", "level_index": 36, "hp_mult": 9.8,  "atk_mult": 2.1,  "reward_mult": 9.8},
+        {"name": "斩我", "level_index": 39, "hp_mult": 10.5, "atk_mult": 2.1,  "reward_mult": 10.5},
+        {"name": "混沌", "level_index": 42, "hp_mult": 11.2, "atk_mult": 2.1,  "reward_mult": 11.2},
+        {"name": "创世", "level_index": 45, "hp_mult": 12.6, "atk_mult": 2.1,  "reward_mult": 12.6},
+        {"name": "金仙", "level_index": 48, "hp_mult": 14.0, "atk_mult": 2.1,  "reward_mult": 14.0},
+        {"name": "轮回", "level_index": 51, "hp_mult": 15.4, "atk_mult": 2.2,  "reward_mult": 15.4},
+        {"name": "虚神", "level_index": 54, "hp_mult": 15.4, "atk_mult": 2.2,  "reward_mult": 15.4},
+        {"name": "仙帝", "level_index": 57, "hp_mult": 16.8, "atk_mult": 2.2,  "reward_mult": 16.8},
     ]
     
     # Boss名称池
