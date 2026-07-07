@@ -131,10 +131,6 @@ class ConfigManager:
         self.realm_data = self._load_json_data(config_dir / "realm_config.json")
         self.breakthrough_rates_data = self._load_json_data(config_dir / "breakthrough_rates.json")
 
-        # 秘境副本配置
-        from .data.default_configs import DUNGEON_CONFIG
-        self.dungeon_config = self._load_config_with_default(config_dir / "dungeon_config.json", DUNGEON_CONFIG)
-
         # 加载游戏配置（包含各系统的硬编码参数）
         self.game_config = self._load_config_with_default(config_dir / "game_config.json", {})
         

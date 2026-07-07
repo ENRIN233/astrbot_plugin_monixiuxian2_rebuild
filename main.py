@@ -15,7 +15,7 @@ from .handlers import (
     NicknameHandler, BankHandlers, BountyHandlers, ImpartPkHandlers,
     BlessedLandHandlers, SpiritFarmHandlers, DualCultivationHandlers,
     TradeHandler, ConsignmentHandler, GMHandlers, AchievementHandler,
-    GamblingHandler, DungeonHandlers,
+    GamblingHandler,
 )
 from .handlers.utils import get_related_commands_footer
 from .core.forging_manager import ForgingManager
@@ -26,7 +26,6 @@ from .managers import (
     BankManager, BountyManager, ImpartPkManager,
     BlessedLandManager, SpiritFarmManager, DualCultivationManager,
     TradeManager, ConsignmentManager, AchievementManager,
-    DungeonManager,
 )
 
 
@@ -117,13 +116,6 @@ CMD_SCARECROW = "稻草人"
 CMD_RIFT_EXPLORE = "探索秘境"
 CMD_RIFT_COMPLETE = "完成探索"
 CMD_RIFT_EXIT = "退出秘境"
-
-# 探险副本系统指令
-CMD_DUNGEON_LIST = "探险"
-CMD_DUNGEON_ENTER = "进入探险"
-CMD_DUNGEON_ADVANCE = "探险前进"
-CMD_DUNGEON_STATUS = "探险状态"
-CMD_DUNGEON_RETREAT = "探险撤离"
 
 # 炼丹系统指令
 CMD_ALCHEMY_FIND = "炼丹"
@@ -279,7 +271,6 @@ class XiuXianPlugin(Star):
         self.spirit_farm_mgr = SpiritFarmManager(self.db, self.config_manager, self.storage_ring_mgr, self.activity_tracker)
         self.alchemy_mgr = AlchemyManager(self.db, self.config_manager, self.storage_ring_mgr, self.spirit_farm_mgr, self.activity_tracker)
         self.impart_mgr = ImpartManager(self.db)
-        self.dungeon_mgr = DungeonManager(self.db, self.config_manager)
 
         # 初始化新功能处理器
         self.sect_handlers = SectHandlers(self.db, self.sect_mgr)
@@ -290,7 +281,6 @@ class XiuXianPlugin(Star):
         self.alchemy_handlers = AlchemyHandlers(self.db, self.alchemy_mgr, self.config_manager)
         self.impart_handlers = ImpartHandlers(self.db, self.impart_mgr)
         self.nickname_handler = NicknameHandler(self.db)  # Phase 1
-        self.dungeon_handlers = DungeonHandlers(self.db, self.dungeon_mgr)
         
         # Phase 2: 灵石银行和悬赏令
         self.bank_mgr = BankManager(self.db, self.config_manager.game_config, self.activity_tracker)
@@ -1558,44 +1548,6 @@ class XiuXianPlugin(Star):
         async for r in self.rift_handlers.handle_rift_exit(event):
             yield r
 
-    # ===== 探险副本指令 =====
-    @filter.command(CMD_DUNGEON_LIST, "查看探险列表")
-    @require_whitelist
-    async def handle_dungeon_list(self, event: AstrMessageEvent):
-        async for r in self.dungeon_handlers.handle_dungeon_list(event):
-            yield r
-        footer = get_related_commands_footer("探险")
-        if footer:
-            yield event.plain_result(footer)
-
-    @filter.command(CMD_DUNGEON_ENTER, "进入探险副本")
-    @require_whitelist
-    async def handle_dungeon_enter(self, event: AstrMessageEvent, dungeon_name: str = ""):
-        async for r in self.dungeon_handlers.handle_dungeon_enter(event, dungeon_name):
-            yield r
-
-    @filter.command(CMD_DUNGEON_ADVANCE, "探险前进/选择路径")
-    @require_whitelist
-    async def handle_dungeon_advance(self, event: AstrMessageEvent, choice: str = ""):
-        async for r in self.dungeon_handlers.handle_dungeon_advance(event, choice):
-            yield r
-
-    @filter.command(CMD_DUNGEON_STATUS, "查看探险副本状态")
-    @require_whitelist
-    async def handle_dungeon_status(self, event: AstrMessageEvent):
-        async for r in self.dungeon_handlers.handle_dungeon_status(event):
-            yield r
-
-    @filter.command(CMD_DUNGEON_RETREAT, "探险撤离")
-    @require_whitelist
-    async def handle_dungeon_retreat(self, event: AstrMessageEvent):
-        async for r in self.dungeon_handlers.handle_dungeon_retreat(event):
-            yield r
-
-    # ===== 炼丹指令（nonebot迁移版） =====
-    @filter.command(CMD_ALCHEMY_FIND, "扫描药材显示可用配方")
-    @require_whitelist
-    async def handle_alchemy_find(self, event: AstrMessageEvent):
         async for r in self.alchemy_handlers.handle_find_recipes(event):
             yield r
         footer = get_related_commands_footer("炼丹")

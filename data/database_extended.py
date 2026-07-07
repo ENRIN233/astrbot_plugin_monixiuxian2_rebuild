@@ -9,7 +9,7 @@ from contextlib import asynccontextmanager
 from dataclasses import fields
 from typing import List, Optional, AsyncGenerator
 from ..models_extended import (
-    Sect, BuffInfo, Boss, Rift, ImpartInfo, UserCd, DungeonRun
+    Sect, BuffInfo, Boss, Rift, ImpartInfo, UserCd
 )
 
 
@@ -1157,63 +1157,6 @@ class DatabaseExtended:
         )
         await self.conn.commit()
         return cursor.rowcount > 0
-
-    # ===== 秘境副本系统 CRUD =====
-
-    async def get_dungeon_run(self, user_id: str) -> Optional[DungeonRun]:
-        """获取玩家进行中的副本状态"""
-        async with self.conn.execute(
-            "SELECT run_data FROM dungeon_runs WHERE user_id = ?", (user_id,)
-        ) as cursor:
-            row = await cursor.fetchone()
-            if row:
-                try:
-                    data = json.loads(row[0])
-                    return DungeonRun.from_dict(data)
-                except Exception:
-                    return None
-            return None
-
-    async def save_dungeon_run(self, run: DungeonRun, auto_commit: bool = True):
-        """保存副本状态（INSERT OR REPLACE）"""
-        run_json = json.dumps(run.to_dict(), ensure_ascii=False)
-        await self.conn.execute(
-            "INSERT OR REPLACE INTO dungeon_runs (user_id, run_data) VALUES (?, ?)",
-            (run.user_id, run_json)
-        )
-        if auto_commit:
-            await self.conn.commit()
-
-    async def delete_dungeon_run(self, user_id: str, auto_commit: bool = True):
-        """删除副本状态"""
-        await self.conn.execute(
-            "DELETE FROM dungeon_runs WHERE user_id = ?", (user_id,)
-        )
-        if auto_commit:
-            await self.conn.commit()
-
-    async def get_dungeon_daily_reward(self, user_id: str) -> dict:
-        """获取玩家今日秘境奖励累计 {gold: N, exp: N, date: str}"""
-        from datetime import date as _date
-        today = _date.today().isoformat()
-        key = f"dungeon_daily_{user_id}"
-        val = await self.get_system_config(key)
-        if val:
-            try:
-                data = json.loads(val)
-                if data.get("date") == today:
-                    return data
-            except Exception:
-                pass
-        return {"date": today, "gold": 0, "exp": 0}
-
-    async def add_dungeon_daily_reward(self, user_id: str, gold: int = 0, exp: int = 0):
-        """累加今日秘境奖励"""
-        current = await self.get_dungeon_daily_reward(user_id)
-        current["gold"] += gold
-        current["exp"] += exp
-        key = f"dungeon_daily_{user_id}"
-        await self.set_system_config(key, json.dumps(current, ensure_ascii=False))
 
     # ────────────────────────────────────────────
     # 锻造系统 — weapon_instances DAO

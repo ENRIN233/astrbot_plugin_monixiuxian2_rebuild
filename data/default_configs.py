@@ -134,11 +134,3 @@ ALCHEMY_CONFIG = {
     }
 }
 
-DUNGEON_CONFIG = {
-    "dungeons": [],
-    "global": {
-        "max_runs_per_day": -1,
-        "run_expire_hours": 24,
-        "overdraft_warning_pct": 0.5
-    }
-}

@@ -35,7 +35,7 @@ main.py (entry point, ~145 command registrations, 8 background tasks)
 handlers/ (~28 handler classes — command processing, async generators)
     |
 core/ (5 modules: cultivation, equipment, breakthrough, pills, storage)
-managers/ (~20 modules: combat, alchemy, spirit_farm, sect, boss, rift, dungeon, trade, bounty, etc.)
+managers/ (~20 modules: combat, alchemy, spirit_farm, sect, boss, rift, trade, bounty, etc.)
     |
 data/ (SQLite CRUD: data_manager.py, database_extended.py, migration.py)
 ```
@@ -98,7 +98,6 @@ v37 removed flat attributes (physical_damage, magic_damage, physical_defense, ma
 - **Combat attributes**: Weapon special: `crit_rate`, `crit_damage` (additive delta), `armor_pen`, `lifesteal`, `double_hit`, `damage_reduction`. Armor special: `def_buff`, `dodge_rate`, `crit_resist`, `reflect_pct`, `block_value`, `hp_regen_pct`, `atk_bonus`.
 - **Boss system** (`managers/boss_manager.py`): 20 tiers from 洗髓(Lv0) to 合道(Lv57). Boss buff system: 8 buff types across 4 tiers (atk/crit/crit_dmg/reduce_lifesteal + reduce_atk/reduce_crit/reduce_crit_dmg). Special attacks: 紫玄掌 (8%, 5x+30%HP), 子龙朱雀 (8%, 3x ignore 50% defense), normal (84%). Player ATK ×2 in boss fights.
 - **Bounty system** (`managers/bounty_manager.py`): 100% drop of technique, skill, or sub-technique on completion. Drop config in `config/bounty_drop_config.json` with `type_rate` weights per rank (14 ranks). Items randomly selected from `gf_list` (功法), `st_list` (神通), `fx_list` (辅修功法). Daily limit: 3 bounties.
-- **Dungeon system** (`managers/dungeon_manager.py`): Roguelike 探险副本. Tree-shaped map with 7 nodes per layer (entry→branch→merge→branch→boss). Player chooses at each branch point. Node types: monster/elite/treasure/spring/campfire/theme_mine/nothing/merchant. Stamina resource with overdraft penalty. Daily reward caps. Commands: 探险/进入探险/探险前进/探险状态/探险撤离. Config in `config/dungeon_config.json`.
 - **Sect system** (`managers/sect_manager.py`): 18 commands. Sect tasks: 5 types (2 HP-cost + 3 stone-cost), randomized, 3/day, 10-min cooldown. Attack practice: 50-level discrete cost table from Excel. Elixir room: 8 levels (黄级→无上), guaranteed 渡厄丹 daily. Member limits per position based on elixir room level. Auto owner change: 7 days offline. Material distribution: 11:00 + 12:00 daily at 1:1 rate.
 - **Daily activity system**: 8 daily tasks in `managers/activity_manager.py` (签到/秘境/悬赏/灵田/炼丹/炼金/利息/宗门). Reward: 1x 渡厄丹 at 100 points.
 - **GM compensation**: `/GM补偿 <物品 数量|物品 数量>`, claim with `/补偿`. Items auto-routed: pills → `pills_inventory`, others → `storage_ring_items`.

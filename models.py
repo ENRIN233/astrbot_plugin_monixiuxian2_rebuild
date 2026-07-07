@@ -167,9 +167,6 @@ class Player:
     # 银行会员系统
     bank_vip_tier: int = 0  # 银行VIP等级（0初级 1中级 2高级 3顶级 4至尊）
 
-    # 秘境副本系统
-    sleeping_bag_level: int = 0  # 睡袋等级（0~5），影响秘境篝火回灵力
-
     def get_level(self, config_manager: "ConfigManager") -> str:
         """获取境界名称"""
         level_data = config_manager.get_level_data()

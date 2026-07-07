@@ -283,16 +283,6 @@ async def _ensure_table_integrity(conn: aiosqlite.Connection):
         await conn.execute("CREATE INDEX IF NOT EXISTS idx_wi_user ON weapon_instances(user_id)")
         repaired.append("weapon_instances")
 
-    # 秘境副本系统表
-    if "dungeon_runs" not in existing_tables:
-        await conn.execute("""
-            CREATE TABLE IF NOT EXISTS dungeon_runs (
-                user_id TEXT PRIMARY KEY,
-                run_data TEXT NOT NULL DEFAULT '{}'
-            )
-        """)
-        repaired.append("dungeon_runs")
-
     if repaired:
         await conn.commit()
         logger.info(f"数据库完整性修复完成，已补全: {', '.join(repaired)}")
@@ -592,7 +582,6 @@ async def _create_all_tables_v2(conn: aiosqlite.Connection):
             shentong TEXT NOT NULL DEFAULT '',
             sub_technique TEXT NOT NULL DEFAULT '',
             furnace TEXT NOT NULL DEFAULT '',
-            sleeping_bag_level INTEGER NOT NULL DEFAULT 0,
             bank_vip_tier INTEGER NOT NULL DEFAULT 0,
             achievement_data TEXT NOT NULL DEFAULT '{"unlocked": {}, "equipped": ""}',
             monthly_sign_count INTEGER NOT NULL DEFAULT 0,
@@ -1867,27 +1856,8 @@ async def _migrate_to_v34(conn: aiosqlite.Connection, config_manager: ConfigMana
 
 @migration(35)
 async def _migrate_to_v35(conn: aiosqlite.Connection, config_manager: ConfigManager):
-    """迁移到v35 - 秘境副本系统"""
-    logger.info("开始迁移到v35：秘境副本系统")
-
-    # 创建副本运行状态表
-    await conn.execute("""
-        CREATE TABLE IF NOT EXISTS dungeon_runs (
-            user_id TEXT PRIMARY KEY,
-            run_data TEXT NOT NULL DEFAULT '{}'
-        )
-    """)
-
-    # 玩家新增睡袋等级字段
-    async with conn.execute("PRAGMA table_info(players)") as cursor:
-        columns = {row[1] for row in await cursor.fetchall()}
-
-    if 'sleeping_bag_level' not in columns:
-        await conn.execute(
-            "ALTER TABLE players ADD COLUMN sleeping_bag_level INTEGER NOT NULL DEFAULT 0"
-        )
-
-    logger.info("v35迁移完成：秘境副本系统")
+    """迁移到v35 - 原秘境副本系统（已删除，保留空迁移维持版本号）"""
+    logger.info("v35迁移已完成（原秘境副本系统已删除）")
 
 
 @migration(36)

@@ -71,9 +71,8 @@ class DataBase:
                 daily_pill_usage, last_daily_reset, shentong, sub_technique,
                 permanent_pill_usage, achievement_data, bank_vip_tier,
                 daily_activity, daily_activity_points, daily_activity_date, daily_activity_rewarded,
-                sleeping_bag_level,
                 equipped_weapon, equipped_armor, forging_exp, forging_level
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 player.user_id,
@@ -125,7 +124,6 @@ class DataBase:
                 player.daily_activity_points,
                 player.daily_activity_date,
                 player.daily_activity_rewarded,
-                player.sleeping_bag_level,
                 player.equipped_weapon,
                 player.equipped_armor,
                 player.forging_exp,
@@ -212,7 +210,6 @@ class DataBase:
                 daily_activity_points = ?,
                 daily_activity_date = ?,
                 daily_activity_rewarded = ?,
-                sleeping_bag_level = ?,
                 equipped_weapon = ?,
                 equipped_armor = ?,
                 forging_exp = ?,
@@ -268,7 +265,6 @@ class DataBase:
                 player.daily_activity_points,
                 player.daily_activity_date,
                 player.daily_activity_rewarded,
-                player.sleeping_bag_level,
                 player.equipped_weapon,
                 player.equipped_armor,
                 player.forging_exp,
@@ -292,13 +288,12 @@ class DataBase:
 
         使用 BEGIN IMMEDIATE 确保原子性：
         - 任何一条 SQL 失败则整体回滚
-        - 补全所有关联表（含 player_skills, dungeon_runs, trades, consignment_listings, gm_compensation_claims）
+        - 补全所有关联表（含 player_skills, trades, consignment_listings, gm_compensation_claims）
         """
         await self.conn.execute("BEGIN IMMEDIATE")
         try:
             tables = [
                 ("DELETE FROM player_skills WHERE user_id = ?", (user_id,)),
-                ("DELETE FROM dungeon_runs WHERE user_id = ?", (user_id,)),
                 ("UPDATE trades SET status = 'cancelled' WHERE (initiator_id = ? OR target_id = ?) AND status = 'pending'",
                  (user_id, user_id)),
                 ("DELETE FROM consignment_listings WHERE seller_id = ?", (user_id,)),
