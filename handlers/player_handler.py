@@ -472,13 +472,8 @@ class PlayerHandler:
             )
             return
 
-        # 获取签到奖励范围配置
-        check_in_gold_min = self.config["VALUES"].get("CHECK_IN_GOLD_MIN", 50)
-        check_in_gold_max = self.config["VALUES"].get("CHECK_IN_GOLD_MAX", 500)
-        if check_in_gold_min > check_in_gold_max:
-            check_in_gold_min, check_in_gold_max = check_in_gold_max, check_in_gold_min
-
-        check_in_gold = random.randint(check_in_gold_min, check_in_gold_max)
+        # 获取签到奖励范围配置（v2: 改为固定500,000灵石）
+        check_in_gold = 500000
 
         # 月累计签到：跨月重置
         if player.monthly_sign_month != current_month:

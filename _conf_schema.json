@@ -39,17 +39,11 @@
         "default": 60,
         "hint": "闭关修炼时，每分钟获得的基础修为值（会受灵根倍率影响）。"
       },
-      "CHECK_IN_GOLD_MIN": {
-        "description": "签到灵石奖励（最小值）",
+      "CHECK_IN_GOLD": {
+        "description": "签到灵石奖励",
         "type": "int",
-        "default": 50,
-        "hint": "每日签到获得的最少灵石数量。"
-      },
-      "CHECK_IN_GOLD_MAX": {
-        "description": "签到灵石奖励（最大值）",
-        "type": "int",
-        "default": 500,
-        "hint": "每日签到获得的最多灵石数量。"
+        "default": 500000,
+        "hint": "每日签到获得的固定灵石数量。v2调整为500,000。"
       },
       "BREAKTHROUGH_DEATH_PROBABILITY": {
         "description": "突破失败死亡概率范围",
