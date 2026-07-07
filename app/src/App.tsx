@@ -14,7 +14,7 @@ import SectPage from './pages/SectPage';
 
 function Landing() {
   return (
-    <div className="bg-black" style={{ color: '#E1E0CC' }}>
+    <div style={{ background: '#050810', color: '#c8d0e0' }}>
       <HeroSection />
       <AboutSection />
       <StatsSection />
