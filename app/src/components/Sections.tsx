@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { ArrowRight, BookOpen, FlaskRound, Sword, Sparkles, Layers, ScrollText, Trophy } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, BookOpen, FlaskRound, Sword, Sparkles, Layers, Trophy, Gem, Zap, Users, Settings, Skull, Leaf, Swords } from 'lucide-react';
 
 // ================== WordsPullUp ==================
 interface WordsPullUpProps {
@@ -358,28 +359,39 @@ export function StatsSection() {
         </div>
 
         {/* Quick links */}
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {[
-            { title: '境界数据', desc: '58级修炼体系详表', icon: <Layers className="w-4 h-4" /> },
-            { title: '丹药大全', desc: '突破丹/修为丹/功能丹', icon: <FlaskRound className="w-4 h-4" /> },
-            { title: '装备列表', desc: '武器/防具/心法/储物戒', icon: <Sword className="w-4 h-4" /> },
-            { title: '神通图鉴', desc: '87种技能完整数据', icon: <ScrollText className="w-4 h-4" /> },
+            { title: '境界数据', desc: '58级修炼体系详表', icon: <Layers className="w-4 h-4" />, to: '/levels' },
+            { title: '丹药大全', desc: '突破丹/修为丹/功能丹', icon: <FlaskRound className="w-4 h-4" />, to: '/pills' },
+            { title: '装备列表', desc: '武器/防具/心法/储物戒', icon: <Sword className="w-4 h-4" />, to: '/equipment' },
+            { title: '神通图鉴', desc: '87种技能完整数据', icon: <Zap className="w-4 h-4" />, to: '/skills' },
+            { title: '世界Boss', desc: '20档Boss掉落与Buff', icon: <Skull className="w-4 h-4" />, to: '/boss' },
+            { title: '悬赏令', desc: '功法掉落14品阶权重', icon: <Trophy className="w-4 h-4" />, to: '/bounty' },
+            { title: '锻造配方', desc: '52种武器防具锻造', icon: <Sparkles className="w-4 h-4" />, to: '/forging' },
+            { title: '炼丹配方', desc: '49种配方材料与成功率', icon: <Leaf className="w-4 h-4" />, to: '/alchemy' },
+            { title: '灵根系谱', desc: '11品阶修炼速率', icon: <Gem className="w-4 h-4" />, to: '/roots' },
+            { title: '战斗公式', desc: 'HP/ATK/暴击/防御公式', icon: <Swords className="w-4 h-4" />, to: '/combat' },
+            { title: '宗门系统', desc: '宗门建设/修炼/丹房配置', icon: <Users className="w-4 h-4" />, to: '/sect' },
+            { title: '游戏配置', desc: '全局参数一览', icon: <Settings className="w-4 h-4" />, to: '/systems' },
           ].map((item, i) => (
-            <motion.a
+            <motion.div
               key={item.title}
-              href="#"
-              className="group bg-[#101010] rounded-xl p-4 md:p-5 border border-white/5 no-underline hover:border-primary/20 transition-all duration-300"
               initial={{ opacity: 0, y: 15 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: 0.6 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.4, delay: 0.6 + i * 0.05, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ y: -2 }}
             >
-              <div className="flex items-center gap-2 mb-1" style={{ color: 'rgba(222,219,200,0.6)' }}>
-                {item.icon}
-                <span className="text-sm font-medium" style={{ color: '#E1E0CC' }}>{item.title}</span>
-              </div>
-              <p className="text-xs text-gray-500 m-0">{item.desc}</p>
-            </motion.a>
+              <Link
+                to={item.to}
+                className="group bg-[#101010] rounded-xl p-4 md:p-5 border border-white/5 no-underline hover:border-primary/20 transition-all duration-300 block"
+              >
+                <div className="flex items-center gap-2 mb-1" style={{ color: 'rgba(222,219,200,0.6)' }}>
+                  {item.icon}
+                  <span className="text-sm font-medium" style={{ color: '#E1E0CC' }}>{item.title}</span>
+                </div>
+                <p className="text-xs text-gray-500 m-0">{item.desc}</p>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </div>
