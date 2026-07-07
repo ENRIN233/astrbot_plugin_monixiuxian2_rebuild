@@ -1264,3 +1264,33 @@ body::before {
 @keyframes shine {
     to { background-position: 200% center; }
 }
+
+/* ===== Boss Page ===== */
+.boss-card { background: rgba(40,20,20,0.85); border: 1px solid rgba(255,50,50,0.2); padding: 20px; border-radius: 2px; margin-bottom: 16px; }
+.boss-card h3 { color: var(--gold); margin: 0 0 8px; font-size: 16px; }
+.boss-stats { display: grid; grid-template-columns: repeat(auto-fit,minmax(120px,1fr)); gap: 12px; margin: 12px 0; }
+.boss-stat { text-align: center; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 4px; }
+.boss-stat .value { font-size: 20px; font-weight: 700; color: var(--gold); display: block; }
+.boss-stat .label { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.boss-buff-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 8px; margin: 8px 0; }
+.boss-buff { background: rgba(0,0,0,0.2); padding: 6px 10px; border-radius: 3px; font-size: 12px; border-left: 3px solid var(--gold); }
+.boss-skill-badge { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 600; }
+.boss-skill-badge.ziwei { background: rgba(200,50,50,0.3); color: #ff6b6b; } .boss-skill-badge.zilong { background: rgba(50,100,200,0.3); color: #6bb5ff; }
+
+/* ===== Forging Page ===== */
+.forge-card { background: rgba(30,25,20,0.85); border: 1px solid rgba(200,150,50,0.15); padding: 20px; border-radius: 2px; margin-bottom: 16px; }
+.forge-card h3 { color: #d4a04a; margin: 0 0 8px; font-size: 16px; }
+.forge-recipe-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap: 12px; margin: 12px 0; }
+.forge-recipe { background: rgba(0,0,0,0.25); padding: 12px; border-radius: 4px; border: 1px solid rgba(200,150,50,0.1); }
+.forge-recipe .recipe-name { color: #d4a04a; font-weight: 600; font-size: 14px; }
+.forge-recipe .recipe-mats { font-size: 12px; color: var(--text-muted); margin: 4px 0; }
+.forge-recipe .recipe-result { font-size: 12px; color: var(--cyan); }
+
+/* ===== Level table improvements ===== */
+.level-row { transition: background 0.2s; }
+.level-row:hover { background: rgba(255,255,255,0.03); }
+.level-major { border-left: 3px solid var(--gold) !important; }
+.level-minor { border-left: 3px solid var(--cyan) !important; }
+
+/* ===== Enhanced stat cards ===== */
+.stat-card:hover { transform: translateY(-2px); box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 8px 30px rgba(234,203,44,0.08); }

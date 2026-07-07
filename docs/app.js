@@ -121,8 +121,9 @@ async function loadAllData() {
     const files = [
         'level_config', 'body_level_config', 'pills', 'exp_pills',
         'utility_pills', 'items', 'weapons', 'storage_rings',
-        'alchemy_recipes', 'bounty_templates', 'game_config',
-        'skills', 'spiritual_roots', 'sect_config'
+        'alchemy_recipes', 'bounty_templates', 'bounty_drop_config', 'game_config',
+        'skills', 'spiritual_roots', 'sect_config', 'forging_recipes',
+        'furnaces', 'impart_cards'
     ];
     const promises = files.map(async f => {
         try {
@@ -263,8 +264,6 @@ function renderOverview() {
     const armorsOnly = weapons.filter(w => w.type === 'armor');
     const techniques = items.filter(i => i.type === 'main_technique');
     const materials = items.filter(i => i.type === '材料');
-    const artifacts = items.filter(i => i.type === '法器');
-    const manuals = items.filter(i => i.type === '功法');
     const ringCount = typeof rings === 'object' && !Array.isArray(rings) ? Object.keys(rings).length : (Array.isArray(rings) ? rings.length : 0);
     const recipeCount = Array.isArray(recipes) ? recipes.length : 0;
 
@@ -273,6 +272,7 @@ function renderOverview() {
     const instantPills = utilPills.filter(p => p.effect_type === 'instant');
     const rootsData = DATA.spiritual_roots || [];
     const rootCount = rootsData.reduce((sum, r) => sum + r.roots.length, 0);
+    const skillCount = Object.values(DATA.skills || {}).length;
 
     page.innerHTML = `
         <h2 class="page-title">总览</h2>
@@ -292,8 +292,8 @@ function renderOverview() {
             <div class="stat-card"><div class="stat-value">${ringCount}</div><div class="stat-label">储物戒</div></div>
             <div class="stat-card"><div class="stat-value">${recipeCount}</div><div class="stat-label">炼丹配方</div></div>
             <div class="stat-card"><div class="stat-value">${materials.length}</div><div class="stat-label">材料</div></div>
-            <div class="stat-card"><div class="stat-value">${artifacts.length + manuals.length}</div><div class="stat-label">旧系统道具</div></div>
             <div class="stat-card"><div class="stat-value">${rootCount}</div><div class="stat-label">灵根</div></div>
+            <div class="stat-card"><div class="stat-value">${skillCount}</div><div class="stat-label">神通</div></div>
         </div>
         <h3 class="section-title">丹药分布</h3>
         <div class="stats-grid">
@@ -339,9 +339,9 @@ function renderLevelTable(type) {
     const data = type === 'spiritual' ? (DATA.level_config || []) : (DATA.body_level_config || []);
     const isQiRefine = type === 'spiritual';
 
-    const headers = ['#', '境界名称', '所需修为', '基础成功率', '突破寿命', '突破精神力',
+    const headers = ['#', '境界名称', '所需修为', '基础成功率', '突破寿命',
         isQiRefine ? '突破灵气' : '突破气血',
-        '突破物伤', '突破法伤', '突破物防', '突破法防'];
+        '修炼速度(spend)'];
 
     const rows = data.map((lv, i) => [
         `<span data-sortvalue="${i}">${i}</span>`,
@@ -349,14 +349,10 @@ function renderLevelTable(type) {
         `<span data-sortvalue="${lv.exp_needed}">${formatNum(lv.exp_needed)}</span>`,
         `<span data-sortvalue="${lv.success_rate}">${formatRate(lv.success_rate)}</span>`,
         `<span data-sortvalue="${lv.breakthrough_lifespan_gain || 0}">${formatNum(lv.breakthrough_lifespan_gain || 0)}</span>`,
-        `<span data-sortvalue="${lv.breakthrough_mental_power_gain || 0}">${formatNum(lv.breakthrough_mental_power_gain || 0)}</span>`,
         isQiRefine
             ? `<span data-sortvalue="${lv.breakthrough_spiritual_qi_gain || 0}">${formatNum(lv.breakthrough_spiritual_qi_gain || 0)}</span>`
             : `<span data-sortvalue="${lv.breakthrough_blood_qi_gain || 0}">${formatNum(lv.breakthrough_blood_qi_gain || 0)}</span>`,
-        `<span data-sortvalue="${lv.breakthrough_physical_damage_gain || 0}">${formatNum(lv.breakthrough_physical_damage_gain || 0)}</span>`,
-        `<span data-sortvalue="${lv.breakthrough_magic_damage_gain || 0}">${formatNum(lv.breakthrough_magic_damage_gain || 0)}</span>`,
-        `<span data-sortvalue="${lv.breakthrough_physical_defense_gain || 0}">${formatNum(lv.breakthrough_physical_defense_gain || 0)}</span>`,
-        `<span data-sortvalue="${lv.breakthrough_magic_defense_gain || 0}">${formatNum(lv.breakthrough_magic_defense_gain || 0)}</span>`
+        `<span data-sortvalue="${lv.spend || 0}">${lv.spend || 0}</span>`
     ]);
 
     container.innerHTML = createTable(headers, rows);
@@ -524,18 +520,9 @@ function getPillEffectSummary(p) {
     const effects = [];
     if (p.exp_gain) effects.push(`修为+${formatNum(p.exp_gain)}`);
     if (p.cultivation_multiplier) effects.push(`修炼${formatPercent(p.cultivation_multiplier)}`);
-    if (p.physical_damage_gain) effects.push(`物伤+${formatNum(p.physical_damage_gain)}`);
-    if (p.magic_damage_gain) effects.push(`法伤+${formatNum(p.magic_damage_gain)}`);
-    if (p.physical_defense_gain) effects.push(`物防+${formatNum(p.physical_defense_gain)}`);
-    if (p.magic_defense_gain) effects.push(`法防+${formatNum(p.magic_defense_gain)}`);
-    if (p.mental_power_gain) effects.push(`精神+${formatNum(p.mental_power_gain)}`);
     if (p.lifespan_gain) effects.push(`寿命+${formatNum(p.lifespan_gain)}`);
     if (p.max_spiritual_qi_gain) effects.push(`灵气+${formatNum(p.max_spiritual_qi_gain)}`);
     if (p.max_blood_qi_gain) effects.push(`气血+${formatNum(p.max_blood_qi_gain)}`);
-    if (p.physical_damage_multiplier) effects.push(`物伤${formatPercent(p.physical_damage_multiplier)}`);
-    if (p.magic_damage_multiplier) effects.push(`法伤${formatPercent(p.magic_damage_multiplier)}`);
-    if (p.physical_defense_multiplier) effects.push(`物防${formatPercent(p.physical_defense_multiplier)}`);
-    if (p.magic_defense_multiplier) effects.push(`法防${formatPercent(p.magic_defense_multiplier)}`);
     if (p.spiritual_qi_restore !== undefined) effects.push(p.spiritual_qi_restore === -1 ? '灵气回满' : `灵气+${formatNum(p.spiritual_qi_restore)}`);
     if (p.blood_qi_restore !== undefined) effects.push(p.blood_qi_restore === -1 ? '气回满' : `气血+${formatNum(p.blood_qi_restore)}`);
     if (p.spiritual_qi_regen) effects.push(`灵气+${formatNum(p.spiritual_qi_regen)}/分`);
@@ -576,11 +563,6 @@ function showPillDetail(pill, type) {
         if (pill.effect_type) fields.push(modalField('效果类型', pill.effect_type));
         if (pill.subtype) fields.push(modalField('子类型', pill.subtype));
         if (pill.duration_minutes) fields.push(modalField('持续时间', pill.duration_minutes + ' 分钟'));
-        if (pill.physical_damage_gain) fields.push(modalField('物伤', '+' + formatNum(pill.physical_damage_gain)));
-        if (pill.magic_damage_gain) fields.push(modalField('法伤', '+' + formatNum(pill.magic_damage_gain)));
-        if (pill.physical_defense_gain) fields.push(modalField('物防', '+' + formatNum(pill.physical_defense_gain)));
-        if (pill.magic_defense_gain) fields.push(modalField('法防', '+' + formatNum(pill.magic_defense_gain)));
-        if (pill.mental_power_gain) fields.push(modalField('精神力', '+' + formatNum(pill.mental_power_gain)));
         if (pill.lifespan_gain) fields.push(modalField('寿命', '+' + formatNum(pill.lifespan_gain)));
         if (pill.cultivation_multiplier) fields.push(modalField('修炼倍率', formatPercent(pill.cultivation_multiplier)));
         if (pill.max_spiritual_qi_gain) fields.push(modalField('灵气容量', '+' + formatNum(pill.max_spiritual_qi_gain)));
@@ -673,17 +655,14 @@ function renderWeapons(container) {
     sortedCats.forEach(cat => {
         const group = categories[cat];
         html += `<h3 class="section-title">${esc(cat)}类武器 (${group.length}把)</h3>`;
-        const headers = ['名称', '品阶', '需求境界', '价格', '物伤', '法伤', '物防', '法防', '精神力', '特殊属性'];
+        const headers = ['名称', '品阶', '需求境界', '价格', '攻击%', '真元%', '特殊属性'];
         const rows = group.map(w => [
             `<strong>${esc(w.name)}</strong>`,
             makeRankBadge(w.rank),
             `<span class="level-req">${esc(w.required_level_name || '-')}</span>`,
             `<span data-sortvalue="${w.price || 0}">${formatNum(w.price || 0)}</span>`,
-            `<span data-sortvalue="${w.physical_damage || 0}">${w.physical_damage || 0}</span>`,
-            `<span data-sortvalue="${w.magic_damage || 0}">${w.magic_damage || 0}</span>`,
-            `<span data-sortvalue="${w.physical_defense || 0}">${w.physical_defense || 0}</span>`,
-            `<span data-sortvalue="${w.magic_defense || 0}">${w.magic_defense || 0}</span>`,
-            `<span data-sortvalue="${w.mental_power || 0}">${w.mental_power || 0}</span>`,
+            `<span data-sortvalue="${w.atk_bonus || 0}">${w.atk_bonus ? formatPercent(w.atk_bonus) : '-'}</span>`,
+            `<span data-sortvalue="${w.mp_bonus || 0}">${w.mp_bonus ? formatPercent(w.mp_bonus) : '-'}</span>`,
             `<span class="special-attrs">${formatSpecialAttrs(w)}</span>`
         ]);
         const rankData = group.map(w => w.rank);
@@ -692,17 +671,13 @@ function renderWeapons(container) {
 
     if (armors.length) {
         html += `<h3 class="section-title">防具 (${armors.length}件)</h3>`;
-        const headers = ['名称', '品阶', '需求境界', '价格', '物防', '法防', '物伤', '法伤', '精神力', '特殊属性'];
+        const headers = ['名称', '品阶', '需求境界', '价格', '减伤%', '特殊属性'];
         const rows = armors.map(a => [
             `<strong>${esc(a.name)}</strong>`,
             makeRankBadge(a.rank),
             `<span class="level-req">${esc(a.required_level_name || '-')}</span>`,
             `<span data-sortvalue="${a.price || 0}">${formatNum(a.price || 0)}</span>`,
-            `<span data-sortvalue="${a.physical_defense || 0}">${a.physical_defense || 0}</span>`,
-            `<span data-sortvalue="${a.magic_defense || 0}">${a.magic_defense || 0}</span>`,
-            `<span data-sortvalue="${a.physical_damage || 0}">${a.physical_damage || 0}</span>`,
-            `<span data-sortvalue="${a.magic_damage || 0}">${a.magic_damage || 0}</span>`,
-            `<span data-sortvalue="${a.mental_power || 0}">${a.mental_power || 0}</span>`,
+            `<span data-sortvalue="${a.def_buff || 0}">${a.def_buff ? formatPercent(a.def_buff) : '-'}</span>`,
             `<span class="special-attrs">${formatSpecialAttrs(a)}</span>`
         ]);
         const armorRankData = armors.map(a => a.rank);
@@ -752,14 +727,6 @@ function showWeaponDetail(w) {
         modalField('价格', `<span class="num-gold">${formatNum(w.price || 0)} 灵石</span>`) +
         modalField('描述', esc(w.description || '-'))
     );
-
-    let attrHtml = '';
-    if (w.physical_damage) attrHtml += modalField('物伤', `+${w.physical_damage}`);
-    if (w.magic_damage) attrHtml += modalField('法伤', `+${w.magic_damage}`);
-    if (w.physical_defense) attrHtml += modalField('物防', `+${w.physical_defense}`);
-    if (w.magic_defense) attrHtml += modalField('法防', `+${w.magic_defense}`);
-    if (w.mental_power) attrHtml += modalField('精神力', `+${w.mental_power}`);
-    if (attrHtml) html += modalSection('基础属性', attrHtml);
 
     let combatHtml = '';
     if (w.atk_bonus) combatHtml += modalField('攻击加成', `+${formatPercent(w.atk_bonus)}`);
@@ -1052,18 +1019,6 @@ function renderSystems() {
         </ul>
     </div>`;
 
-    // Rift / Secret Realm
-    const rift = config.rift || {};
-    html += `<div class="system-card">
-        <h3>秘境系统</h3>
-        <p>组队或单人探索秘境，击败怪物获取装备和材料。秘境等级越高掉落越好。</p>
-        <ul class="detail-list">
-            <li><span>默认时长</span><span>${fmtDuration(rift.default_duration || 1800)}</span></li>
-            <li><span>掉落类型</span><span>灵草、丹药、装备</span></li>
-            <li><span>装备掉落</span><span>按品阶权重随机</span></li>
-        </ul>
-    </div>`;
-
     // Sect System
     const sectCfg = DATA.sect_config || {};
     const practice = sectCfg.practice || {};
@@ -1091,15 +1046,29 @@ function renderSystems() {
     // Bounty
     html += `<div class="system-card">
         <h3>悬赏系统</h3>
-        <p>每日可选2个悬赏任务，完成后获取灵石、修为及随机功法奖励。功法奖励在列出时已预判。</p>
+        <p>每日可选3个悬赏任务，完成后获取灵石、修为及随机功法/神通/辅修奖励。</p>
         <ul class="detail-list">
-            <li><span>每日限制</span><span>2 次</span></li>
+            <li><span>每日限制</span><span>3 次</span></li>
             <li><span>难度等级</span><span>简单 / 普通 / 困难 / 精英</span></li>
             <li><span>任务类型</span><span>巡山 / 采集 / 猎杀 / 探险</span></li>
             <li><span>功法掉落</span><span>动态爆率，按品阶权重随机</span></li>
         </ul>
     </div>`;
 
+
+    // Boss
+    html += `<div class="system-card">
+        <h3>Boss 挑战系统</h3>
+        <p>挑战世界Boss，按伤害排名发放丰厚奖励。共20个Boss阶层覆盖全部58个境界，Boss拥有多层增益体系与特殊攻击。</p>
+        <ul class="detail-list">
+            <li><span>Boss阶层</span><span>20阶（从洗髓到合道）</span></li>
+            <li><span>Buff体系</span><span>8种增益×4阶（攻击/暴击/暴伤/减吸血+减攻/减暴击/减暴伤）</span></li>
+            <li><span>特殊攻击</span><span>紫玄掌(8%概率，5倍+30%HP) / 子龙朱雀(8%概率，3倍无视50%防御) / 普通攻击(84%)</span></li>
+            <li><span>玩家加成</span><span>对Boss造成伤害为攻击力×2</span></li>
+            <li><span>排名奖励</span><span>按伤害排名发放灵石、修为及其他奖励</span></li>
+            <li><span>手动刷新</span><span>管理员可通过 /生成Boss 手动刷新</span></li>
+        </ul>
+    </div>`;
 
     // Alchemy
     html += `<div class="system-card">
@@ -1471,7 +1440,7 @@ function renderAdventure() {
     page.classList.add('scroll-wide');
 
     let html = '<h2 class="page-title">悬赏令</h2>';
-    html += '<div class="info-box">悬赏任务通过对应标签的活动累计进度，秘境探索也能推进探索类悬赏。</div>';
+    html += '<div class="info-box">悬赏任务通过对应标签的活动累计进度，完成后可获取灵石、修为及随机功法/神通/辅修功法奖励。每日限接 <strong>3</strong> 次悬赏。</div>';
 
     const bounties = DATA.bounty_templates || {};
 
@@ -1521,6 +1490,41 @@ function renderAdventure() {
                 html += createTable(biHeaders, biRows);
             }
         });
+    }
+
+    // 悬赏掉落配置
+    const dropCfg = DATA.bounty_drop_config || {};
+    if (Object.keys(dropCfg).length) {
+        html += '<h4 style="color:var(--text-secondary);margin:16px 0 8px;font-size:14px">功法/神通掉落配置</h4>';
+        if (dropCfg.type_rate) {
+            const drHeaders = ['品阶', '功法权重', '神通权重', '辅修权重'];
+            const drRows = Object.entries(dropCfg.type_rate).map(([rank, rates]) => [
+                makeRankBadge(rank),
+                `<span data-sortvalue="${rates.gf || 0}">${rates.gf || 0}</span>`,
+                `<span data-sortvalue="${rates.st || 0}">${rates.st || 0}</span>`,
+                `<span data-sortvalue="${rates.fx || 0}">${rates.fx || 0}</span>`
+            ]);
+            html += `<p style="color:var(--text-muted);margin:8px 0;font-size:12px">按品阶的功法/神通/辅修类型权重：</p>`;
+            html += createTable(drHeaders, drRows, { rankData: Object.keys(dropCfg.type_rate) });
+        }
+        if (dropCfg.gf_list && dropCfg.gf_list.length) {
+            html += `<p style="color:var(--cyan);margin:10px 0 4px;font-size:13px;font-weight:500">可掉落功法 (${dropCfg.gf_list.length})</p>`;
+            html += `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">`;
+            dropCfg.gf_list.forEach(name => { html += `<span class="rank-badge" style="font-size:11px">${esc(name)}</span>`; });
+            html += `</div>`;
+        }
+        if (dropCfg.st_list && dropCfg.st_list.length) {
+            html += `<p style="color:var(--cyan);margin:10px 0 4px;font-size:13px;font-weight:500">可掉落神通 (${dropCfg.st_list.length})</p>`;
+            html += `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">`;
+            dropCfg.st_list.forEach(name => { html += `<span class="rank-badge" style="font-size:11px">${esc(name)}</span>`; });
+            html += `</div>`;
+        }
+        if (dropCfg.fx_list && dropCfg.fx_list.length) {
+            html += `<p style="color:var(--cyan);margin:10px 0 4px;font-size:13px;font-weight:500">可掉落辅修功法 (${dropCfg.fx_list.length})</p>`;
+            html += `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">`;
+            dropCfg.fx_list.forEach(name => { html += `<span class="rank-badge" style="font-size:11px">${esc(name)}</span>`; });
+            html += `</div>`;
+        }
     }
 
     page.innerHTML = html;
@@ -1769,6 +1773,168 @@ function renderRoots() {
     observeCards(page);
 }
 
+// ===================== Boss Page =====================
+
+function renderBoss() {
+    const page = document.getElementById('page-boss');
+    const LEVEL_NAMES = ['练气','筑基','金丹','元婴','化神','炼虚','合体','大乘','神火','真一','圣祭','天神','虚道','斩我','混沌','创世','金仙','轮回','虚神','仙帝'];
+    const BUFF_TIERS = [
+        { tier: 'T2', range: '神火~天神', desc: '基础数值加成' },
+        { tier: 'T3', range: '虚道~斩我', desc: '属性提升50%+' },
+        { tier: 'T4', range: '混沌~金仙', desc: '大幅提升' },
+        { tier: 'T5', range: '轮回~仙帝', desc: '极端数值' },
+    ];
+    const BOSS_NAMES = ['血魔','邪修','魔头','妖王','魔君','异兽','凶兽','妖尊','魔尊','邪帝','天魔','地魔','魔神','妖神','邪神'];
+
+    let html = '<h2 class="page-title">世界Boss系统</h2>';
+
+    html += '<div class="info-box">世界Boss每 <strong>1 小时</strong> 自动刷新，根据全服玩家平均修为动态调整难度。击败Boss可获得灵石和锻造材料。采用乐观锁CAS模式确保首杀唯一性。</div>';
+
+    html += '<h3 class="section-title">系统概览</h3><div class="system-grid">';
+
+    html += '<div class="system-card"><h3>刷新机制</h3><ul class="detail-list">' +
+        '<li><span>刷新间隔</span><span>3600秒（1小时）</span></li>' +
+        '<li><span>难度调节</span><span>全服平均修为 × 1.2</span></li>' +
+        '<li><span>计时持久化</span><span>重启不丢失</span></li>' +
+        '<li><span>重试策略</span><span>指数退避</span></li></ul></div>';
+
+    html += '<div class="system-card"><h3>战斗规则</h3><ul class="detail-list">' +
+        '<li><span>玩家伤害</span><span>ATK × 2（Boss战翻倍）</span></li>' +
+        '<li><span>Boss暴击</span><span>固定30%暴击率</span></li>' +
+        '<li><span>防御减伤</span><span>DEF/(DEF+100)，上限80%</span></li>' +
+        '<li><span>首杀保护</span><span>CAS乐观锁（rowcount检查）</span></li>' +
+        '<li><span>失败奖励</span><span>按伤害比例发放</span></li></ul></div>';
+
+    html += '<div class="system-card"><h3>Boss特殊攻击</h3><ul class="detail-list">' +
+        '<li><span>紫玄掌(8%)</span><span>5倍伤害 + 30%气血，无视90%防御</span></li>' +
+        '<li><span>子龙朱雀(8%)</span><span>3倍伤害，无视50%防御</span></li>' +
+        '<li><span>普通攻击(84%)</span><span>带 Buff 加成</span></li></ul></div>';
+
+    html += '<div class="system-card"><h3>物品掉落</h3><ul class="detail-list">' +
+        '<li><span>灵石奖励</span><span>base_exp × reward_mult ÷ 10</span></li>' +
+        '<li><span>掉落档位</span><span>4档分级（低/中/高/超高）</span></li>' +
+        '<li><span>掉落机制</span><span>必掉N件 + 加权额外</span></li>' +
+        '<li><span>存放</span><span>储物戒（满则丢失提醒）</span></li></ul></div>';
+
+    html += '</div>';
+
+    html += '<h3 class="section-title">Boss等级配置（20档）</h3>';
+    html += '<div class="table-wrapper"><table class="data-table"><thead><tr>';
+    html += '<th>#</th><th>境界</th><th>Level</th><th>HP倍数</th><th>攻击倍数</th><th>奖励倍数</th><th>防御减伤</th>';
+    html += '</tr></thead><tbody>';
+    const BOSS_DATA = [
+        [1,'练气',0,1.4,1.4,1.4,'无'],[2,'筑基',3,2.1,1.5,2.1,'无'],
+        [3,'金丹',6,2.8,1.7,2.8,'无'],[4,'元婴',9,3.5,1.7,3.5,'无'],
+        [5,'化神',12,4.2,1.8,4.2,'无'],[6,'炼虚',15,4.9,1.8,4.9,'随机40~90%'],
+        [7,'合体',18,5.6,1.8,5.6,'随机40~90%'],[8,'大乘',21,6.3,2.0,6.3,'随机40~90%'],
+        [9,'神火',24,7.0,2.0,7.0,'随机40~90%'],[10,'真一',27,7.7,2.0,7.7,'随机40~90%'],
+        [11,'圣祭',30,8.4,2.1,8.4,'随机40~90%'],[12,'天神',33,9.1,2.1,9.1,'随机40~90%'],
+        [13,'虚道',36,9.8,2.1,9.8,'随机40~90%'],[14,'斩我',39,10.5,2.1,10.5,'随机40~90%'],
+        [15,'混沌',42,11.2,2.1,11.2,'随机40~90%'],[16,'创世',45,12.6,2.1,12.6,'随机40~90%'],
+        [17,'金仙',48,14.0,2.1,14.0,'随机40~90%'],[18,'轮回',51,15.4,2.2,15.4,'随机40~90%'],
+        [19,'虚神',54,15.4,2.2,15.4,'随机40~90%'],[20,'仙帝',57,16.8,2.2,16.8,'随机40~90%'],
+    ];
+    BOSS_DATA.forEach(b => {
+        html += `<tr><td>${b[0]}</td><td><strong>${b[1]}境</strong></td><td>Lv${b[2]}</td><td>${b[3]}</td><td>${b[4]}</td><td>${b[5]}</td><td>${b[6]}</td></tr>`;
+    });
+    html += '</tbody></table></div>';
+
+    html += '<h3 class="section-title">物品掉落档位</h3>';
+    html += '<div class="table-wrapper"><table class="data-table"><thead><tr><th>档位</th><th>Boss范围</th><th>必掉</th><th>额外规则</th></tr></thead><tbody>';
+    html += '<tr><td><strong>低档</strong></td><td>练气~筑基</td><td>1件</td><td>无</td></tr>';
+    html += '<tr><td><strong>中档</strong></td><td>金丹~化神</td><td>1件</td><td>50%再掉1件</td></tr>';
+    html += '<tr><td><strong>高档</strong></td><td>炼虚~天神</td><td>2件</td><td>加权60→1件 / 40→2件</td></tr>';
+    html += '<tr><td><strong>超高档</strong></td><td>虚道~合道</td><td>3件</td><td>加权40%→1件 30%→2件 20%→3件 10%→4件</td></tr>';
+    html += '</tbody></table></div>';
+
+    html += '<h3 class="section-title">Boss名称池</h3>';
+    html += '<div class="info-box" style="margin-top:12px">';
+    html += BOSS_NAMES.map(n => '<code>' + n + '</code>').join(' ');
+    html += '<br><span style="font-size:12px;color:var(--text-muted)">名称格式：〈前缀〉·〈境界〉境（如"血魔·金丹境"）</span></div>';
+
+    html += '<h3 class="section-title">Boss Buff体系（4档）</h3>';
+    html += '<div class="table-wrapper"><table class="data-table"><thead><tr><th>档位</th><th>境界范围</th><th>说明</th></tr></thead><tbody>';
+    BUFF_TIERS.forEach(t => {
+        html += `<tr><td>${t.tier}</td><td>${t.range}</td><td>${t.desc}</td></tr>`;
+    });
+    html += '</tbody></table></div>';
+
+    html += '<div class="info-box" style="margin-top:12px">';
+    html += '<strong>Buff类型（8种）</strong> | 槽位1: ATK+ / 会心+ / 会伤+ / 吸血降低 | 槽位2: 攻击降低 / 会心降低 / 会伤降低 / 均衡';
+    html += '</div>';
+
+    page.innerHTML = html;
+    makeTableSortable(page);
+}
+
+// ===================== Forging Page =====================
+
+function renderForging() {
+    const page = document.getElementById('page-forging');
+    const recipes = DATA.forging_recipes || {};
+    const recipeList = Object.values(recipes);
+    const furnaces = DATA.furnaces || {};
+
+    let html = '<h2 class="page-title">锻造系统</h2>';
+
+    html += '<div class="info-box">收集锻造材料，按配方打造武器和防具。锻造可获得锻造经验，打造出的装备品质随机（下品/中品/上品/极品）。</div>';
+
+    if (recipeList.length) {
+        html += '<div class="filter-bar"><span class="filter-label">类型：</span>';
+        html += '<button class="filter-btn active" data-forge-type="all">全部 (' + recipeList.length + ')</button>';
+        const weaponCount = recipeList.filter(r => r.output_type === 'weapon').length;
+        const armorCount = recipeList.filter(r => r.output_type === 'armor').length;
+        html += '<button class="filter-btn" data-forge-type="weapon">武器 (' + weaponCount + ')</button>';
+        html += '<button class="filter-btn" data-forge-type="armor">防具 (' + armorCount + ')</button>';
+        html += '</div>';
+
+        html += '<h3 class="section-title">锻造配方</h3>';
+        html += '<div class="table-wrapper"><table class="data-table" id="forge-table"><thead><tr>';
+        html += '<th>配方</th><th>类型</th><th>需求等级</th><th>材料</th><th>产出</th><th>经验</th><th>品质概率</th>';
+        html += '</tr></thead><tbody>';
+
+        recipeList.forEach(r => {
+            const ings = Object.entries(r.ingredients || {}).map(([k, v]) => k + '×' + v).join('、');
+            const qual = Object.entries(r.quality_rates || {}).map(([k, v]) => k + ' ' + Math.round(v * 100) + '%').join(' ');
+            const typeIcon = r.output_type === 'weapon' ? '⚔' : '🛡';
+            html += `<tr class="forge-row" data-forge-type="${r.output_type || ''}">
+                <td><strong>${esc(r.name)}</strong></td>
+                <td>${typeIcon} ${r.output_type === 'weapon' ? '武器' : '防具'}</td>
+                <td>Lv${r.rank_required || 0}</td>
+                <td style="font-size:12px;color:var(--text-muted)">${esc(ings)}</td>
+                <td style="color:var(--cyan)">${esc(r.output_template || '-')}</td>
+                <td>${r.forge_exp || 0}</td>
+                <td style="font-size:12px">${qual}</td>
+            </tr>`;
+        });
+        html += '</tbody></table></div>';
+
+        html += '<h3 class="section-title">品质概率分布</h3>';
+        html += '<div class="stats-grid" style="max-width:600px">';
+        html += '<div class="stat-card"><div class="stat-value" style="color:#e06050">40%</div><div class="stat-label">下品</div></div>';
+        html += '<div class="stat-card"><div class="stat-value" style="color:#60b0b0">35%</div><div class="stat-label">中品</div></div>';
+        html += '<div class="stat-card"><div class="stat-value" style="color:#e0c050">20%</div><div class="stat-label">上品</div></div>';
+        html += '<div class="stat-card"><div class="stat-value" style="color:#50c060">5%</div><div class="stat-label">极品</div></div>';
+        html += '</div>';
+    } else {
+        html += '<div class="info-box" style="text-align:center;padding:40px">暂无锻造配方数据</div>';
+    }
+
+    page.innerHTML = html;
+    makeTableSortable(page);
+
+    page.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            page.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const type = btn.dataset.forgeType;
+            page.querySelectorAll('.forge-row').forEach(row => {
+                row.style.display = (type === 'all' || row.dataset.forgeType === type) ? '' : 'none';
+            });
+        });
+    });
+}
+
 // ===================== Render Dispatcher =====================
 
 function renderPage(name) {
@@ -1784,6 +1950,8 @@ function renderPage(name) {
         case 'adventure': renderAdventure(); break;
         case 'skills': renderSkills(); break;
         case 'roots': renderRoots(); break;
+        case 'boss': renderBoss(); break;
+        case 'forging': renderForging(); break;
     }
 }
 
