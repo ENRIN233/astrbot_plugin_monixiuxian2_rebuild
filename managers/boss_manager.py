@@ -52,14 +52,17 @@ class BossManager:
     ]
     
     # Boss物品掉落表（含锻造材料，高阶Boss掉落的低阶材料数量大幅增加）
+    # 档位边界与 get_drop_tier_for_level() 保持一致：
+    #   low(≤6)  → 练气~筑基  |  mid(≤12)  → 金丹~化神
+    #   high(≤33) → 炼虚~天神  |  ultra(>33) → 虚道~合道
     BOSS_DROP_TABLE = {
-        "low": [  # 低级Boss (洗髓~金丹, level_index 0-18)
+        "low": [  # boss_level_index ≤ 6
             {"name": "灵草", "weight": 50, "min": 2, "max": 5},
             {"name": "精铁", "weight": 30, "min": 1, "max": 3},
             {"name": "百年灵草", "weight": 20, "min": 1, "max": 2},
             {"name": "紫金沙", "weight": 10, "min": 1, "max": 1},
         ],
-        "mid": [  # 中级Boss (紫府~化神, level_index 19-30)
+        "mid": [  # boss_level_index ≤ 12
             {"name": "灵草", "weight": 30, "min": 4, "max": 10},
             {"name": "精铁", "weight": 20, "min": 2, "max": 5},
             {"name": "百年灵草", "weight": 15, "min": 2, "max": 4},
@@ -67,7 +70,7 @@ class BossManager:
             {"name": "魔核碎片", "weight": 10, "min": 1, "max": 2},
             {"name": "赤炎石", "weight": 10, "min": 1, "max": 2},
         ],
-        "high": [  # 高级Boss (炼虚~合体, level_index 31-42)
+        "high": [  # boss_level_index ≤ 33
             {"name": "灵草", "weight": 20, "min": 8, "max": 20},
             {"name": "精铁", "weight": 15, "min": 5, "max": 15},
             {"name": "百年灵草", "weight": 10, "min": 5, "max": 10},
@@ -78,7 +81,7 @@ class BossManager:
             {"name": "幽魂草", "weight": 10, "min": 1, "max": 3},
             {"name": "灵兽骨", "weight": 8, "min": 1, "max": 2},
         ],
-        "ultra": [  # 顶级Boss (大乘~合道, level_index 43-57)
+        "ultra": [  # boss_level_index > 33
             {"name": "灵草", "weight": 15, "min": 15, "max": 40},
             {"name": "精铁", "weight": 12, "min": 15, "max": 40},
             {"name": "百年灵草", "weight": 10, "min": 10, "max": 30},
@@ -412,58 +415,123 @@ ATK：{boss.atk}
         # 生成Boss
         return await self.spawn_boss(base_exp, level_config)
     
+    @staticmethod
+    def get_drop_tier_for_level(level_index: int) -> str:
+        """
+        根据等级索引获取掉落档位（与 BOSS_DROP_TABLE 的键一致）
+
+        档位边界：
+          - low(≤6)   → 练气~筑基
+          - mid(≤12)  → 金丹~化神
+          - high(≤33) → 炼虚~天神
+          - ultra(>33)→ 虚道~合道
+        """
+        if level_index <= 6:
+            return "low"
+        elif level_index <= 12:
+            return "mid"
+        elif level_index <= 33:
+            return "high"
+        else:
+            return "ultra"
+
     async def _roll_boss_drops(self, player: Player, boss: Boss) -> List[Tuple[str, int]]:
         """
         根据Boss等级随机掉落物品
-        
+
+        掉落规则:
+          - 低档(≤6):   必掉1件
+          - 中档(≤12):  必掉1件 + 50%再掉1件
+          - 高档(≤33):  必掉2件 + 加权: 60→再掉1件 / 40→再掉2件
+          - 超高档(>33): 必掉3件 + 加权: 80→再掉1件 / 60→再掉2件 / 40→再掉3件 / 20→再掉4件
+
         Args:
             player: 玩家对象
             boss: Boss对象
-            
+
         Returns:
             掉落物品列表 [(物品名, 数量), ...]
         """
         dropped_items = []
-        
-        # 根据Boss等级确定掉落表
+
+        # 根据Boss等级确定掉落表和掉落规则
         boss_level_index = 0
         for level in self.levels:
             if level["name"] == boss.boss_level:
                 boss_level_index = level["level_index"]
                 break
-        
-        if boss_level_index <= 6:  # 练气-金丹
-            drop_table = self.BOSS_DROP_TABLE["low"]
-        elif boss_level_index <= 12:  # 元婴-化神
-            drop_table = self.BOSS_DROP_TABLE["mid"]
-        elif boss_level_index <= 33:  # 炼虚-天神
-            drop_table = self.BOSS_DROP_TABLE["high"]
-        else:  # 虚道及以上
-            drop_table = self.BOSS_DROP_TABLE.get("ultra", self.BOSS_DROP_TABLE["high"])
-        
-        # Boss击杀100%掉落至少1件物品
-        total_weight = sum(item["weight"] for item in drop_table)
-        roll = random.randint(1, total_weight)
-        
-        current_weight = 0
-        for item in drop_table:
-            current_weight += item["weight"]
-            if roll <= current_weight:
-                count = random.randint(item["min"], item["max"])
-                dropped_items.append((item["name"], count))
-                break
-        
-        # 高级Boss有70%概率额外掉落
-        if boss_level_index >= 9:  # 元婴及以上
-            extra_chance = 50 if boss_level_index < 15 else 70
-            if random.randint(1, 100) <= extra_chance:
-                roll = random.randint(1, total_weight)
-                current_weight = 0
-                for item in drop_table:
-                    current_weight += item["weight"]
-                    if roll <= current_weight:
-                        count = random.randint(item["min"], item["max"])
-                        dropped_items.append((item["name"], count))
-                        break
-        
+
+        tier = self.get_drop_tier_for_level(boss_level_index)
+        drop_table = self.BOSS_DROP_TABLE[tier]
+
+        if tier == "low":  # 练气~筑基 → 低档
+            guaranteed = 1
+            extra_count = 0  # 无额外
+
+        elif tier == "mid":  # 金丹~化神 → 中档
+            guaranteed = 1
+            # 50% 固定概率掉1件
+            extra_count = 1 if random.randint(1, 100) <= 50 else 0
+
+        elif tier == "high":  # 炼虚~天神 → 高档
+            guaranteed = 2
+            # 加权选择额外掉落: 60→1件, 40→2件
+            extra_count = self._roll_weighted_extra([(60, 1), (40, 2)])
+
+        else:  # ultra → 超高档
+            guaranteed = 3
+            # 加权选择额外掉落: 80→1件, 60→2件, 40→3件, 20→4件
+            extra_count = self._roll_weighted_extra([(80, 1), (60, 2), (40, 3), (20, 4)])
+
+        # 必掉 guaranteed 件
+        for _ in range(guaranteed):
+            item = self._roll_single_drop(drop_table)
+            if item:
+                dropped_items.append(item)
+
+        # 额外掉落件
+        for _ in range(extra_count):
+            item = self._roll_single_drop(drop_table)
+            if item:
+                dropped_items.append(item)
+
         return dropped_items
+
+    @staticmethod
+    def _roll_weighted_extra(options: List[Tuple[int, int]]) -> int:
+        """
+        按权重随机选择额外掉落件数
+
+        Args:
+            options: [(权重, 掉落件数), ...]
+
+        Returns:
+            选中选项的掉落件数
+        """
+        if not options:
+            return 0
+        total_weight = sum(w for w, _ in options)
+        roll = random.randint(1, total_weight)
+        cumulative = 0
+        for weight, count in options:
+            cumulative += weight
+            if roll <= cumulative:
+                return count
+        return 0
+
+    @staticmethod
+    def _roll_single_drop(drop_table: List[Dict]) -> Optional[Tuple[str, int]]:
+        """从掉落表中按权重随机选择一件物品"""
+        if not drop_table:
+            return None
+        total_weight = sum(item["weight"] for item in drop_table)
+        if total_weight <= 0:
+            return None
+        roll = random.randint(1, total_weight)
+        cumulative = 0
+        for item in drop_table:
+            cumulative += item["weight"]
+            if roll <= cumulative:
+                count = random.randint(item["min"], item["max"])
+                return (item["name"], count)
+        return None

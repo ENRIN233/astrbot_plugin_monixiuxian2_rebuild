@@ -11,6 +11,7 @@ from astrbot.api import logger
 
 from ..data import DataBase
 from ..models import Player
+from ..managers.boss_manager import BossManager
 
 if TYPE_CHECKING:
     from ..core import StorageRingManager
@@ -447,11 +448,10 @@ class BountyManager:
                 pass
 
         item_msg = ""
+        rewards = json.loads(active["rewards"])
         if self.storage_ring_manager:
             try:
-                rewards = json.loads(active["rewards"])
-                item_table = rewards.get("item_table") or active.get("target_type", "gather")
-                dropped_items = await self._roll_bounty_items(player, item_table)
+                dropped_items = await self._roll_bounty_items(player)
                 if dropped_items:
                     lines = []
                     for item_name, count in dropped_items:
@@ -467,7 +467,6 @@ class BountyManager:
 
         # 功法/神通掉落（100%掉落）
         drop_msg = ""
-        rewards = json.loads(active["rewards"])
         drop_reward = rewards.get("drop_reward")
         if drop_reward and self.storage_ring_manager:
             drop_name = drop_reward["name"]
@@ -512,24 +511,36 @@ class BountyManager:
 
     # -------- 进度与奖励 --------
 
-    async def _roll_bounty_items(self, player: Player, table_name: str) -> List[Tuple[str, int]]:
+    def _get_drop_tier(self, level_index: int) -> str:
+        """根据玩家等级映射到Boss掉落档位，委托给BossManager"""
+        return BossManager.get_drop_tier_for_level(level_index)
+
+    async def _roll_bounty_items(self, player: Player) -> List[Tuple[str, int]]:
+        """
+        悬赏令材料掉落：30%概率从Boss对应档位的掉落表中随机获得一件材料
+        档位划分规则与Boss系统一致，复用 BossManager._roll_single_drop：
+          - low(≤6):    练气~筑基
+          - mid(≤12):   金丹~化神
+          - high(≤33):  炼虚~天神
+          - ultra(>33):  虚道~合道
+        """
         dropped_items: List[Tuple[str, int]] = []
-        drop_table = self.item_tables.get(table_name, self.item_tables.get("gather", []))
-        if not drop_table or random.randint(1, 100) > 70:
+
+        # 30% 基础概率
+        if random.randint(1, 100) > 30:
             return dropped_items
 
-        total_weight = sum(item["weight"] for item in drop_table)
-        roll = random.randint(1, total_weight)
-        upto = 0
-        chosen = drop_table[0]
-        for item in drop_table:
-            upto += item["weight"]
-            if roll <= upto:
-                chosen = item
-                break
+        # 按玩家等级映射到Boss档位，使用同一套掉落表
+        tier = self._get_drop_tier(player.level_index)
+        drop_table = BossManager.BOSS_DROP_TABLE.get(tier)
+        if not drop_table:
+            return dropped_items
 
-        count = random.randint(chosen["min"], chosen["max"])
-        dropped_items.append((chosen["name"], count))
+        # 复用Boss单件掉落逻辑
+        item = BossManager._roll_single_drop(drop_table)
+        if item:
+            dropped_items.append(item)
+
         return dropped_items
 
     async def check_and_expire_bounties(self) -> int:
