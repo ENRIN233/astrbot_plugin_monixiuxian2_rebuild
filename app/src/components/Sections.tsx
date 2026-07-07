@@ -76,9 +76,12 @@ export function HeroSection() {
 
   return (
     <section className="relative h-screen w-full p-4 md:p-6">
-      <div className="relative w-full h-full rounded-2xl md:rounded-[2rem] overflow-hidden" style={{ background: '#050810' }}>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(0,240,255,0.03),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_80%,rgba(0,240,255,0.015),transparent_50%)]" />
+      <div className="relative w-full h-full rounded-2xl md:rounded-[2rem] overflow-hidden">
+        {/* Background with radial glow */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1a1510] via-[#0a0806] to-[#000]">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(222,219,200,0.04),transparent_60%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_80%,rgba(95,179,179,0.025),transparent_50%)]" />
+        </div>
 
         {/* Noise overlay */}
         <div className="noise-overlay" />
@@ -95,7 +98,7 @@ export function HeroSection() {
                   <button
                     onClick={() => scrollTo(item.href.replace('#', ''))}
                     className="text-[10px] sm:text-xs md:text-sm no-underline transition-colors duration-300 tracking-wider cursor-pointer bg-transparent border-none"
-                    style={{ color: 'rgba(0,240,255,0.5)' }}
+                    style={{ color: 'rgba(222,219,200,0.7)' }}
                   >
                     {item.label}
                   </button>
@@ -111,13 +114,14 @@ export function HeroSection() {
             {/* Left: Giant Title */}
             <div className="col-span-12 md:col-span-7">
               <h1
-                className="font-medium leading-[0.85] tracking-[-0.04em] m-0 neon-title"
+                className="font-medium leading-[0.85] tracking-[-0.04em] m-0"
                 style={{
                   fontSize: 'clamp(3.5rem, 22vw, 18vw)',
+                  color: '#E1E0CC',
                 }}
               >
                 <WordsPullUp text="修仙" />
-                <span className="block text-[0.3em] tracking-[0.3em] mt-2 font-light" style={{ color: 'rgba(0,240,255,0.25)' }}>
+                <span className="block text-[0.3em] tracking-[0.3em] mt-2 font-light" style={{ color: 'rgba(222,219,200,0.4)' }}>
                   <WordsPullUp text="XIUXIAN" delay={0.3} />
                 </span>
               </h1>
@@ -126,8 +130,7 @@ export function HeroSection() {
             {/* Right: Text + CTA */}
             <div className="col-span-12 md:col-span-5 flex flex-col justify-end">
               <motion.p
-                className="text-xs sm:text-sm md:text-base leading-[1.4] mb-6 max-w-md"
-                style={{ color: 'rgba(200,208,224,0.6)' }}
+                className="text-primary/70 text-xs sm:text-sm md:text-base leading-[1.4] mb-6 max-w-md"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
@@ -139,16 +142,15 @@ export function HeroSection() {
 
               <motion.button
                 onClick={() => scrollTo('data')}
-                className="group inline-flex items-center gap-3 rounded-full font-medium text-sm sm:text-base px-6 py-3 w-fit cursor-pointer border-none"
-                style={{ background: 'rgba(0,240,255,0.1)', color: '#00F0FF' }}
+                className="group inline-flex items-center gap-3 bg-primary rounded-full text-black font-medium text-sm sm:text-base px-6 py-3 w-fit cursor-pointer border-none"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ gap: '16px' }}
               >
                 探索资料库
-                <span className="inline-flex items-center justify-center rounded-full w-9 h-9 sm:w-10 sm:h-10 transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(0,240,255,0.15)' }}>
-                  <ArrowRight className="w-4 h-4" style={{ color: '#00F0FF' }} />
+                <span className="inline-flex items-center justify-center bg-black rounded-full w-9 h-9 sm:w-10 sm:h-10 transition-transform duration-300 group-hover:scale-110">
+                  <ArrowRight className="w-4 h-4 text-primary" />
                 </span>
                 </motion.button>
             </div>
@@ -162,13 +164,13 @@ export function HeroSection() {
 // ================== About Section ==================
 export function AboutSection() {
   return (
-    <section className="py-24 md:py-32 px-4" style={{ background: '#050810' }}>
-      <div className="bg-[#080c18] max-w-6xl mx-auto rounded-2xl p-8 md:p-16 lg:p-24 text-center border border-white/5">
-        <p className="text-xs mb-8 tracking-[0.3em] uppercase font-light" style={{ color: 'rgba(0,240,255,0.3)' }}>
+    <section className="bg-black py-24 md:py-32 px-4">
+      <div className="bg-[#101010] max-w-6xl mx-auto rounded-2xl p-8 md:p-16 lg:p-24 text-center border border-white/5">
+        <p className="text-primary/50 text-[10px] sm:text-xs mb-8 tracking-[0.3em] uppercase font-light">
           模拟修仙2 · 数值资料库
         </p>
 
-        <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl max-w-4xl mx-auto leading-[1.1] sm:leading-[1.05] neon-title">
+        <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl max-w-4xl mx-auto leading-[1.1] sm:leading-[1.05]">
           <WordsPullUp text="修仙之路，数据为鉴" delay={0.1} />
         </div>
 
@@ -198,8 +200,7 @@ function FeatureCard({ children, index, className = '' }: { children: React.Reac
   return (
     <motion.div
       ref={ref}
-      className={`rounded-2xl overflow-hidden flex flex-col border ${className}`}
-      style={{ background: '#080c18', borderColor: 'rgba(100,110,150,0.15)' }}
+      className={`bg-[#101010] rounded-2xl overflow-hidden flex flex-col border border-white/5 ${className}`}
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
@@ -259,7 +260,7 @@ export function SystemsSection() {
   const isInView = useInView(ref, { once: true, margin: '-50px' });
 
   return (
-    <section id="systems" className="relative py-24 md:py-32 px-4" style={{ background: '#050810' }}>
+    <section id="systems" className="relative bg-black py-24 md:py-32 px-4">
       <div className="bg-noise" />
       <div className="relative z-10 max-w-7xl mx-auto">
         <div ref={ref} className="text-center mb-16">
@@ -331,14 +332,15 @@ export function StatsSection() {
   const isInView = useInView(ref, { once: true, margin: '-50px' });
 
   return (
-    <section id="data" className="py-24 md:py-32 px-4 relative" style={{ background: '#050810' }}>
+    <section id="data" className="bg-black py-24 md:py-32 px-4 relative">
       <div className="relative z-10 max-w-7xl mx-auto">
         <div ref={ref} className="text-center mb-16">
           <motion.h2
-            className="text-3xl md:text-4xl font-medium neon-title"
+            className="text-3xl md:text-4xl font-medium"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            style={{ color: '#E1E0CC' }}
           >
             数据总览
           </motion.h2>
@@ -348,7 +350,7 @@ export function StatsSection() {
           {stats.map((stat, i) => (
             <motion.div
               key={stat.label}
-              className="stat-card"
+              className="bg-[#101010] rounded-2xl p-6 md:p-8 text-center border border-white/5"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 + i * 0.06, ease: [0.16, 1, 0.3, 1] }}
@@ -386,8 +388,7 @@ export function StatsSection() {
             >
               <Link
                 to={item.to}
-                className="group rounded-xl p-4 md:p-5 no-underline hover:border-primary/20 transition-all duration-300 block"
-                style={{ background: '#080c18', border: '1px solid rgba(100,110,150,0.15)' }}
+                className="group bg-[#101010] rounded-xl p-4 md:p-5 border border-white/5 no-underline hover:border-primary/20 transition-all duration-300 block"
               >
                 <div className="flex items-center gap-2 mb-1" style={{ color: 'rgba(222,219,200,0.6)' }}>
                   {item.icon}
@@ -406,7 +407,7 @@ export function StatsSection() {
 // ================== Footer ==================
 export function Footer() {
   return (
-    <footer className="py-10 px-4" style={{ background: '#050810', borderTop: '1px solid rgba(100,110,150,0.1)' }}>
+    <footer className="bg-black border-t border-white/5 py-10 px-4">
       <div className="max-w-6xl mx-auto text-center">
         <div className="w-10 h-10 mx-auto mb-4 bg-primary/10 rounded-lg flex items-center justify-center" style={{ color: '#DEDBC8' }}>
           <span className="text-lg font-serif">仙</span>
