@@ -61,3 +61,27 @@ body { background: #000; color: #E1E0CC; margin: 0; overflow-x: hidden; }
 
 /* ===== Info Box ===== */
 .info-box { background: rgba(95,179,179,0.04); border: 1px solid rgba(95,179,179,0.15); border-left: 3px solid #5fb3b3; border-radius: 2px; padding: 14px 18px; margin-bottom: 20px; font-size: 13px; color: #9ca3a0; line-height: 1.8; }
+
+/* ===== Mobile Responsive ===== */
+@media (max-width: 768px) {
+  .data-table th, .data-table td { padding: 8px 10px; font-size: 11px; }
+  .rank-badge { font-size: 10px; padding: 1px 6px; }
+  .sub-tab { padding: 6px 12px; font-size: 12px; letter-spacing: 0; }
+  .stat-value { font-size: 22px; }
+  .stat-card { padding: 14px; }
+  .noise-overlay, .bg-noise { background-size: 200px 200px; }
+}
+
+@media (max-width: 480px) {
+  .data-table th, .data-table td { padding: 6px 8px; font-size: 10px; }
+  .data-table th { font-size: 9px; letter-spacing: 0.5px; }
+  .rank-badge { font-size: 9px; padding: 1px 5px; }
+  .sub-tab { padding: 5px 10px; font-size: 11px; }
+  .stat-value { font-size: 20px; }
+  .section-title { font-size: 15px; margin: 20px 0 12px; }
+}
+
+/* ===== Mobile-safe scroll containers ===== */
+.overflow-x-auto { -webkit-overflow-scrolling: touch; }
+.hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }

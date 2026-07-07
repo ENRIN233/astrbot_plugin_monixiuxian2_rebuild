@@ -87,7 +87,7 @@ export function HeroSection() {
         {/* Navbar */}
         <nav className="absolute top-0 left-1/2 -translate-x-1/2 z-20">
           <div className="bg-black/60 backdrop-blur-sm rounded-b-2xl md:rounded-b-3xl px-4 py-2 md:px-8 border-x border-b border-white/5">
-            <ul className="flex items-center gap-4 sm:gap-8 md:gap-12 lg:gap-14 list-none m-0 p-0">
+            <ul className="flex items-center gap-2 sm:gap-8 md:gap-12 lg:gap-14 list-none m-0 p-0 overflow-x-auto flex-nowrap" style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}>
               {navItems.map(item => (
                 <li key={item.label}>
                   <a
