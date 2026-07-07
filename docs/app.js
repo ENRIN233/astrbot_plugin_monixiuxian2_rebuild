@@ -883,20 +883,15 @@ function renderCombat() {
     html += '<h3 class="section-title">战斗属性一览</h3>';
     const attrHeaders = ['属性', '说明', '来源'];
     const attrRows = [
-        ['<span class="num-red">physical_damage</span>', '物理伤害', '境界突破、装备、丹药'],
-        ['<span class="num-purple">magic_damage</span>', '法术伤害', '境界突破、装备、丹药'],
-        ['<span class="num-cyan">physical_defense</span>', '物理防御', '境界突破、装备、丹药'],
-        ['<span class="num-cyan">magic_defense</span>', '法术防御', '境界突破、装备、丹药'],
-        ['<span class="num-gold">mental_power</span>', '精神力', '境界突破、装备、丹药'],
-        ['<span class="num-green">blood_qi</span>', '气血值 (影响HP)', '境界突破、装备、丹药'],
-        ['<span class="num-green">spiritual_qi</span>', '灵气值 (影响MP)', '境界突破、装备、丹药'],
+        ['<span class="num-green">blood_qi</span>', '气血值 (影响HP)', '境界突破、丹药、装备'],
+        ['<span class="num-green">spiritual_qi</span>', '灵气值 (影响MP)', '境界突破、丹药、装备'],
         ['<span class="num-red">lifespan</span>', '寿命', '境界突破、丹药、回复'],
-        ['<span class="num-gold">atk_bonus</span>', '攻击力百分比加成（乘区）', '心法（主修心法）、装备'],
+        ['<span class="num-gold">atk_bonus</span>', '攻击力百分比加成', '心法、装备（武器）'],
         ['<span class="num-green">hp_bonus</span>', '生命值百分比加成', '心法（主修心法）'],
         ['<span class="num-cyan">mp_bonus</span>', '真元百分比加成', '心法（主修心法）'],
-        ['<span class="num-gold">crit_rate</span>', '暴击率 (%)', '传承会心、装备（武器）、心法（帝品+）'],
-        ['<span class="num-gold">crit_damage</span>', '暴击伤害倍率加成', '装备（武器）、心法（帝品+）'],
-        ['<span class="num-red">breakthrough_bonus</span>', '突破成功率加成', '心法（皇品+）'],
+        ['<span class="num-gold">crit_rate</span>', '暴击率 (%)', '传承会心、装备（武器）、心法'],
+        ['<span class="num-gold">crit_damage</span>', '暴击伤害倍率加成', '装备（武器）、心法'],
+        ['<span class="num-red">breakthrough_bonus</span>', '突破成功率加成', '心法'],
         ['<span class="num-purple">armor_pen</span>', '护甲穿透', '装备（武器属性）'],
         ['<span class="num-cyan">double_hit</span>', '连击率', '装备（武器属性）'],
         ['<span class="num-green">lifesteal</span>', '吸血率', '装备（武器属性）'],
@@ -1150,7 +1145,7 @@ function renderCommands() {
     const page = document.getElementById('page-commands');
 
     let html = '<h2 class="page-title">指令大全</h2>';
-    html += '<div class="info-box">共收录 <strong>135</strong> 条游戏指令，按系统分类整理。指令前缀默认为 <strong>#</strong> 或 <strong>/</strong>，具体以机器人配置为准。</div>';
+    html += '<div class="info-box">共收录 <strong>118</strong> 条游戏指令，按系统分类整理。指令前缀默认为 <strong>#</strong> 或 <strong>/</strong>，具体以机器人配置为准。</div>';
 
     const groups = [
         {
@@ -1251,15 +1246,6 @@ function renderCommands() {
                 ['宗门排行', '查看宗门排行榜'],
                 ['存款排行', '查看银行存款排行榜'],
                 ['贡献排行', '查看宗门贡献排行榜'],
-            ]
-        },
-        {
-            title: '秘境探索',
-            icon: '◎',
-            cmds: [
-                ['探索秘境', '进入今日秘境（每日限1次）'],
-                ['完成探索', '领取秘境奖励'],
-                ['退出秘境', '放弃探索（无奖励）'],
             ]
         },
         {
@@ -1385,7 +1371,6 @@ function renderCommands() {
                 ['GM加丹药 <目标> <丹药名> [数量]', '向目标丹药背包添加丹药'],
                 ['GM扣丹药 <目标> <丹药名> [数量]', '从目标丹药背包移除丹药'],
                 ['GM查看玩家 <目标>', '查看目标玩家完整信息'],
-                ['GM刷新秘境', '强制刷新秘境并重置所有玩家探索次数'],
                 ['GM补偿 <物品 数量|物品 数量>', '创建全服补偿包'],
             ]
         }
