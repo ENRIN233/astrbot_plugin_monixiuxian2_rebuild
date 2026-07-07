@@ -419,11 +419,15 @@ export function Footer() {
           AstrBot Plugin · 数据源自游戏配置文件
         </p>
         <div className="flex justify-center gap-4 mt-4">
-          {['Github', '数据来源', '更新日志'].map(link => (
-            <a key={link} href="#" className="text-xs text-gray-600 hover:text-gray-400 transition-colors no-underline">
-              {link}
-            </a>
-          ))}
+          <a href="https://github.com/ENRIN233/astrbot_plugin_monixiuxian2_rebuild" target="_blank" rel="noopener" className="text-xs text-gray-600 hover:text-gray-400 transition-colors no-underline">
+            Github
+          </a>
+          <span className="text-xs text-gray-700">·</span>
+          <span className="text-xs text-gray-600">数据来源</span>
+          <span className="text-xs text-gray-700">·</span>
+          <Link to="/changelog" className="text-xs text-gray-600 hover:text-gray-400 transition-colors no-underline">
+            更新日志
+          </Link>
         </div>
       </div>
     </footer>

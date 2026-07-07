@@ -24,6 +24,10 @@ function Landing() {
   );
 }
 
+import ChangelogPage from './pages/ChangelogPage';
+
+// ... keep all existing imports above
+
 function App() {
   return (
     <HashRouter>
@@ -41,6 +45,7 @@ function App() {
         <Route path="/combat" element={<CombatPage />} />
         <Route path="/sect" element={<SectPage />} />
         <Route path="/systems" element={<Landing />} />
+        <Route path="/changelog" element={<ChangelogPage />} />
       </Routes>
     </HashRouter>
   );
