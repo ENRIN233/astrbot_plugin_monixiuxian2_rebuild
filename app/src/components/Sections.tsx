@@ -69,6 +69,11 @@ export function HeroSection() {
     { label: '战斗', href: '#systems' },
   ];
 
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section className="relative h-screen w-full p-4 md:p-6">
       <div className="relative w-full h-full rounded-2xl md:rounded-[2rem] overflow-hidden">
@@ -90,13 +95,13 @@ export function HeroSection() {
             <ul className="flex items-center gap-2 sm:gap-8 md:gap-12 lg:gap-14 list-none m-0 p-0 overflow-x-auto flex-nowrap" style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}>
               {navItems.map(item => (
                 <li key={item.label}>
-                  <a
-                    href={item.href}
-                    className="text-[10px] sm:text-xs md:text-sm no-underline transition-colors duration-300 tracking-wider"
+                  <button
+                    onClick={() => scrollTo(item.href.replace('#', ''))}
+                    className="text-[10px] sm:text-xs md:text-sm no-underline transition-colors duration-300 tracking-wider cursor-pointer bg-transparent border-none"
                     style={{ color: 'rgba(222,219,200,0.7)' }}
                   >
                     {item.label}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -135,9 +140,9 @@ export function HeroSection() {
                 本资料库汇总所有数值配置，方便查阅与平衡性分析。
               </motion.p>
 
-              <motion.a
-                href="#data"
-                className="group inline-flex items-center gap-3 bg-primary rounded-full text-black font-medium text-sm sm:text-base px-6 py-3 w-fit cursor-pointer no-underline"
+              <motion.button
+                onClick={() => scrollTo('data')}
+                className="group inline-flex items-center gap-3 bg-primary rounded-full text-black font-medium text-sm sm:text-base px-6 py-3 w-fit cursor-pointer border-none"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
@@ -147,7 +152,7 @@ export function HeroSection() {
                 <span className="inline-flex items-center justify-center bg-black rounded-full w-9 h-9 sm:w-10 sm:h-10 transition-transform duration-300 group-hover:scale-110">
                   <ArrowRight className="w-4 h-4 text-primary" />
                 </span>
-              </motion.a>
+                </motion.button>
             </div>
           </div>
         </div>
