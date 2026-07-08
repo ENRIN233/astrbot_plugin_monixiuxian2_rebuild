@@ -752,10 +752,7 @@
     "desc": "紫玄掌出，碎魂裂魄！",
     "price": 0,
     "shop_weight": 0,
-    "atkvalue": [
-      6.5,
-      7
-    ],
+    "atkvalue": 6.5,
     "dot_turns": 5
   },
   "血刹碎乾坤": {
