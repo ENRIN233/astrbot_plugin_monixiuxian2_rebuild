@@ -77,8 +77,20 @@ export function HeroSection() {
   return (
     <section className="relative h-screen w-full p-4 md:p-6">
       <div className="relative w-full h-full rounded-2xl md:rounded-[2rem] overflow-hidden">
+        {/* Background video */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ filter: 'brightness(0.5) saturate(0.7)' }}
+        >
+          <source src="./videos/VID_20260709_225848.mp4" type="video/mp4" />
+        </video>
+
         {/* Background with radial glow */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1a1510] via-[#0a0806] to-[#000]">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1a1510]/60 via-[#0a0806]/40 to-[#000]/70">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(222,219,200,0.04),transparent_60%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_80%,rgba(95,179,179,0.025),transparent_50%)]" />
         </div>
