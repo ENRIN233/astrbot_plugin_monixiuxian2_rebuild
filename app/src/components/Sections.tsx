@@ -103,7 +103,7 @@ export function HeroSection() {
             className="absolute inset-0 w-full h-full object-cover"
             style={{ transform: 'translateZ(0)' }}
           >
-            <source src="./videos/VID_20260709_234730-soConvert.webm" type="video/webm" />
+            <source src="./videos/VID_20260710_001808.mp4" type="video/mp4" />
           </video>
         )}
 
