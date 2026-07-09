@@ -147,7 +147,9 @@ export default function SectPage() {
             </div>
 
             {/* Task config cards */}
-            <h3 className="section-title">任务配置</h3>
+            <div className="section-title">
+              <span className="jade-dot" />任务配置
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <ConfigCard
                 label="每日任务上限"
@@ -190,7 +192,9 @@ export default function SectPage() {
             </div>
 
             {/* Attack practice costs summary */}
-            <h3 className="section-title">攻击修炼消耗</h3>
+            <div className="section-title">
+              <span className="jade-dot" />攻击修炼消耗
+            </div>
             <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a]">
               <table className="w-full text-sm">
                 <thead>
@@ -256,7 +260,7 @@ export default function SectPage() {
             </div>
 
             {/* Member limits */}
-            <h3 className="section-title mt-6">成员上限</h3>
+            <h3 className="section-title mt-6"><span className="jade-dot" />成员上限</h3>
             <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a]">
               <table className="w-full text-sm">
                 <thead>
@@ -326,7 +330,7 @@ export default function SectPage() {
                       </div>
                       <div className="flex justify-between" style={{ color: 'rgba(222,219,200,0.5)' }}>
                         <span>保底丹药</span>
-                        <span style={{ color: '#99c794' }}>{level.guaranteed_pill}</span>
+                        <span style={{ color: '#d4af37' }}>{level.guaranteed_pill}</span>
                       </div>
                     </div>
                   </div>

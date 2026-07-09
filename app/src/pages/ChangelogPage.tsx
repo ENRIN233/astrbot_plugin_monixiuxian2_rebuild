@@ -174,10 +174,12 @@ export default function ChangelogPage() {
   return (
     <PageLayout title="更新日志" subtitle="模拟修仙2 版本历史">
       <div className="space-y-8">
-        {changelog.map((release) => (
-          <div key={release.version} className="bg-[#101010] rounded-xl border border-white/5 p-6 md:p-8 hover:border-white/10 transition-all duration-300">
+        {changelog.map((release, ri) => (
+          <div key={release.version}>
+            {ri > 0 && <div className="decorative-line thin" />}
+            <div className="bg-[#101010] rounded-xl border border-white/5 p-6 md:p-8 hover:border-[rgba(212,175,55,0.12)] transition-all duration-300 gold-glow">
             <div className="flex items-baseline gap-3 mb-6">
-              <h2 className="text-xl font-semibold m-0" style={{ color: '#DEDBC8' }}>
+              <h2 className="text-xl font-semibold m-0" style={{ color: '#d4af37' }}>
                 {release.version}
               </h2>
               <span className="text-sm" style={{ color: 'rgba(222,219,200,0.4)' }}>
@@ -188,7 +190,8 @@ export default function ChangelogPage() {
             <div className="space-y-5">
               {release.sections.map((section, si) => (
                 <div key={si}>
-                  <h3 className="text-sm font-medium mb-3" style={{ color: '#5fb3b3' }}>
+                  <h3 className="text-sm font-medium mb-3 flex items-center gap-2" style={{ color: '#5fb3b3' }}>
+                    <span className="jade-dot" />
                     {section.heading}
                   </h3>
                   <ul className="space-y-1.5 list-none p-0">
@@ -201,6 +204,7 @@ export default function ChangelogPage() {
                   </ul>
                 </div>
               ))}
+            </div>
             </div>
           </div>
         ))}

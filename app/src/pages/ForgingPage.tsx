@@ -131,37 +131,35 @@ export default function ForgingPage() {
       </p>
 
       {/* 品质概率概况 */}
-      <h3 className="section-title">品质概率配置</h3>
+      <div className="section-title">
+        <span className="jade-dot" />品质概率配置
+      </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12, marginBottom: 32 }}>
         {qualityProfiles.map((profile, i) => (
           <div
             key={i}
-            style={{
-              background: '#0a0a0a',
-              border: '1px solid rgba(255,255,255,0.05)',
-              borderRadius: 12,
-              padding: 16,
-            }}
+            className="bg-[#0a0a0a] rounded-xl border border-white/5 p-4 hover:border-[rgba(212,175,55,0.15)] transition-all duration-300"
           >
             <div style={{ fontSize: 13, color: '#E1E0CC', fontWeight: 600, marginBottom: 8 }}>
               {profile.label}
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
-              {Object.entries(profile.rates).map(([q, r]) => (
-                <div
-                  key={q}
-                  style={{
-                    flex: 1,
-                    background: 'rgba(255,255,255,0.03)',
-                    borderRadius: 8,
-                    padding: '8px 4px',
-                    textAlign: 'center',
-                  }}
-                >
-                  <div style={{ fontSize: 16, fontWeight: 700, color: QUALITY_COLORS[q] ?? '#aaa' }}>{pct(r)}</div>
-                  <div style={{ fontSize: 11, color: 'rgba(222,219,200,0.4)', marginTop: 2 }}>{q}</div>
-                </div>
-              ))}
+              {Object.entries(profile.rates).map(([q, r]) => {
+                const gradePct = r * 100;
+                return (
+                  <div
+                    key={q}
+                    className="flex-1 rounded-lg text-center p-2"
+                    style={{
+                      background: `linear-gradient(180deg, ${QUALITY_COLORS[q] ?? '#aaa'}22 0%, transparent 100%)`,
+                      border: `1px solid ${QUALITY_COLORS[q] ?? '#aaa'}22`,
+                    }}
+                  >
+                    <div style={{ fontSize: 16, fontWeight: 700, color: QUALITY_COLORS[q] ?? '#aaa' }}>{pct(r)}</div>
+                    <div style={{ fontSize: 11, color: 'rgba(222,219,200,0.4)', marginTop: 2 }}>{q}</div>
+                  </div>
+                );
+              })}
             </div>
             <div style={{ fontSize: 11, color: 'rgba(222,219,200,0.3)', marginTop: 8 }}>
               {profile.examples.join('、')}

@@ -12,12 +12,12 @@ interface FormulaCardProps {
 function FormulaCard({ title, formula, description, variables, index }: FormulaCardProps) {
   return (
     <div
-      className="bg-[#101010] rounded-xl border border-white/5 p-6 md:p-8 hover:border-white/10 transition-all duration-300"
+      className="bg-[#101010] rounded-xl border border-white/5 p-6 md:p-8 hover:border-[rgba(212,175,55,0.12)] hover:shadow-[0_0_16px_rgba(212,175,55,0.04)] transition-all duration-300"
     >
       <div className="flex items-center gap-3 mb-4">
         <span
           className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold"
-          style={{ background: 'rgba(95,179,179,0.1)', color: '#5fb3b3' }}
+          style={{ background: 'rgba(212,175,55,0.08)', color: '#d4af37' }}
         >
           {String((index ?? 0) + 1).padStart(2, '0')}
         </span>
@@ -25,8 +25,8 @@ function FormulaCard({ title, formula, description, variables, index }: FormulaC
       </div>
 
       <div
-        className="font-mono text-sm p-4 rounded-lg mb-4 overflow-x-auto"
-        style={{ background: 'rgba(0,0,0,0.4)', color: '#99c794', border: '1px solid rgba(95,179,179,0.1)' }}
+        className="font-mono text-sm p-4 rounded-lg mb-4 overflow-x-auto gold-glow"
+        style={{ background: 'rgba(0,0,0,0.5)', color: '#d4af37', border: '1px solid rgba(212,175,55,0.1)' }}
       >
         <code>{formula}</code>
       </div>
@@ -37,7 +37,7 @@ function FormulaCard({ title, formula, description, variables, index }: FormulaC
         <div className="space-y-1">
           {variables.map(v => (
             <div key={v.name} className="flex gap-2 text-xs">
-              <span className="font-mono shrink-0" style={{ color: '#5fb3b3' }}>{v.name}</span>
+              <span className="font-mono shrink-0" style={{ color: '#d4af37' }}>{v.name}</span>
               <span style={{ color: 'rgba(222,219,200,0.4)' }}>{v.desc}</span>
             </div>
           ))}
@@ -184,7 +184,7 @@ export default function CombatPage() {
       </div>
 
       {/* Formula cards */}
-      <h2 className="section-title">核心公式</h2>
+      <h2 className="section-title"><span className="jade-dot" />核心公式</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
         {FORMULAS.map((f, i) => (
           <FormulaCard key={f.title} {...f} index={i} />
@@ -192,7 +192,7 @@ export default function CombatPage() {
       </div>
 
       {/* Attributes table */}
-      <h2 className="section-title">战斗属性一览</h2>
+      <h2 className="section-title"><span className="jade-dot" />战斗属性一览</h2>
       <div className="space-y-6">
         {ATTRIBUTE_COLUMNS.map(category => (
           <div key={category.category} className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a]">
@@ -230,12 +230,22 @@ export default function CombatPage() {
         ))}
       </div>
 
+      <div className="decorative-line" />
+
       {/* Special mechanics */}
-      <h2 className="section-title mt-10">特殊机制</h2>
+      <h2 className="section-title"><span className="jade-dot" />特殊机制</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-[#101010] rounded-xl border border-white/5 p-5">
-          <h4 className="text-sm font-semibold mb-2" style={{ color: '#c594c5' }}>神通系统</h4>
-          <ul className="space-y-1.5 text-xs" style={{ color: 'rgba(222,219,200,0.6)' }}>
+        <div className="bg-[#101010] rounded-xl border border-white/5 p-5 hover:border-[rgba(197,148,197,0.2)] transition-all duration-300">
+          <div className="flex items-center gap-2 mb-3">
+            <span
+              className="w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold"
+              style={{ background: 'rgba(197,148,197,0.12)', color: '#c594c5' }}
+            >
+              01
+            </span>
+            <h4 className="text-sm font-semibold" style={{ color: '#c594c5' }}>神通系统</h4>
+          </div>
+          <ul className="space-y-1.5 text-xs m-0" style={{ color: 'rgba(222,219,200,0.6)' }}>
             <li>53种神通技能，4种类型</li>
             <li>按 rate 概率自动触发</li>
             <li>turncost 冷却机制</li>
@@ -243,9 +253,17 @@ export default function CombatPage() {
             <li>Buff/Debuff 引擎管理</li>
           </ul>
         </div>
-        <div className="bg-[#101010] rounded-xl border border-white/5 p-5">
-          <h4 className="text-sm font-semibold mb-2" style={{ color: '#5fb3b3' }}>辅修功法</h4>
-          <ul className="space-y-1.5 text-xs" style={{ color: 'rgba(222,219,200,0.6)' }}>
+        <div className="bg-[#101010] rounded-xl border border-white/5 p-5 hover:border-[rgba(95,179,179,0.2)] transition-all duration-300">
+          <div className="flex items-center gap-2 mb-3">
+            <span
+              className="w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold"
+              style={{ background: 'rgba(95,179,179,0.12)', color: '#5fb3b3' }}
+            >
+              02
+            </span>
+            <h4 className="text-sm font-semibold" style={{ color: '#5fb3b3' }}>辅修功法</h4>
+          </div>
+          <ul className="space-y-1.5 text-xs m-0" style={{ color: 'rgba(222,219,200,0.6)' }}>
             <li>23种辅修功法</li>
             <li>13种 buff_type 效果</li>
             <li>战斗开始时应用被动增益</li>
@@ -253,9 +271,17 @@ export default function CombatPage() {
             <li>破甲/吸血/中毒等机制</li>
           </ul>
         </div>
-        <div className="bg-[#101010] rounded-xl border border-white/5 p-5">
-          <h4 className="text-sm font-semibold mb-2" style={{ color: '#ec5f67' }}>Boss战斗</h4>
-          <ul className="space-y-1.5 text-xs" style={{ color: 'rgba(222,219,200,0.6)' }}>
+        <div className="bg-[#101010] rounded-xl border border-white/5 p-5 hover:border-[rgba(236,95,103,0.2)] transition-all duration-300">
+          <div className="flex items-center gap-2 mb-3">
+            <span
+              className="w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold"
+              style={{ background: 'rgba(236,95,103,0.12)', color: '#ec5f67' }}
+            >
+              03
+            </span>
+            <h4 className="text-sm font-semibold" style={{ color: '#ec5f67' }}>Boss战斗</h4>
+          </div>
+          <ul className="space-y-1.5 text-xs m-0" style={{ color: 'rgba(222,219,200,0.6)' }}>
             <li>玩家ATK×2</li>
             <li>20档Boss覆盖全境界</li>
             <li>8种Boss Buff类型，4档强度</li>

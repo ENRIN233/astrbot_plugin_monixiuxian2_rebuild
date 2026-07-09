@@ -114,27 +114,59 @@ export default function RootsPage() {
 
   return (
     <PageLayout title="灵根系统" subtitle="灵根决定修炼速率，共11个品阶">
-      {/* Overview stats */}
+      {/* Overview stats with icons */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center">
+        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all">
+          <div className="flex justify-center mb-1 text-base" style={{ color: 'rgba(212,175,55,0.35)' }}>🌿</div>
           <div className="text-xl font-bold" style={{ color: '#E1E0CC' }}>{sorted.length}</div>
-          <div className="text-xs text-gray-500 mt-1">品阶等级</div>
+          <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>品阶等级</div>
         </div>
-        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center">
+        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all">
+          <div className="flex justify-center mb-1 text-base" style={{ color: 'rgba(212,175,55,0.35)' }}>✦</div>
           <div className="text-xl font-bold" style={{ color: '#E1E0CC' }}>
             {sorted.reduce((sum, r) => sum + r.roots.length, 0)}
           </div>
-          <div className="text-xs text-gray-500 mt-1">灵根种类</div>
+          <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>灵根种类</div>
         </div>
-        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center">
+        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all">
+          <div className="flex justify-center mb-1 text-base" style={{ color: 'rgba(212,175,55,0.35)' }}>⚖</div>
           <div className="text-xl font-bold" style={{ color: '#E1E0CC' }}>
             {sorted.reduce((sum, r) => sum + r.total_weight, 0)}
           </div>
-          <div className="text-xs text-gray-500 mt-1">总权重</div>
+          <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>总权重</div>
         </div>
-        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center">
+        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all">
+          <div className="flex justify-center mb-1 text-base" style={{ color: 'rgba(212,175,55,0.35)' }}>🔥</div>
           <div className="text-xl font-bold" style={{ color: '#99c794' }}>×{Math.max(...sorted.map(r => r.speed))}</div>
-          <div className="text-xs text-gray-500 mt-1">最高倍率</div>
+          <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>最高倍率</div>
+        </div>
+      </div>
+
+      {/* Rarity spectrum bar */}
+      <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a] p-4 mb-8">
+        <div className="text-xs mb-3" style={{ color: 'rgba(222,219,200,0.4)' }}>稀有度光谱</div>
+        <div className="flex h-4 rounded overflow-hidden">
+          {sorted.map((entry) => {
+            const colors = RARITY_COLORS[entry.rarity] || RARITY_COLORS['凡品'];
+            const totalWeight = sorted.reduce((s, r) => s + r.total_weight, 0);
+            const pct = (entry.total_weight / totalWeight) * 100;
+            return (
+              <div
+                key={entry.rarity}
+                className="h-full relative group cursor-default transition-all duration-300 hover:flex-[2]"
+                style={{
+                  width: `${pct}%`,
+                  minWidth: 4,
+                  background: `linear-gradient(135deg, ${colors.accent}66, ${colors.accent})`,
+                }}
+                title={`${entry.rarity}: ${pct.toFixed(2)}%`}
+              >
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center text-[10px] font-bold text-white">
+                  {entry.rarity}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 

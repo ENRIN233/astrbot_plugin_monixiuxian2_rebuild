@@ -190,34 +190,35 @@ export default function BossPage() {
       <DataTable columns={tierColumns} data={tierRows as unknown as Record<string, unknown>[]} />
 
       {/* 名称池 */}
-      <h3 className="section-title" style={{ marginTop: 40 }}>Boss名称池</h3>
-      <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a] p-4">
+      <h3 className="section-title" style={{ marginTop: 40 }}>
+        <span className="jade-dot" />Boss名称池
+      </h3>
+      <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a] p-5 gold-glow">
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
           {BOSS_NAMES.map((n, i) => (
             <span
               key={i}
+              className="inline-block px-4 py-1.5 rounded-md text-sm font-semibold transition-all duration-250 cursor-default hover:border-[rgba(212,175,55,0.3)] hover:bg-[rgba(212,175,55,0.06)]"
               style={{
-                display: 'inline-block',
-                padding: '6px 16px',
                 background: 'rgba(236,95,103,0.08)',
                 border: '1px solid rgba(236,95,103,0.2)',
-                borderRadius: 4,
                 color: '#ec5f67',
-                fontSize: 13,
-                fontWeight: 600,
               }}
             >
               {n}
             </span>
           ))}
         </div>
-        <p style={{ fontSize: 12, color: 'rgba(222,219,200,0.4)', marginTop: 12, marginBottom: 0 }}>
+        <div className="decorative-line thin" />
+        <p style={{ fontSize: 12, color: 'rgba(222,219,200,0.4)', margin: '8px 0 0' }}>
           Boss名字由名称池随机选取 + 当前档位境界名拼接而成，例如「血魔·练气境」
         </p>
       </div>
 
       {/* 掉落规则 */}
-      <h3 className="section-title" style={{ marginTop: 40 }}>掉落规则</h3>
+      <h3 className="section-title" style={{ marginTop: 40 }}>
+        <span className="jade-dot" />掉落规则
+      </h3>
       <p style={{ fontSize: 13, color: 'rgba(222,219,200,0.5)', marginBottom: 16 }}>
         Boss掉落分为4个档位，根据Boss的 level_index 决定掉落池。每个物品按权重随机抽取。
       </p>
@@ -232,8 +233,8 @@ export default function BossPage() {
               overflow: 'hidden',
             }}
           >
-            <div style={{ padding: '12px 16px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-              <span style={{ color: '#eacb2c', fontWeight: 600, fontSize: 14 }}>{tier.label}</span>
+            <div style={{ padding: '12px 16px', borderBottom: '1px solid rgba(212,175,55,0.15)', background: 'rgba(212,175,55,0.03)' }}>
+              <span style={{ color: '#d4af37', fontWeight: 600, fontSize: 14 }}>{tier.label}</span>
               <span style={{ color: 'rgba(222,219,200,0.4)', fontSize: 12, marginLeft: 8 }}>{tier.range}</span>
             </div>
             <table className="data-table" style={{ fontSize: 12 }}>
@@ -259,7 +260,9 @@ export default function BossPage() {
       </div>
 
       {/* Boss Buff体系 */}
-      <h3 className="section-title" style={{ marginTop: 40 }}>Boss Buff体系</h3>
+      <h3 className="section-title" style={{ marginTop: 40 }}>
+        <span className="jade-dot" />Boss Buff体系
+      </h3>
       <p style={{ fontSize: 13, color: 'rgba(222,219,200,0.5)', marginBottom: 16 }}>
         仅 level_index ≥ 24（神火及以上）的Boss拥有Buff。每档Boss随机获得2个Buff：1个进攻型 + 1个削弱型。
       </p>

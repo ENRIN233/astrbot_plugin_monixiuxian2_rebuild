@@ -8,9 +8,19 @@
   --color-surface-card: #212121;
   --font-family-sans: 'Almarai', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   --font-family-serif: 'Instrument Serif', serif;
+  --color-gold: #d4af37;
+  --color-gold-muted: rgba(212,175,55,0.5);
+  --color-jade: #2d8a5e;
+  --color-vermillion: #c23531;
 }
 
 /* ===== Global ===== */
+:root {
+  --gold-muted: rgba(212,175,55,0.5);
+  --gold: #d4af37;
+  --jade: #2d8a5e;
+  --vermillion: #c23531;
+}
 * { font-family: 'Almarai', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif; }
 body { background: #000; color: #E1E0CC; margin: 0; overflow-x: hidden; }
 #root { min-height: 100vh; background: #000; }
@@ -29,8 +39,8 @@ body { background: #000; color: #E1E0CC; margin: 0; overflow-x: hidden; }
 
 /* ===== Scrollbar ===== */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: rgba(0,0,0,0.4); }
-::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #8c734b, #d4af37, #8c734b); border-radius: 4px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.5); }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #8c734b, #d4af37, #8c734b); border-radius: 4px; border: 1px solid rgba(0,0,0,0.3); }
 ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #a68b5b, #ffd700, #a68b5b); }
 
 /* ===== Data Tables ===== */
@@ -41,11 +51,6 @@ body { background: #000; color: #E1E0CC; margin: 0; overflow-x: hidden; }
 
 /* ===== Rank Badges ===== */
 .rank-badge { display: inline-block; padding: 2px 9px; border-radius: 2px; font-size: 11.5px; font-weight: 700; letter-spacing: 1px; border: 1px solid transparent; }
-.rank-人阶, .rank-下品符器 { background: rgba(138,140,142,0.12); color: #8a8c8e; border-color: rgba(138,140,142,0.3); }
-.rank-黄阶, .rank-玄阶, .rank-上品符器 { background: rgba(22,169,81,0.1); color: #16a951; border-color: rgba(22,169,81,0.3); }
-.rank-地阶, .rank-天阶, .rank-法器, .rank-纯阳 { background: rgba(240,75,34,0.1); color: #f04b22; border-color: rgba(240,75,34,0.3); }
-.rank-仙阶, .rank-仙器, .rank-通天 { background: rgba(141,75,187,0.12); color: #8d4bbb; border-color: rgba(141,75,187,0.3); }
-.rank-无上 { background: rgba(234,203,44,0.1); color: #eacb2c; border-color: rgba(234,203,44,0.3); }
 
 /* ===== Utility ===== */
 .stat-card { background: rgba(30,41,46,0.85); border: 1px solid rgba(61,76,83,0.3); padding: 20px; text-align: center; border-radius: 2px; transition: all 0.3s; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
@@ -55,12 +60,30 @@ body { background: #000; color: #E1E0CC; margin: 0; overflow-x: hidden; }
 
 /* ===== Section ===== */
 .section-title { font-size: 17px; color: #5fb3b3; margin: 28px 0 16px; font-weight: 700; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
-.sub-tab { padding: 8px 18px; background: transparent; border: 1px solid #3d4c53; border-bottom: 2px solid transparent; border-radius: 2px; color: #6b7370; cursor: pointer; font-size: 13px; transition: all 0.3s; font-weight: 700; letter-spacing: 1px; }
-.sub-tab:hover { color: #d3d7d4; border-color: #4d5c63; }
-.sub-tab.active { color: #DEDBC8; border-color: #DEDBC8; border-bottom: 2px solid #DEDBC8; }
 
-/* ===== Info Box ===== */
-.info-box { background: rgba(95,179,179,0.04); border: 1px solid rgba(95,179,179,0.15); border-left: 3px solid #5fb3b3; border-radius: 2px; padding: 14px 18px; margin-bottom: 20px; font-size: 13px; color: #9ca3a0; line-height: 1.8; }
+/* ===== Info Box Gold Accent ===== */
+.info-box {
+  background: rgba(212,175,55,0.03);
+  border: 1px solid rgba(212,175,55,0.1);
+  border-left: 3px solid var(--gold-muted);
+  border-radius: 2px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: #9ca3a0;
+  line-height: 1.9;
+  position: relative;
+}
+.info-box::after {
+  content: '⏐';
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  font-size: 10px;
+  color: rgba(212,175,55,0.15);
+  line-height: 1;
+  transform: rotate(90deg);
+}
 
 /* ===== Mobile Responsive ===== */
 @media (max-width: 768px) {
@@ -70,6 +93,12 @@ body { background: #000; color: #E1E0CC; margin: 0; overflow-x: hidden; }
   .stat-value { font-size: 22px; }
   .stat-card { padding: 14px; }
   .noise-overlay, .bg-noise { background-size: 200px 200px; }
+  .decorative-line { margin: 14px 0; }
+  .jade-dot { width: 5px; height: 5px; margin-right: 6px; }
+  .loading-taichi { width: 32px; height: 32px; }
+  .section-title { font-size: 15px; margin: 22px 0 14px; letter-spacing: 1.5px; }
+  .rank-badge { transition: none; }
+  .rank-badge:hover { transform: none; }
 }
 
 @media (max-width: 480px) {
@@ -78,8 +107,148 @@ body { background: #000; color: #E1E0CC; margin: 0; overflow-x: hidden; }
   .rank-badge { font-size: 9px; padding: 1px 5px; }
   .sub-tab { padding: 5px 10px; font-size: 11px; }
   .stat-value { font-size: 20px; }
-  .section-title { font-size: 15px; margin: 20px 0 12px; }
+  .section-title { font-size: 14px; margin: 18px 0 10px; letter-spacing: 1px; }
+  .decorative-line { margin: 10px 0; }
+  .jade-dot { width: 4px; height: 4px; margin-right: 5px; }
+  .loading-taichi { width: 28px; height: 28px; }
 }
+
+/* ===== Decorative Elements (修仙古卷主题) ===== */
+.decorative-line {
+  display: block;
+  height: 1px;
+  margin: 20px 0;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.25), rgba(212,175,55,0.4), rgba(212,175,55,0.25), transparent);
+}
+.decorative-line.thin {
+  margin: 10px 0;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.12), transparent);
+}
+
+.jade-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2d8a5e, #5fb3b3);
+  margin-right: 8px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* ===== Gold Active SubTabs ===== */
+.sub-tab {
+  padding: 8px 18px;
+  background: transparent;
+  border: 1px solid #3d4c53;
+  border-bottom: 2px solid transparent;
+  border-radius: 2px;
+  color: #6b7370;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.3s;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.sub-tab:hover {
+  color: #d3d7d4;
+  background: rgba(222,219,200,0.03);
+  border-color: #4d5c63;
+}
+.sub-tab.active {
+  color: #d4af37;
+  border-color: rgba(212,175,55,0.3);
+  border-bottom: 2px solid #d4af37;
+  background: rgba(212,175,55,0.04);
+}
+
+/* ===== TaiChi / 八卦 Loading Spinner ===== */
+.loading-taichi {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: conic-gradient(
+    rgba(222,219,200,0.3) 0deg 180deg,
+    rgba(222,219,200,0.08) 180deg 360deg
+  );
+  position: relative;
+  animation: spin 1.5s linear infinite;
+}
+.loading-taichi::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: rgba(222,219,200,0.08);
+  border-radius: 50%;
+  border: 2px solid rgba(222,219,200,0.2);
+}
+.loading-taichi::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background: rgba(222,219,200,0.3);
+  border-radius: 50%;
+}
+
+/* ===== Rotate Animation (for taichi spinner) ===== */
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+/* ===== Shimmer Animation ===== */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.shimmer-text {
+  background: linear-gradient(90deg,
+    rgba(222,219,200,0.3) 0%,
+    rgba(212,175,55,0.6) 50%,
+    rgba(222,219,200,0.3) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* ===== Float Animation ===== */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* ===== Gold Glow ===== */
+.gold-glow {
+  box-shadow: 0 0 20px rgba(212,175,55,0.08);
+}
+
+/* ===== Rank Badge Hover ===== */
+.rank-badge {
+  transition: all 0.25s ease;
+}
+.rank-badge:hover {
+  transform: scale(1.08);
+  filter: brightness(1.2);
+}
+
+/* ===== Rank Badge Refined Colors ===== */
+.rank-人阶, .rank-下品符器 { background: rgba(148,155,160,0.1); color: #949ba0; border-color: rgba(148,155,160,0.25); }
+.rank-黄阶, .rank-玄阶, .rank-上品符器 { background: rgba(45,138,94,0.1); color: #2d8a5e; border-color: rgba(45,138,94,0.25); }
+.rank-地阶, .rank-天阶, .rank-法器, .rank-纯阳 { background: rgba(194,53,49,0.1); color: #c23531; border-color: rgba(194,53,49,0.25); }
+.rank-仙阶, .rank-仙器, .rank-通天 { background: rgba(124,58,237,0.1); color: #8b5cf6; border-color: rgba(124,58,237,0.25); }
+.rank-无上 { background: rgba(212,175,55,0.1); color: #d4af37; border-color: rgba(212,175,55,0.25); box-shadow: 0 0 8px rgba(212,175,55,0.06); }
 
 /* ===== Mobile-safe scroll containers ===== */
 .overflow-x-auto { -webkit-overflow-scrolling: touch; }

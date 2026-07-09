@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, AlertTriangle } from 'lucide-react';
 
+// ================== PageLayout ==================
 export function PageLayout({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
   const navigate = useNavigate();
   return (
@@ -10,38 +11,108 @@ export function PageLayout({ title, subtitle, children }: { title: string; subti
         {/* Back button */}
         <button
           onClick={() => navigate('/')}
-          className="group inline-flex items-center gap-2 text-xs tracking-wider mb-8 cursor-pointer bg-transparent border-none"
+          className="group inline-flex items-center gap-2 text-xs tracking-wider mb-8 cursor-pointer bg-transparent border-none rounded-lg px-3 py-2 -ml-3 transition-all duration-300 hover:bg-[rgba(212,175,55,0.05)]"
           style={{ color: 'rgba(222,219,200,0.5)' }}
         >
-          <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-x-1" />
-          返回首页
+          <ArrowLeft className="w-3.5 h-3.5 transition-all duration-300 group-hover:-translate-x-1" />
+          <span className="transition-colors duration-300 group-hover:text-[#d4af37]">返回首页</span>
         </button>
 
-        {/* Title */}
-        <h1 className="text-3xl md:text-4xl font-medium mb-2" style={{ color: '#E1E0CC' }}>
+        {/* Title with jade-dot */}
+        <h1 className="text-3xl md:text-4xl font-medium mb-2 flex items-center" style={{ color: '#E1E0CC' }}>
+          <span className="jade-dot" />
           {title}
         </h1>
-        {subtitle && <p className="text-sm text-gray-500 mb-8">{subtitle}</p>}
+        {subtitle && (
+          <p className="text-sm mb-8" style={{ color: 'rgba(212,175,55,0.5)' }}>
+            {subtitle}
+          </p>
+        )}
 
         {/* Content */}
         {children}
+
+        {/* Decorative footer */}
+        <div className="decorative-line" />
       </div>
     </div>
   );
 }
 
+// ================== SectionTitle with jade-dot ==================
+export function SectionTitle({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  return (
+    <h3 className={`section-title ${className}`}>
+      <span className="jade-dot" />
+      {children}
+    </h3>
+  );
+}
+
+// ================== LoadingState (Taichi spinner) ==================
 export function LoadingState() {
   return (
-    <div className="flex items-center justify-center py-24">
-      <div className="w-8 h-8 border-2 border-white/10 border-t-primary rounded-full animate-spin" />
+    <div className="flex flex-col items-center justify-center py-24 gap-4">
+      <div className="loading-taichi" />
+      <span
+        className="text-xs tracking-widest animate-pulse"
+        style={{ color: 'rgba(222,219,200,0.4)' }}
+      >
+        加载中...
+      </span>
     </div>
   );
 }
 
+// ================== ErrorState ==================
 export function ErrorState({ message }: { message: string }) {
   return (
-    <div className="text-center py-16">
-      <p className="text-sm text-gray-500">加载失败: {message}</p>
+    <div className="flex flex-col items-center justify-center py-16 gap-3">
+      <AlertTriangle className="w-6 h-6" style={{ color: 'rgba(236,95,103,0.6)' }} />
+      <p className="text-sm" style={{ color: 'rgba(236,95,103,0.7)' }}>
+        加载失败: {message}
+      </p>
+    </div>
+  );
+}
+
+// ================== EmptyState ==================
+export function EmptyState({ message = '暂无数据' }: { message?: string }) {
+  return (
+    <div className="flex flex-col items-center justify-center py-16 gap-3">
+      <div
+        className="w-10 h-10 rounded-xl flex items-center justify-center text-lg"
+        style={{ background: 'rgba(212,175,55,0.05)', color: 'rgba(212,175,55,0.3)' }}
+      >
+        —
+      </div>
+      <p className="text-sm" style={{ color: 'rgba(222,219,200,0.4)' }}>
+        {message}
+      </p>
+    </div>
+  );
+}
+
+// ================== StatsCard ==================
+export function StatsCard({ value, label, icon, color = '#E1E0CC' }: {
+  value: string | number;
+  label: string;
+  icon?: React.ReactNode;
+  color?: string;
+}) {
+  return (
+    <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all duration-300">
+      {icon && (
+        <div className="flex justify-center mb-2" style={{ color: 'rgba(212,175,55,0.4)' }}>
+          {icon}
+        </div>
+      )}
+      <div className="text-xl font-bold" style={{ color }}>
+        {value}
+      </div>
+      <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>
+        {label}
+      </div>
     </div>
   );
 }
@@ -73,7 +144,7 @@ export function DataTable({ columns, data }: { columns: Column[]; data: Record<s
   }, [filteredData, sortKey, sortDir]);
 
   if (!sorted.length) {
-    return <div className="text-center py-12 text-sm text-gray-500">暂无数据</div>;
+    return <EmptyState />;
   }
 
   const handleSort = (key: string) => {
@@ -82,20 +153,22 @@ export function DataTable({ columns, data }: { columns: Column[]; data: Record<s
   };
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a]">
+    <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a] gold-glow">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-white/5">
+          <tr className="border-b" style={{ borderColor: 'rgba(212,175,55,0.15)' }}>
             {columns.map(col => (
               <th
                 key={col.key}
-                className={`px-4 py-3 text-left text-xs font-medium tracking-wider ${col.sortable !== false ? 'cursor-pointer hover:opacity-80' : ''}`}
-                style={{ color: 'rgba(222,219,200,0.5)' }}
+                className={`px-4 py-3 text-left text-xs font-medium tracking-wider ${
+                  col.sortable !== false ? 'cursor-pointer hover:opacity-80' : ''
+                }`}
+                style={{ color: 'rgba(222,219,200,0.65)' }}
                 onClick={() => col.sortable !== false && handleSort(col.key)}
               >
                 {col.label}
                 {col.sortable !== false && sortKey === col.key && (
-                  <span className="ml-1">{sortDir === 'asc' ? '↑' : '↓'}</span>
+                  <span className="ml-1" style={{ color: '#d4af37' }}>{sortDir === 'asc' ? '↑' : '↓'}</span>
                 )}
               </th>
             ))}
@@ -103,9 +176,17 @@ export function DataTable({ columns, data }: { columns: Column[]; data: Record<s
         </thead>
         <tbody>
           {sorted.map((row, i) => (
-            <tr key={i} className="border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors">
+            <tr
+              key={i}
+              className="border-b border-white/5 last:border-0 transition-colors duration-150"
+              style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.01)' }}
+            >
               {columns.map(col => (
-                <td key={col.key} className="px-4 py-3 text-sm" style={{ color: '#d3d7d4' }}>
+                <td
+                  key={col.key}
+                  className="px-4 py-3 text-sm tabular-nums"
+                  style={{ color: '#d3d7d4' }}
+                >
                   {col.render ? col.render(row[col.key], row) : String(row[col.key] ?? '-')}
                 </td>
               ))}

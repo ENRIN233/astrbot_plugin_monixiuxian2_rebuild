@@ -91,29 +91,33 @@ export default function AlchemyPage() {
         材料数量需要满足最低需求，炼制结果受丹炉品阶和火候控制影响。
       </div>
 
-      {/* Stats strip */}
+      {/* Stats strip with icons */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center">
+        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all">
+          <div className="flex justify-center mb-1 text-base" style={{ color: 'rgba(212,175,55,0.35)' }}>⚗</div>
           <div className="text-xl font-bold" style={{ color: '#E1E0CC' }}>{rows.length}</div>
-          <div className="text-xs text-gray-500 mt-1">配方总数</div>
+          <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>配方总数</div>
         </div>
-        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center">
+        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all">
+          <div className="flex justify-center mb-1 text-base" style={{ color: 'rgba(212,175,55,0.35)' }}>✦</div>
           <div className="text-xl font-bold" style={{ color: '#E1E0CC' }}>
             {new Set(rows.map(r => r.realm)).size}
           </div>
-          <div className="text-xs text-gray-500 mt-1">覆盖境界</div>
+          <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>覆盖境界</div>
         </div>
-        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center">
-          <div className="text-xl font-bold" style={{ color: '#E1E0CC' }}>
+        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all">
+          <div className="flex justify-center mb-1 text-base" style={{ color: 'rgba(212,175,55,0.35)' }}>●</div>
+          <div className="text-xl font-bold" style={{ color: '#99c794' }}>
             {rows.filter(r => r.successRate === 100).length}
           </div>
-          <div className="text-xs text-gray-500 mt-1">满成功率</div>
+          <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>满成功率</div>
         </div>
-        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center">
+        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all">
+          <div className="flex justify-center mb-1 text-base" style={{ color: 'rgba(212,175,55,0.35)' }}>◌</div>
           <div className="text-xl font-bold" style={{ color: '#E1E0CC' }}>
             {rows.filter(r => r.successRate < 100).length}
           </div>
-          <div className="text-xs text-gray-500 mt-1">非满成功率</div>
+          <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>非满成功率</div>
         </div>
       </div>
 
