@@ -10,7 +10,7 @@ export function PageLayout({ title, subtitle, children }: { title: string; subti
       <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
         {/* Back button */}
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/', { state: { scrollTo: 'data' } })}
           className="group inline-flex items-center gap-2 text-xs tracking-wider mb-8 cursor-pointer bg-transparent border-none rounded-lg px-3 py-2 -ml-3 transition-all duration-300 hover:bg-[rgba(212,175,55,0.05)]"
           style={{ color: 'rgba(222,219,200,0.5)' }}
         >

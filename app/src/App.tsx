@@ -1,4 +1,5 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { HeroSection, AboutSection, StatsSection, SystemsSection, Footer } from './components/Sections';
 import LevelsPage from './pages/LevelsPage';
 import PillsPage from './pages/PillsPage';
@@ -13,6 +14,19 @@ import CombatPage from './pages/CombatPage';
 import SectPage from './pages/SectPage';
 
 function Landing() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.scrollTo === 'data') {
+      // Clear the state so next Landing mount doesn't re-scroll
+      window.history.replaceState({}, '');
+      // Scroll to the data overview section
+      setTimeout(() => {
+        document.getElementById('data')?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, [location.state]);
+
   return (
     <div className="bg-black" style={{ color: '#E1E0CC' }}>
       <HeroSection />
