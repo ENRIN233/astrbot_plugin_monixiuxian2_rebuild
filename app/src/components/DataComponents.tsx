@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, AlertTriangle, Search, ChevronUp, X } from 'lucide-react';
 
 // ================== PageLayout ==================
 export function PageLayout({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
   const navigate = useNavigate();
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black page-enter">
       <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
         {/* Back button */}
         <button
@@ -35,6 +35,7 @@ export function PageLayout({ title, subtitle, children }: { title: string; subti
         {/* Decorative footer */}
         <div className="decorative-line" />
       </div>
+      <BackToTop />
     </div>
   );
 }
@@ -114,6 +115,64 @@ export function StatsCard({ value, label, icon, color = '#E1E0CC' }: {
         {label}
       </div>
     </div>
+  );
+}
+
+// ================== SearchBar ==================
+export function SearchBar({ value, onChange, placeholder = '搜索...' }: {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+}) {
+  return (
+    <div className="relative flex-1 min-w-[160px] max-w-[280px]">
+      <Search
+        className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none"
+        style={{ color: 'rgba(222,219,200,0.3)' }}
+      />
+      <input
+        type="text"
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        placeholder={placeholder}
+        className="w-full bg-[#0a0a0a] border border-white/5 rounded-lg py-2 pl-9 pr-8 text-sm outline-none transition-all duration-200"
+        style={{ color: '#d3d7d4' }}
+        onFocus={e => { e.target.style.borderColor = 'rgba(212,175,55,0.4)'; e.target.style.boxShadow = '0 0 12px rgba(212,175,55,0.04)'; }}
+        onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.05)'; e.target.style.boxShadow = 'none'; }}
+      />
+      {value && (
+        <button
+          onClick={() => onChange('')}
+          className="absolute right-2 top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer p-0.5 rounded"
+          style={{ color: 'rgba(222,219,200,0.3)' }}
+        >
+          <X className="w-3.5 h-3.5" />
+        </button>
+      )}
+    </div>
+  );
+}
+
+// ================== BackToTop ==================
+function BackToTop() {
+  const [visible, setVisible] = React.useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setVisible(window.scrollY > window.innerHeight);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <button
+      className={`back-to-top ${visible ? 'visible' : ''}`}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      aria-label="返回顶部"
+    >
+      <ChevronUp className="w-4 h-4" />
+    </button>
   );
 }
 

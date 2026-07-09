@@ -7,6 +7,7 @@ import {
   DataTable,
   SubTabs,
   RankBadge,
+  SearchBar,
 } from '../components/DataComponents';
 
 interface SkillBase {
@@ -66,6 +67,7 @@ function rateStr(v: number): string {
 
 export default function SkillsPage() {
   const [activeTab, setActiveTab] = useState('1');
+  const [searchText, setSearchText] = useState('');
 
   const { data: rawSkills, loading, error } = useGameData<Record<string, Skill>>('skills');
   const { data: levelData } = useGameData<LevelConfig[]>('level_config');
@@ -85,15 +87,16 @@ export default function SkillsPage() {
     return Object.values(rawSkills);
   }, [rawSkills]);
 
-  /** 按 skill_type 分组 */
+  /** 按 skill_type 分组（支持名称搜索） */
   const grouped = useMemo(() => {
     const groups: Record<string, Skill[]> = { '1': [], '2': [], '3': [], '4': [] };
-    for (const s of skillsList) {
+    const filtered = skillsList.filter(s => !searchText || s.name.includes(searchText));
+    for (const s of filtered) {
       const key = String(s.skill_type);
       if (groups[key]) groups[key].push(s);
     }
     return groups;
-  }, [skillsList]);
+  }, [skillsList, searchText]);
 
   // === Attack columns (type 1) ===
   const attackColumns = [
@@ -286,6 +289,10 @@ export default function SkillsPage() {
   return (
     <PageLayout title="神通大全" subtitle="53种神通技能完整数据，含伤害倍率、触发条件和效果说明">
       <SubTabs tabs={TAB_CONFIG} active={activeTab} onChange={setActiveTab} />
+
+      <div className="flex flex-col sm:flex-row gap-3 mb-6 items-start sm:items-center">
+        <SearchBar value={searchText} onChange={setSearchText} placeholder="搜索神通名称..." />
+      </div>
 
       {/* 综合说明 */}
       <p className="info-box">

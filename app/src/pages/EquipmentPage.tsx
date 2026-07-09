@@ -8,6 +8,7 @@ import {
   SubTabs,
   FilterBar,
   RankBadge,
+  SearchBar,
 } from '../components/DataComponents';
 
 interface WeaponItem {
@@ -89,6 +90,7 @@ export default function EquipmentPage() {
   const [activeTab, setActiveTab] = useState('weapons');
   const [weaponFilterRank, setWeaponFilterRank] = useState('全部');
   const [techniqueFilterRank, setTechniqueFilterRank] = useState('全部');
+  const [searchText, setSearchText] = useState('');
 
   const { data: rawWeapons, loading: weaponsLoading, error: weaponsError } =
     useGameData<WeaponItem[]>('weapons');
@@ -139,19 +141,22 @@ export default function EquipmentPage() {
   }, [techniqueList]);
 
   const filteredWeapons = useMemo(() => {
-    if (weaponFilterRank === '全部') return weaponList;
-    return weaponList.filter((w) => w.rank === weaponFilterRank);
-  }, [weaponList, weaponFilterRank]);
+    let list = weaponFilterRank === '全部' ? weaponList : weaponList.filter((w) => w.rank === weaponFilterRank);
+    if (searchText) list = list.filter(w => w.name.includes(searchText));
+    return list;
+  }, [weaponList, weaponFilterRank, searchText]);
 
   const filteredArmor = useMemo(() => {
-    if (weaponFilterRank === '全部') return armorList;
-    return armorList.filter((a) => a.rank === weaponFilterRank);
-  }, [armorList, weaponFilterRank]);
+    let list = weaponFilterRank === '全部' ? armorList : armorList.filter((a) => a.rank === weaponFilterRank);
+    if (searchText) list = list.filter(a => a.name.includes(searchText));
+    return list;
+  }, [armorList, weaponFilterRank, searchText]);
 
   const filteredTechniques = useMemo(() => {
-    if (techniqueFilterRank === '全部') return techniqueList;
-    return techniqueList.filter((t) => t.rank === techniqueFilterRank);
-  }, [techniqueList, techniqueFilterRank]);
+    let list = techniqueFilterRank === '全部' ? techniqueList : techniqueList.filter((t) => t.rank === techniqueFilterRank);
+    if (searchText) list = list.filter(t => t.name.includes(searchText));
+    return list;
+  }, [techniqueList, techniqueFilterRank, searchText]);
 
   // === Columns ===
   const weaponColumns = [
@@ -355,11 +360,14 @@ export default function EquipmentPage() {
           <p className="info-box">
             武器提供攻击加成、暴击等属性；防具提供防御减伤。部分高级装备附带减伤或攻击加成效果。
           </p>
-          <FilterBar
-            ranks={[...new Set([...weaponRanks, ...armorRanks])]}
-            activeRank={weaponFilterRank}
-            onChange={setWeaponFilterRank}
-          />
+          <div className="flex flex-col sm:flex-row gap-3 mb-6 items-start sm:items-center">
+            <FilterBar
+              ranks={[...new Set([...weaponRanks, ...armorRanks])]}
+              activeRank={weaponFilterRank}
+              onChange={setWeaponFilterRank}
+            />
+            <SearchBar value={searchText} onChange={setSearchText} placeholder="搜索装备名称..." />
+          </div>
 
           {/* Weapon table */}
           {filteredWeapons.length > 0 && (
@@ -402,11 +410,14 @@ export default function EquipmentPage() {
             心法（功法）是修炼的核心，提供修炼速度、战斗属性和各种功能加成。品质从人阶下品到无上仙法共14个品阶。
             79种心法各有侧重，包括修炼型、战斗型、炼丹型和综合型。
           </p>
-          <FilterBar
-            ranks={techniqueRanks}
-            activeRank={techniqueFilterRank}
-            onChange={setTechniqueFilterRank}
-          />
+          <div className="flex flex-col sm:flex-row gap-3 mb-6 items-start sm:items-center">
+            <FilterBar
+              ranks={techniqueRanks}
+              activeRank={techniqueFilterRank}
+              onChange={setTechniqueFilterRank}
+            />
+            <SearchBar value={searchText} onChange={setSearchText} placeholder="搜索心法名称..." />
+          </div>
           <DataTable columns={techniqueColumns} data={filteredTechniques as unknown as Record<string, unknown>[]} />
         </>
       )}

@@ -8,6 +8,7 @@ import {
   SubTabs,
   FilterBar,
   RankBadge,
+  SearchBar,
 } from '../components/DataComponents';
 
 /** 突破丹（pills.json） */
@@ -70,6 +71,7 @@ function formatPrice(v: number): string {
 export default function PillsPage() {
   const [activeTab, setActiveTab] = useState('breakthrough');
   const [utilityFilterRank, setUtilityFilterRank] = useState('全部');
+  const [searchText, setSearchText] = useState('');
 
   const {
     data: rawPills,
@@ -100,17 +102,24 @@ export default function PillsPage() {
   const breakthroughPills = rawPills || [];
   const utilityPills = rawUtils || [];
 
+  /** 突破丹 — 按名称搜索 */
+  const filteredBreakthrough = useMemo(() => {
+    if (!searchText) return breakthroughPills;
+    return breakthroughPills.filter(p => p.name.includes(searchText));
+  }, [breakthroughPills, searchText]);
+
   /** 功能丹可用品阶（目前只有"凡品"） */
   const availableRanks = useMemo(() => {
     const s = new Set(utilityPills.map((p) => p.rank).filter(Boolean));
     return [...s] as string[];
   }, [utilityPills]);
 
-  /** 按品阶过滤后的功能丹 */
+  /** 按品阶 + 名称过滤后的功能丹 */
   const filteredUtils = useMemo(() => {
-    if (utilityFilterRank === '全部') return utilityPills;
-    return utilityPills.filter((p) => p.rank === utilityFilterRank);
-  }, [utilityPills, utilityFilterRank]);
+    let list = utilityFilterRank === '全部' ? utilityPills : utilityPills.filter((p) => p.rank === utilityFilterRank);
+    if (searchText) list = list.filter(p => p.name.includes(searchText));
+    return list;
+  }, [utilityPills, utilityFilterRank, searchText]);
 
   /** 按 subtype 分组 */
   const groupedUtils = useMemo(() => {
@@ -215,6 +224,10 @@ export default function PillsPage() {
         onChange={setActiveTab}
       />
 
+      <div className="flex flex-col sm:flex-row gap-3 mb-6 items-start sm:items-center">
+        <SearchBar value={searchText} onChange={setSearchText} placeholder="搜索丹药名称..." />
+      </div>
+
       {/* ===== 突破丹 ===== */}
       {activeTab === 'breakthrough' && (
         <>
@@ -224,7 +237,7 @@ export default function PillsPage() {
           </p>
           <DataTable
             columns={breakthroughColumns}
-            data={breakthroughPills as unknown as Record<string, unknown>[]}
+            data={filteredBreakthrough as unknown as Record<string, unknown>[]}
           />
         </>
       )}
