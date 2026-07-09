@@ -1,5 +1,5 @@
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, FlaskRound, Sword, Sparkles, Layers, Trophy, Gem, Zap, Users, Settings, Skull, Leaf, Swords } from 'lucide-react';
 
@@ -74,24 +74,44 @@ export function HeroSection() {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Pause video when tab is hidden, resume when visible — saves GPU decode
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const onVisibility = () => {
+      if (document.hidden) video.pause();
+      else { video.play().catch(() => {}); }
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
+  }, []);
+
   return (
     <section className="relative h-screen w-full p-4 md:p-6">
       <div className="relative w-full h-full rounded-2xl md:rounded-[2rem] overflow-hidden">
-        {/* Background video */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ filter: 'brightness(0.5) saturate(0.7)' }}
-        >
-          <source src="./videos/VID_20260709_225848.mp4" type="video/mp4" />
-        </video>
+        {/* Background video — GPU composited, no CSS filter (use overlay instead) */}
+        {typeof window !== 'undefined' && window.innerWidth > 768 && (
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ transform: 'translateZ(0)' }}
+          >
+            <source src="./videos/VID_20260709_233543.mp4" type="video/mp4" />
+          </video>
+        )}
+
+        {/* Black overlay — replaces CSS filter: brightness(0.5), zero GPU cost */}
+        <div className="absolute inset-0 bg-black/40 pointer-events-none" />
 
         {/* Background with radial glow */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1a1510]/60 via-[#0a0806]/40 to-[#000]/70">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1a1510]/30 via-[#0a0806]/20 to-[#000]/50">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(222,219,200,0.04),transparent_60%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_80%,rgba(95,179,179,0.025),transparent_50%)]" />
         </div>
