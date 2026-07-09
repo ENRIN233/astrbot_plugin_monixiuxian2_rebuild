@@ -177,7 +177,7 @@ export default function ChangelogPage() {
         {changelog.map((release, ri) => (
           <div key={release.version}>
             {ri > 0 && <div className="decorative-line thin" />}
-            <div className="bg-[#101010] rounded-xl border border-white/5 p-6 md:p-8 hover:border-[rgba(212,175,55,0.12)] transition-all duration-300 gold-glow">
+            <div className="bg-card rounded-xl border border-white/5 p-6 md:p-8 hover:border-[rgba(212,175,55,0.12)] transition-all duration-300 gold-glow">
             <div className="flex items-baseline gap-3 mb-6">
               <h2 className="text-xl font-semibold m-0" style={{ color: '#d4af37' }}>
                 {release.version}

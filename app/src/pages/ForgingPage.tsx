@@ -138,7 +138,7 @@ export default function ForgingPage() {
         {qualityProfiles.map((profile, i) => (
           <div
             key={i}
-            className="bg-[#0a0a0a] rounded-xl border border-white/5 p-4 hover:border-[rgba(212,175,55,0.15)] transition-all duration-300"
+            className="bg-surface rounded-xl border border-white/5 p-4 hover:border-[rgba(212,175,55,0.15)] transition-all duration-300"
           >
             <div style={{ fontSize: 13, color: '#E1E0CC', fontWeight: 600, marginBottom: 8 }}>
               {profile.label}

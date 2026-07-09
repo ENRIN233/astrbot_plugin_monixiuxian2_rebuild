@@ -12,7 +12,7 @@ interface FormulaCardProps {
 function FormulaCard({ title, formula, description, variables, index }: FormulaCardProps) {
   return (
     <div
-      className="bg-[#101010] rounded-xl border border-white/5 p-6 md:p-8 hover:border-[rgba(212,175,55,0.12)] hover:shadow-[0_0_16px_rgba(212,175,55,0.04)] transition-all duration-300"
+      className="bg-card rounded-xl border border-white/5 p-6 md:p-8 hover:border-[rgba(212,175,55,0.12)] hover:shadow-[0_0_16px_rgba(212,175,55,0.04)] transition-all duration-300"
     >
       <div className="flex items-center gap-3 mb-4">
         <span
@@ -195,7 +195,7 @@ export default function CombatPage() {
       <h2 className="section-title"><span className="jade-dot" />战斗属性一览</h2>
       <div className="space-y-6">
         {ATTRIBUTE_COLUMNS.map(category => (
-          <div key={category.category} className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a]">
+          <div key={category.category} className="overflow-x-auto rounded-xl border border-white/5 bg-surface">
             <div
               className="px-4 py-2.5 text-xs font-semibold tracking-wider border-b border-white/5"
               style={{ color: '#5fb3b3' }}
@@ -235,7 +235,7 @@ export default function CombatPage() {
       {/* Special mechanics */}
       <h2 className="section-title"><span className="jade-dot" />特殊机制</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-[#101010] rounded-xl border border-white/5 p-5 hover:border-[rgba(197,148,197,0.2)] transition-all duration-300">
+        <div className="bg-card rounded-xl border border-white/5 p-5 hover:border-[rgba(197,148,197,0.2)] transition-all duration-300">
           <div className="flex items-center gap-2 mb-3">
             <span
               className="w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold"
@@ -253,7 +253,7 @@ export default function CombatPage() {
             <li>Buff/Debuff 引擎管理</li>
           </ul>
         </div>
-        <div className="bg-[#101010] rounded-xl border border-white/5 p-5 hover:border-[rgba(95,179,179,0.2)] transition-all duration-300">
+        <div className="bg-card rounded-xl border border-white/5 p-5 hover:border-[rgba(95,179,179,0.2)] transition-all duration-300">
           <div className="flex items-center gap-2 mb-3">
             <span
               className="w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold"
@@ -271,7 +271,7 @@ export default function CombatPage() {
             <li>破甲/吸血/中毒等机制</li>
           </ul>
         </div>
-        <div className="bg-[#101010] rounded-xl border border-white/5 p-5 hover:border-[rgba(236,95,103,0.2)] transition-all duration-300">
+        <div className="bg-card rounded-xl border border-white/5 p-5 hover:border-[rgba(236,95,103,0.2)] transition-all duration-300">
           <div className="flex items-center gap-2 mb-3">
             <span
               className="w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold"

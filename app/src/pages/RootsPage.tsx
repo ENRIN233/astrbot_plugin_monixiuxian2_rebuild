@@ -123,7 +123,7 @@ export default function RootsPage() {
       </div>
 
       {/* Rarity spectrum bar */}
-      <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a] p-4 mb-8">
+      <div className="overflow-x-auto rounded-xl border border-white/5 bg-surface p-4 mb-8">
         <div className="text-xs mb-3" style={{ color: 'rgba(222,219,200,0.4)' }}>稀有度光谱</div>
         <div className="flex h-4 rounded overflow-hidden">
           {sorted.map((entry) => {
@@ -151,7 +151,7 @@ export default function RootsPage() {
       </div>
 
       {/* Summary table */}
-      <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a] mb-8">
+      <div className="overflow-x-auto rounded-xl border border-white/5 bg-surface mb-8">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-white/5">
@@ -187,7 +187,7 @@ export default function RootsPage() {
       </div>
 
       {/* Distribution section */}
-      <div className="mt-8 bg-[#0a0a0a] rounded-xl border border-white/5 p-6">
+      <div className="mt-8 bg-surface rounded-xl border border-white/5 p-6">
         <h3 className="text-sm font-semibold mb-4" style={{ color: '#E1E0CC' }}>权重分布</h3>
         <div className="space-y-3">
           {sorted.map((entry) => {

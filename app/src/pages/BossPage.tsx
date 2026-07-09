@@ -193,7 +193,7 @@ export default function BossPage() {
       <h3 className="section-title" style={{ marginTop: 40 }}>
         <span className="jade-dot" />Boss名称池
       </h3>
-      <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a] p-5 gold-glow">
+      <div className="overflow-x-auto rounded-xl border border-white/5 bg-surface p-5 gold-glow">
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
           {BOSS_NAMES.map((n, i) => (
             <span

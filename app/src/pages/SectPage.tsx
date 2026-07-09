@@ -74,7 +74,7 @@ function formatNumber(n: number): string {
 
 function ConfigCard({ label, value, hint }: { label: string; value: React.ReactNode; hint?: string }) {
   return (
-    <div className="bg-[#101010] rounded-xl border border-white/5 p-5 hover:border-white/10 transition-all duration-300">
+    <div className="bg-card rounded-xl border border-white/5 p-5 hover:border-white/10 transition-all duration-300">
       <div className="text-xs tracking-wider mb-1.5" style={{ color: 'rgba(222,219,200,0.4)' }}>
         {label}
       </div>
@@ -169,7 +169,7 @@ export default function SectPage() {
             </div>
 
             {/* Task exp caps */}
-            <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a]">
+            <div className="overflow-x-auto rounded-xl border border-white/5 bg-surface">
               <div className="px-4 py-2.5 text-xs font-semibold tracking-wider border-b border-white/5" style={{ color: '#5fb3b3' }}>
                 任务经验上限
               </div>
@@ -195,7 +195,7 @@ export default function SectPage() {
             <div className="section-title">
               <span className="jade-dot" />攻击修炼消耗
             </div>
-            <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a]">
+            <div className="overflow-x-auto rounded-xl border border-white/5 bg-surface">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-white/5">
@@ -241,7 +241,7 @@ export default function SectPage() {
                 .map(([id, pos]) => (
                   <div
                     key={id}
-                    className="bg-[#101010] rounded-xl border border-white/5 p-5 hover:border-white/10 transition-all"
+                    className="bg-card rounded-xl border border-white/5 p-5 hover:border-white/10 transition-all"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <h4 className="text-sm font-semibold" style={{ color: '#E1E0CC' }}>{pos.name}</h4>
@@ -261,7 +261,7 @@ export default function SectPage() {
 
             {/* Member limits */}
             <h3 className="section-title mt-6"><span className="jade-dot" />成员上限</h3>
-            <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a]">
+            <div className="overflow-x-auto rounded-xl border border-white/5 bg-surface">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-white/5">
@@ -303,7 +303,7 @@ export default function SectPage() {
                 .map(([key, level]) => (
                   <div
                     key={key}
-                    className="bg-[#101010] rounded-xl border border-white/5 p-5 hover:border-white/10 transition-all"
+                    className="bg-card rounded-xl border border-white/5 p-5 hover:border-white/10 transition-all"
                   >
                     <div className="flex items-center justify-between mb-3">
                       <h4 className="text-sm font-semibold" style={{ color: '#E1E0CC' }}>{level.name}</h4>
@@ -350,7 +350,7 @@ export default function SectPage() {
               {data.tasks.map((task, i) => (
                 <div
                   key={i}
-                  className="bg-[#101010] rounded-xl border border-white/5 p-5 hover:border-white/10 transition-all"
+                  className="bg-card rounded-xl border border-white/5 p-5 hover:border-white/10 transition-all"
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
@@ -414,7 +414,7 @@ export default function SectPage() {
             </div>
 
             {/* Full cost table */}
-            <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a]">
+            <div className="overflow-x-auto rounded-xl border border-white/5 bg-surface">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-white/5">
