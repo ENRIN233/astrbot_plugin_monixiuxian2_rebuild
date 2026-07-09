@@ -105,14 +105,14 @@ export function PageLayout({ title, subtitle, children, pageId }: { title: strin
         <button
           onClick={() => navigate('/', { state: { scrollTo: 'data' } })}
           className="group inline-flex items-center gap-2 text-xs tracking-wider mb-8 cursor-pointer bg-transparent border-none rounded-lg px-3 py-2 -ml-3 transition-all duration-300 hover:bg-[rgba(212,175,55,0.05)]"
-          style={{ color: 'rgba(222,219,200,0.5)' }}
+          className="tc-med"
         >
           <ArrowLeft className="w-3.5 h-3.5 transition-all duration-300 group-hover:-translate-x-1" />
           <span className="transition-colors duration-300 group-hover:text-[#d4af37]">返回首页</span>
         </button>
 
         {/* Title with jade-dot */}
-        <h1 className="text-3xl md:text-4xl font-medium mb-2 flex items-center" style={{ color: '#E1E0CC' }}>
+        <h1 className="text-3xl md:text-4xl font-medium mb-2 flex items-center tc-primary">
           <span className="jade-dot" />
           {title}
         </h1>
@@ -148,10 +148,7 @@ export function LoadingState() {
   return (
     <div className="flex flex-col items-center justify-center py-24 gap-4">
       <div className="loading-taichi" />
-      <span
-        className="text-xs tracking-widest animate-pulse"
-        style={{ color: 'rgba(222,219,200,0.4)' }}
-      >
+      <span className="text-xs tracking-widest animate-pulse tc-dim">
         加载中...
       </span>
     </div>
@@ -180,9 +177,7 @@ export function EmptyState({ message = '暂无数据' }: { message?: string }) {
       >
         —
       </div>
-      <p className="text-sm" style={{ color: 'rgba(222,219,200,0.4)' }}>
-        {message}
-      </p>
+      <p className="text-sm tc-dim">{message}</p>
     </div>
   );
 }
@@ -195,7 +190,7 @@ export function StatsCard({ value, label, icon, color = '#E1E0CC' }: {
   color?: string;
 }) {
   return (
-    <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all duration-300">
+    <div className="bg-card rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all duration-300">
       {icon && (
         <div className="flex justify-center mb-2" style={{ color: 'rgba(212,175,55,0.4)' }}>
           {icon}
@@ -204,9 +199,7 @@ export function StatsCard({ value, label, icon, color = '#E1E0CC' }: {
       <div className="text-xl font-bold" style={{ color }}>
         {value}
       </div>
-      <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>
-        {label}
-      </div>
+      <div className="text-xs mt-1 tc-dim">{label}</div>
     </div>
   );
 }
@@ -267,7 +260,7 @@ export function AnimatedStatsCard({ value, label, icon, color = '#E1E0CC', durat
   }, [value]);
 
   return (
-    <div ref={ref} className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all duration-300">
+    <div ref={ref} className="bg-card rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all duration-300">
       {icon && (
         <div className="flex justify-center mb-2" style={{ color: 'rgba(212,175,55,0.4)' }}>
           {icon}
@@ -276,9 +269,7 @@ export function AnimatedStatsCard({ value, label, icon, color = '#E1E0CC', durat
       <div className="text-xl font-bold tabular-nums" style={{ color }}>
         {displayValue}
       </div>
-      <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>
-        {label}
-      </div>
+      <div className="text-xs mt-1 tc-dim">{label}</div>
     </div>
   );
 }
@@ -292,24 +283,21 @@ export function SearchBar({ value, onChange, placeholder = '搜索...' }: {
   return (
     <div className="relative flex-1 min-w-[160px] max-w-[280px]">
       <Search
-        className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none"
-        style={{ color: 'rgba(222,219,200,0.3)' }}
+        className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none tc-faintest"
       />
       <input
         type="text"
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-[#0a0a0a] border border-white/5 rounded-lg py-2 pl-9 pr-8 text-sm outline-none transition-all duration-200"
-        style={{ color: '#d3d7d4' }}
+        className="w-full bg-surface border border-white/5 rounded-lg py-2 pl-9 pr-8 text-sm outline-none transition-all duration-200 tc-secondary"
         onFocus={e => { e.target.style.borderColor = 'rgba(212,175,55,0.4)'; e.target.style.boxShadow = '0 0 12px rgba(212,175,55,0.04)'; }}
         onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.05)'; e.target.style.boxShadow = 'none'; }}
       />
       {value && (
         <button
           onClick={() => onChange('')}
-          className="absolute right-2 top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer p-0.5 rounded"
-          style={{ color: 'rgba(222,219,200,0.3)' }}
+          className="absolute right-2 top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer p-0.5 rounded tc-faintest"
         >
           <X className="w-3.5 h-3.5" />
         </button>
@@ -377,17 +365,16 @@ export function DataTable({ columns, data }: { columns: Column[]; data: Record<s
   };
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-white/5 bg-[#0a0a0a] gold-glow">
+    <div className="overflow-x-auto rounded-xl border border-white/5 bg-surface gold-glow">
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b" style={{ borderColor: 'rgba(212,175,55,0.15)' }}>
             {columns.map(col => (
               <th
                 key={col.key}
-                className={`px-4 py-3 text-left text-xs font-medium tracking-wider ${
+                className={`px-4 py-3 text-left text-xs font-medium tracking-wider tc-faint ${
                   col.sortable !== false ? 'cursor-pointer hover:opacity-80' : ''
                 }`}
-                style={{ color: 'rgba(222,219,200,0.65)' }}
                 onClick={() => col.sortable !== false && handleSort(col.key)}
               >
                 {col.label}
@@ -408,8 +395,7 @@ export function DataTable({ columns, data }: { columns: Column[]; data: Record<s
               {columns.map(col => (
                 <td
                   key={col.key}
-                  className="px-4 py-3 text-sm tabular-nums"
-                  style={{ color: '#d3d7d4' }}
+                  className="px-4 py-3 text-sm tabular-nums tc-secondary"
                 >
                   {col.render ? col.render(row[col.key], row) : String(row[col.key] ?? '-')}
                 </td>
@@ -470,7 +456,7 @@ export function FilterBar({ ranks, activeRank, onChange }: {
   if (!ranks.length) return null;
   return (
     <div className="flex gap-2 flex-wrap mb-6 items-center">
-      <span className="text-xs mr-1" style={{ color: 'rgba(222,219,200,0.4)' }}>品阶筛选：</span>
+      <span className="text-xs mr-1 tc-dim">品阶筛选：</span>
       {['全部', ...ranks].map(r => (
         <button
           key={r}
