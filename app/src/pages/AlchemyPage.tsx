@@ -1,5 +1,5 @@
 // import 'react';
-import { PageLayout, DataTable, LoadingState, ErrorState } from '../components/DataComponents';
+import { PageLayout, DataTable, LoadingState, ErrorState, AnimatedStatsCard } from '../components/DataComponents';
 import { useMemo } from "react";
 import { useGameData } from '../hooks/useGameData';
 
@@ -84,41 +84,19 @@ export default function AlchemyPage() {
   if (error) return <PageLayout title="炼丹配方"><ErrorState message={error} /></PageLayout>;
 
   return (
-    <PageLayout title="炼丹配方" subtitle={`共 ${rows.length} 种配方`}>
+    <PageLayout title="炼丹配方" pageId="alchemy" subtitle={`共 ${rows.length} 种配方`}>
       {/* Info box */}
       <div className="info-box">
         炼丹系统采用"寒热调和"机制，需要主药+药引+辅药的组合来匹配配方。
         材料数量需要满足最低需求，炼制结果受丹炉品阶和火候控制影响。
       </div>
 
-      {/* Stats strip with icons */}
+      {/* Stats strip with animated count-up */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all">
-          <div className="flex justify-center mb-1 text-base" style={{ color: 'rgba(212,175,55,0.35)' }}>⚗</div>
-          <div className="text-xl font-bold" style={{ color: '#E1E0CC' }}>{rows.length}</div>
-          <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>配方总数</div>
-        </div>
-        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all">
-          <div className="flex justify-center mb-1 text-base" style={{ color: 'rgba(212,175,55,0.35)' }}>✦</div>
-          <div className="text-xl font-bold" style={{ color: '#E1E0CC' }}>
-            {new Set(rows.map(r => r.realm)).size}
-          </div>
-          <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>覆盖境界</div>
-        </div>
-        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all">
-          <div className="flex justify-center mb-1 text-base" style={{ color: 'rgba(212,175,55,0.35)' }}>●</div>
-          <div className="text-xl font-bold" style={{ color: '#99c794' }}>
-            {rows.filter(r => r.successRate === 100).length}
-          </div>
-          <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>满成功率</div>
-        </div>
-        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all">
-          <div className="flex justify-center mb-1 text-base" style={{ color: 'rgba(212,175,55,0.35)' }}>◌</div>
-          <div className="text-xl font-bold" style={{ color: '#E1E0CC' }}>
-            {rows.filter(r => r.successRate < 100).length}
-          </div>
-          <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>非满成功率</div>
-        </div>
+        <AnimatedStatsCard value={rows.length} label="配方总数" icon="⚗" color="#E1E0CC" />
+        <AnimatedStatsCard value={new Set(rows.map(r => r.realm)).size} label="覆盖境界" icon="✦" color="#E1E0CC" />
+        <AnimatedStatsCard value={rows.filter(r => r.successRate === 100).length} label="满成功率" icon="●" color="#99c794" />
+        <AnimatedStatsCard value={rows.filter(r => r.successRate < 100).length} label="非满成功率" icon="◌" color="#E1E0CC" />
       </div>
 
       <DataTable columns={columns} data={rows as unknown as Record<string, unknown>[]} />

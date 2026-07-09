@@ -451,7 +451,7 @@ export default function SectPage() {
   };
 
   return (
-    <PageLayout title="宗门系统" subtitle="宗门创建、职位、丹房与任务配置">
+    <PageLayout title="宗门系统" pageId="sect" subtitle="宗门创建、职位、丹房与任务配置">
       {/* Tabs */}
       <div className="flex gap-2 flex-wrap mb-6">
         {tabs.map(t => (

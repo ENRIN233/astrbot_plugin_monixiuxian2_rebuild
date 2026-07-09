@@ -287,7 +287,7 @@ export default function SkillsPage() {
   ];
 
   return (
-    <PageLayout title="神通大全" subtitle="53种神通技能完整数据，含伤害倍率、触发条件和效果说明">
+    <PageLayout title="神通大全" pageId="skills" subtitle="53种神通技能完整数据，含伤害倍率、触发条件和效果说明">
       <SubTabs tabs={TAB_CONFIG} active={activeTab} onChange={setActiveTab} />
 
       <div className="flex flex-col sm:flex-row gap-3 mb-6 items-start sm:items-center">

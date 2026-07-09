@@ -176,7 +176,7 @@ const ATTRIBUTE_COLUMNS = [
 
 export default function CombatPage() {
   return (
-    <PageLayout title="战斗数值" subtitle="核心战斗公式与属性详解">
+    <PageLayout title="战斗数值" pageId="combat" subtitle="核心战斗公式与属性详解">
       {/* Info box */}
       <div className="info-box">
         战斗系统采用回合制自动战斗。神通技能按概率自动触发，每个技能有独立冷却和法力消耗。

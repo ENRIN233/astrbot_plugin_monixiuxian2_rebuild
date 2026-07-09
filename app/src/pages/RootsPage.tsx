@@ -1,5 +1,5 @@
 
-import { PageLayout, LoadingState, ErrorState } from '../components/DataComponents';
+import { PageLayout, LoadingState, ErrorState, AnimatedStatsCard, StatsCard } from '../components/DataComponents';
 import { useState, useMemo } from "react";
 import { useGameData } from '../hooks/useGameData';
 
@@ -113,33 +113,13 @@ export default function RootsPage() {
   if (error) return <PageLayout title="灵根系统"><ErrorState message={error} /></PageLayout>;
 
   return (
-    <PageLayout title="灵根系统" subtitle="灵根决定修炼速率，共11个品阶">
-      {/* Overview stats with icons */}
+    <PageLayout title="灵根系统" pageId="roots" subtitle="灵根决定修炼速率，共11个品阶">
+      {/* Overview stats with animated count-up */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all">
-          <div className="flex justify-center mb-1 text-base" style={{ color: 'rgba(212,175,55,0.35)' }}>🌿</div>
-          <div className="text-xl font-bold" style={{ color: '#E1E0CC' }}>{sorted.length}</div>
-          <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>品阶等级</div>
-        </div>
-        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all">
-          <div className="flex justify-center mb-1 text-base" style={{ color: 'rgba(212,175,55,0.35)' }}>✦</div>
-          <div className="text-xl font-bold" style={{ color: '#E1E0CC' }}>
-            {sorted.reduce((sum, r) => sum + r.roots.length, 0)}
-          </div>
-          <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>灵根种类</div>
-        </div>
-        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all">
-          <div className="flex justify-center mb-1 text-base" style={{ color: 'rgba(212,175,55,0.35)' }}>⚖</div>
-          <div className="text-xl font-bold" style={{ color: '#E1E0CC' }}>
-            {sorted.reduce((sum, r) => sum + r.total_weight, 0)}
-          </div>
-          <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>总权重</div>
-        </div>
-        <div className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all">
-          <div className="flex justify-center mb-1 text-base" style={{ color: 'rgba(212,175,55,0.35)' }}>🔥</div>
-          <div className="text-xl font-bold" style={{ color: '#99c794' }}>×{Math.max(...sorted.map(r => r.speed))}</div>
-          <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>最高倍率</div>
-        </div>
+        <AnimatedStatsCard value={sorted.length} label="品阶等级" icon="🌿" color="#E1E0CC" />
+        <AnimatedStatsCard value={sorted.reduce((sum, r) => sum + r.roots.length, 0)} label="灵根种类" icon="✦" color="#E1E0CC" />
+        <AnimatedStatsCard value={sorted.reduce((sum, r) => sum + r.total_weight, 0)} label="总权重" icon="⚖" color="#E1E0CC" />
+        <StatsCard value={`×${Math.max(...sorted.map(r => r.speed))}`} label="最高倍率" icon="🔥" color="#99c794" />
       </div>
 
       {/* Rarity spectrum bar */}

@@ -73,7 +73,7 @@ export default function LevelsPage() {
   }
 
   return (
-    <PageLayout title="境界数据" subtitle="全 58 级修炼境界一览">
+    <PageLayout title="境界数据" subtitle="全 58 级修炼境界一览" pageId="levels">
       <p className="info-box">
         修为境界共 58 级，涵盖 19 大境界（每境界初期/中期/圆满）及江湖好手起步阶段。
         基础成功率随境界提升逐渐下降，合道境圆满成功率降至 0%。

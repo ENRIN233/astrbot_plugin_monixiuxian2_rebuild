@@ -123,7 +123,7 @@ export default function ForgingPage() {
   }
 
   return (
-    <PageLayout title="装备锻造" subtitle={`共 ${data ? Object.keys(data).length : 0} 个锻造配方`}>
+    <PageLayout title="装备锻造" pageId="forging" subtitle={`共 ${data ? Object.keys(data).length : 0} 个锻造配方`}>
       <p className="info-box">
         锻造系统通过收集材料打造装备，产出随机品质（下品/中品/上品/极品）。
         低阶配方基础概率为下品40%/中品35%/上品20%/极品5%，高阶配方极品率最高可达40%。

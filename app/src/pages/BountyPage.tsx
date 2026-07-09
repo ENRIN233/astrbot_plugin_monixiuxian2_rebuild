@@ -175,7 +175,7 @@ export default function BountyPage() {
   }
 
   return (
-    <PageLayout title="悬赏令" subtitle="每日3次 · 100%掉落功法/神通/辅修功法">
+    <PageLayout title="悬赏令" pageId="bounty" subtitle="每日3次 · 100%掉落功法/神通/辅修功法">
       <p className="info-box">
         悬赏令系统每日刷新3个随机任务，完成后100%掉落功法、神通或辅修功法。
         任务奖励受境界等级缩放影响（bounty_rift_coefficient = 0.045）。

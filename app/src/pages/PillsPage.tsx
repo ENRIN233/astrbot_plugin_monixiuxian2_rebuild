@@ -213,7 +213,7 @@ export default function PillsPage() {
   }
 
   return (
-    <PageLayout title="丹药大全" subtitle="突破丹、修为丹、功能丹完整数据">
+    <PageLayout title="丹药大全" pageId="pills" subtitle="突破丹、修为丹、功能丹完整数据">
       <SubTabs
         tabs={[
           { key: 'breakthrough', label: '突破丹', count: breakthroughPills.length },

@@ -343,7 +343,7 @@ export default function EquipmentPage() {
   }
 
   return (
-    <PageLayout title="装备大全" subtitle="武器、防具、心法与储物戒完整数据">
+    <PageLayout title="装备大全" pageId="equipment" subtitle="武器、防具、心法与储物戒完整数据">
       <SubTabs
         tabs={[
           { key: 'weapons', label: '武器防具', count: weaponList.length + armorList.length },

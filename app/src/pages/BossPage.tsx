@@ -178,7 +178,7 @@ export default function BossPage() {
   );
 
   return (
-    <PageLayout title="世界Boss" subtitle="20档Boss全数据">
+    <PageLayout title="世界Boss" pageId="boss" subtitle="20档Boss全数据">
       {/* 说明文字 */}
       <p className="info-box">
         世界Boss系统覆盖全部58级修炼体系，每3级一个档位共20档。玩家ATK对Boss造成2倍伤害。

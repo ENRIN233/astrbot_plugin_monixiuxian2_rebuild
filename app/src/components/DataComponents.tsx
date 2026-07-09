@@ -1,13 +1,106 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, AlertTriangle, Search, ChevronUp, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { ArrowLeft, AlertTriangle, Search, ChevronUp, X, Menu, X as XIcon, Moon, Sun } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
+
+// ================== ThemeToggle ==================
+function ThemeToggle() {
+  const { theme, toggle } = useTheme();
+  return (
+    <button
+      className="nav-link"
+      onClick={toggle}
+      aria-label={theme === 'dark' ? '切换浅色模式' : '切换深色模式'}
+      style={{ fontSize: 13, gap: 6 }}
+    >
+      {theme === 'dark' ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+      <span className="hidden sm:inline">{theme === 'dark' ? '浅色' : '深色'}</span>
+    </button>
+  );
+}
+
+// ================== NavBar ==================
+const NAV_ITEMS = [
+  { path: '/levels', label: '境界' },
+  { path: '/pills', label: '丹药' },
+  { path: '/equipment', label: '装备' },
+  { path: '/skills', label: '神通' },
+  { path: '/boss', label: 'Boss' },
+  { path: '/bounty', label: '悬赏' },
+  { path: '/forging', label: '锻造' },
+  { path: '/alchemy', label: '炼丹' },
+  { path: '/roots', label: '灵根' },
+  { path: '/combat', label: '战斗' },
+  { path: '/sect', label: '宗门' },
+  { path: '/changelog', label: '更新' },
+];
+
+function NavBar() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const currentPath = location.pathname;
+
+  const handleNav = (path: string) => {
+    navigate(path);
+    setMobileOpen(false);
+  };
+
+  return (
+    <>
+      {/* Desktop: horizontal scrollable */}
+      <div className="navbar desktop">
+        {NAV_ITEMS.map((item, i) => (
+          <span key={item.path} style={{ display: 'inline-flex', alignItems: 'center' }}>
+            {i > 0 && <span className="nav-sep" />}
+            <button
+              className={`nav-link ${currentPath === item.path ? 'active' : ''}`}
+              onClick={() => handleNav(item.path)}
+            >
+              {item.label}
+            </button>
+          </span>
+        ))}
+        <span className="nav-sep" />
+        <ThemeToggle />
+      </div>
+
+      {/* Mobile: toggle + dropdown */}
+      <div className="flex items-center gap-2 mb-3" style={{ display: 'none' }} /* controlled by CSS */>
+        <button
+          className="nav-mobile-toggle"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="导航菜单"
+        >
+          {mobileOpen ? <XIcon className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          <span className="text-xs tracking-wider">{mobileOpen ? '关闭' : '导航'}</span>
+        </button>
+        <span style={{ flex: 1 }} />
+        <ThemeToggle />
+      </div>
+      <div className={`nav-mobile-panel ${mobileOpen ? 'open' : ''}`}>
+        {NAV_ITEMS.map(item => (
+          <button
+            key={item.path}
+            className={`nav-link ${currentPath === item.path ? 'active' : ''}`}
+            onClick={() => handleNav(item.path)}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+    </>
+  );
+}
 
 // ================== PageLayout ==================
-export function PageLayout({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
+export function PageLayout({ title, subtitle, children, pageId }: { title: string; subtitle?: string; children: React.ReactNode; pageId?: string }) {
   const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-black page-enter">
+      {pageId && <div className={`page-texture ${pageId}`} />}
       <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
+        <NavBar />
         {/* Back button */}
         <button
           onClick={() => navigate('/', { state: { scrollTo: 'data' } })}
@@ -110,6 +203,78 @@ export function StatsCard({ value, label, icon, color = '#E1E0CC' }: {
       )}
       <div className="text-xl font-bold" style={{ color }}>
         {value}
+      </div>
+      <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>
+        {label}
+      </div>
+    </div>
+  );
+}
+
+// ================== AnimatedStatsCard ==================
+export function AnimatedStatsCard({ value, label, icon, color = '#E1E0CC', duration = 800 }: {
+  value: number | string;
+  label: string;
+  icon?: React.ReactNode;
+  color?: string;
+  duration?: number;
+}) {
+  const [displayValue, setDisplayValue] = React.useState<string | number>(typeof value === 'number' ? 0 : value);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const hasAnimated = React.useRef(false);
+
+  React.useEffect(() => {
+    if (typeof value !== 'number') return;
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated.current) {
+          hasAnimated.current = true;
+          const target = value;
+          const startTime = performance.now();
+
+          const step = (now: number) => {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            // easeOutQuad
+            const eased = 1 - (1 - progress) * (1 - progress);
+            const current = Math.round(eased * target);
+            setDisplayValue(current);
+
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            } else {
+              setDisplayValue(target);
+            }
+          };
+
+          requestAnimationFrame(step);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [value, duration]);
+
+  // Reset animation when value changes
+  React.useEffect(() => {
+    hasAnimated.current = false;
+  }, [value]);
+
+  return (
+    <div ref={ref} className="bg-[#101010] rounded-xl p-4 border border-white/5 text-center hover:border-[rgba(212,175,55,0.15)] transition-all duration-300">
+      {icon && (
+        <div className="flex justify-center mb-2" style={{ color: 'rgba(212,175,55,0.4)' }}>
+          {icon}
+        </div>
+      )}
+      <div className="text-xl font-bold tabular-nums" style={{ color }}>
+        {displayValue}
       </div>
       <div className="text-xs mt-1" style={{ color: 'rgba(222,219,200,0.4)' }}>
         {label}
