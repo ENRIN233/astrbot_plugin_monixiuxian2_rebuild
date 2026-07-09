@@ -418,6 +418,20 @@ const RANK_CLASSES: Record<string, string> = {
   '仙阶下品': 'rank-仙阶', '仙阶上品': 'rank-仙阶',
   '仙阶极品': 'rank-仙阶', '无上': 'rank-无上',
   '无上仙法': 'rank-无上', '无上神通': 'rank-无上',
+  // Weapon/Armor ranks — order matters for startsWith matching
+  '下品纯阳': 'rank-纯阳',
+  '上品纯阳': 'rank-纯阳',
+  '下品通天': 'rank-通天',
+  '上品通天': 'rank-通天',
+  '下品符器': 'rank-下品符器',
+  '上品符器': 'rank-上品符器',
+  '下品法器': 'rank-法器',
+  '上品法器': 'rank-法器',
+  '下品玄器': 'rank-玄阶',
+  '上品玄器': 'rank-玄阶',
+  '下品仙器': 'rank-仙器',
+  '上品仙器': 'rank-仙器',
+  '极品仙器': 'rank-仙器',
 };
 
 export function RankBadge({ rank }: { rank?: string }) {

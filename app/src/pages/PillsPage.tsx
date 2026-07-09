@@ -133,9 +133,7 @@ export default function PillsPage() {
 
   /** 突破丹表头 */
   const breakthroughColumns = [
-    { key: 'id', label: 'ID', sortable: true },
     { key: 'name', label: '名称' },
-    { key: 'rank', label: '品阶', sortable: false, render: () => <span style={{ opacity: 0.4 }}>--</span> },
     { key: 'price', label: '价格', render: (_v: unknown, row: Record<string, unknown>) => formatPrice(row['price'] as number) },
     {
       key: 'target',
@@ -159,15 +157,7 @@ export default function PillsPage() {
 
   /** 功能丹表头 */
   const utilsColumns = [
-    { key: 'id', label: 'ID', sortable: true },
     { key: 'name', label: '名称' },
-    {
-      key: 'rank',
-      label: '品阶',
-      sortable: true,
-      render: (v: unknown) => <RankBadge rank={v as string} />,
-    },
-    { key: 'price', label: '价格', render: (_v: unknown, row: Record<string, unknown>) => formatPrice(row['price'] as number) },
     {
       key: 'effect_desc',
       label: '效果',
