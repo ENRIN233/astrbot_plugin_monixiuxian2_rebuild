@@ -357,7 +357,7 @@ const stats = [
   { value: '49', label: '炼丹配方' },
   { value: '14', label: '品阶等级' },
   { value: '30+', label: '游戏系统' },
-  { value: '118', label: '游戏指令' },
+  { value: '150+', label: '游戏指令' },
 ];
 
 export function StatsSection() {
@@ -446,7 +446,7 @@ export function Footer() {
           <span className="text-lg font-serif">仙</span>
         </div>
         <p className="text-sm text-gray-500">
-          模拟修仙2 · 数值资料库 v4.2.0
+          模拟修仙2 · 数值资料库 v4.3.0
         </p>
         <p className="text-xs text-gray-600 mt-1">
           AstrBot Plugin · 数据源自游戏配置文件
