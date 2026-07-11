@@ -133,7 +133,7 @@ export default function RootsPage() {
             return (
               <div
                 key={entry.rarity}
-                className="h-full relative group cursor-default transition-all duration-300 hover:flex-[2]"
+                className="h-full relative group cursor-default"
                 style={{
                   width: `${pct}%`,
                   minWidth: 4,
@@ -141,7 +141,7 @@ export default function RootsPage() {
                 }}
                 title={`${entry.rarity}: ${pct.toFixed(2)}%`}
               >
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center text-[10px] font-bold text-white">
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center text-[10px] font-bold text-white bg-black/20 rounded">
                   {entry.rarity}
                 </div>
               </div>
