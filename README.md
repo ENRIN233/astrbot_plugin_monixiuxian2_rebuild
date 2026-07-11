@@ -577,14 +577,7 @@ astrbot_plugin_monixiuxian2/
 
 ## 🙏 致谢
 
-本项目基于以下优秀开源项目进行重写与重构：
-
-- **[nonebot_plugin_xiuxian_2](https://github.com/xiuxian-2/nonebot_plugin_xiuxian_2)** — 原版修仙插件的核心设计与数值框架
-- **[nonebot_plugin_xiuxian_2_pmv-master](https://github.com/xiuxian-2/nonebot_plugin_xiuxian_2_pmv)** — 提供大量游戏数据、配置模板与系统参考
-- **xiaojuwa** — 原始 AstrBot 移植版本作者
-- **linjianyan0229** — 早期 AstrBot 版本维护者
-
-感谢各位前辈的辛勤付出，为本项目奠定了坚实的基础。
+本插件参考了 `astrbot_plugin_monixiuxian2` 及 `nonebot_plugin_xiuxian_2_pmv-master`，感谢各位前辈的开源贡献。
 
 ---
 
