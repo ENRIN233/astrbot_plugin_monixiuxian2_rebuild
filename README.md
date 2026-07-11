@@ -1,7 +1,7 @@
-# AstrBot 插件：模拟修仙 v2
+# AstrBot 插件：模拟修仙 v2 rebuild
 
 <p align="center">
-  <img src="logo.png" alt="模拟修仙" width="200">
+  <img src="logo.png" alt="模拟修仙 rebuild" width="200">
 </p>
 
 > **版本:** v4.3.0
@@ -572,6 +572,28 @@ astrbot_plugin_monixiuxian2/
 - 深色水墨背景 + 暗色宣纸纹理叠加
 - 五阶品级发光边框特效
 - 天地灵气粒子动效
+
+---
+
+## 🙏 致谢
+
+本项目基于以下优秀开源项目进行重写与重构：
+
+- **[nonebot_plugin_xiuxian_2](https://github.com/xiuxian-2/nonebot_plugin_xiuxian_2)** — 原版修仙插件的核心设计与数值框架
+- **[nonebot_plugin_xiuxian_2_pmv-master](https://github.com/xiuxian-2/nonebot_plugin_xiuxian_2_pmv)** — 提供大量游戏数据、配置模板与系统参考
+- **xiaojuwa** — 原始 AstrBot 移植版本作者
+- **linjianyan0229** — 早期 AstrBot 版本维护者
+
+感谢各位前辈的辛勤付出，为本项目奠定了坚实的基础。
+
+---
+
+## ⚠️ 免责声明
+
+- 本项目为 **个人业余作品**，仅供娱乐与学习交流使用
+- **不保证稳定性**，可能存在未预见的 Bug 或兼容性问题
+- **不保证持续更新维护**，随缘迭代
+- 使用本插件所产生的任何后果由使用者自行承担
 
 ---
 

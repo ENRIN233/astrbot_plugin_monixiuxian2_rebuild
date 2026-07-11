@@ -1,7 +1,7 @@
 {
-    "astrbot_plugin_monixiuxian2": {
+    "astrbot_plugin_monixiuxian2_rebuild": {
         "author": "ENRIN233",
-        "desc": "模拟修仙2 - AstrBot 修仙游戏插件",
+        "desc": "模拟修仙2_rebuild - AstrBot 修仙游戏插件",
         "repo": "https://github.com/ENRIN233/astrbot_plugin_monixiuxian2_rebuild"
     }
 }

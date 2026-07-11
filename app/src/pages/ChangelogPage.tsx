@@ -215,7 +215,7 @@ const changelog = [
 
 export default function ChangelogPage() {
   return (
-    <PageLayout title="更新日志" pageId="changelog" subtitle="模拟修仙2 版本历史">
+    <PageLayout title="更新日志" pageId="changelog" subtitle="模拟修仙2_rebuild 版本历史">
       <div className="space-y-8">
         {changelog.map((release, ri) => (
           <div key={release.version}>

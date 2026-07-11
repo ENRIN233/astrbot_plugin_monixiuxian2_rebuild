@@ -200,7 +200,7 @@ export function AboutSection() {
     <section className="bg-black py-24 md:py-32 px-4">
       <div className="bg-[#101010] max-w-6xl mx-auto rounded-2xl p-8 md:p-16 lg:p-24 text-center border border-white/5">
         <p className="text-primary/50 text-[10px] sm:text-xs mb-8 tracking-[0.3em] uppercase font-light">
-          模拟修仙2 · 数值资料库
+          模拟修仙2_rebuild · 数值资料库
         </p>
 
         <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl max-w-4xl mx-auto leading-[1.1] sm:leading-[1.05]">
@@ -446,7 +446,7 @@ export function Footer() {
           <span className="text-lg font-serif">仙</span>
         </div>
         <p className="text-sm text-gray-500">
-          模拟修仙2 · 数值资料库 v4.3.0
+          模拟修仙2_rebuild · 数值资料库 v4.3.0
         </p>
         <p className="text-xs text-gray-600 mt-1">
           AstrBot Plugin · 数据源自游戏配置文件
