@@ -15,7 +15,7 @@ from .handlers import (
     NicknameHandler, BankHandlers, BountyHandlers, ImpartPkHandlers,
     BlessedLandHandlers, SpiritFarmHandlers, DualCultivationHandlers,
     TradeHandler, ConsignmentHandler, GMHandlers, AchievementHandler,
-    GamblingHandler,
+    GamblingHandler, ForgingHandler,
 )
 from .handlers.utils import get_related_commands_footer
 from .core.forging_manager import ForgingManager
@@ -1548,9 +1548,12 @@ class XiuXianPlugin(Star):
         async for r in self.rift_handlers.handle_rift_exit(event):
             yield r
 
+    @filter.command(CMD_ALCHEMY_FIND, "查看炼丹配方及成功率")
+    @require_whitelist
+    async def handle_alchemy_find(self, event: AstrMessageEvent):
         async for r in self.alchemy_handlers.handle_find_recipes(event):
             yield r
-        footer = get_related_commands_footer("炼丹")
+        footer = get_related_commands_footer("丹药配方")
         if footer:
             yield event.plain_result(footer)
 
