@@ -66,8 +66,8 @@
       "WUXING_ROOT_SPEED": {
         "description": "五行单灵根（真灵根）",
         "type": "float",
-        "default": 1.0,
-        "hint": "金、木、水、火、土单一灵根，修炼速度正常。"
+        "default": 1.1,
+        "hint": "金、木、水、火、土单一灵根，修炼速度提升10%。"
       },
       "THUNDER_ROOT_SPEED": {
         "description": "雷灵根（变异灵根）",

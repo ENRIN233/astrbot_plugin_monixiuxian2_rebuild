@@ -22,12 +22,12 @@
   {
     "rarity": "中品",
     "roots": ["金灵根", "木灵根", "水灵根", "火灵根", "土灵根"],
-    "speed": 1.0,
-    "speed_display": "×1.0",
+    "speed": 1.1,
+    "speed_display": "×1.1",
     "weight": 1000,
     "total_weight": 5000,
     "probability": "8.43%",
-    "description": "五行单灵根，灵根纯粹，修炼速度为基准值"
+    "description": "五行单灵根，灵根纯粹，修炼速度提升10%"
   },
   {
     "rarity": "上品",
