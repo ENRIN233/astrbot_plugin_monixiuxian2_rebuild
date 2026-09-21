@@ -322,12 +322,12 @@ class ForgingManager:
         if inst1.get("is_equipped") or inst2.get("is_equipped"):
             return False, "❌ 请先卸下装备再融合"
 
-        t1 = inst1["template_name"]
-        t2 = inst2["template_name"]
-        # 验证配方来源：原罪(forge_053a) + 无罪(forge_053b)
-        s1 = inst1.get("source_recipe", "")
-        s2 = inst2.get("source_recipe", "")
-        if not ({s1, s2} == {"forge_053a", "forge_053b"}):
+        # 验证配方来源：原罪（残缺）+ 无罪（残缺）
+        # NOTE: 实例的 source_recipe 存的是配方 name（config_manager._load_items_data 会把
+        # dict 型配方的 key 从 forge_053a/forge_053b 替换为 name），因此不能用 ID 常量校验；
+        # 改用 template_name 判断，与实例落库值和展示名一致，对存量数据同样有效。
+        if not ({inst1["template_name"], inst2["template_name"]}
+                == {"原罪（残缺）", "无罪（残缺）"}):
             return False, "❌ 融合需要一把「原罪（残缺）」和一把「无罪（残缺）」"
 
         # 品质取最高
