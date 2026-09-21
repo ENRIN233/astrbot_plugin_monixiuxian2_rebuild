@@ -5,6 +5,7 @@ from typing import Tuple
 from ..data import DataBase
 from ..models import Player
 from .combat_manager import CombatManager
+from .skill_manager import SkillManager
 
 __all__ = ["ImpartPkManager"]
 
@@ -16,6 +17,8 @@ class ImpartPkManager:
         self.db = db
         self.combat_mgr = combat_mgr
         self.config_manager = config_manager
+        # 神通系统（与切磋/决斗/世界Boss同口径接入战斗计算）
+        self.skill_manager = SkillManager(config_manager) if config_manager else None
 
     async def challenge_impart(self, attacker: Player, defender: Player) -> Tuple[bool, str, dict]:
         """发起传承挑战
@@ -36,7 +39,14 @@ class ImpartPkManager:
         def_stats = await CombatManager.build_player_combat_stats(defender, defender_impart, self.config_manager)
 
         # 使用统一的 PvP 战斗机制（切磋模式，不消耗HP/MP）
-        result = self.combat_mgr.player_vs_player(atk_stats, def_stats, combat_type=1)
+        # 神通接入：与切磋/决斗同口径，双方装备的神通（player.shentong）参与战斗计算
+        p1_skill = attacker.shentong if hasattr(attacker, "shentong") and attacker.shentong else ""
+        p2_skill = defender.shentong if hasattr(defender, "shentong") and defender.shentong else ""
+        result = self.combat_mgr.player_vs_player(
+            atk_stats, def_stats, combat_type=1,
+            p1_skill_name=p1_skill, p2_skill_name=p2_skill,
+            skill_manager=self.skill_manager,
+        )
 
         attacker_wins = result["winner"] == attacker.user_id
 
