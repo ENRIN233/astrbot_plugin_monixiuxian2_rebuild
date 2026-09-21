@@ -1615,11 +1615,12 @@ class XiuXianPlugin(Star):
             yield r
 
     # ===== 传承指令 =====
+    # 注：传承获得途径尚未实装（ImpartManager.update_impart 无调用方，玩家无法首次获得传承），
+    #     入口暂时返回开发中提示；底层 handlers/managers 保留，待获得途径实装后恢复委托。
     @filter.command(CMD_IMPART_INFO, "查看传承信息")
     @require_whitelist
     async def handle_impart_info(self, event: AstrMessageEvent):
-        async for r in self.impart_handlers.handle_impart_info(event):
-            yield r
+        yield event.plain_result("🚧 传承系统仍在开发中，敬请期待～")
 
     # ===== Phase 1: 道号系统 =====
     @filter.command(CMD_CHANGE_NICKNAME, "修改道号")
@@ -1722,20 +1723,16 @@ class XiuXianPlugin(Star):
             yield r
 
     # ===== Phase 3: 传承PK =====
+    # 注：获得途径未实装，传承PK（胜+ATK传承/败-修为）暂不可达，入口返回开发中提示。
     @filter.command(CMD_IMPART_CHALLENGE, "发起传承挑战")
     @require_whitelist
     async def handle_impart_challenge(self, event: AstrMessageEvent, target: str = ""):
-        async for r in self.impart_pk_handlers.handle_impart_challenge(event, target):
-            yield r
-        footer = get_related_commands_footer("传承挑战")
-        if footer:
-            yield event.plain_result(footer)
+        yield event.plain_result("🚧 传承系统仍在开发中，敬请期待～")
 
     @filter.command(CMD_IMPART_RANKING, "查看传承排行")
     @require_whitelist
     async def handle_impart_ranking(self, event: AstrMessageEvent):
-        async for r in self.impart_pk_handlers.handle_impart_ranking(event):
-            yield r
+        yield event.plain_result("🚧 传承系统仍在开发中，敬请期待～")
 
     # ===== Phase 4: 洞天福地 =====
     @filter.command(CMD_BLESSED_LAND_INFO, "查看洞天信息")
