@@ -91,21 +91,14 @@ class PlayerHandler:
 
         # 文本模式 (完整信息显示)
         
-        # 获取战力（nonebot 公式：exp * root_speed * realm_spend）
+        # 获取战力（v3：战斗指数 = 期望输出 × 有效生命的对数压缩，与 /战力排行 同口径，
+        # 真实反映战斗能力；原 exp×灵根×境界系数 仅反映修炼进度，已弃用）
         from ..managers.combat_manager import CombatManager
         impart_info = await self.db.ext.get_impart_info(player.user_id)
         combat_stats = await CombatManager.build_player_combat_stats(player, impart_info, self.config_manager)
 
-        # 读取灵根倍率
-        root_speed = self.cultivation_manager.get_spiritual_root_speed(player) if hasattr(self, 'cultivation_manager') else 1.0
-        # 读取境界 spend
-        level_data = self.config_manager.get_level_data()
-        realm_spend = level_data[player.level_index].get("spend", 1.0) if player.level_index < len(level_data) else 1.0
-
-        combat_power = CombatManager.calc_combat_power(
-            combat_stats, combat_stats.max_hp, combat_stats.max_mp,
-            experience=player.experience, root_speed=root_speed, realm_spend=realm_spend
-        )
+        profile = CombatManager.calc_combat_profile(combat_stats, combat_stats.max_hp)
+        combat_power = profile["combat_index"]
         
         # 获取宗门信息
         sect_name = "无宗门"
@@ -165,7 +158,7 @@ class PlayerHandler:
             f"  境界：{player.get_level(self.config_manager)}\n"
             f"  修为：{int(player.experience):,}/{int(required_exp):,}\n"
             f"  灵石：{player.gold:,}\n"
-            f"  战力：{combat_power:,}\n"
+            f"  战力：{combat_power:,}（战斗指数，口径同 /战力排行）\n"
             f"  灵根：{player.spiritual_root}\n"
             f"  突破加成：{breakthrough_rate}\n"
             f"\n"
@@ -184,6 +177,42 @@ class PlayerHandler:
             f"  🔁 反伤：{combat_stats.reflect_pct}%\n"
             f"  🧱 格挡：{combat_stats.block_value}\n"
             f"  💚 生命回复：{combat_stats.hp_regen_pct}%/回合\n"
+        )
+
+        # 【战斗评估】（v3：数据化战斗力画像，全部口径与实战公式一致）
+        def _fmt_cn_num(v: float) -> str:
+            v = float(v)
+            for div, unit in ((1e12, "万亿"), (1e8, "亿"), (1e4, "万")):
+                if v >= div:
+                    return f"{v / div:.2g}{unit}"
+            return f"{v:.0f}"
+
+        mirror_r = profile["mirror_rounds"]
+        if mirror_r <= 2.5:
+            pace_label = "⚡ 互秒节奏"
+        elif mirror_r <= 5:
+            pace_label = "⚔️ 速攻节奏"
+        elif mirror_r <= 10:
+            pace_label = "🕰️ 拉锯节奏"
+        else:
+            pace_label = "🛡️ 鏖战节奏"
+        atk_gain = (profile["attack_mult"] - 1.0) * 100
+        def_gain = (profile["defense_mult"] - 1.0) * 100
+        style_ratio = profile["attack_mult"] / max(profile["defense_mult"], 0.01)
+        if style_ratio >= 1.35:
+            style_label = "🗡️ 爆发流"
+        elif style_ratio <= 0.74:
+            style_label = "🛡️ 铁壁流"
+        else:
+            style_label = "⚖️ 均衡流"
+
+        reply_msg += (
+            f"\n"
+            f"【战斗评估】\n"
+            f"  ⚔️ 期望刀伤：{_fmt_cn_num(profile['edmg_per_hit'])}（暴击期望 {profile['crit_expect']:.2f}x）\n"
+            f"  🛡️ 有效生命：{_fmt_cn_num(profile['effective_hp'])}\n"
+            f"  ⏱️ 镜像战预测：{pace_label}（约 {max(1, round(mirror_r / 2))} 回合分出胜负）\n"
+            f"  🏷️ 流派：{style_label}（输出加成 +{atk_gain:.0f}% / 生存加成 +{def_gain:.0f}%）\n"
         )
 
         # 计算修炼效率

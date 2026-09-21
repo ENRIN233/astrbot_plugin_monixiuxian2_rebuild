@@ -32,19 +32,38 @@ QUALITY_AFFIX_COUNT: Dict[str, Tuple[int, int]] = {
     "极品": (3, 4),
 }
 
-# ── 随机词条池 ──
+# ── 随机词条池（v3 区间模板：每条词条按品质带权在 [min, max] 内 roll） ──
+# 设计文档：词条随机化设计方案 v3（实战校准版）
+# 锚点为战斗影响：极品套装 ≈ +35% 伤害增幅、毕业 ≈ +50%、天成全套 ≈ +65~77%
 
 FORGE_AFFIXES: List[dict] = [
-    {"name": "嗜血", "attr": "lifesteal", "val": 3},
-    {"name": "破甲", "attr": "armor_pen", "val": 5},
-    {"name": "连击", "attr": "double_hit", "val": 4},
-    {"name": "精准", "attr": "crit_rate", "val": 3},
-    {"name": "铁壁", "attr": "def_buff", "val": 0.03},
-    {"name": "闪避", "attr": "dodge_rate", "val": 3},
-    {"name": "暴伤", "attr": "crit_damage", "val": 0.1},
-    # 回春：战斗端按百分比整数使用（1 + hp_regen_pct/100），val=2 即每回合回复 2%
-    {"name": "回春", "attr": "hp_regen_pct", "val": 2},
+    {"name": "嗜血", "attr": "lifesteal", "min": 1.0, "max": 12.0},
+    {"name": "破甲", "attr": "armor_pen", "min": 2.0, "max": 12.0},
+    {"name": "连击", "attr": "double_hit", "min": 1.0, "max": 18.0},
+    {"name": "精准", "attr": "crit_rate", "min": 1.0, "max": 12.0},
+    {"name": "铁壁", "attr": "def_buff", "min": 0.01, "max": 0.10},
+    {"name": "闪避", "attr": "dodge_rate", "min": 1.0, "max": 12.0},
+    {"name": "暴伤", "attr": "crit_damage", "min": 0.02, "max": 0.40},
+    # 回春：战斗端按百分比数值使用（每回合回复 max_hp × val/100），val=2 即每回合 2%
+    {"name": "回春", "attr": "hp_regen_pct", "min": 0.5, "max": 6.0},
 ]
+
+# ── 词条 roll 机制（v3） ──
+
+# 品质带权：品质决定 roll 落在区间标尺的哪一段（0~1），相邻带重叠防断崖
+QUALITY_AFFIX_BANDS: Dict[str, Tuple[float, float]] = {
+    "中品": (0.00, 0.45),
+    "上品": (0.20, 0.75),
+    "极品": (0.55, 1.00),
+}
+# 下品不出词条（QUALITY_AFFIX_COUNT 为 0），无对应带
+
+# 天成概率：单条词条独立判定，直接突破数值表上限
+PERFECT_CHANCE: float = 0.04
+PERFECT_OVERCAP: float = 1.15  # 天成数值 = max × 1.15
+
+# 三角分布众数位置（区间下段 40% 处）：中庸为主、高 roll 稀缺
+BAND_MODE_FRAC: float = 0.4
 
 # ── 品质概率档位（按锻造等级分段） ──
 
@@ -118,14 +137,67 @@ class ForgingManager:
     # ── Affix system ──
 
     def _roll_affixes(self, quality: str) -> List[dict]:
-        """根据品级随机生成词条（不重复）"""
+        """根据品级随机生成词条（不重复抽池 + 带权区间 roll + 天成判定）
+
+        Returns:
+            词条实例列表，落库格式：
+            {"name": "精准", "attr": "crit_rate", "val": 13.8, "perfect": True}
+            （val 为浮点；天成词条携带 perfect 标记且 val = max × PERFECT_OVERCAP；
+            旧版固定值词条仅有 name/attr/val，读取端天然兼容）
+        """
         min_count, max_count = QUALITY_AFFIX_COUNT.get(quality, (0, 0))
         count = random.randint(min_count, max_count)
         if count <= 0:
             return []
+        band = QUALITY_AFFIX_BANDS.get(quality)
         pool = list(FORGE_AFFIXES)
         random.shuffle(pool)
-        return pool[:count]
+        chosen = pool[:count]
+        affixes: List[dict] = []
+        for tpl in chosen:
+            affixes.append(self._roll_affix_value(tpl, band))
+        return affixes
+
+    @staticmethod
+    def _roll_affix_value(tpl: dict, band: Optional[Tuple[float, float]]) -> dict:
+        """对单条词条模板 roll 数值（三角分布 + 品质带截断 + 天成）"""
+        name = tpl["name"]
+        attr = tpl["attr"]
+        lo = float(tpl["min"])
+        hi = float(tpl["max"])
+        if band is not None:
+            blo, bhi = band
+        else:
+            blo, bhi = 0.0, 1.0
+        if random.random() < PERFECT_CHANCE:
+            # 天成：突破数值表上限，携带 perfect 标记
+            return {"name": name, "attr": attr, "val": round(hi * PERFECT_OVERCAP, 4), "perfect": True}
+        mode = lo + BAND_MODE_FRAC * (hi - lo)
+        val = None
+        for _ in range(64):
+            x = random.triangular(lo, hi, mode)
+            if blo <= (x - lo) / (hi - lo) <= bhi:
+                val = x
+                break
+        if val is None:
+            # 极端兜底：取品质带内偏中位置
+            val = lo + (blo + 0.3 * (bhi - blo)) * (hi - lo)
+        # 保留 4 位小数，避免浮点长尾入库
+        return {"name": name, "attr": attr, "val": round(val, 4)}
+
+    @staticmethod
+    def format_affix_val(attr: str, val: float) -> str:
+        """单位感知的词条数值格式化（展示层统一入口）
+
+        - def_buff：内部小数 → 百分比减伤（0.03 → "+3%减伤"）
+        - crit_damage：会心伤害倍率增量（0.15 → "会伤+0.15"）
+        - 其余：均为百分比数值（3 → "+3%"；2 → "+2%"）
+        """
+        if attr == "def_buff":
+            return f"+{val * 100:g}%减伤"
+        if attr == "crit_damage":
+            return f"会伤+{val:g}"
+        return f"+{val:g}%"
 
     # ── Stats calculation ──
 
@@ -250,10 +322,15 @@ class ForgingManager:
             }
             await self.db_extended.create_weapon_instance(player.user_id, data)
 
-            # 单次结果行
+            # 单次结果行（v3：词条名 + 数值 + 天成高光）
             if affixes:
-                affix_names = [a["name"] for a in affixes]
-                affix_str = f" 词条: {' '.join(affix_names)}"
+                affix_parts = []
+                for a in affixes:
+                    part = f"{a['name']}{self.format_affix_val(a['attr'], a['val'])}"
+                    if a.get("perfect"):
+                        part = f"✨{part}（天成）"
+                    affix_parts.append(part)
+                affix_str = f" 词条: {' '.join(affix_parts)}"
             else:
                 affix_str = ""
             result_lines.append(f"  🔸 {output_template}·{quality}{affix_str}")
@@ -382,8 +459,17 @@ class ForgingManager:
         await self.db_extended.delete_weapon_instance(player.user_id, id1)
         await self.db_extended.delete_weapon_instance(player.user_id, id2)
 
-        affix_names = [a["name"] for a in inherited]
-        affix_str = f"词条: {' '.join(affix_names)}" if affix_names else "无词条"
+        # 继承词条播报（v3：带数值展示，天成词条保留高光标记）
+        if inherited:
+            inherit_parts = []
+            for a in inherited:
+                part = f"{a['name']}{self.format_affix_val(a['attr'], a['val'])}"
+                if a.get("perfect"):
+                    part = f"✨{part}（天成）"
+                inherit_parts.append(part)
+            affix_str = "词条: " + " ".join(inherit_parts)
+        else:
+            affix_str = "无词条"
         lines = [
             "✨ 融合成功！",
             "━━━━━━━━━━━━━━━",

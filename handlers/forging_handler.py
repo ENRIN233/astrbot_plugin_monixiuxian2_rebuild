@@ -93,6 +93,10 @@ class ForgingHandler:
         for q, r in qrates.items():
             lines.append(f"  {q}：{r*100:.0f}%")
         lines.append("━━━━━━━━━━━━━━━")
+        lines.append("词条机制：")
+        lines.append("  · 中/上/极品锻造出 1~4 条随机词条，数值在区间内随机（品质越高数值越高）")
+        lines.append("  · 每条词条 4% 概率「天成」：✨突破数值上限 15%")
+        lines.append("  · 融合时同词条取高值继承")
         lines.append("💡 使用 /锻造配方 查看可锻造的配方")
 
         yield event.plain_result("\n".join(lines))
