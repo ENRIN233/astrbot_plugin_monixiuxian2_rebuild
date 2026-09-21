@@ -65,6 +65,41 @@ PERFECT_OVERCAP: float = 1.15  # 天成数值 = max × 1.15
 # 三角分布众数位置（区间下段 40% 处）：中庸为主、高 roll 稀缺
 BAND_MODE_FRAC: float = 0.4
 
+# ── 武器评分（双分数架构：词条评分 + 威力倍率，配套词条随机化 v3） ──
+# 设计文档：武器评分系统设计（评级阈值经 15 万场 roll 模拟锚定）
+
+# 旧格式固定值词条表（v3 上线前的存量数据），按 LEGACY_AFFIX_T 计入评分
+LEGACY_AFFIX_VALS: Dict[str, float] = {
+    "lifesteal": 3,
+    "armor_pen": 5,
+    "double_hit": 4,
+    "crit_rate": 3,
+    "def_buff": 0.03,
+    "dodge_rate": 3,
+    "crit_damage": 0.1,
+    "hp_regen_pct": 2,
+}
+# 旧固定值 = 随机化前的期望锚点，对应 v3 标尺的上品期望位置 0.45
+LEGACY_AFFIX_T: float = 0.45
+
+# 评级分档（锚点：中品 P50=32 → C/D 分界 30；极品 P50=71 → A 档 70；
+# 毕业 90 → S 档 85；SS≥100 仅天成可达——单条满 roll 上限 100、天成 115）
+SCORE_GRADES: List[Tuple[float, str]] = [
+    (100.0, "SS"),
+    (85.0, "S"),
+    (70.0, "A"),
+    (55.0, "B"),
+    (30.0, "C"),
+]
+
+# 威力倍率折算系数（复用战斗公式既有常数，零新增 magic number）：
+# 连击 0.5 = execute_attack 连击伤害减半；破甲 0.85 = 减伤公式中装备防御层占比折算
+POWER_DBL_FRAC: float = 0.5
+POWER_PEN_FRAC: float = 0.85
+
+# 词条模板索引（attr → 区间模板），供评分标尺定位
+AFFIX_TPL_BY_ATTR: Dict[str, dict] = {t["attr"]: t for t in FORGE_AFFIXES}
+
 # ── 品质概率档位（按锻造等级分段） ──
 
 QUALITY_RATES_TIERS: List[Tuple[int, Dict[str, float]]] = [
@@ -199,6 +234,132 @@ class ForgingManager:
             return f"会伤+{val:g}"
         return f"+{val:g}%"
 
+    # ── Weapon scoring（双分数：词条评分 + 威力倍率） ──
+
+    @staticmethod
+    def _parse_affixes_field(raw) -> List[dict]:
+        """实例 affixes 字段解析（兼容 JSON 字符串 / 列表 / 脏数据）"""
+        if isinstance(raw, str):
+            try:
+                import json as _j
+                parsed = _j.loads(raw)
+                return parsed if isinstance(parsed, list) else []
+            except (ValueError, TypeError):
+                return []
+        return raw if isinstance(raw, list) else []
+
+    @staticmethod
+    def _affix_t(affix: dict) -> float:
+        """单条词条在 v3 区间标尺上的位置（0~1，天成 1.15，旧格式 0.45）"""
+        if affix.get("perfect"):
+            return PERFECT_OVERCAP
+        attr = affix.get("attr", "")
+        tpl = AFFIX_TPL_BY_ATTR.get(attr)
+        val = float(affix.get("val", 0) or 0)
+        if tpl is None or val == LEGACY_AFFIX_VALS.get(attr):
+            # 未知属性 / 旧格式固定值：按随机化前期望锚点 0.45 计入
+            return LEGACY_AFFIX_T
+        lo, hi = float(tpl["min"]), float(tpl["max"])
+        t = (val - lo) / (hi - lo)
+        # 脏数据 clamp：val 超出合理范围时不崩溃，异常高值最多视作天成位
+        return max(0.0, min(PERFECT_OVERCAP, t))
+
+    @staticmethod
+    def grade_of(score: float) -> str:
+        """词条评分 → 评级（阈值经 15 万场 roll 模拟锚定）"""
+        for threshold, grade in SCORE_GRADES:
+            if score >= threshold:
+                return grade
+        return "D"
+
+    @staticmethod
+    def score_instance(inst: dict) -> dict:
+        """武器/防具实例双分数评分（设计文档：武器评分系统设计）
+
+        - 词条评分 roll_score：100 × mean(t_i)，t_i 为词条在区间标尺上的
+          位置（等权、只衡量 roll 质量）；无词条为 None
+        - 威力倍率 power_mult：白板持有者（暴击 0 / 无其他加成）装备该件后
+          的输出乘数 × 生存乘数，系数全部复用官方战斗公式
+        - grade：D/C/B/A/S/SS 分档；无词条为 None
+
+        Returns:
+            {"roll_score", "grade", "power_mult", "breakdown"}
+            breakdown.affixes: 每条词条的 t 值明细（/武器评分 详情用）
+            breakdown.power:  atk/crit/dbl/pen + def/dodge/regen/steal 乘数及 A/D
+        """
+        inst = inst or {}
+        affixes = ForgingManager._parse_affixes_field(inst.get("affixes", "[]"))
+
+        # ── 词条评分：标尺位置等权均值 ──
+        affix_bd: List[dict] = []
+        if affixes:
+            ts = []
+            for a in affixes:
+                t = ForgingManager._affix_t(a)
+                ts.append(t)
+                affix_bd.append({
+                    "name": a.get("name", "?"),
+                    "attr": a.get("attr", ""),
+                    "val": float(a.get("val", 0) or 0),
+                    "perfect": bool(a.get("perfect")),
+                    "t": t,
+                })
+            roll_score = int(round(100 * sum(ts) / len(ts)))
+            grade = ForgingManager.grade_of(roll_score)
+        else:
+            roll_score = None
+            grade = None
+
+        # ── 威力倍率：模板属性 + 词条代入官方乘数链 ──
+        def _total(field: str, attr: str) -> float:
+            base = float(inst.get(field, 0) or 0)
+            extra = sum(
+                float(a.get("val", 0) or 0)
+                for a in affixes if a.get("attr") == attr
+            )
+            return base + extra
+
+        atk = float(inst.get("atk_bonus", 0) or 0)
+        crit_rate = _total("crit_rate", "crit_rate")
+        crit_damage = _total("crit_damage", "crit_damage")
+        double_hit = _total("double_hit", "double_hit")
+        armor_pen = _total("armor_pen", "armor_pen")
+        # 战斗端武器 damage_reduction 并入 def_buff（load_equipment_bonus 同口径）
+        def_buff = _total("def_buff", "def_buff") + float(inst.get("damage_reduction", 0) or 0)
+        dodge = _total("dodge_rate", "dodge_rate")
+        hp_regen = _total("hp_regen_pct", "hp_regen_pct")
+        lifesteal = _total("lifesteal", "lifesteal")
+
+        atk_part = 1 + atk
+        crit_part = 1 + min(crit_rate, 100.0) / 100.0 * max(0.0, crit_damage)
+        dbl_part = 1 + min(double_hit, 100.0) / 100.0 * POWER_DBL_FRAC
+        pen_part = 1 + armor_pen * POWER_PEN_FRAC / 100.0
+        atk_mult = atk_part * crit_part * dbl_part * pen_part
+        def_mult = (
+            (1 + def_buff)
+            * 100.0 / (100.0 - min(dodge, 95.0))
+            * (1 + hp_regen / 100.0)
+            * (1 + lifesteal / 100.0)
+        )
+
+        return {
+            "roll_score": roll_score,
+            "grade": grade,
+            "power_mult": atk_mult * def_mult,
+            "breakdown": {
+                "affixes": affix_bd,
+                "power": {
+                    "atk": atk_part, "crit": crit_part,
+                    "dbl": dbl_part, "pen": pen_part,
+                    "def": 1 + def_buff,
+                    "dodge": 100.0 / (100.0 - min(dodge, 95.0)),
+                    "regen": 1 + hp_regen / 100.0,
+                    "steal": 1 + lifesteal / 100.0,
+                    "A": atk_mult, "D": def_mult,
+                },
+            },
+        }
+
     # ── Stats calculation ──
 
     @staticmethod
@@ -322,7 +483,7 @@ class ForgingManager:
             }
             await self.db_extended.create_weapon_instance(player.user_id, data)
 
-            # 单次结果行（v3：词条名 + 数值 + 天成高光）
+            # 单次结果行（v3：词条名 + 数值 + 天成高光；双分数：评分 74（A））
             if affixes:
                 affix_parts = []
                 for a in affixes:
@@ -331,9 +492,12 @@ class ForgingManager:
                         part = f"✨{part}（天成）"
                     affix_parts.append(part)
                 affix_str = f" 词条: {' '.join(affix_parts)}"
+                score_info = self.score_instance(data)
+                score_str = f" 评分 {score_info['roll_score']}（{score_info['grade']}）"
             else:
                 affix_str = ""
-            result_lines.append(f"  🔸 {output_template}·{quality}{affix_str}")
+                score_str = ""
+            result_lines.append(f"  🔸 {output_template}·{quality}{score_str}{affix_str}")
 
             total_exp += forge_exp
 
@@ -470,12 +634,31 @@ class ForgingManager:
             affix_str = "词条: " + " ".join(inherit_parts)
         else:
             affix_str = "无词条"
+
+        # 评分播报：继承后总分 + 融合前后对比（SS 低威力=融合神材料的引导信号）
+        new_score = self.score_instance(data)
+        before_scores = [
+            s["roll_score"]
+            for s in (self.score_instance(inst1), self.score_instance(inst2))
+            if s["roll_score"] is not None
+        ]
+        if new_score["roll_score"] is not None:
+            score_line = (
+                f"评分：{new_score['roll_score']}（{new_score['grade']}）"
+                f"　威力 ×{new_score['power_mult']:.2f}"
+            )
+            if before_scores:
+                score_line += f"（融合前 {'/'.join(str(b) for b in before_scores)}）"
+        else:
+            score_line = f"评分：无词条　威力 ×{new_score['power_mult']:.2f}"
+
         lines = [
             "✨ 融合成功！",
             "━━━━━━━━━━━━━━━",
             f"原罪（{q1}）+ 无罪（{q2}）→ 天罪（{best_quality}）",
             f"属性：ATK+{stats.get('atk_bonus', 0)*100:.0f}% 暴击+{stats.get('crit_rate', 0)}%",
             f"继承：{affix_str}",
+            score_line,
             "━━━━━━━━━━━━━━━",
             "💡 使用 /装备 <序号> 装备天罪",
         ]

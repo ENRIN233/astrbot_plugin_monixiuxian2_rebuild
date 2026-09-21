@@ -146,6 +146,77 @@ class ForgingHandler:
         success, msg = await self.forging_mgr.fuse(player, id1, id2)
         yield event.plain_result(msg)
 
+    @player_required
+    async def handle_weapon_score(self, player: Player, event, instance_ref: str = ""):
+        """查看武器评分详情
+
+        格式：/武器评分 <序号/ID>
+        展示双分数：词条评分（每条 roll 位置）+ 威力倍率（官方乘数链构成）
+        """
+        if not instance_ref:
+            yield event.plain_result(
+                "❌ 请指定要评分的武器序号或ID\n"
+                "格式：/武器评分 <序号/ID>\n"
+                "使用 /武器列表 查看拥有的武器"
+            )
+            return
+        if not self.db_extended:
+            yield event.plain_result("❌ 武器实例系统未初始化")
+            return
+
+        resolved = await self._resolve_index(player, instance_ref) or instance_ref
+        inst = await self.db_extended.get_weapon_instance(resolved)
+        if not inst:
+            yield event.plain_result("❌ 武器实例不存在，使用 /武器列表 查看可用序号")
+            return
+        if inst["user_id"] != player.user_id:
+            yield event.plain_result("❌ 这不是你的武器")
+            return
+
+        info = self.forging_mgr.score_instance(inst)
+        lines = [
+            f"🔍 武器评分：{inst.get('template_name', '?')}·{inst.get('quality', '?')}",
+            "━━━━━━━━━━━━━━━",
+        ]
+        if info["roll_score"] is not None:
+            lines.append(
+                f"词条评分：{info['roll_score']}（{info['grade']}）"
+                f"　威力倍率：×{info['power_mult']:.2f}"
+            )
+            for a in info["breakdown"]["affixes"]:
+                val_str = self.forging_mgr.format_affix_val(a["attr"], a["val"])
+                name_part = (
+                    f"✨{a['name']}{val_str}（天成）"
+                    if a["perfect"] else f"{a['name']}{val_str}"
+                )
+                lines.append(f"  · {name_part}  roll {round(a['t'] * 100)}/100")
+        else:
+            lines.append(f"词条评分：无词条　威力倍率：×{info['power_mult']:.2f}")
+
+        # 威力构成（仅展示有实际贡献的乘数，口径同战斗公式）
+        p = info["breakdown"]["power"]
+        atk_parts = [
+            f"{label}×{p[key]:.2f}"
+            for label, key in (("ATK", "atk"), ("暴击", "crit"), ("连击", "dbl"), ("破甲", "pen"))
+            if abs(p[key] - 1.0) > 0.005
+        ]
+        def_parts = [
+            f"{label}×{p[key]:.2f}"
+            for label, key in (("减伤", "def"), ("闪避", "dodge"), ("回血", "regen"), ("吸血", "steal"))
+            if abs(p[key] - 1.0) > 0.005
+        ]
+        if atk_parts or def_parts:
+            power_str = " ".join(atk_parts)
+            if def_parts:
+                power_str += " | " + " ".join(def_parts)
+            lines.append(f"威力构成：{power_str}")
+        else:
+            lines.append("威力构成：白板（无加成）")
+
+        lines.append("━━━━━━━━━━━━━━━")
+        lines.append("💡 评分只看 roll 位置；实战强度看威力倍率（口径同战斗公式）")
+        yield event.plain_result("\n".join(lines))
+
     async def _resolve_index(self, player: Player, raw: str) -> str | None:
         """将数字序号解析为 instance_id"""
         if raw.isdigit() and self.db_extended:

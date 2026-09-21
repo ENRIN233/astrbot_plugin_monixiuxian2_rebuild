@@ -53,6 +53,7 @@ CMD_SHOW_EQUIPMENT = "我的装备"
 CMD_EQUIP_ITEM = "装备"
 CMD_UNEQUIP_ITEM = "卸下"
 CMD_WEAPON_LIST = "武器列表"
+CMD_WEAPON_SCORE = "武器评分"
 
 # 锻造系统指令
 CMD_FORGE = "锻造"
@@ -1143,6 +1144,12 @@ class XiuXianPlugin(Star):
     @require_whitelist
     async def handle_fuse(self, event: AstrMessageEvent, arg1: str = "", arg2: str = ""):
         async for r in self.forging_handler.handle_fuse(event, arg1, arg2):
+            yield r
+
+    @filter.command(CMD_WEAPON_SCORE, "查看武器评分详情")
+    @require_whitelist
+    async def handle_weapon_score(self, event: AstrMessageEvent, instance_id: str = ""):
+        async for r in self.forging_handler.handle_weapon_score(event, instance_id):
             yield r
 
     @filter.command(CMD_WEAPON_LIST, "查看武器库")

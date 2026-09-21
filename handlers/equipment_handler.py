@@ -75,8 +75,18 @@ class EquipmentHandler:
             atk = inst.get("atk_bonus", 0.0) * 100
             crit = inst.get("crit_rate", 0)
 
+            # 双分数徽章：词条评分·评级 + 威力倍率（无词条实例显示「无词条」）
+            score_info = ForgingManager.score_instance(inst)
+            if score_info["roll_score"] is not None:
+                score_str = (
+                    f" {score_info['roll_score']}分·{score_info['grade']}"
+                    f" ×{score_info['power_mult']:.2f}"
+                )
+            else:
+                score_str = f" 无词条 ×{score_info['power_mult']:.2f}"
+
             lines.append(
-                f"  {global_idx}. {template}·{quality}{equipped_mark}\n"
+                f"  {global_idx}. {template}·{quality}{equipped_mark}{score_str}\n"
                 f"    ATK+{atk:.0f}% 暴击+{crit}% {affix_str}"
             )
 
