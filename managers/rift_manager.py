@@ -108,6 +108,8 @@ class RiftManager:
     DEFAULT_EQUIP_MAX_LEVEL = {1: 12, 2: 22, 3: 35, 4: 35, 5: 35}  # 各秘境等级允许的最高装备等级
     DEFAULT_LEVEL_MATCH_HALF_LIFE = 5.0                 # 等级匹配半衰期
     DEFAULT_WEAPON_ARMOR_RATIO = 50                     # 武器掉落占比(%)
+    REWARD_STONE_CHANCE = 50                            # 秘境灵石奖励触发概率(%)
+    REWARD_EXP_CHANCE = 100                             # 秘境修为奖励触发概率(%)（修为必得）
     DEFAULT_RANK_BASE_WEIGHT = {                        # 品级基础权重（控制各品级掉落概率分布）
         "下品符器": 1000, "上品符器": 500, "下品玄器": 400, "上品玄器": 300,
         "下品法器": 200, "下品纯阳": 150, "上品纯阳": 100,
@@ -307,7 +309,7 @@ class RiftManager:
                 rift_def = r
                 break
 
-        # 灵石/修为奖励（50% 独立概率，等级动态缩放）
+        # 灵石/修为奖励（独立概率：灵石 50%、修为 100% 必得，等级动态缩放）
         reward_lines = []
         got_stone = False
         got_exp = False
@@ -319,7 +321,7 @@ class RiftManager:
             base_stone = rift_def.get("reward_stone", 0)
             base_exp = rift_def.get("reward_exp", 0)
 
-            if base_stone > 0 and random.randint(1, 100) <= 50:
+            if base_stone > 0 and random.randint(1, 100) <= self.REWARD_STONE_CHANCE:
                 stone_reward = int(base_stone * level_bonus)
                 player.gold += stone_reward
                 got_stone = True
@@ -327,7 +329,7 @@ class RiftManager:
 
             # v4.3.7 修为占比式：share_day(idx) × rift_exp_split × exp_needed[下一级] × (base_exp / 归一常数)
             # 秘境等级差异保留 base_exp 相对比例（归一常数 = 5 级秘境 reward_exp）
-            if base_exp > 0 and random.randint(1, 100) <= 50:
+            if base_exp > 0 and random.randint(1, 100) <= self.REWARD_EXP_CHANCE:
                 norm = float(level_cfg.get("rift_exp_base_norm", 16302))
                 split = float(level_cfg.get("rift_exp_split", 0.325))
                 scale = base_exp / norm if norm > 0 else 1.0
