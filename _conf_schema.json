@@ -18,8 +18,8 @@
       "BOSS_ENABLED": {
         "description": "是否启用Boss系统",
         "type": "bool",
-        "default": false,
-        "hint": "关闭后将停止Boss定时生成，玩家无法挑战Boss。已存在的Boss不会被清除。"
+        "default": true,
+        "hint": "开启后每小时自动生成世界Boss并全服广播，玩家可挑战获取灵石与锻造材料。关闭将停止定时生成并禁用挑战。老版本部署若已保存过配置，需在插件配置中手动开启。"
       }
     }
   },
@@ -44,12 +44,6 @@
         "type": "int",
         "default": 500000,
         "hint": "每日签到获得的固定灵石数量。v2调整为500,000。"
-      },
-      "BREAKTHROUGH_DEATH_PROBABILITY": {
-        "description": "突破失败死亡概率范围",
-        "type": "list",
-        "default": [0.01, 0.1],
-        "hint": "突破失败时的死亡概率范围。第一个值为最小概率（1%），第二个值为最大概率（10%）。每次突破失败会在此范围内随机一个死亡概率。"
       }
     }
   },

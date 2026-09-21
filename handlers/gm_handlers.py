@@ -64,7 +64,7 @@ class GMHandlers:
             "GM补偿 <物品 数量|物品 数量> — 创建全服补偿包\n"
             "━━━━━━━━━━━━━━━\n"
             "目标支持 @某人 或 QQ号\n"
-            "补偿物品用 | 分隔，数量默认1，例：GM补偿 灵草 10|炼气丹 5"
+            "补偿物品用 | 分隔，数量默认1，例：GM补偿 百年灵草 10|筑基丹 5"
         )
 
     async def handle_add_gold(self, target_id: str, args: str) -> str:
@@ -204,7 +204,6 @@ class GMHandlers:
             f"修为：{player.experience:,}\n"
             f"灵石：{player.gold:,}\n"
             f"寿命：{player.lifespan}\n"
-            f"修炼路线：{player.cultivation_type}\n"
             f"储物戒：{player.storage_ring}（{item_count}件物品）\n"
             f"丹药：{pill_count}种\n"
             f"武器：{player.weapon or '无'}（实例: {player.equipped_weapon or '无'}）\n"
@@ -248,7 +247,7 @@ class GMHandlers:
         """GM创建全服补偿包"""
         items = self._parse_compensation_items(args)
         if not items:
-            return "用法：GM补偿 <物品名 数量|物品名 数量>\n示例：GM补偿 灵草 10|炼气丹 5|精铁"
+            return "用法：GM补偿 <物品名 数量|物品名 数量>\n示例：GM补偿 百年灵草 10|筑基丹 5|精铁"
         import json
         items_json = json.dumps(items, ensure_ascii=False)
         comp_id = await self.db.ext.create_compensation(items_json)

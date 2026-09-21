@@ -72,7 +72,7 @@ class DataBase:
                 permanent_pill_usage, achievement_data, bank_vip_tier,
                 daily_activity, daily_activity_points, daily_activity_date, daily_activity_rewarded,
                 equipped_weapon, equipped_armor, forging_exp, forging_level
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 player.user_id,
@@ -294,7 +294,7 @@ class DataBase:
         try:
             tables = [
                 ("DELETE FROM player_skills WHERE user_id = ?", (user_id,)),
-                ("UPDATE trades SET status = 'cancelled' WHERE (initiator_id = ? OR target_id = ?) AND status = 'pending'",
+                ("UPDATE trades SET status = 'cancelled' WHERE (player_a = ? OR player_b = ?) AND status = 'trading'",
                  (user_id, user_id)),
                 ("DELETE FROM consignment_listings WHERE seller_id = ?", (user_id,)),
                 ("DELETE FROM gm_compensation_claims WHERE user_id = ?", (user_id,)),

@@ -22,7 +22,6 @@ class ConfigManager:
         self.achievements_data: Dict[str, dict] = {}  # 成就数据，key为成就名称
         self.herbs_data: Dict[str, dict] = {}  # 药材数据，key为药材ID
         self.furnaces_data: Dict[str, dict] = {}  # 炼丹炉数据，key为炉子ID
-        self.realm_data: Dict[str, dict] = {}  # 境界原始数据（nonebot格式）
         self.breakthrough_rates_data: Dict[str, int] = {}  # 突破概率（name→百分比）
         
         # 新增系统配置
@@ -31,12 +30,63 @@ class ConfigManager:
         self.rift_config: Dict[str, Any] = {}
         self.alchemy_config: Dict[str, Any] = {}
         self.forging_recipes: Dict[str, dict] = {}  # 锻造配方，key为配方ID
-        
+
         self._load_all()
 
-    def get_level_data(self, cultivation_type: str = "灵修") -> List[dict]:
-        """获取境界数据（统一境界体系，不再区分灵修/体修）"""
+    def get_level_data(self) -> List[dict]:
+        """获取境界数据（统一境界体系）"""
         return self.level_data
+
+    def get_next_exp_needed(self, level_index: int) -> int:
+        """获取下一境界突破所需修为（越界时取最后一级）"""
+        if not self.level_data:
+            return 0
+        nxt = min(max(0, level_index) + 1, len(self.level_data) - 1)
+        try:
+            return int(self.level_data[nxt].get("exp_needed", 0) or 0)
+        except (TypeError, ValueError):
+            return 0
+
+    def get_exp_share_day(self, level_index: int) -> float:
+        """v4.3.7 日总活跃修为占比（悬赏3次+秘境1次合计 ÷ 下一级 exp_needed）
+
+        分段衰减曲线：idx <= slowdown_from 用基础衰减（前期快），
+        之后切换放慢衰减（金丹后逐渐放慢）。全部参数在 game_config.level_scaling。
+        """
+        ls = self.game_config.get("level_scaling", {}) if isinstance(self.game_config, dict) else {}
+        base = float(ls.get("exp_share_base_decay", 0.9486))
+        slow_from = int(ls.get("exp_share_slowdown_from", 18))
+        slow = float(ls.get("exp_share_slowdown_decay", 0.9229))
+        mn = float(ls.get("exp_share_min", 0.01))
+        idx = max(0, level_index)
+        if idx <= slow_from:
+            v = base ** idx
+        else:
+            v = (base ** slow_from) * (slow ** (idx - slow_from))
+        return max(mn, v)
+
+    def get_closing_realm_mult(self, level_index: int) -> float:
+        """v4.3.8 闭关境界因子（普通灵根挂满 24h 的日占比锚定）
+
+        idx <= slowdown_from：恒为 1.0（前期闭关溢出，保持现状）；
+        idx >  slowdown_from：从现状占比（closing_exp_share_mid）沿衰减曲线
+        收敛到 closing_exp_share_end（后期闭关恢复挂机底盘地位）。
+        """
+        ls = self.game_config.get("level_scaling", {}) if isinstance(self.game_config, dict) else {}
+        slow_from = int(ls.get("exp_share_slowdown_from", 18))
+        idx = max(0, level_index)
+        if idx <= slow_from:
+            return 1.0
+        share_mid = float(ls.get("closing_exp_share_mid", 0.045))
+        share_end = float(ls.get("closing_exp_share_end", 0.03))
+        mn = float(ls.get("closing_exp_share_min", 0.008))
+        k = (share_end / share_mid) ** (1.0 / max(1, 57 - slow_from))
+        share = share_mid * (k ** (idx - slow_from))
+        share = max(mn, share)
+        needed = self.get_next_exp_needed(idx)
+        if needed <= 0:
+            return 1.0
+        return share * needed / 86400.0
 
     def _load_json_data(self, file_path: Path) -> List[dict]:
         """加载JSON配置文件（列表格式）"""
@@ -128,7 +178,6 @@ class ConfigManager:
         self.forging_recipes = self._load_items_data(config_dir / "forging_recipes.json")
         self.herbs_data = self._load_json_data(config_dir / "herbs.json")
         self.furnaces_data = self._load_json_data(config_dir / "furnaces.json")
-        self.realm_data = self._load_json_data(config_dir / "realm_config.json")
         self.breakthrough_rates_data = self._load_json_data(config_dir / "breakthrough_rates.json")
 
         # 加载游戏配置（包含各系统的硬编码参数）
@@ -139,7 +188,6 @@ class ConfigManager:
         logger.info(
             f"配置管理器初始化完成，"
             f"加载了 {len(self.level_data)} 个境界配置，"
-            f"{len(self.realm_data)} 个境界原始数据，"
             f"以及新系统配置 (宗门/Boss/秘境/炼丹)，"
             f"{len(self.skills_data)} 个神通配置，"
             f"{len(self.achievements_data)} 个成就配置"

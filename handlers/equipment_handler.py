@@ -285,6 +285,8 @@ class EquipmentHandler:
                 return
 
             # 从实例构建 Item 对象
+            # 注：def_buff/dodge_rate/crit_resist/reflect_pct/block_value/hp_regen_pct
+            # 不属于 Item 模型，战斗时由 combat_manager.load_equipment_bonus 直接从实例读取
             from ..models import Item as ItemModel
             item = ItemModel(
                 item_id=inst["instance_id"],
@@ -300,12 +302,6 @@ class EquipmentHandler:
                 lifesteal=inst.get("lifesteal", 0),
                 double_hit=inst.get("double_hit", 0),
                 damage_reduction=inst.get("damage_reduction", 0.0),
-                def_buff=inst.get("def_buff", 0.0),
-                dodge_rate=inst.get("dodge_rate", 0),
-                crit_resist=inst.get("crit_resist", 0),
-                reflect_pct=inst.get("reflect_pct", 0),
-                block_value=inst.get("block_value", 0),
-                hp_regen_pct=inst.get("hp_regen_pct", 0.0),
             )
 
             success, msg = await self.equipment_manager.equip_item(player, item)

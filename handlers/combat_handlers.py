@@ -238,7 +238,7 @@ class CombatHandlers:
         yield event.plain_result(f"{log}")
 
     async def handle_scarecrow(self, event: AstrMessageEvent):
-        """稻草人练习（每次攻击固定1伤害，15回合）"""
+        """稻草人练习（15回合，防御为0，稻草人每回合固定反伤1）"""
         user_id = event.get_sender_id()
 
         player = await self.db.get_player_by_id(user_id)

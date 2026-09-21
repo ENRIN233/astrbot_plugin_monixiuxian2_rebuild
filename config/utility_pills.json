@@ -192,6 +192,22 @@
     "_source_id": "1112"
   },
   {
+    "id": "util_1113",
+    "name": "渡厄丹",
+    "description": "回复状态的15%，任何境界皆可服用",
+    "rank": "凡品",
+    "subtype": "healing",
+    "required_level_index": 0,
+    "price": 100000,
+    "effect_type": "instant",
+    "effect": {
+      "heal_hp_pct": 0.15
+    },
+    "shop_weight": 500,
+    "_source": "builtin",
+    "_source_id": "1113"
+  },
+  {
     "id": "util_2000",
     "name": "洗髓丹",
     "description": "回复状态的20%，筑基境以上可以使用",
@@ -482,7 +498,7 @@
   {
     "id": "util_1998",
     "name": "渡厄金丹",
-    "description": "使下一次突破丢失的修为减少为0！并且增加一成修为！！",
+    "description": "使下一次突破失败不损失修为（免疫一次失败）！",
     "rank": "凡品",
     "required_level_index": 6,
     "price": 100000,
@@ -495,5 +511,20 @@
       "death_protection": true
     },
     "max_uses": 1
+  },
+  {
+    "id": "util_1999",
+    "name": "龙精虎猛丹",
+    "description": "服用后下一次双修修为翻倍，效果持续至双修消耗为止（每日最多服用2颗）",
+    "rank": "凡品",
+    "required_level_index": 6,
+    "price": 200000,
+    "shop_weight": 200,
+    "_source": "builtin",
+    "_source_id": "1999",
+    "subtype": "dual_cultivation_boost",
+    "effect_type": "temporary",
+    "duration_minutes": 0,
+    "dual_cultivation_exp_bonus": 1.0
   }
 ]

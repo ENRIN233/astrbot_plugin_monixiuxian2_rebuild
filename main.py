@@ -284,7 +284,7 @@ class XiuXianPlugin(Star):
         
         # Phase 2: 灵石银行和悬赏令
         self.bank_mgr = BankManager(self.db, self.config_manager.game_config, self.activity_tracker)
-        self.bounty_mgr = BountyManager(self.db, self.storage_ring_mgr, self.config_manager.items_data, self.config_manager.skills_data, self.activity_tracker, game_config=self.config_manager.game_config)
+        self.bounty_mgr = BountyManager(self.db, self.storage_ring_mgr, self.config_manager.items_data, self.config_manager.skills_data, self.activity_tracker, game_config=self.config_manager.game_config, config_manager=self.config_manager)
         self.bank_handlers = BankHandlers(self.db, self.bank_mgr)
         self.gambling_handler = GamblingHandler(self.db)
         self.bounty_handlers = BountyHandlers(self.db, self.bounty_mgr)
@@ -535,21 +535,34 @@ class XiuXianPlugin(Star):
     async def _broadcast_boss_defeat(self, player_name: str, battle_result: dict):
         """广播Boss被击杀消息到所有白名单群聊"""
         from astrbot.api.event import MessageChain
-        
+
         if not self.whitelist_groups:
             return
-        
+
         reward = battle_result.get("reward", 0)
         rounds = battle_result.get("rounds", 0)
-        
+
+        # 贡献榜 TOP3（v4.3.6：ID 回查名字）
+        top_desc = ""
+        top = battle_result.get("boss_top") or []
+        if top:
+            top_lines = []
+            for uid, dmg in top[:3]:
+                p = await self.db.get_player_by_id(str(uid))
+                name = (p.user_name if p and p.user_name else f"道友{str(uid)[:6]}")
+                top_lines.append(f"🏆 {name} — {dmg:,} 伤害")
+            top_desc = "\n贡献榜：\n" + "\n".join(top_lines) + "\n"
+
         broadcast_msg = (
             f"🎉 世界Boss已被击杀！\n"
             f"━━━━━━━━━━━━━━━\n"
             f"击杀者：{player_name}\n"
             f"战斗回合：{rounds}\n"
-            f"获得奖励：{reward} 灵石\n"
+            f"本轮奖励池：{reward} 灵石\n"
+            f"{top_desc}"
             f"━━━━━━━━━━━━━━━\n"
-            f"恭喜大侠！下一只Boss即将刷新..."
+            f"按伤害贡献分配奖励，出力多拿得多！\n"
+            f"下一只Boss即将刷新..."
         )
         
         message_chain = MessageChain().message(broadcast_msg)
@@ -1020,8 +1033,8 @@ class XiuXianPlugin(Star):
 
     @filter.command(CMD_START_XIUXIAN, "开始你的修仙之路")
     @require_whitelist
-    async def handle_start_xiuxian(self, event: AstrMessageEvent, cultivation_type: str = ""):
-        async for r in self.player_handler.handle_start_xiuxian(event, cultivation_type):
+    async def handle_start_xiuxian(self, event: AstrMessageEvent):
+        async for r in self.player_handler.handle_start_xiuxian(event):
             yield r
 
     @filter.command(CMD_PLAYER_INFO, "查看你的角色信息")
@@ -1413,12 +1426,31 @@ class XiuXianPlugin(Star):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限生成Boss！此指令仅限管理员使用。")
             return
-        
+
         success, msg, boss = await self.boss_handlers.handle_spawn_boss()
         yield event.plain_result(msg)
-        
+
         if success and boss:
             await self._broadcast_boss_spawn(boss)
+
+    # Boss 指令小写别名（v4.3.5：兼容"boss"全小写输入）
+    @filter.command("世界boss", "查看世界Boss状态(小写别名)")
+    @require_whitelist
+    async def handle_boss_info_lc(self, event: AstrMessageEvent):
+        async for r in self.handle_boss_info(event):
+            yield r
+
+    @filter.command("挑战boss", "挑战世界Boss(小写别名)")
+    @require_whitelist
+    async def handle_boss_fight_lc(self, event: AstrMessageEvent):
+        async for r in self.handle_boss_fight(event):
+            yield r
+
+    @filter.command("生成boss", "生成世界Boss(管理员,小写别名)")
+    @require_whitelist
+    async def handle_spawn_boss_lc(self, event: AstrMessageEvent):
+        async for r in self.handle_spawn_boss(event):
+            yield r
 
     # ===== 排行榜指令 =====
 

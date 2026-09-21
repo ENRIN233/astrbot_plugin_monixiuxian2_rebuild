@@ -546,24 +546,14 @@ class PillManager:
         effect = pill_data.get("effect", {})
         subtype = pill_data.get("subtype", "")
 
-        # 恢复能量（灵气/气血）
+        # 恢复能量（灵气）
         energy_restore = None
         energy_label = "灵气"
         current_energy = player.spiritual_qi
         max_energy = player.max_spiritual_qi
 
-        # 体修优先使用专属气血恢复键；若无则复用灵气恢复作为气血恢复
-        if player.cultivation_type == "体修" and "blood_qi_restore" in pill_data:
-            energy_restore = pill_data["blood_qi_restore"]
-            energy_label = "气血"
-            current_energy = player.blood_qi
-            max_energy = player.max_blood_qi
-        elif "spiritual_qi_restore" in pill_data:
+        if "spiritual_qi_restore" in pill_data:
             energy_restore = pill_data["spiritual_qi_restore"]
-            if player.cultivation_type == "体修":
-                energy_label = "气血"
-                current_energy = player.blood_qi
-                max_energy = player.max_blood_qi
 
         total_restore = 0
         if energy_restore is not None:
@@ -856,8 +846,8 @@ class PillManager:
         Returns:
             基础属性字典
         """
-        level_data = self.config_manager.get_level_data(player.cultivation_type)
-        # 兜底：如果数据为空，使用灵修配置避免索引错误
+        level_data = self.config_manager.get_level_data()
+        # 兜底：如果数据为空，使用默认境界配置避免索引错误
         if not level_data:
             level_data = self.config_manager.level_data
 

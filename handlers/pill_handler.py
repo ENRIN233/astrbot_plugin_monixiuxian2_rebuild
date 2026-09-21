@@ -24,7 +24,7 @@ class PillHandler:
         self.pill_manager = PillManager(db, config_manager)
 
     def _format_required_level(self, level_index: int) -> str:
-        """同时展示灵修/体修的需求境界名称"""
+        """展示需求境界名称"""
         names = []
         if 0 <= level_index < len(self.config_manager.level_data):
             name = self.config_manager.level_data[level_index].get("name", "未知境界")
@@ -49,8 +49,8 @@ class PillHandler:
             yield event.plain_result(
                 "请指定要服用的丹药名称！\n"
                 f"💡 使用方法：{CMD_USE_PILL} [丹药名称] [数量]\n"
-                f"💡 例如：{CMD_USE_PILL} 炼气丹\n"
-                f"💡 例如：{CMD_USE_PILL} 炼气丹 10"
+                f"💡 例如：{CMD_USE_PILL} 筑基丹\n"
+                f"💡 例如：{CMD_USE_PILL} 筑基丹 10"
             )
             return
 
@@ -139,7 +139,7 @@ class PillHandler:
             yield event.plain_result(
                 "请指定要查看的丹药名称！\n"
                 f"💡 使用方法：{CMD_PILL_INFO} [丹药名称]\n"
-                f"💡 例如：{CMD_PILL_INFO} 炼气丹"
+                f"💡 例如：{CMD_PILL_INFO} 筑基丹"
             )
             return
 

@@ -36,12 +36,8 @@ class PlayerHandler:
         self.achievement_mgr = achievement_mgr
         self.activity_tracker = activity_tracker
 
-    async def handle_start_xiuxian(self, event: AstrMessageEvent, cultivation_type: str = ""):
-        """处理创建角色
-
-        Args:
-            cultivation_type: 修炼类型，"灵修"或"体修"，为空则显示选择提示
-        """
+    async def handle_start_xiuxian(self, event: AstrMessageEvent):
+        """处理创建角色（修炼路线已移除，直接创建）"""
         user_id = event.get_sender_id()
 
         # 检查是否已创建角色
@@ -49,31 +45,8 @@ class PlayerHandler:
             yield event.plain_result("道友，你已踏入仙途，无需重复此举。")
             return
 
-        # 如果没有提供职业选择，显示选择提示
-        if not cultivation_type or cultivation_type.strip() == "":
-            help_msg = (
-                "🌟 欢迎踏入修仙之路！\n"
-                "━━━━━━━━━━━━━━━\n"
-                "初入江湖，你成为了【江湖好手】\n"
-                "初始属性：气血500、真元1000、攻击100\n\n"
-                "⚠️ 修仙风险警告 ⚠️\n"
-                "• 突破失败有概率走火入魔身死道消\n"
-                "• 生命值归零也会导致死亡\n"
-                "• 死亡后所有数据清除，需重新入仙途\n"
-                "━━━━━━━━━━━━━━━\n"
-                f"💡 使用 /我要修仙 确认开始"
-            )
-            yield event.plain_result(help_msg)
-            return
-
-        # 验证修炼类型（保留参数兼容，v36已统一为单一体系）
-        cultivation_type = cultivation_type.strip()
-        if cultivation_type not in ["灵修", "体修"]:
-            yield event.plain_result(f"修炼类型错误！请选择「灵修」或「体修」。")
-            return
-
         # 生成新玩家
-        new_player = self.cultivation_manager.generate_new_player_stats(user_id, cultivation_type)
+        new_player = self.cultivation_manager.generate_new_player_stats(user_id)
         await self.db.create_player(new_player)
 
         # 获取灵根描述
@@ -83,14 +56,12 @@ class PlayerHandler:
         reply_msg = (
             f"🎉 恭喜道友 {event.get_sender_name()} 踏上仙途！\n"
             f"━━━━━━━━━━━━━━━\n"
-            f"修炼方式：【{new_player.cultivation_type}】\n"
             f"灵根：【{new_player.spiritual_root}】\n"
             f"评价：{root_description}\n"
             f"启动资金：{new_player.gold} 灵石\n"
             f"━━━━━━━━━━━━━━━\n"
-            f"⚠️ 修仙有风险，突破需谨慎！\n"
-            f"突破失败或生命值归零会导致\n"
-            f"身死道消，所有数据清除！\n"
+            f"⚠️ 修仙须知：突破失败会损失部分修为\n"
+            f"（无生命危险），百折不挠方能证道！\n"
             f"━━━━━━━━━━━━━━━\n"
             f"💡 发送「{CMD_PLAYER_INFO}」查看状态"
         )
@@ -241,7 +212,6 @@ class PlayerHandler:
         reply_msg += (
             f"\n"
             f"【修炼效率】\n"
-            f"  修炼方式：{player.cultivation_type}\n"
             f"  状态：{player.state}\n"
             f"  灵根倍率：x{root_speed:.1f}\n"
         )

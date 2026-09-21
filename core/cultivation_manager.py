@@ -113,17 +113,16 @@ class CultivationManager:
             "OTHERWORLD": ["异世界之力"]
         }
 
-    def _calculate_base_stats(self, level_index: int, cultivation_type: str = "灵修") -> Dict[str, int]:
+    def _calculate_base_stats(self, level_index: int) -> Dict[str, int]:
         """从境界配置中读取基础属性
 
         Args:
             level_index: 境界索引
-            cultivation_type: 修炼类型，"灵修"或"体修"
 
         Returns:
             基础属性字典
         """
-        level_data = self.config_manager.get_level_data(cultivation_type)
+        level_data = self.config_manager.get_level_data()
         if 0 <= level_index < len(level_data):
             level_config = level_data[level_index]
             base_lifespan = level_config.get("base_lifespan", 100 + level_index * 50)
@@ -288,12 +287,11 @@ class CultivationManager:
         }
         return descriptions.get(root_name, "【未知】神秘的灵根")
 
-    def generate_new_player_stats(self, user_id: str, cultivation_type: str = "灵修") -> Player:
+    def generate_new_player_stats(self, user_id: str) -> Player:
         """生成新玩家的初始数据（nonebot 统一初始属性）
 
         Args:
             user_id: 用户ID
-            cultivation_type: 保留参数，不再影响属性（兼容旧接口）
         """
         root = self._get_random_spiritual_root()
         initial_gold = self.config["VALUES"]["INITIAL_GOLD"]
@@ -302,7 +300,6 @@ class CultivationManager:
         return Player(
             user_id=user_id,
             spiritual_root=f"{root}灵根",
-            cultivation_type="灵修",
             lifespan=100,
             experience=0,
             gold=initial_gold,
@@ -364,11 +361,19 @@ class CultivationManager:
         base_exp = self.config["VALUES"].get("BASE_EXP_PER_MINUTE", 60)
         root_speed = self.get_spiritual_root_speed(player)
 
+        # v4.3.8 闭关境界因子：后期闭关日收益锚定突破需求占比（前期 idx<=18 恒为 1.0）
+        realm_mult = 1.0
+        if self.config_manager is not None and hasattr(self.config_manager, "get_closing_realm_mult"):
+            try:
+                realm_mult = self.config_manager.get_closing_realm_mult(player.level_index)
+            except Exception:
+                realm_mult = 1.0
+
         # 读取永久丹药修炼倍率加成
         permanent_gains = player.get_permanent_pill_gains()
         permanent_cultivation_mult = permanent_gains.get("_global", {}).get("cultivation_multiplier", 0)
 
-        other_multiplier = root_speed * (1.0 + technique_bonus) * (1.0 + closing_exp_bonus) * (1.0 + land_bonus) * (1.0 + permanent_cultivation_mult)
+        other_multiplier = root_speed * (1.0 + technique_bonus) * (1.0 + closing_exp_bonus) * (1.0 + land_bonus) * (1.0 + permanent_cultivation_mult) * realm_mult
 
         # 从丹药效果中提取修炼加成和过期时间
         pill_segments = []  # [(expiry_time, cultivation_multiplier)]

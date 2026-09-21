@@ -57,11 +57,12 @@ class BountyManager:
     def __init__(self, db: DataBase, storage_ring_manager: Optional["StorageRingManager"] = None,
                  items_data: Optional[Dict[str, dict]] = None,
                  skills_data: Optional[Dict[str, dict]] = None,
-                 activity_tracker=None, game_config=None):
+                 activity_tracker=None, game_config=None, config_manager=None):
         self.db = db
         self.storage_ring_manager = storage_ring_manager
         self.activity_tracker = activity_tracker
         self.game_config = game_config or {}
+        self.config_manager = config_manager
         self._bounty_cache: Dict[str, Dict] = {}
         self.difficulties: Dict[str, dict] = {}
         self.templates_by_id: Dict[int, dict] = {}
@@ -228,8 +229,7 @@ class BountyManager:
     def _calculate_reward(self, template: dict, diff_cfg: dict, player: Player, target: int) -> Dict[str, int]:
         base_reward = template.get("reward", {"stone": 200, "exp": 2000})
         stone = base_reward.get("stone", 0)
-        exp = base_reward.get("exp", 0)
-        level_cfg = self.game_config.get("level_scaling", {})
+        level_cfg = self.game_config.get("level_scaling", {}) if isinstance(self.game_config, dict) else {}
         coeff = level_cfg.get("bounty_rift_coefficient", 0.045)
         base_level = level_cfg.get("bounty_rift_base_level", 3)
         level_bonus = 1 + max(0, player.level_index - base_level) * coeff
@@ -237,7 +237,20 @@ class BountyManager:
         stone_scale = diff_cfg.get("stone_scale", 1.0)
         exp_scale = diff_cfg.get("exp_scale", 1.0)
         final_stone = int(stone * stone_scale * progress_factor * level_bonus)
-        final_exp = int(exp * exp_scale * progress_factor * level_bonus)
+
+        # v4.3.7 修为占比式：share_day(idx) × bounty_exp_split ÷ 3 × exp_needed[下一级] × exp_scale × pf
+        # 前期快后期慢（分段衰减曲线见 config_manager.get_exp_share_day）
+        final_exp = 0
+        cm = self.config_manager
+        if cm is not None and hasattr(cm, "get_exp_share_day"):
+            split = float(level_cfg.get("bounty_exp_split", 0.675))
+            needed = cm.get_next_exp_needed(player.level_index)
+            single_share = cm.get_exp_share_day(player.level_index) * split / 3.0
+            final_exp = int(single_share * needed * exp_scale * progress_factor)
+        else:
+            # fallback：无 config_manager 时退回旧线性公式
+            exp = base_reward.get("exp", 0)
+            final_exp = int(exp * exp_scale * progress_factor * level_bonus)
         return {"stone": final_stone, "exp": final_exp}
 
     def _calculate_time_limit(self, template: dict, target: int) -> int:

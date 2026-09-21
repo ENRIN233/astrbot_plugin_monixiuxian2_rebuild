@@ -18,7 +18,14 @@ if TYPE_CHECKING:
 
 class BossManager:
     """Boss系统管理器"""
-    
+
+    # ── v4.3.6 伤害贡献与挑战成本参数 ──
+    # [PLACEHOLDER] 以下数值未经 playtest 校准，按 10-50 人在线规模预估
+    CHALLENGE_COOLDOWN = 300          # 每人对同一Boss的挑战冷却（秒），防无限磨血
+    DAMAGE_SHARE_THRESHOLD = 0.05     # 伤害占Boss最大HP ≥5% 才算有效参与者（可分灵石/参与掉落roll）
+    KILLER_STONE_SHARE = 0.30         # 击杀者灵石保底占比，其余按伤害占比分配
+    KILLER_DROP_GUARANTEE = 1         # 击杀者保底掉落件数
+
     # Boss境界配置（覆盖58级体系，每3级一个档位）
     # 数值设计：保证有装备时玩家可存活5回合+，Boss靠HP量提供挑战
     BOSS_LEVELS = [
@@ -55,34 +62,36 @@ class BossManager:
     # 档位边界与 get_drop_tier_for_level() 保持一致：
     #   low(≤6)  → 练气~筑基  |  mid(≤12)  → 金丹~化神
     #   high(≤33) → 炼虚~天神  |  ultra(>33) → 虚道~合道
+    # v4.3.3: 移除幽灵物品"灵草"（items.json 中不存在，旧历练体系残留），
+    #         权重让给锻造材料；灵兽骨下沉至 low/mid 档（解锁修士袍配方），
+    #         天火熔晶下沉至 high 档（弥合 Lv5 配方中期断层）。
     BOSS_DROP_TABLE = {
         "low": [  # boss_level_index ≤ 6
-            {"name": "灵草", "weight": 50, "min": 2, "max": 5},
-            {"name": "精铁", "weight": 30, "min": 1, "max": 3},
-            {"name": "百年灵草", "weight": 20, "min": 1, "max": 2},
+            {"name": "精铁", "weight": 42, "min": 1, "max": 3},
+            {"name": "百年灵草", "weight": 28, "min": 1, "max": 2},
             {"name": "紫金沙", "weight": 10, "min": 1, "max": 1},
+            {"name": "灵兽骨", "weight": 10, "min": 1, "max": 1},
         ],
         "mid": [  # boss_level_index ≤ 12
-            {"name": "灵草", "weight": 30, "min": 4, "max": 10},
-            {"name": "精铁", "weight": 20, "min": 2, "max": 5},
-            {"name": "百年灵草", "weight": 15, "min": 2, "max": 4},
-            {"name": "紫金沙", "weight": 15, "min": 1, "max": 3},
-            {"name": "魔核碎片", "weight": 10, "min": 1, "max": 2},
-            {"name": "赤炎石", "weight": 10, "min": 1, "max": 2},
+            {"name": "精铁", "weight": 22, "min": 2, "max": 5},
+            {"name": "百年灵草", "weight": 16, "min": 2, "max": 4},
+            {"name": "紫金沙", "weight": 16, "min": 1, "max": 3},
+            {"name": "魔核碎片", "weight": 13, "min": 1, "max": 2},
+            {"name": "赤炎石", "weight": 13, "min": 1, "max": 2},
+            {"name": "灵兽骨", "weight": 10, "min": 1, "max": 2},
         ],
         "high": [  # boss_level_index ≤ 33
-            {"name": "灵草", "weight": 20, "min": 8, "max": 20},
             {"name": "精铁", "weight": 15, "min": 5, "max": 15},
             {"name": "百年灵草", "weight": 10, "min": 5, "max": 10},
             {"name": "紫金沙", "weight": 15, "min": 2, "max": 5},
             {"name": "魔核碎片", "weight": 15, "min": 2, "max": 4},
             {"name": "赤炎石", "weight": 15, "min": 2, "max": 4},
-            {"name": "亡者之息", "weight": 10, "min": 1, "max": 3},
-            {"name": "幽魂草", "weight": 10, "min": 1, "max": 3},
-            {"name": "灵兽骨", "weight": 8, "min": 1, "max": 2},
+            {"name": "亡者之息", "weight": 11, "min": 1, "max": 3},
+            {"name": "幽魂草", "weight": 11, "min": 1, "max": 3},
+            {"name": "灵兽骨", "weight": 10, "min": 1, "max": 2},
+            {"name": "天火熔晶", "weight": 7, "min": 1, "max": 2},
         ],
         "ultra": [  # boss_level_index > 33
-            {"name": "灵草", "weight": 15, "min": 15, "max": 40},
             {"name": "精铁", "weight": 12, "min": 15, "max": 40},
             {"name": "百年灵草", "weight": 10, "min": 10, "max": 30},
             {"name": "亡者之息", "weight": 15, "min": 3, "max": 6},
@@ -215,10 +224,19 @@ ATK：{atk}
         if not user_cd:
             await self.db.ext.create_user_cd(user_id)
             user_cd = await self.db.ext.get_user_cd(user_id)
-        
+
         if user_cd.type != UserStatus.IDLE:
             return False, "❌ 你当前正忙，无法挑战Boss！", None
-        
+
+        # 3.5 挑战冷却检查（v4.3.6）：以 boss_damage_log.update_time 作为上次挑战时间
+        damage_log = await self.db.ext.get_boss_damage_log(boss.boss_id)
+        import time as _time
+        now_ts = int(_time.time())
+        my_prev = next((row for row in damage_log if row[0] == user_id), None)
+        if my_prev and (now_ts - my_prev[2]) < self.CHALLENGE_COOLDOWN:
+            remain = self.CHALLENGE_COOLDOWN - (now_ts - my_prev[2])
+            return False, f"⏳ 挑战冷却中，还需等待 {remain // 60 + (1 if remain % 60 else 0)} 分钟。", None
+
         # 4. 计算玩家战斗属性
         impart_info = await self.db.ext.get_impart_info(user_id)
 
@@ -258,17 +276,23 @@ ATK：{atk}
 
         # 5. 开始战斗（含神通支持+Boss特殊能力）
         player_skill = player.shentong if hasattr(player, 'shentong') and player.shentong else ""
+        boss_hp_before = boss.hp
         battle_result = self.combat_mgr.player_vs_boss(
             player_stats, boss_stats,
             player_skill_name=player_skill,
             skill_manager=self.skill_manager,
             boss_level_index=boss_level_index
         )
-        
+
         # 6. 处理战斗结果
         winner = battle_result["winner"]
         reward = battle_result["reward"]
-        
+        my_damage = max(0, boss_hp_before - battle_result["boss_final_hp"])
+        battle_result["my_damage"] = my_damage
+
+        # 6a. 记录伤害贡献（v4.3.6，胜负都记；update_time 兼作冷却时间戳）
+        await self.db.ext.add_boss_damage(boss.boss_id, user_id, my_damage, now_ts)
+
         if winner == user_id:
             # 玩家胜利 — 乐观锁：仅当Boss仍存活时才发放奖励
             defeated = await self.db.ext.try_defeat_boss(boss.boss_id)
@@ -276,25 +300,26 @@ ATK：{atk}
                 # Boss已被其他玩家击败
                 return False, "❌ Boss已被其他玩家抢先击败了！", None
 
-            # 物品掉落
-            item_msg = ""
-            dropped_items = []
-            if self.storage_ring_manager:
-                dropped_items = await self._roll_boss_drops(player, boss)
-                if dropped_items:
-                    item_lines = []
-                    for item_name, count in dropped_items:
-                        success, _ = await self.storage_ring_manager.store_item(player, item_name, count, silent=True)
-                        if success:
-                            item_lines.append(f"  · {item_name} x{count}")
-                        else:
-                            item_lines.append(f"  · {item_name} x{count}（储物戒已满，丢失）")
-                    if item_lines:
-                        item_msg = "\n\n📦 获得物品：\n" + "\n".join(item_lines)
+            # 伤害贡献加权分配（v4.3.6）：击杀者保底 + 按伤害占比分配给有效参与者
+            my_stone, my_drops, top_names = await self._distribute_rewards(
+                boss, user_id, damage_log
+            )
+            battle_result["boss_top"] = top_names  # [(user_id, damage)] 供全服公告
 
-            # 重新获取玩家数据（store_item 内部已更新了储物戒，需要刷新本地对象）
+            # 分配后刷新外层对象：_distribute_rewards 内部已写库（灵石/储物戒），
+            # 下方 HP/MP 更新必须基于最新对象，否则旧 gold 会覆盖分配结果
             player = await self.db.get_player_by_id(user_id) or player
-            player.gold += reward
+
+            top_desc = ""
+            if top_names:
+                top_desc = "\n\n🏆 贡献榜 TOP3：\n" + "\n".join(
+                    f"  {i + 1}. {name} — {dmg:,} 伤害"
+                    for i, (name, dmg) in enumerate(top_names)
+                )
+
+            drop_desc = ""
+            if my_drops:
+                drop_desc = "\n📦 你分得物品：\n" + "\n".join(f"  · {x}" for x in my_drops)
 
             result_msg = f"""
 🎉 挑战成功！
@@ -303,7 +328,8 @@ ATK：{atk}
 你成功击败了『{boss.boss_name}』！
 
 战斗回合数：{battle_result['rounds']}
-获得灵石：{reward}{item_msg}
+本轮伤害：{my_damage:,}
+分得灵石：{my_stone:,}{drop_desc}{top_desc}
 
 {player_stats.name}
 HP：{battle_result['player_final_hp']}/{player_stats.max_hp}
@@ -320,9 +346,11 @@ HP：{battle_result['player_final_hp']}/{player_stats.max_hp}
 你被『{boss.boss_name}』击败了！
 
 战斗回合数：{battle_result['rounds']}
+本轮伤害：{my_damage:,}（已计入贡献榜）
 安慰奖：{reward}灵石
 
 {boss.boss_name} 剩余HP：{boss.hp}/{boss.max_hp}
+距离击杀还差 {boss.hp:,} 点伤害
             """.strip()
 
             # 即使失败也给予部分奖励
@@ -333,12 +361,96 @@ HP：{battle_result['player_final_hp']}/{player_stats.max_hp}
         player.hp = battle_result["player_final_hp"]
         player.mp = battle_result["player_final_mp"]
         await self.db.update_player(player)
-        
+
         # 返回完整战斗日志
         combat_log = "\n".join(battle_result["combat_log"])
         full_msg = combat_log + "\n\n" + result_msg
-        
+
         return True, full_msg, battle_result
+
+    async def _distribute_rewards(
+        self, boss: Boss, killer_id: str, damage_log: list
+    ) -> Tuple[int, list, list]:
+        """按伤害贡献加权分配灵石与掉落（v4.3.6）
+
+        规则：
+          - 灵石：击杀者保底 KILLER_STONE_SHARE，其余按伤害占比分配给
+            伤害 ≥ max_hp * DAMAGE_SHARE_THRESHOLD 的有效参与者
+          - 掉落：击杀者保底 KILLER_DROP_GUARANTEE 件，剩余件数按伤害占比
+            加权随机分配给所有有效参与者（含击杀者）
+
+        Args:
+            boss: 已被击杀的Boss对象
+            killer_id: 击杀者ID
+            damage_log: 击杀前读取的伤害贡献列表 [(user_id, damage, update_time)]
+
+        Returns:
+            (击杀者分得灵石, 击杀者分得物品描述列表, 贡献TOP3 [(user_id, damage)])
+        """
+        damage_log = damage_log or await self.db.ext.get_boss_damage_log(boss.boss_id)
+        threshold = max(1, int(boss.max_hp * self.DAMAGE_SHARE_THRESHOLD))
+        eligible = [(uid, dmg) for uid, dmg, _ in damage_log if dmg >= threshold]
+        if not eligible:
+            # 兜底：无人达标时全部归击杀者
+            eligible = [(killer_id, 1)]
+        eligible_total = sum(d for _, d in eligible) or 1
+
+        # ── 灵石分配 ──
+        killer_stone = int(boss.stone_reward * self.KILLER_STONE_SHARE)
+        pool_stone = boss.stone_reward - killer_stone
+        stone_gain = {}
+        for uid, dmg in eligible:
+            stone_gain[uid] = stone_gain.get(uid, 0) + pool_stone * dmg // eligible_total
+        stone_gain[killer_id] = stone_gain.get(killer_id, 0) + killer_stone
+
+        # ── 掉落分配 ──
+        drops = await self._roll_boss_drops(None, boss)
+        drop_gain = {}
+        for name, cnt in drops[: self.KILLER_DROP_GUARANTEE]:
+            drop_gain.setdefault(killer_id, []).append((name, cnt))
+        w_total = float(eligible_total)
+        for name, cnt in drops[self.KILLER_DROP_GUARANTEE:]:
+            roll = random.uniform(0, w_total)
+            acc = 0.0
+            for uid, dmg in eligible:
+                acc += dmg
+                if roll <= acc:
+                    drop_gain.setdefault(uid, []).append((name, cnt))
+                    break
+
+        # ── 入库 ──
+        # 顺序关键：先写 gold 再 store_item（store_item 内部会重新读取最新玩家
+        # 对象并整行 update，若 gold 写在其后且用旧对象，会吞掉储物戒写入）
+        my_stone = 0
+        my_drops = []
+        for uid in sorted(set(list(stone_gain.keys()) + list(drop_gain.keys()))):
+            stones = stone_gain.get(uid, 0)
+            got_items = drop_gain.get(uid, [])
+            if stones <= 0 and not got_items:
+                continue
+            p = await self.db.get_player_by_id(uid)
+            if not p:
+                continue
+            if stones > 0:
+                p.gold += stones
+                await self.db.update_player(p)
+            got_desc = []
+            for name, cnt in got_items:
+                if self.storage_ring_manager:
+                    ok, _ = await self.storage_ring_manager.store_item(p, name, cnt, silent=True)
+                    got_desc.append(f"{name} x{cnt}" + ("" if ok else "（储物戒已满，丢失）"))
+                else:
+                    got_desc.append(f"{name} x{cnt}")
+            if uid == killer_id:
+                my_stone = stones
+                my_drops = got_desc
+
+        # ── 贡献TOP3（按ID回查名字由调用方/公告层处理，这里返回ID）──
+        top_names = [(uid, dmg) for uid, dmg, _ in damage_log[:3]]
+
+        # ── 清理伤害日志（防膨胀；击杀分配完毕后记录失效）──
+        await self.db.ext.clear_boss_damage_log(boss.boss_id)
+        return my_stone, my_drops, top_names
     
     async def get_boss_info(self) -> Tuple[bool, str, Optional[Boss]]:
         """
@@ -352,7 +464,19 @@ HP：{battle_result['player_final_hp']}/{player_stats.max_hp}
             return False, "❌ 当前没有Boss！", None
         
         hp_percent = (boss.hp / boss.max_hp) * 100
-        
+
+        # 贡献榜 TOP3（v4.3.6）
+        top_lines = ""
+        damage_log = await self.db.ext.get_boss_damage_log(boss.boss_id)
+        if damage_log:
+            top_lines = "\n🏆 当前贡献榜 TOP3：\n"
+            for i, (uid, dmg, _) in enumerate(damage_log[:3]):
+                p = await self.db.get_player_by_id(uid)
+                name = (p.user_name if p and p.user_name else f"道友{uid[:6]}")
+                top_lines += f"  {i + 1}. {name} — {dmg:,} 伤害\n"
+            threshold = max(1, int(boss.max_hp * self.DAMAGE_SHARE_THRESHOLD))
+            top_lines += f"（伤害≥{threshold:,} 可参与击杀奖励分配）\n"
+
         msg = f"""
 👹 当前Boss
 ━━━━━━━━━━━━━━━
@@ -365,10 +489,10 @@ ATK：{boss.atk}
 防御：{boss.defense * 100 // (boss.defense + 100) if boss.defense > 0 else 0}%减伤
 
 奖励：{boss.stone_reward}灵石
-
+{top_lines}
 使用 /挑战Boss 来挑战！
         """.strip()
-        
+
         return True, msg, boss
     
     async def auto_spawn_boss(self, player_count: int = 0) -> Tuple[bool, str, Optional[Boss]]:

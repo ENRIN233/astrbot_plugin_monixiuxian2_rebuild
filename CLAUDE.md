@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-AstrBot plugin for a text-based idle cultivation (修仙) game. Python 3.8+, runs inside the AstrBot chatbot framework process. SQLite database via `aiosqlite`, async throughout. Core systems (境界/功法/灵田/炼丹/神通) migrated from nonebot_plugin_xiuxian_2_pmv. Reference data: nonebot `data/xiuxian/` directory + `修仙_神通.txt`.
+AstrBot plugin for a text-based idle cultivation (修仙) game. Python 3.8+, runs inside the AstrBot chatbot framework process. SQLite database via `aiosqlite`, async throughout. Core systems (境界/功法/灵田/炼丹/神通) migrated from nonebot_plugin_xiuxian_2_pmv.
 
 ## Commands
 
@@ -17,7 +17,6 @@ pytest                                   # run all tests
 pytest tests/test_trade_manager.py       # run single test file
 pytest -k "test_name"                    # run specific test
 /e/python/python.exe sync_data.py        # sync config/*.json to docs/data/ for website
-node -c docs/app.js                      # verify website JS syntax
 /e/python/python.exe scripts/rebalance_weapons.py  # rebalance weapon stats
 ```
 
@@ -30,11 +29,11 @@ No linter/formatter is configured. Follow existing style: `snake_case` functions
 ## Architecture (4 layers)
 
 ```
-main.py (entry point, ~145 command registrations, 8 background tasks)
+main.py (entry point, 151 command registrations, 8 background tasks)
     |
 handlers/ (~28 handler classes — command processing, async generators)
     |
-core/ (5 modules: cultivation, equipment, breakthrough, pills, storage)
+core/ (7 modules: cultivation, breakthrough, combat, equipment, forging, pills, storage)
 managers/ (~20 modules: combat, alchemy, spirit_farm, sect, boss, rift, trade, bounty, etc.)
     |
 data/ (SQLite CRUD: data_manager.py, database_extended.py, migration.py)
@@ -45,7 +44,7 @@ data/ (SQLite CRUD: data_manager.py, database_extended.py, migration.py)
 ## Key Patterns
 
 - **`@player_required` decorator** (`handlers/utils.py`): auth check + state enforcement + loan status. Uses `BUSY_STATE_ALLOWED_COMMANDS` whitelist to allow certain commands during busy states. Mutually exclusive states enforced via `UserStatus` enum in `models_extended.py`.
-- **`@migration(version=N)` decorator** (`data/migration.py`): register DB migrations. Current version: v39. Increment `LATEST_DB_VERSION` when adding.
+- **`@migration(version=N)` decorator** (`data/migration.py`): register DB migrations. Current version: v40. Increment `LATEST_DB_VERSION` when adding.
 - **`@require_whitelist`**: AstrBot-level group access control, applied at `main.py`.
 - **JSON-serialized fields**: complex data (techniques, pill effects, storage items) stored as JSON strings in SQLite TEXT columns, with getter/setter on `Player`/`Item` dataclasses.
 - **Transaction safety**: critical ops use `BEGIN IMMEDIATE` with rollback. Trade/consignment use conditional UPDATE for concurrent purchase safety. CRUD methods in `database_extended.py` and `data_manager.py` accept `auto_commit=False` to suppress internal commits when composing multi-step atomic operations. Boss defeat uses CAS pattern (`UPDATE ... WHERE status = 1`, check `rowcount`) via `try_defeat_boss`.
@@ -62,13 +61,13 @@ All formulas aligned to `修仙.xlsx` design document:
 - **MP**: `max(100, int(experience * (1 + mp_buff))) * (1 + mp_bonus)`
 - **ATK**: `max(100, int(experience / 10)) × (atkpractice×0.04+1) × (1+technique) × (1+weapon) × (1+armor) + permanent_buff` — multiplicative stacking, no flat equip bonus
 - **Power**: `round(experience × root_speed × realm_spend)` — `realm_spend` from level_config
-- **Cultivation exp**: `60 × minutes × root_speed × realm_spend × (1+technique_bonus) × (1+closing_exp_bonus) × pill × (1+land) × (1+permanent_mult)`
-- **Breakthrough**: base_rate from level_config + failure_accumulation (每次+1%, 无上限) + technique_bonus + breakthrough_number/100 + pill_bonus, clamped to [0, max_rate]. Major realm transition detected by `is_major_realm_transition()` (level_index % 3 == 2). Realm-specific pills (1400-1421, 15100-15103) only work on major realm transitions. Universal pills (15151-15153) work on any transition. `max_uses` enforced via `permanent_pill_usage` tracking. Pill effects persist across failures (`expiry_time=0`), only consumed on success via `consume_breakthrough_boost_only()`. `death_protection` effects are one-shot: consumed after first failure protection. `get_breakthrough_modifiers` accepts `target_level_index` to filter pill effects by target realm. `calculate_breakthrough_success_rate` does NOT add pill bonus from config (it's already in `temp_bonus` via active effects).
+- **Cultivation exp**: `60 × minutes × root_speed × (1+technique_bonus) × (1+closing_exp_bonus) × (1+land) × (1+permanent_mult) × pill_segment_mult` — no `realm_spend` in cultivation (that factor only applies to Power × closing_realm_mult（v4.3.8：idx≤18 恒 1.0；idx>18 锚定日占比 4.5%→3%，`config_manager.get_closing_realm_mult`）
+- **Breakthrough**: base_rate from level_config + failure_accumulation (每次+1%, 仅 level_index < 46 有效, 突破成功即清零) + technique_bonus + breakthrough_number/100 + pill_bonus, clamped to [0, max_rate]. **突破失败无死亡惩罚（v4.3.1 移除）**：失败仅损失修为 0.1%~1%（level_index >= 25 时 1%~5%），`death_protection`（渡厄金丹）可免疫一次修为损失。Major realm transition detected by `is_major_realm_transition()` (`current_level_index % 3 == 0 and current_level_index > 0`, 即圆满突破至下一大境界初期). Realm-specific pills (1400-1421, 15100-15103) only work on major realm transitions. Universal pills (15151-15153) work on any transition. `max_uses` enforced via `permanent_pill_usage` tracking. Pill effects persist across failures (`expiry_time=0`), only consumed on success via `consume_breakthrough_boost_only()`. `get_breakthrough_modifiers` accepts `target_level_index` to filter pill effects by target realm. `calculate_breakthrough_success_rate` does NOT add pill bonus from config (it's already in `temp_bonus` via active effects).
 - **Crit damage**: `max(1.5, 1.0 + weapon_crit_damage + technique_crit_damage + impart_burst_per)` — additive delta from 1.0 base
 - **Defense**: percentage-based `def_buff` from armor + weapon `damage_reduction` + technique `damage_reduction`, capped at 0.9. No ln-based formula.
 - **Damage formula**: `atk × 0.5 × crit_mult × 1.5 × float × (1 - def_buff + armor_pen/100 + sub_break_pct)` — Excel's 0.5 damage halving + 1.5 weapon bonus. `sub_break_pct` from sub-technique buff_type 13. Continuous DOT applies `def_buff` defense: `raw × (1 - def_buff)`.
 - **Boss damage**: player ATK ×2 against bosses. Boss buff system: 8 buff types (atk/crit/crit_dmg/reduce_lifesteal + reduce_atk/reduce_crit/reduce_crit_dmg) across 4 tiers. Boss special attacks (紫玄掌 8%, 5x+30%HP; 子龙朱雀 8%, 3x ignore 50% defense; normal 84%). Boss stats restored in try/finally block.
-- **Level scaling**: `game_config.json` `level_scaling.bounty_rift_coefficient` (default 0.045) controls悬赏令/秘境 level bonus. Boss 20 tiers cover all 58 levels.
+- **Level scaling**: `game_config.json` `level_scaling.bounty_rift_coefficient` (default 0.045) now only scales 悬赏/秘境 **灵石** (linear). 修为 (v4.3.7) uses share-based curve: `exp_reward = share(idx) × exp_needed[idx+1] × exp_scale × pf`, share = piecewise decay (`exp_share_base_decay^idx` for idx≤18, then `× exp_share_slowdown_decay^(idx-18)`), split bounty 67.5% (3/day) / rift 32.5% (1/day) via `bounty_exp_split`/`rift_exp_split`; rift scale by `reward_exp / rift_exp_base_norm`. Shared helpers: `config_manager.get_exp_share_day(idx)` / `get_next_exp_needed(idx)`. Boss 20 tiers cover all 58 levels.
 - **Combat stat aggregation**: Two parallel read paths — (1) `Player.get_total_attributes()` for display, (2) `load_equipment_bonus()` + `build_player_combat_stats()` for actual combat. These paths can diverge.
 
 ## Realm System (58 levels)
@@ -77,7 +76,7 @@ Unified 58-level hierarchy (index 0=江湖好手 → 57=合道境圆满). 19 maj
 
 Realm names (aligned to nonebot `境界.txt`): 洗髓境(1-3), 练气境(4-6), 化灵境(7-9), 筑基境(10-12), 结丹境(13-15), 金丹境(16-18), 紫府境(19-21), 凝婴境(22-24), 元婴境(25-27), 化神境(28-30), 炼虚境(31-33), 出窍境(34-36), 分神境(37-39), 合体境(40-42), 大乘境(43-45), 轮回境(46-48), 渡劫境(49-51), 飞升境(52-54), 合道境(55-57).
 
-v37 removed flat attributes (physical_damage, magic_damage, physical_defense, magic_defense, mental_power) from Player model, Item model, combat system, pill system, and all UI. `cultivation_type` field retained for backward compatibility but no longer affects logic.
+v37 removed flat attributes (physical_damage, magic_damage, physical_defense, magic_defense, mental_power) from Player model, Item model, combat system, pill system, and all UI. **v4.3.2 removed the 灵修/体修 dual-path entirely**: `我要修仙` creates a character directly (no path selection), `cultivation_type` DB column / Player field retained only for backward compat (empty value, nothing reads it).
 
 ## Data Models
 
@@ -91,16 +90,19 @@ v37 removed flat attributes (physical_damage, magic_damage, physical_defense, ma
 
 - **Techniques (功法)**: 79 main techniques in `config/items.json` (type=`main_technique`), across 14 ranks (人阶下品→无上仙法). Synced from nonebot with full field set including `closing_exp_bonus` (闭关经验), `closing_recovery_bonus` (经验保护), `damage_reduction` (减伤), `breakthrough_number` (突破概率), `harvest_bonus` (采集), `alchemy_count_bonus` (出丹数), `alchemy_exp_bonus` (炼丹经验).
 - **Spirit Farm (灵田)**: Harvest-on-cooldown model. Commands: 灵田/开垦灵田/灵田开垦/灵田收取/升级收取/升级控火. Harvest formula: `num = herb_fields + harvest_level + technique_harvest_bonus`. Cooldown: `48h × (1 - 0.05×speed)`. 108 herb types in `config/herbs.json` (一品→九品, 12 per grade).
-- **Alchemy (炼丹)**: 寒热调和 system. Commands: 炼丹/配方/装备炼丹炉/卸下炼丹炉. Recipe matching: 主药+药引+辅药 with cold/hot harmony check + elixir_config matching. 49 recipes in `config/alchemy_recipes.json`. Pill count = `1 + fire_control + alchemy_count_bonus + furnace_buff`. Crafted pills → `pills_inventory`. 3 furnaces in `config/furnaces.json` with buff values (+0/+1/+2 pills).
-- **Pills (丹药)**: Active pill configs in `config/utility_pills.json` (healing 2000-2008, permanent ATK 2009-2018, breakthrough boost 1400-1421 + 15100-15103 + 15151-15153). Old nonebot pills in `config/pills.json` (now empty). Healing pills use `heal_hp_pct` effect. Permanent ATK pills store `flat_atk_bonus` in `permanent_pill_gains["_global"]`. Breakthrough boost pills create active effects (`expiry_time=0`, persist indefinitely) with `max_uses` enforcement and `target_level_index` stored in effect dict for filtering. `consume_breakthrough_boost_only()` removes only breakthrough_boost/debuff on success, preserving death_protection. Death_protection effects are one-shot: consumed after protecting once on failure. `get_breakthrough_modifiers(player, target_level_index)` filters active effects by target realm.
+- **Alchemy (炼丹)**: 寒热调和 system. Commands: 炼丹/配方/装备炼丹炉/卸下炼丹炉. Recipe matching: 主药+药引+辅药 with cold/hot harmony check + elixir_config matching. 48 recipes in `config/alchemy_recipes.json`. Pill count = `1 + fire_control + alchemy_count_bonus + furnace_buff`. Crafted pills → `pills_inventory`. 3 furnaces in `config/furnaces.json` with buff values (+0/+1/+2 pills).
+- **Pills (丹药)**: Active pill configs in `config/utility_pills.json` (healing 2000-2008, permanent ATK 2009-2018, breakthrough boost 1400-1421 + 15100-15103 + 15151-15153). Old nonebot pills in `config/pills.json` (legacy data, 29 entries). Healing pills use `heal_hp_pct` effect. Permanent ATK pills store `flat_atk_bonus` in `permanent_pill_gains["_global"]`. Breakthrough boost pills create active effects (`expiry_time=0`, persist indefinitely) with `max_uses` enforcement and `target_level_index` stored in effect dict for filtering. `consume_breakthrough_boost_only()` removes only breakthrough_boost/debuff on success, preserving death_protection. Death_protection effects are one-shot: consumed after protecting once on failure. `get_breakthrough_modifiers(player, target_level_index)` filters active effects by target realm.
 - **Shentong (神通)**: 53 active combat skills in `config/skills.json` (aligned to xlsx reference), 4 types (attack/buff/continuous/control). Single equip slot on Player (`shentong` field). Auto-triggers based on `rate` probability, `turncost` cooldown, MP cost (`mpcost` × raw_base_mp). Continuous skills use independent `dot_turns` field for DOT duration. Buff/debuff engine in `managers/skill_manager.py`.
 - **Sub-technique (辅修功法)**: 23 combat support techniques in `config/sub_techniques.json`. Single equip slot on Player (`sub_technique` field). 13 buff_types: 1=ATK%, 2=crit_rate, 3=crit_dmg, 4=HP regen, 5=MP regen, 6=HP steal, 7=MP steal, 8=poison, 9=dual steal, 13=armor pierce. buff_type 1/2/3 applied at combat start in `build_player_combat_stats()`. buff_type 4-9 applied per-turn in `_apply_sub_technique_effects()`. buff_type 13 (`sub_break_pct`) applied in `execute_attack()` defense calculation.
 - **Combat attributes**: Weapon special: `crit_rate`, `crit_damage` (additive delta), `armor_pen`, `lifesteal`, `double_hit`, `damage_reduction`. Armor special: `def_buff`, `dodge_rate`, `crit_resist`, `reflect_pct`, `block_value`, `hp_regen_pct`, `atk_bonus`.
-- **Boss system** (`managers/boss_manager.py`): 20 tiers from 洗髓(Lv0) to 合道(Lv57). Boss buff system: 8 buff types across 4 tiers (atk/crit/crit_dmg/reduce_lifesteal + reduce_atk/reduce_crit/reduce_crit_dmg). Special attacks: 紫玄掌 (8%, 5x+30%HP), 子龙朱雀 (8%, 3x ignore 50% defense), normal (84%). Player ATK ×2 in boss fights.
-- **Bounty system** (`managers/bounty_manager.py`): 100% drop of technique, skill, or sub-technique on completion. Drop config in `config/bounty_drop_config.json` with `type_rate` weights per rank (14 ranks). Items randomly selected from `gf_list` (功法), `st_list` (神通), `fx_list` (辅修功法). Daily limit: 3 bounties.
+- **Boss system** (`managers/boss_manager.py`): 20 tiers from 洗髓(Lv0) to 合道(Lv57). Boss buff system: 8 buff types across 4 tiers (atk/crit/crit_dmg/reduce_lifesteal + reduce_atk/reduce_crit/reduce_crit_dmg). Special attacks: 紫玄掌 (8%, 5x+30%HP), 子龙朱雀 (8%, 3x ignore 50% defense), normal (84%). Player ATK ×2 in boss fights. Drop table `BOSS_DROP_TABLE` 4 tiers (`get_drop_tier_for_level`: low idx≤6 / mid ≤12 / high ≤33 / ultra >33) — v4.3.3: no "灵草" (ghost item removed); 灵兽骨 drops in low/mid, 天火熔晶 drops in high/ultra. Rolls: low=1 item, mid=1+50%1, high=2+60/40→1/2, ultra=3+80/60/40/20→1/2/3/4 extras. Drops go to `storage_ring_manager.store_item` (failures silently skipped).
+- **Bounty system** (`managers/bounty_manager.py`): 100% drop of technique, skill, or sub-technique on completion. Drop config in `config/bounty_drop_config.json` with `type_rate` weights per rank (14 ranks). Items randomly selected from `gf_list` (功法), `st_list` (神通), `fx_list` (辅修功法). Daily limit: 3 bounties. v4.3.3: fx_list 的"玄清天衍录"已移除（幽灵引用，实为 main_technique）。
+- **Rift drops** (`managers/rift_manager.py`): `RIFT_DROP_TABLE` 5 levels (百年灵草, v4.3.3 起无幽灵"灵草"; 4/5 级秘境此前 fallback 到 1 级表已补齐) + `RIFT_PILL_DROP_TABLE` 恢复类丹药 (3%~15% per level) + dynamic equipment. Pill drops enter `pills_inventory` directly (v4.3.3 fix — was blocked by storage ring pill filter), others via `store_item`.
 - **Sect system** (`managers/sect_manager.py`): 18 commands. Sect tasks: 5 types (2 HP-cost + 3 stone-cost), randomized, 3/day, 10-min cooldown. Attack practice: 50-level discrete cost table from Excel. Elixir room: 8 levels (黄级→无上), guaranteed 渡厄丹 daily. Member limits per position based on elixir room level. Auto owner change: 7 days offline. Material distribution: 11:00 + 12:00 daily at 1:1 rate.
 - **Daily activity system**: 8 daily tasks in `managers/activity_manager.py` (签到/秘境/悬赏/灵田/炼丹/炼金/利息/宗门). Reward: 1x 渡厄丹 at 100 points.
+- **Boss enable switch** (v4.3.4): `ACCESS_CONTROL.BOSS_ENABLED` default **true** (was false). Gates the 3 boss commands and the hourly auto-spawn task. `BOSS_ADMINS` (list) allows manual /生成Boss. Challenge failure persists boss HP (world-wide attrition design); defeat uses CAS. **v4.3.6 damage-contribution system**: `boss_damage_log` table (boss_id, user_id, damage, update_time) accumulates per-challenge damage (win or lose). On kill, `_distribute_rewards` gives the killer 30% of stone_reward + 1 guaranteed drop, and splits the rest by damage share among participants with damage ≥ 5% of boss max_hp; drops beyond the guarantee are weight-rolled by damage. Log is cleared after distribution. `CHALLENGE_COOLDOWN=300s` per player per boss (judged from damage_log.update_time — no extra table). Drops enter storage rings; gold written BEFORE store_item calls (object-refresh ordering matters).
 - **GM compensation**: `/GM补偿 <物品 数量|物品 数量>`, claim with `/补偿`. Items auto-routed: pills → `pills_inventory`, others → `storage_ring_items`.
+- **Storage ring item whitelist** (v4.3.3, `core/storage_ring_manager.py`): `can_store_item` rejects unknown item names via `_get_valid_item_names()` (lazy-cached frozenset from items/herbs/weapons/sub_techniques/skills/storage_rings configs + 融合产物"天罪"). Pills are still rejected separately (they live in `pills_inventory`). When adding a new item source config, extend the whitelist there.
 - **Permanent pill system**: `_gain` attributes per `level_{index}` for lifespan/spiritual_qi/blood_qi（受境界上限限制）, `_global` multipliers for cultivation_speed/death_protection（permanent across level-up）.
 - **Impart cards**: 105 cards in `config/impart_cards.json` (10 types: atk/hp/mp/crit_rate/crit_damage/closing_exp/alchemy_count/harvest/dual_cultivation/boss_atk). Config loaded but card collection system not yet implemented.
 
@@ -112,12 +114,12 @@ v37 removed flat attributes (physical_damage, magic_damage, physical_defense, ma
 ## Item Type Structure
 
 `config/items.json` contains only two types after cleanup:
-- `材料` (14 items): crafting materials for alchemy
+- `材料` (19 items): crafting materials for alchemy
 - `main_technique` (79 items): techniques/功法 with `price=0` (not purchasable in shop)
 
 `config/weapons.json` contains `weapon` (66) and `armor` (38) types.
 `config/skills.json` contains 53 skills (aligned to xlsx reference).
-`config/sub_techniques.json` contains 23 sub-techniques (辅修功法) with `buff_type`/`buff`/`buff2`/`break_pct` fields.
+`config/sub_techniques.json` contains 22 sub-techniques (辅修功法) with `buff_type`/`buff`/`buff2`/`break_pct` fields.
 
 ## Rank Name Systems
 
@@ -155,7 +157,7 @@ Design specs and implementation plans live in `docs/superpowers/`:
 - `docs/superpowers/plans/` — implementation plans derived from specs
 
 Planned systems with existing design specs:
-- **轮回系统 (Reincarnation)**: `docs/superpowers/specs/2026-06-19-reincarnation-system-design.md` — cross-life progression via `reincarnation_data` table, triggers at 轮回境 (level 46+)
+- **轮回系统 (Reincarnation)**: `docs/superpowers/specs/2026-07-06-reincarnation-system-design-v2.md` — cross-life progression via `reincarnation_data` table, triggers at 轮回境 (level 46+)
 
 ## Important Conventions
 
@@ -173,6 +175,4 @@ When bumping version, update ALL of these (search for old version string):
 - `metadata.yaml` — `version:` field
 - `handlers/misc_handler.py` — version string in `handle_help` text + `/修仙帮助` 命令列表
 - `README.md` — `> **版本:**` line + add changelog entry under `## 📝 更新日志`
-- `docs/index.html` — `subtitle` text in sidebar
-- `docs/app.js` — command count in `renderCommands()` info-box (if command count changed)
 - 如有数据库 schema 变更，评估是否需要更新 `data/migration.py` 的版本号

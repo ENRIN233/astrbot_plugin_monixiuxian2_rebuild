@@ -215,7 +215,6 @@ class ForgingManager:
         # 目前无跨方法事务支持。材料检查在消耗前已通过，如果 create_weapon_instance 异常退出，
         # 已消耗的材料可能无法自动回滚（需要 GM 补偿）。
         for mat_name, total_need in total_ingredients.items():
-        for mat_name, total_need in total_ingredients.items():
             success, msg = await self.storage_ring_manager.discard_item(
                 player, mat_name, total_need
             )

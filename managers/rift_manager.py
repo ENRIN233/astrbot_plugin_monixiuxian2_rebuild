@@ -22,34 +22,56 @@ class RiftManager:
     DEFAULT_OPEN_HOUR_END = 21
 
     # 秘境物品掉落表（按秘境等级分组）
+    # v4.3.3: "灵草"在 items.json/herbs.json 中不存在（幽灵物品），替换为百年灵草；
+    #         补齐 4/5 级秘境档位（此前 fallback 到 1 档表导致高级秘境掉落断档）
     RIFT_DROP_TABLE = {
         1: [  # 低级秘境
-            {"name": "灵草", "weight": 50, "min": 2, "max": 5},
+            {"name": "百年灵草", "weight": 50, "min": 2, "max": 5},
         ],
         2: [  # 中级秘境
-            {"name": "灵草", "weight": 50, "min": 3, "max": 7},
+            {"name": "百年灵草", "weight": 50, "min": 3, "max": 7},
         ],
         3: [  # 高级秘境
-            {"name": "灵草", "weight": 50, "min": 5, "max": 12},
+            {"name": "百年灵草", "weight": 50, "min": 5, "max": 12},
+        ],
+        4: [  # 玄冰地宫
+            {"name": "百年灵草", "weight": 50, "min": 8, "max": 18},
+        ],
+        5: [  # 上古遗迹
+            {"name": "百年灵草", "weight": 50, "min": 12, "max": 25},
         ],
     }
 
     # 秘境稀有丹药掉落表（按秘境等级分组，低概率掉落功能丹）
+    # v4.3.3: 原 9 种丹药（修炼加速丹等）在丹药配置中均已不存在（幽灵物品），
+    #         替换为真实存在的气血恢复类丹药
     RIFT_PILL_DROP_TABLE = {
         1: [  # 低级秘境 - 3%概率掉落
-            {"name": "修炼加速丹", "weight": 70, "min": 1, "max": 1},
-            {"name": "小爆发丹", "weight": 30, "min": 1, "max": 1},
+            {"name": "生骨丹", "weight": 60, "min": 1, "max": 2},
+            {"name": "回春丹", "weight": 40, "min": 1, "max": 1},
         ],
         2: [  # 中级秘境 - 5%概率掉落
-            {"name": "灵气加速丹", "weight": 40, "min": 1, "max": 1},
-            {"name": "狂暴丹", "weight": 30, "min": 1, "max": 1},
-            {"name": "幸运丹", "weight": 10, "min": 1, "max": 1},
+            {"name": "回元丹", "weight": 40, "min": 1, "max": 2},
+            {"name": "养气丹", "weight": 35, "min": 1, "max": 1},
+            {"name": "化瘀丹", "weight": 25, "min": 1, "max": 1},
         ],
         3: [  # 高级秘境 - 10%概率掉落
-            {"name": "天道加速丹", "weight": 30, "min": 1, "max": 1},
-            {"name": "狂暴丹·改", "weight": 30, "min": 1, "max": 1},
-            {"name": "天命幸运丹", "weight": 20, "min": 1, "max": 1},
-            {"name": "雷霆丹", "weight": 20, "min": 1, "max": 1},
+            {"name": "培元丹", "weight": 30, "min": 1, "max": 1},
+            {"name": "固元丹", "weight": 25, "min": 1, "max": 1},
+            {"name": "黄龙丹", "weight": 25, "min": 1, "max": 1},
+            {"name": "九转丹", "weight": 20, "min": 1, "max": 1},
+        ],
+        4: [  # 玄冰地宫 - 12%概率掉落
+            {"name": "九转丹", "weight": 35, "min": 1, "max": 1},
+            {"name": "养元丹", "weight": 30, "min": 1, "max": 1},
+            {"name": "天尘丹", "weight": 20, "min": 1, "max": 1},
+            {"name": "太元真丹", "weight": 15, "min": 1, "max": 1},
+        ],
+        5: [  # 上古遗迹 - 15%概率掉落
+            {"name": "天命血凝丹", "weight": 30, "min": 1, "max": 1},
+            {"name": "太乙碧莹丹", "weight": 25, "min": 1, "max": 1},
+            {"name": "归藏灵丹", "weight": 25, "min": 1, "max": 1},
+            {"name": "天元神丹", "weight": 20, "min": 1, "max": 1},
         ],
     }
 
@@ -58,6 +80,8 @@ class RiftManager:
         1: 3,   # 低级秘境 3%
         2: 5,   # 中级秘境 5%
         3: 10,  # 高级秘境 10%
+        4: 12,  # 玄冰地宫 12%
+        5: 15,  # 上古遗迹 15%
     }
 
     # 品级→参考等级映射（用于动态装备掉落）
@@ -301,8 +325,21 @@ class RiftManager:
                 got_stone = True
                 reward_lines.append(f"  💰 灵石 +{stone_reward:,}")
 
+            # v4.3.7 修为占比式：share_day(idx) × rift_exp_split × exp_needed[下一级] × (base_exp / 归一常数)
+            # 秘境等级差异保留 base_exp 相对比例（归一常数 = 5 级秘境 reward_exp）
             if base_exp > 0 and random.randint(1, 100) <= 50:
-                exp_reward = int(base_exp * level_bonus)
+                norm = float(level_cfg.get("rift_exp_base_norm", 16302))
+                split = float(level_cfg.get("rift_exp_split", 0.325))
+                scale = base_exp / norm if norm > 0 else 1.0
+                exp_reward = 0
+                if self.config_manager is not None and hasattr(self.config_manager, "get_exp_share_day"):
+                    needed = self.config_manager.get_next_exp_needed(player.level_index)
+                    exp_reward = int(
+                        self.config_manager.get_exp_share_day(player.level_index)
+                        * split * needed * scale
+                    )
+                else:
+                    exp_reward = int(base_exp * level_bonus)
                 player.experience += exp_reward
                 got_exp = True
                 reward_lines.append(f"  ✨ 修为 +{exp_reward:,}")
@@ -377,7 +414,9 @@ class RiftManager:
                     ])
                     item_lines.append(equip_desc)
 
-                # 统一存入储物戒（单事务，全部成功或全部回滚）
+                # 统一入库（单事务，全部成功或全部回滚）
+                # v4.3.3: 丹药走丹药背包（pills_inventory），此前统一走储物戒
+                # 会被 can_store_item 的丹药拦截规则拒绝，丹药掉落形同虚设
                 all_items = pill_items + equip_items + other_items
                 if self.storage_ring_manager:
                     await self.db.conn.execute("BEGIN IMMEDIATE")
@@ -387,13 +426,21 @@ class RiftManager:
                             rank_label = f"({rank})" if rank else ""
                             is_equip = self._is_equipment_item(item_name)
                             prefix = "  · ⚔️ " if is_equip else "  · "
-                            success, reason = await self.storage_ring_manager.store_item(
-                                player, item_name, count, silent=True, external_transaction=True
-                            )
-                            if success:
+                            if self._is_pill_item(item_name):
+                                # 丹药入丹药背包（同一事务内，commit 时一并提交）
+                                inventory = player.get_pills_inventory()
+                                inventory[item_name] = inventory.get(item_name, 0) + count
+                                player.set_pills_inventory(inventory)
+                                await self.db.update_player(player)
                                 item_lines.append(f"{prefix}{item_name}{rank_label} x{count}")
                             else:
-                                item_lines.append(f"{prefix}{item_name}{rank_label} x{count}（{reason}）")
+                                success, reason = await self.storage_ring_manager.store_item(
+                                    player, item_name, count, silent=True, external_transaction=True
+                                )
+                                if success:
+                                    item_lines.append(f"{prefix}{item_name}{rank_label} x{count}")
+                                else:
+                                    item_lines.append(f"{prefix}{item_name}{rank_label} x{count}（{reason}）")
                         await self.db.conn.commit()
                     except Exception:
                         await self.db.conn.rollback()

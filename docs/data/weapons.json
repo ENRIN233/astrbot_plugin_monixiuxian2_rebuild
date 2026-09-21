@@ -11,7 +11,7 @@
     "atk_bonus": 0.08,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "required_level_name": "江湖好手 / 未知境界"
+    "required_level_name": "江湖好手"
   },
   {
     "id": "sword_7002",
@@ -25,7 +25,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 8,
     "crit_damage": 0.0,
-    "required_level_name": "江湖好手 / 未知境界"
+    "required_level_name": "江湖好手"
   },
   {
     "id": "sword_7003",
@@ -39,7 +39,7 @@
     "atk_bonus": 0.04,
     "crit_rate": 4,
     "crit_damage": 0.0,
-    "required_level_name": "江湖好手 / 未知境界"
+    "required_level_name": "江湖好手"
   },
   {
     "id": "sword_7011",
@@ -53,7 +53,7 @@
     "atk_bonus": 0.12,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "required_level_name": "筑基境初期 / 未知境界"
+    "required_level_name": "筑基境初期"
   },
   {
     "id": "sword_7012",
@@ -67,7 +67,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 12,
     "crit_damage": 0.0,
-    "required_level_name": "筑基境初期 / 未知境界"
+    "required_level_name": "筑基境初期"
   },
   {
     "id": "sword_7013",
@@ -81,7 +81,7 @@
     "atk_bonus": 0.06,
     "crit_rate": 6,
     "crit_damage": 0.0,
-    "required_level_name": "筑基境初期 / 未知境界"
+    "required_level_name": "筑基境初期"
   },
   {
     "id": "sword_7021",
@@ -95,7 +95,7 @@
     "atk_bonus": 0.16,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "required_level_name": "筑基境圆满 / 未知境界"
+    "required_level_name": "筑基境圆满"
   },
   {
     "id": "sword_7022",
@@ -109,7 +109,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 16,
     "crit_damage": 0.0,
-    "required_level_name": "筑基境圆满 / 未知境界"
+    "required_level_name": "筑基境圆满"
   },
   {
     "id": "sword_7023",
@@ -123,7 +123,7 @@
     "atk_bonus": 0.08,
     "crit_rate": 8,
     "crit_damage": 0.0,
-    "required_level_name": "筑基境圆满 / 未知境界"
+    "required_level_name": "筑基境圆满"
   },
   {
     "id": "sword_7031",
@@ -137,7 +137,7 @@
     "atk_bonus": 0.2,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "required_level_name": "结丹境初期 / 未知境界"
+    "required_level_name": "结丹境初期"
   },
   {
     "id": "sword_7032",
@@ -151,7 +151,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 20,
     "crit_damage": 0.0,
-    "required_level_name": "结丹境初期 / 未知境界"
+    "required_level_name": "结丹境初期"
   },
   {
     "id": "sword_7033",
@@ -165,7 +165,7 @@
     "atk_bonus": 0.1,
     "crit_rate": 10,
     "crit_damage": 0.0,
-    "required_level_name": "结丹境初期 / 未知境界"
+    "required_level_name": "结丹境初期"
   },
   {
     "id": "sword_7041",
@@ -179,7 +179,7 @@
     "atk_bonus": 0.24,
     "crit_rate": 10,
     "crit_damage": 0.0,
-    "required_level_name": "金丹境初期 / 未知境界"
+    "required_level_name": "金丹境初期"
   },
   {
     "id": "sword_7042",
@@ -193,7 +193,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 24,
     "crit_damage": 0.0,
-    "required_level_name": "金丹境初期 / 未知境界"
+    "required_level_name": "金丹境初期"
   },
   {
     "id": "sword_7043",
@@ -207,7 +207,7 @@
     "atk_bonus": 0.12,
     "crit_rate": 12,
     "crit_damage": 0.0,
-    "required_level_name": "金丹境初期 / 未知境界"
+    "required_level_name": "金丹境初期"
   },
   {
     "id": "sword_7051",
@@ -221,7 +221,7 @@
     "atk_bonus": 0.28,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "required_level_name": "凝婴境初期 / 未知境界"
+    "required_level_name": "凝婴境初期"
   },
   {
     "id": "sword_7052",
@@ -235,7 +235,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 28,
     "crit_damage": 0.0,
-    "required_level_name": "凝婴境初期 / 未知境界"
+    "required_level_name": "凝婴境初期"
   },
   {
     "id": "sword_7053",
@@ -249,7 +249,7 @@
     "atk_bonus": 0.14,
     "crit_rate": 14,
     "crit_damage": 0.0,
-    "required_level_name": "凝婴境初期 / 未知境界"
+    "required_level_name": "凝婴境初期"
   },
   {
     "id": "sword_7061",
@@ -263,7 +263,7 @@
     "atk_bonus": 0.32,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "sword_7062",
@@ -277,7 +277,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 32,
     "crit_damage": 0.0,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "sword_7063",
@@ -291,7 +291,7 @@
     "atk_bonus": 0.16,
     "crit_rate": 16,
     "crit_damage": 0.0,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "sword_7071",
@@ -305,7 +305,7 @@
     "atk_bonus": 0.36,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_7072",
@@ -319,7 +319,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 36,
     "crit_damage": 0.0,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_7073",
@@ -333,7 +333,7 @@
     "atk_bonus": 0.18,
     "crit_rate": 18,
     "crit_damage": 0.0,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_7081",
@@ -347,7 +347,7 @@
     "atk_bonus": 0.4,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_7082",
@@ -361,7 +361,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 40,
     "crit_damage": 0.0,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_7083",
@@ -375,7 +375,7 @@
     "atk_bonus": 0.2,
     "crit_rate": 20,
     "crit_damage": 0.0,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_7091",
@@ -389,7 +389,7 @@
     "atk_bonus": 0.24,
     "crit_rate": 24,
     "crit_damage": 0.0,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_7092",
@@ -403,7 +403,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 48,
     "crit_damage": 0.0,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_7093",
@@ -417,7 +417,7 @@
     "atk_bonus": 0.48,
     "crit_rate": 0,
     "crit_damage": 0.0,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_7095",
@@ -432,7 +432,7 @@
     "crit_rate": 0,
     "crit_damage": 0.1,
     "damage_reduction": 0.1,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_7096",
@@ -446,7 +446,7 @@
     "atk_bonus": 0.1,
     "crit_rate": 55,
     "crit_damage": 0.5,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_7097",
@@ -461,7 +461,7 @@
     "crit_rate": 10,
     "crit_damage": 0.4,
     "damage_reduction": 0.05,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_7098",
@@ -476,7 +476,7 @@
     "crit_rate": -100,
     "crit_damage": 2.0,
     "damage_reduction": -0.2,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_7099",
@@ -491,7 +491,7 @@
     "crit_rate": 100,
     "crit_damage": -0.75,
     "damage_reduction": -0.2,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_11001",
@@ -505,7 +505,7 @@
     "atk_bonus": 0.6,
     "crit_rate": 10,
     "crit_damage": 0.4,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_11002",
@@ -519,7 +519,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 65,
     "crit_damage": 0.45,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_11003",
@@ -533,7 +533,7 @@
     "atk_bonus": 0.2,
     "crit_rate": 50,
     "crit_damage": 0.4,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_11004",
@@ -548,7 +548,7 @@
     "crit_rate": 30,
     "crit_damage": 0.7,
     "damage_reduction": -0.15,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_11005",
@@ -562,7 +562,7 @@
     "atk_bonus": 0.6,
     "crit_rate": 10,
     "crit_damage": 0.4,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_11006",
@@ -576,7 +576,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 60,
     "crit_damage": 0.5,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_11007",
@@ -590,7 +590,7 @@
     "atk_bonus": 0.6,
     "crit_rate": 10,
     "crit_damage": 0.4,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_11008",
@@ -605,7 +605,7 @@
     "crit_rate": 15,
     "crit_damage": 0.2,
     "damage_reduction": 0.15,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_11009",
@@ -619,7 +619,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 65,
     "crit_damage": 0.45,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_11010",
@@ -633,7 +633,7 @@
     "atk_bonus": 0.3,
     "crit_rate": 50,
     "crit_damage": 0.4,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_11011",
@@ -647,7 +647,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 70,
     "crit_damage": 0.4,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_11012",
@@ -661,7 +661,7 @@
     "atk_bonus": 0.7,
     "crit_rate": 40,
     "crit_damage": 0.0,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_11013",
@@ -675,7 +675,7 @@
     "atk_bonus": 0.7,
     "crit_rate": 40,
     "crit_damage": 0.0,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "sword_7084",
@@ -690,7 +690,7 @@
     "crit_rate": 60,
     "crit_damage": 1.25,
     "damage_reduction": -0.25,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_7085",
@@ -705,7 +705,7 @@
     "crit_rate": 50,
     "crit_damage": 0.5,
     "damage_reduction": 0.2,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_7090",
@@ -720,7 +720,7 @@
     "crit_rate": 0,
     "crit_damage": 0.3,
     "damage_reduction": 0.3,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_7094",
@@ -735,7 +735,7 @@
     "crit_rate": 20,
     "crit_damage": 0.2,
     "damage_reduction": 0.1,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_8000",
@@ -750,7 +750,7 @@
     "crit_rate": 70,
     "crit_damage": 0.75,
     "damage_reduction": -0.1,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_13001",
@@ -764,7 +764,7 @@
     "atk_bonus": 0.4,
     "crit_rate": 70,
     "crit_damage": 0.5,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_13002",
@@ -778,7 +778,7 @@
     "atk_bonus": 0.4,
     "crit_rate": 60,
     "crit_damage": 0.7,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_13003",
@@ -792,7 +792,7 @@
     "atk_bonus": 0.7,
     "crit_rate": 20,
     "crit_damage": 0.2,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_13004",
@@ -806,7 +806,7 @@
     "atk_bonus": 0.6,
     "crit_rate": 50,
     "crit_damage": 0.6,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_15453",
@@ -821,7 +821,7 @@
     "crit_rate": 50,
     "crit_damage": 0.0,
     "damage_reduction": 0.1,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_15454",
@@ -835,7 +835,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 50,
     "crit_damage": 0.5,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_15455",
@@ -849,7 +849,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 50,
     "crit_damage": 0.5,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_15456",
@@ -863,7 +863,7 @@
     "atk_bonus": 0.7,
     "crit_rate": 50,
     "crit_damage": 1.0,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_15457",
@@ -877,7 +877,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 50,
     "crit_damage": 0.5,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_15458",
@@ -891,7 +891,7 @@
     "atk_bonus": 0.0,
     "crit_rate": 50,
     "crit_damage": 0.5,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_15459",
@@ -905,7 +905,7 @@
     "atk_bonus": 0.5,
     "crit_rate": 50,
     "crit_damage": 0.6,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_15460",
@@ -919,7 +919,7 @@
     "atk_bonus": 0.7,
     "crit_rate": 60,
     "crit_damage": 0.6,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "sword_15461",
@@ -933,7 +933,7 @@
     "atk_bonus": 0.7,
     "crit_rate": 60,
     "crit_damage": 0.0,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "armor_6001",
@@ -947,7 +947,7 @@
     "def_buff": 0.08,
     "atk_bonus": 0,
     "crit_rate": 0,
-    "required_level_name": "江湖好手 / 未知境界"
+    "required_level_name": "江湖好手"
   },
   {
     "id": "armor_6011",
@@ -961,7 +961,7 @@
     "def_buff": 0.1,
     "atk_bonus": 0,
     "crit_rate": 0,
-    "required_level_name": "江湖好手 / 未知境界"
+    "required_level_name": "江湖好手"
   },
   {
     "id": "armor_6021",
@@ -975,7 +975,7 @@
     "def_buff": 0.12,
     "atk_bonus": 0,
     "crit_rate": 0,
-    "required_level_name": "筑基境初期 / 未知境界"
+    "required_level_name": "筑基境初期"
   },
   {
     "id": "armor_6031",
@@ -989,7 +989,7 @@
     "def_buff": 0.14,
     "atk_bonus": 0,
     "crit_rate": 0,
-    "required_level_name": "筑基境初期 / 未知境界"
+    "required_level_name": "筑基境初期"
   },
   {
     "id": "armor_6041",
@@ -1003,7 +1003,7 @@
     "def_buff": 0.16,
     "atk_bonus": 0,
     "crit_rate": 0,
-    "required_level_name": "筑基境圆满 / 未知境界"
+    "required_level_name": "筑基境圆满"
   },
   {
     "id": "armor_6051",
@@ -1017,7 +1017,7 @@
     "def_buff": 0.18,
     "atk_bonus": 0,
     "crit_rate": 0,
-    "required_level_name": "筑基境圆满 / 未知境界"
+    "required_level_name": "筑基境圆满"
   },
   {
     "id": "armor_6061",
@@ -1031,7 +1031,7 @@
     "def_buff": 0.2,
     "atk_bonus": 0,
     "crit_rate": 0,
-    "required_level_name": "结丹境初期 / 未知境界"
+    "required_level_name": "结丹境初期"
   },
   {
     "id": "armor_6071",
@@ -1045,7 +1045,7 @@
     "def_buff": 0.22,
     "atk_bonus": 0,
     "crit_rate": 0,
-    "required_level_name": "结丹境初期 / 未知境界"
+    "required_level_name": "结丹境初期"
   },
   {
     "id": "armor_6081",
@@ -1059,7 +1059,7 @@
     "def_buff": 0.24,
     "atk_bonus": 0,
     "crit_rate": 0,
-    "required_level_name": "金丹境初期 / 未知境界"
+    "required_level_name": "金丹境初期"
   },
   {
     "id": "armor_6091",
@@ -1073,7 +1073,7 @@
     "def_buff": 0.26,
     "atk_bonus": 0,
     "crit_rate": 0,
-    "required_level_name": "金丹境初期 / 未知境界"
+    "required_level_name": "金丹境初期"
   },
   {
     "id": "armor_6092",
@@ -1087,7 +1087,7 @@
     "def_buff": 0.3,
     "atk_bonus": 0.06,
     "crit_rate": 6,
-    "required_level_name": "凝婴境初期 / 未知境界"
+    "required_level_name": "凝婴境初期"
   },
   {
     "id": "armor_6093",
@@ -1101,7 +1101,7 @@
     "def_buff": 0.28,
     "atk_bonus": 0.12,
     "crit_rate": 0,
-    "required_level_name": "凝婴境初期 / 未知境界"
+    "required_level_name": "凝婴境初期"
   },
   {
     "id": "armor_6094",
@@ -1115,7 +1115,7 @@
     "def_buff": 0.2,
     "atk_bonus": 0.2,
     "crit_rate": 15,
-    "required_level_name": "结丹境初期 / 未知境界"
+    "required_level_name": "结丹境初期"
   },
   {
     "id": "armor_11051",
@@ -1129,7 +1129,7 @@
     "def_buff": 0.32,
     "atk_bonus": 0,
     "crit_rate": 0,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "armor_11052",
@@ -1143,7 +1143,7 @@
     "def_buff": 0.3,
     "atk_bonus": 0,
     "crit_rate": 0,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "armor_11053",
@@ -1157,7 +1157,7 @@
     "def_buff": 0.3,
     "atk_bonus": 0.15,
     "crit_rate": 20,
-    "required_level_name": "凝婴境初期 / 未知境界"
+    "required_level_name": "凝婴境初期"
   },
   {
     "id": "armor_11054",
@@ -1171,7 +1171,7 @@
     "def_buff": 0.3,
     "atk_bonus": 0,
     "crit_rate": 0,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "armor_11055",
@@ -1185,7 +1185,7 @@
     "def_buff": 0.3,
     "atk_bonus": 0,
     "crit_rate": 0,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "armor_12001",
@@ -1199,7 +1199,7 @@
     "def_buff": 0.35,
     "atk_bonus": 0.15,
     "crit_rate": 15,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "armor_12002",
@@ -1213,7 +1213,7 @@
     "def_buff": 0.35,
     "atk_bonus": 0.1,
     "crit_rate": 20,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "armor_12003",
@@ -1227,7 +1227,7 @@
     "def_buff": 0.35,
     "atk_bonus": 0.1,
     "crit_rate": 20,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "armor_12004",
@@ -1241,7 +1241,7 @@
     "def_buff": 0.35,
     "atk_bonus": 0.1,
     "crit_rate": 20,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "armor_12005",
@@ -1255,7 +1255,7 @@
     "def_buff": 0.35,
     "atk_bonus": 0.15,
     "crit_rate": 15,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "armor_12006",
@@ -1269,7 +1269,7 @@
     "def_buff": 0.35,
     "atk_bonus": 0,
     "crit_rate": 30,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "armor_12007",
@@ -1283,7 +1283,7 @@
     "def_buff": 0.15,
     "atk_bonus": 0.5,
     "crit_rate": 10,
-    "required_level_name": "筑基境圆满 / 未知境界"
+    "required_level_name": "筑基境圆满"
   },
   {
     "id": "armor_12008",
@@ -1297,7 +1297,7 @@
     "def_buff": 0.15,
     "atk_bonus": 0.5,
     "crit_rate": 10,
-    "required_level_name": "筑基境圆满 / 未知境界"
+    "required_level_name": "筑基境圆满"
   },
   {
     "id": "armor_6099",
@@ -1311,7 +1311,7 @@
     "def_buff": 0.35,
     "atk_bonus": 0.2,
     "crit_rate": 10,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "armor_15500",
@@ -1325,7 +1325,7 @@
     "def_buff": 0.35,
     "atk_bonus": 0.2,
     "crit_rate": 10,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "armor_15501",
@@ -1339,7 +1339,7 @@
     "def_buff": 0.35,
     "atk_bonus": 0.2,
     "crit_rate": 10,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "armor_15502",
@@ -1353,7 +1353,7 @@
     "def_buff": 0.35,
     "atk_bonus": 0.2,
     "crit_rate": 10,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "armor_15503",
@@ -1367,7 +1367,7 @@
     "def_buff": 0.35,
     "atk_bonus": 0.2,
     "crit_rate": 10,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "armor_15504",
@@ -1381,7 +1381,7 @@
     "def_buff": 0.35,
     "atk_bonus": 0.2,
     "crit_rate": 10,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "armor_15505",
@@ -1395,7 +1395,7 @@
     "def_buff": 0.35,
     "atk_bonus": 0.2,
     "crit_rate": 10,
-    "required_level_name": "化神境初期 / 未知境界"
+    "required_level_name": "化神境初期"
   },
   {
     "id": "armor_15506",
@@ -1409,7 +1409,7 @@
     "def_buff": 0.35,
     "atk_bonus": 0,
     "crit_rate": 15,
-    "required_level_name": "炼虚境中期 / 未知境界"
+    "required_level_name": "炼虚境中期"
   },
   {
     "id": "armor_15507",
@@ -1423,7 +1423,7 @@
     "def_buff": 0.4,
     "atk_bonus": 0,
     "crit_rate": 0,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "armor_15508",
@@ -1437,7 +1437,7 @@
     "def_buff": 0.15,
     "atk_bonus": 0.2,
     "crit_rate": 30,
-    "required_level_name": "筑基境圆满 / 未知境界"
+    "required_level_name": "筑基境圆满"
   },
   {
     "id": "armor_15509",
@@ -1451,7 +1451,7 @@
     "def_buff": 0.5,
     "atk_bonus": 0,
     "crit_rate": 0,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   },
   {
     "id": "armor_6095",
@@ -1465,6 +1465,6 @@
     "def_buff": 0.5,
     "atk_bonus": -0.5,
     "crit_rate": 0,
-    "required_level_name": "出窍境中期 / 未知境界"
+    "required_level_name": "出窍境中期"
   }
 ]

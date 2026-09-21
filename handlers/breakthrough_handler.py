@@ -29,7 +29,7 @@ class BreakthroughHandler:
         display_name = event.get_sender_name()
 
         # 根据修炼类型获取对应的境界数据
-        level_data = self.config_manager.get_level_data(player.cultivation_type)
+        level_data = self.config_manager.get_level_data()
 
         # 检查是否已经是最高境界
         if player.level_index >= len(level_data) - 1:
@@ -131,9 +131,6 @@ class BreakthroughHandler:
 
         if temp_bonus:
             info_lines.append(f"临时丹药加成：{temp_bonus:+.1%}\n")
-        death_reduce = 1 - modifiers["permanent_death_multiplier"]
-        if death_reduce > 0:
-            info_lines.append(f"突破死亡概率降低：{death_reduce:.1%}\n")
 
         if available_pills:
             info_lines.append(f"\n【可用破境丹】\n")
@@ -158,7 +155,7 @@ class BreakthroughHandler:
             info_lines.append(f"\n暂无适用的破境丹\n")
 
         # 突破说明
-        success_flavor = "肉身更强" if player.cultivation_type == "体修" else "实力大增"
+        success_flavor = "实力大增"
         failure_hint = (
             f"• 失败累积：每次失败+1%成功率，突破成功后重置"
             f"{'（轮回境后失效）' if player.level_index >= 46 else ''}\n"
@@ -168,12 +165,11 @@ class BreakthroughHandler:
             f"【突破说明】\n",
             f"• 使用命令：{CMD_BREAKTHROUGH} 或 {CMD_BREAKTHROUGH} [破境丹名称]\n",
             f"• 突破成功：境界提升，{success_flavor}\n",
-            f"• 突破失败：损失0.1%~1%修为，有概率死亡\n",
+            f"• 突破失败：损失0.1%~1%修为（合体境以上1%~5%）\n",
             failure_hint,
             f"• 境界丹仅在大境界突破时可用（每种最多1种）\n",
             f"• 通用丹任意突破可用（最多1种，可叠加境界丹）\n",
             f"• 破境丹：使用后持续生效，突破失败不消失，突破成功后才消耗\n",
-            f"• 死亡后：所有数据清除，需重新入仙途\n",
             f"=" * 28
         ])
 
@@ -189,7 +185,7 @@ class BreakthroughHandler:
         modifiers = self.pill_manager.get_breakthrough_modifiers(player, target_level_index)
 
         # 根据修炼类型获取对应的境界数据
-        level_data = self.config_manager.get_level_data(player.cultivation_type)
+        level_data = self.config_manager.get_level_data()
 
         # 如果指定了破境丹，验证其有效性
         if pill_name and pill_name.strip():
@@ -249,8 +245,7 @@ class BreakthroughHandler:
         success, message, died = await self.breakthrough_manager.execute_breakthrough(
             player,
             pill_name,
-            modifiers["temp_bonus"],
-            modifiers["permanent_death_multiplier"]
+            modifiers["temp_bonus"]
         )
 
         # 仅在突破成功时消耗突破加成效果，保留死亡保护效果供后续突破使用

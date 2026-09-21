@@ -56,8 +56,8 @@ class AchievementManager:
         elif cond_type == "atkpractice":
             return player.atkpractice >= value
         elif cond_type == "level_index_and_type":
-            required_type = condition.get("cultivation_type", "")
-            return player.level_index >= value and player.cultivation_type == required_type
+            # 修炼路线已移除（v4.3.2），仅按境界判定
+            return player.level_index >= value
         elif cond_type == "sect_contribution":
             return player.sect_contribution >= value
         elif cond_type == "lifespan":

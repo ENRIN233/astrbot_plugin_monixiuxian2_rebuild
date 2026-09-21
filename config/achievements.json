@@ -307,61 +307,55 @@
   },
   "body_beginner": {
     "name": "炼体入门",
-    "description": "体修境界达到炼气期三层",
+    "description": "境界达到炼气期三层",
     "condition": {
-      "type": "level_index_and_type",
-      "value": 3,
-      "cultivation_type": "体修"
+      "type": "level_index",
+      "value": 3
     },
     "bonus": {}
   },
   "spirit_beginner": {
-    "name": "灵修入门",
-    "description": "灵修境界达到炼气期三层",
+    "name": "道法入门",
+    "description": "境界达到炼气期三层",
     "condition": {
-      "type": "level_index_and_type",
-      "value": 3,
-      "cultivation_type": "灵修"
+      "type": "level_index",
+      "value": 3
     },
     "bonus": {}
   },
   "body_master": {
     "name": "炼体大成",
-    "description": "体修境界达到金丹期",
+    "description": "境界达到金丹期",
     "condition": {
-      "type": "level_index_and_type",
-      "value": 14,
-      "cultivation_type": "体修"
+      "type": "level_index",
+      "value": 14
     },
     "bonus": {}
   },
   "spirit_master": {
-    "name": "灵修大成",
-    "description": "灵修境界达到金丹期",
+    "name": "道法大成",
+    "description": "境界达到金丹期",
     "condition": {
-      "type": "level_index_and_type",
-      "value": 14,
-      "cultivation_type": "灵修"
+      "type": "level_index",
+      "value": 14
     },
     "bonus": {}
   },
   "body_transcendence": {
     "name": "肉身成圣",
-    "description": "体修境界达到合体期",
+    "description": "境界达到合体期",
     "condition": {
-      "type": "level_index_and_type",
-      "value": 26,
-      "cultivation_type": "体修"
+      "type": "level_index",
+      "value": 26
     },
     "bonus": {}
   },
   "spirit_transcendence": {
     "name": "灵通造化",
-    "description": "灵修境界达到合体期",
+    "description": "境界达到合体期",
     "condition": {
-      "type": "level_index_and_type",
-      "value": 26,
-      "cultivation_type": "灵修"
+      "type": "level_index",
+      "value": 26
     },
     "bonus": {}
   },

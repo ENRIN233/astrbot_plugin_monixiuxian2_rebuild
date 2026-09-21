@@ -91,7 +91,7 @@ class Player:
     user_id: str
     level_index: int = 0
     spiritual_root: str = "未知"
-    cultivation_type: str = "灵修"  # 灵修或体修
+    cultivation_type: str = ""  # 已废弃（v4.3.2 移除灵修/体修双路线），仅为数据库列兼容保留
     user_name: str = ""  # 道号
 
     # 基础属性
@@ -132,11 +132,11 @@ class Player:
     atk: int = 0  # 攻击力
     atkpractice: int = 0  # 攻击修炼等级，每级提升4%攻击力
 
-    # 灵修/体修专用属性
-    spiritual_qi: int = 100  # 当前灵气（灵修专用）
-    max_spiritual_qi: int = 1000  # 最大灵气容量（灵修专用）
-    blood_qi: int = 0  # 当前气血（体修专用）
-    max_blood_qi: int = 0  # 最大气血容量（体修专用）
+    # 能量属性（历史字段，数据库列保留；当前体系使用 spiritual_qi）
+    spiritual_qi: int = 100  # 当前灵气
+    max_spiritual_qi: int = 1000  # 最大灵气容量
+    blood_qi: int = 0  # 当前气血（历史字段，双路线已移除）
+    max_blood_qi: int = 0  # 最大气血容量（历史字段，双路线已移除）
 
     # 宗门系统字段
     sect_id: int = 0  # 宗门ID（0表示未加入宗门）

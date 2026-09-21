@@ -609,7 +609,7 @@ class StorageRingHandler:
             yield event.plain_result(
                 "请指定要炼金的物品\n"
                 "用法：炼金 物品名 [数量]\n"
-                "示例：炼金 灵草 5"
+                "示例：炼金 百年灵草 5"
             )
             return
 

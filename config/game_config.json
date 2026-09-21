@@ -156,6 +156,17 @@
   "level_scaling": {
     "bounty_rift_coefficient": 0.045,
     "bounty_rift_base_level": 3,
-    "comment": "等级缩放系数：悬赏令/秘境 level_bonus = 1 + max(0, level-base) * coeff。0.045 使满级(57)加成比原满级(30)高约31%"
+    "comment": "等级缩放：bounty_rift_coefficient 仅用于灵石（线性 bonus）。修为（v4.3.7）改用占比式：日总活跃占比(悬赏3次+秘境1次) = exp_share 日曲线 × exp_needed[下一级]，前期快后期慢",
+    "exp_share_base_decay": 0.9486,
+    "exp_share_slowdown_from": 18,
+    "exp_share_slowdown_decay": 0.9229,
+    "exp_share_min": 0.01,
+    "bounty_exp_split": 0.675,
+    "rift_exp_split": 0.325,
+    "rift_exp_base_norm": 16302,
+    "closing_exp_share_mid": 0.045,
+    "closing_exp_share_end": 0.03,
+    "closing_exp_share_min": 0.008,
+    "comment_exp_share": "占比曲线：idx<=18 为 exp_share_base_decay^idx（与旧版节奏一致）；idx>18 切换为 exp_share_slowdown_decay^（idx-18）续衰减（金丹后放慢）。bounty_exp_split/rift_exp_split 为悬赏(3次/日)与秘境(1次/日)的日总占比拆分；rift_exp_base_norm 为秘境修为归一常数（=5级秘境 reward_exp，低级秘境按比例缩水）。closing_exp_share_mid/end 为闭关境界因子的占比锚点（idx18 现状值 / idx57 目标值，v4.3.8）。全部数值 [PLACEHOLDER]，需 playtest 校准"
   }
 }

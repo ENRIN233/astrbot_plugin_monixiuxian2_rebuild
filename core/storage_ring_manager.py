@@ -17,6 +17,7 @@ class StorageRingManager:
     def __init__(self, db: "DataBase", config_manager: "ConfigManager"):
         self.db = db
         self.config_manager = config_manager
+        self._valid_item_names: Optional[frozenset] = None  # 惰性缓存的有效物品名白名单
 
     def get_storage_ring_config(self, ring_name: str) -> Optional[dict]:
         """获取储物戒配置"""
@@ -60,8 +61,36 @@ class StorageRingManager:
         """检查物品是否为丹药类型"""
         return self.config_manager.is_pill(item_name)
 
+    def _get_valid_item_names(self) -> frozenset:
+        """构建可存入储物戒的有效物品名白名单（惰性缓存，配置启动时加载后不变）
+
+        来源：items.json（材料/功法）+ herbs.json（药材）+ weapons.json（装备模板，
+        含全部锻造 output_template）+ sub_techniques.json + skills.json + storage_rings.json，
+        以及融合产物"天罪"（forging_manager 硬编码产出，非 weapons.json 模板）。
+        """
+        if self._valid_item_names is not None:
+            return self._valid_item_names
+        cm = self.config_manager
+        names = set()
+        for data in (cm.items_data, cm.weapons_data, cm.storage_rings_data,
+                     cm.skills_data, cm.sub_techniques_data):
+            for v in (data or {}).values():
+                if isinstance(v, dict) and v.get("name"):
+                    names.add(v["name"])
+        for v in (cm.herbs_data or {}).values() if isinstance(cm.herbs_data, dict) else []:
+            if isinstance(v, dict) and v.get("name"):
+                names.add(v["name"])
+        names.add("天罪")  # 原罪+无罪融合产物（forging_manager 硬编码）
+        self._valid_item_names = frozenset(names)
+        return self._valid_item_names
+
     def can_store_item(self, item_name: str) -> Tuple[bool, str]:
         """检查物品是否可以存入储物戒"""
+        # 物品存在性校验（v4.3.3）：拦截幽灵物品（如旧历练体系残留的"灵草"），
+        # 防止无效物品占用储物戒格子
+        if item_name not in self._get_valid_item_names():
+            return False, f"【{item_name}】不是已知物品，无法存入储物戒"
+
         # 丹药不能存入储物戒
         if self.is_pill(item_name):
             return False, f"【{item_name}】是丹药，不能存入储物戒（请使用丹药背包）"

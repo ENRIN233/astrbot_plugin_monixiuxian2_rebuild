@@ -5,7 +5,7 @@ from typing import Dict, Callable, Awaitable
 from astrbot.api import logger
 from ..config_manager import ConfigManager
 
-LATEST_DB_VERSION = 40  # v40: 锻造系统（weapon_instances表 + 装备字段）
+LATEST_DB_VERSION = 41  # v41: Boss伤害贡献系统（boss_damage_log表）
 
 MIGRATION_TASKS: Dict[int, Callable[[aiosqlite.Connection, ConfigManager], Awaitable[None]]] = {}
 
@@ -34,7 +34,8 @@ class MigrationManager:
                 await self.conn.execute("INSERT INTO db_info (version) VALUES (?)", (LATEST_DB_VERSION,))
                 await self.conn.commit()
                 logger.info(f"数据库已初始化到最新版本: v{LATEST_DB_VERSION}")
-                return
+                # 不提前 return：全新安装同样需要执行 _ensure_table_integrity
+                # （v2 建表 schema 落后于当前模型，缺失的表/列由完整性修复补齐）
 
         async with self.conn.execute("SELECT version FROM db_info") as cursor:
             row = await cursor.fetchone()
@@ -71,6 +72,66 @@ async def _ensure_table_integrity(conn: aiosqlite.Connection):
         existing_tables = {row[0] for row in await cursor.fetchall()}
 
     repaired = []
+
+    # ── players 表列补全（与 create_player 的 INSERT 列保持同步） ──
+    if "players" in existing_tables:
+        async with conn.execute("PRAGMA table_info(players)") as cursor:
+            existing_cols = {row[1] for row in await cursor.fetchall()}
+        # (列名, SQL类型, 默认值)。JSON 类字段默认 '{}'，其余 TEXT 默认 ''，数值默认 0
+        players_columns = [
+            ("cultivation_type", "TEXT", "''"),
+            ("user_name", "TEXT", "''"),
+            ("lifespan", "INTEGER", "0"),
+            ("cultivation_start_time", "INTEGER", "0"),
+            ("last_check_in_date", "TEXT", "''"),
+            ("monthly_sign_count", "INTEGER", "0"),
+            ("monthly_sign_month", "TEXT", "''"),
+            ("level_up_rate", "INTEGER", "0"),
+            ("weapon", "TEXT", "''"),
+            ("armor", "TEXT", "''"),
+            ("main_technique", "TEXT", "''"),
+            ("techniques", "TEXT", "'{}'"),
+            ("mp", "INTEGER", "0"),
+            ("atk", "INTEGER", "0"),
+            ("atkpractice", "INTEGER", "0"),
+            ("spiritual_qi", "INTEGER", "0"),
+            ("max_spiritual_qi", "INTEGER", "0"),
+            ("blood_qi", "INTEGER", "0"),
+            ("max_blood_qi", "INTEGER", "0"),
+            ("sect_id", "INTEGER", "0"),
+            ("sect_position", "INTEGER", "0"),
+            ("sect_contribution", "INTEGER", "0"),
+            ("sect_task", "TEXT", "'{}'"),
+            ("sect_elixir_get", "INTEGER", "0"),
+            ("active_pill_effects", "TEXT", "'[]'"),
+            ("permanent_pill_gains", "TEXT", "'{}'"),
+            ("has_resurrection_pill", "INTEGER", "0"),
+            ("has_debuff_shield", "INTEGER", "0"),
+            ("pills_inventory", "TEXT", "'{}'"),
+            ("storage_ring", "TEXT", "''"),
+            ("storage_ring_items", "TEXT", "'{}'"),
+            ("daily_pill_usage", "TEXT", "'{}'"),
+            ("last_daily_reset", "INTEGER", "0"),
+            ("shentong", "TEXT", "''"),
+            ("sub_technique", "TEXT", "''"),
+            ("permanent_pill_usage", "TEXT", "'{}'"),
+            ("achievement_data", "TEXT", "'{}'"),
+            ("bank_vip_tier", "INTEGER", "0"),
+            ("daily_activity", "TEXT", "'{}'"),
+            ("daily_activity_points", "INTEGER", "0"),
+            ("daily_activity_date", "TEXT", "''"),
+            ("daily_activity_rewarded", "INTEGER", "0"),
+            ("equipped_weapon", "TEXT", "''"),
+            ("equipped_armor", "TEXT", "''"),
+            ("forging_exp", "INTEGER", "0"),
+            ("forging_level", "INTEGER", "0"),
+        ]
+        for col_name, col_type, col_default in players_columns:
+            if col_name not in existing_cols:
+                await conn.execute(
+                    f"ALTER TABLE players ADD COLUMN {col_name} {col_type} DEFAULT {col_default}"
+                )
+                repaired.append(f"players.{col_name}")
 
     if "bounty_tasks" not in existing_tables:
         await conn.execute("""
@@ -661,7 +722,18 @@ async def _create_all_tables_v2(conn: aiosqlite.Connection):
         )
     """)
     await conn.execute("CREATE INDEX IF NOT EXISTS idx_boss_status ON boss(status, create_time DESC)")
-    
+
+    # Boss伤害贡献表（v41）
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS boss_damage_log (
+            boss_id     INTEGER NOT NULL,
+            user_id     TEXT NOT NULL,
+            damage      INTEGER NOT NULL DEFAULT 0,
+            update_time INTEGER NOT NULL DEFAULT 0,
+            PRIMARY KEY (boss_id, user_id)
+        )
+    """)
+
     # 创建秘境表
     await conn.execute("""
         CREATE TABLE IF NOT EXISTS rifts (
@@ -1987,3 +2059,19 @@ async def v40_add_forging_system(conn: aiosqlite.Connection, config_manager: Con
 
     await conn.commit()
     logger.info("v40迁移完成：锻造系统")
+
+
+@migration(41)
+async def v41_add_boss_damage_log(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """v41: Boss伤害贡献系统 — boss_damage_log表（伤害记录/冷却判定/加权分配依据）"""
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS boss_damage_log (
+            boss_id     INTEGER NOT NULL,
+            user_id     TEXT NOT NULL,
+            damage      INTEGER NOT NULL DEFAULT 0,
+            update_time INTEGER NOT NULL DEFAULT 0,
+            PRIMARY KEY (boss_id, user_id)
+        )
+    """)
+    await conn.commit()
+    logger.info("v41迁移完成：Boss伤害贡献表 boss_damage_log")

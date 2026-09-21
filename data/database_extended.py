@@ -288,6 +288,47 @@ class DatabaseExtended:
         )
         await self.conn.commit()
 
+    async def add_boss_damage(self, boss_id: int, user_id: str, damage: int, now_ts: int):
+        """累加玩家对指定Boss的伤害（boss_damage_log UPSERT）
+
+        update_time 同时充当"该玩家对该Boss上次挑战时间"（挑战冷却判定依据）。
+        """
+        await self.conn.execute(
+            """
+            INSERT INTO boss_damage_log (boss_id, user_id, damage, update_time)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(boss_id, user_id)
+            DO UPDATE SET damage = damage + excluded.damage,
+                          update_time = excluded.update_time
+            """,
+            (boss_id, user_id, max(0, int(damage)), int(now_ts)),
+        )
+        await self.conn.commit()
+
+    async def get_boss_damage_log(self, boss_id: int) -> list:
+        """获取指定Boss的伤害贡献列表，按伤害降序
+
+        Returns:
+            [(user_id, damage, update_time), ...]
+        """
+        async with self.conn.execute(
+            """
+            SELECT user_id, damage, update_time FROM boss_damage_log
+            WHERE boss_id = ?
+            ORDER BY damage DESC
+            """,
+            (boss_id,),
+        ) as cursor:
+            return [(r[0], r[1], r[2]) for r in await cursor.fetchall()]
+
+    async def clear_boss_damage_log(self, boss_id: int):
+        """清除指定Boss的伤害日志（击杀分配完成后调用，防止表膨胀）"""
+        await self.conn.execute(
+            "DELETE FROM boss_damage_log WHERE boss_id = ?",
+            (boss_id,),
+        )
+        await self.conn.commit()
+
     async def update_boss_hp_if_active(self, boss_id: int, hp: int) -> bool:
         """仅当Boss仍存活时更新HP（防止已被击败的Boss被重新激活）
 
