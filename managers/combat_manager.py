@@ -17,15 +17,19 @@ ARMOR_SPECIAL_ATTRS = ['dodge_rate', 'crit_resist', 'reflect_pct', 'block_value'
 
 
 def _apply_forge_affixes(bonus: dict, affixes_data) -> None:
-    """将武器实例的词条属性累加到 bonus 字典"""
+    """将武器实例的词条属性累加到 bonus 字典（脏数据免疫：非 dict 项跳过）"""
     try:
         affixes = json.loads(affixes_data) if isinstance(affixes_data, str) else affixes_data
+        if not isinstance(affixes, list):
+            return
         for affix in affixes:
+            if not isinstance(affix, dict):
+                continue
             attr = affix.get("attr", "")
             val = affix.get("val", 0)
             if attr in bonus:
                 bonus[attr] += val
-    except (json.JSONDecodeError, TypeError):
+    except (json.JSONDecodeError, TypeError, ValueError):
         pass
 
 

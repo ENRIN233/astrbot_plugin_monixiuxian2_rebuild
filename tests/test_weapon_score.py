@@ -176,3 +176,39 @@ def test_score_idempotent_and_roundtrip():
 
     as_json = dict(inst, affixes=json.dumps(inst["affixes"]))
     assert _score(as_json) == first
+
+
+def test_dirty_affix_data_survives():
+    """⑧ 脏数据免疫：affixes 含非 dict 项/None/非数值 val 时不崩溃，按有效项计分。"""
+    dirty = {
+        "atk_bonus": 0.2,
+        "affixes": [
+            "dirty-string",          # 非 dict → 剔除
+            42, None, ["nested"],    # 非 dict → 剔除
+            {"name": "嗜血", "attr": "lifesteal", "val": 3.75},  # 有效
+            {"name": "坏数值", "attr": "crit_rate", "val": "abc"},  # val 回退 0 → t=0
+        ],
+    }
+    info = _score(dirty)
+    # 仅 2 个有效 dict 参与：t = (0.25 + 0) / 2 = 0.125 → 12 分 D
+    assert info["roll_score"] == 12
+    assert info["grade"] == "D"
+    assert len(info["breakdown"]["affixes"]) == 2
+    # 威力倍率照常：atk_part=1.2，嗜血 3.75 → steal=1.0375，其余 1.0
+    assert info["power_mult"] == 1.2 * (1 + 3.75 / 100)
+
+
+def test_combat_apply_forge_affixes_dirty_data():
+    """⑨ 战斗端 _apply_forge_affixes：脏数据不抛异常、不改变有效加成。"""
+    from astrbot_plugin_monixiuxian2.managers.combat_manager import _apply_forge_affixes
+
+    # 非 dict 项跳过，有效项照常累加
+    bonus = {"crit_rate": 5, "lifesteal": 0}
+    _apply_forge_affixes(bonus, '[{"attr": "crit_rate", "val": 3}, "dirty", 42, null]')
+    assert bonus == {"crit_rate": 8, "lifesteal": 0}
+
+    # 非 list JSON（如 "{}"）、坏 JSON、None → 静默忽略
+    for bad in ('{}', 'not-json{{', None, 123):
+        b2 = {"crit_rate": 5}
+        _apply_forge_affixes(b2, bad)
+        assert b2 == {"crit_rate": 5}

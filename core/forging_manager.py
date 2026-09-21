@@ -100,6 +100,14 @@ POWER_PEN_FRAC: float = 0.85
 # 词条模板索引（attr → 区间模板），供评分标尺定位
 AFFIX_TPL_BY_ATTR: Dict[str, dict] = {t["attr"]: t for t in FORGE_AFFIXES}
 
+
+def _safe_float(x, default: float = 0.0) -> float:
+    """脏数据容忍的 float 转换（None / 非数值字符串回退默认值，不抛异常）"""
+    try:
+        return float(x)
+    except (TypeError, ValueError):
+        return default
+
 # ── 品质概率档位（按锻造等级分段） ──
 
 QUALITY_RATES_TIERS: List[Tuple[int, Dict[str, float]]] = [
@@ -238,15 +246,16 @@ class ForgingManager:
 
     @staticmethod
     def _parse_affixes_field(raw) -> List[dict]:
-        """实例 affixes 字段解析（兼容 JSON 字符串 / 列表 / 脏数据）"""
+        """实例 affixes 字段解析（兼容 JSON 字符串 / 列表 / 脏数据，非 dict 项剔除）"""
         if isinstance(raw, str):
             try:
                 import json as _j
-                parsed = _j.loads(raw)
-                return parsed if isinstance(parsed, list) else []
+                raw = _j.loads(raw)
             except (ValueError, TypeError):
                 return []
-        return raw if isinstance(raw, list) else []
+        if not isinstance(raw, list):
+            return []
+        return [a for a in raw if isinstance(a, dict)]
 
     @staticmethod
     def _affix_t(affix: dict) -> float:
@@ -255,7 +264,7 @@ class ForgingManager:
             return PERFECT_OVERCAP
         attr = affix.get("attr", "")
         tpl = AFFIX_TPL_BY_ATTR.get(attr)
-        val = float(affix.get("val", 0) or 0)
+        val = _safe_float(affix.get("val", 0))
         if tpl is None or val == LEGACY_AFFIX_VALS.get(attr):
             # 未知属性 / 旧格式固定值：按随机化前期望锚点 0.45 计入
             return LEGACY_AFFIX_T
@@ -300,7 +309,7 @@ class ForgingManager:
                 affix_bd.append({
                     "name": a.get("name", "?"),
                     "attr": a.get("attr", ""),
-                    "val": float(a.get("val", 0) or 0),
+                    "val": _safe_float(a.get("val", 0)),
                     "perfect": bool(a.get("perfect")),
                     "t": t,
                 })
@@ -312,20 +321,20 @@ class ForgingManager:
 
         # ── 威力倍率：模板属性 + 词条代入官方乘数链 ──
         def _total(field: str, attr: str) -> float:
-            base = float(inst.get(field, 0) or 0)
+            base = _safe_float(inst.get(field, 0))
             extra = sum(
-                float(a.get("val", 0) or 0)
+                _safe_float(a.get("val", 0))
                 for a in affixes if a.get("attr") == attr
             )
             return base + extra
 
-        atk = float(inst.get("atk_bonus", 0) or 0)
+        atk = _safe_float(inst.get("atk_bonus", 0))
         crit_rate = _total("crit_rate", "crit_rate")
         crit_damage = _total("crit_damage", "crit_damage")
         double_hit = _total("double_hit", "double_hit")
         armor_pen = _total("armor_pen", "armor_pen")
         # 战斗端武器 damage_reduction 并入 def_buff（load_equipment_bonus 同口径）
-        def_buff = _total("def_buff", "def_buff") + float(inst.get("damage_reduction", 0) or 0)
+        def_buff = _total("def_buff", "def_buff") + _safe_float(inst.get("damage_reduction", 0))
         dodge = _total("dodge_rate", "dodge_rate")
         hp_regen = _total("hp_regen_pct", "hp_regen_pct")
         lifesteal = _total("lifesteal", "lifesteal")
@@ -579,19 +588,9 @@ class ForgingManager:
         best_quality = q1 if QUAL_ORDER.index(q1) >= QUAL_ORDER.index(q2) else q2
         best_qmult = QUALITY_MULT.get(best_quality, 1.5)
 
-        # 词条继承：合并两把的词条，按 attr 去重取高值
-        def _parse_affixes(inst):
-            raw = inst.get("affixes", "[]")
-            if isinstance(raw, str):
-                try:
-                    import json as _j
-                    return _j.loads(raw)
-                except Exception:
-                    return []
-            return raw if isinstance(raw, list) else []
-
-        affix1 = _parse_affixes(inst1)
-        affix2 = _parse_affixes(inst2)
+        # 词条继承：合并两把的词条，按 attr 去重取高值（_parse_affixes_field 带脏数据免疫）
+        affix1 = self._parse_affixes_field(inst1.get("affixes", "[]"))
+        affix2 = self._parse_affixes_field(inst2.get("affixes", "[]"))
         merged = {}
         for a in affix1 + affix2:
             attr = a.get("attr", "")

@@ -63,6 +63,8 @@ class EquipmentHandler:
             # v3：单位感知格式化（铁壁显示 "+3%减伤"、暴伤显示 "会伤+0.15"），天成词条加高光
             affix_parts = []
             for a in affixes:
+                if not isinstance(a, dict):
+                    continue  # 脏数据免疫：非 dict 项跳过
                 part = f'{a.get("name","?")}{ForgingManager.format_affix_val(a.get("attr",""), float(a.get("val",0)))}'
                 if a.get("perfect"):
                     part = f"✨{part}（天成）"
