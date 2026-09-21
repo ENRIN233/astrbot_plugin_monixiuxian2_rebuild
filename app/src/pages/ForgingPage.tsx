@@ -10,7 +10,6 @@ interface ForgingRecipe {
   output_template: string;
   output_type: string;
   forge_exp: number;
-  quality_rates: Record<string, number>;
 }
 
 /** 将百分数格式化 */
@@ -33,37 +32,19 @@ const QUALITY_COLORS: Record<string, string> = {
   '极品': 'rgba(234,203,44,0.9)',
 };
 
+/** 品质概率档位：按玩家锻造等级分段，与 core/forging_manager.py 的 QUALITY_RATES_TIERS 保持一致 */
+const QUALITY_TIERS: Array<{ level: string; rates: Record<string, number> }> = [
+  { level: '锻造等级 Lv.1-10', rates: { 下品: 0.40, 中品: 0.35, 上品: 0.20, 极品: 0.05 } },
+  { level: '锻造等级 Lv.11-20', rates: { 下品: 0.30, 中品: 0.35, 上品: 0.25, 极品: 0.10 } },
+  { level: '锻造等级 Lv.21-30', rates: { 下品: 0.25, 中品: 0.30, 上品: 0.30, 极品: 0.15 } },
+  { level: '锻造等级 Lv.31-40', rates: { 下品: 0.20, 中品: 0.30, 上品: 0.30, 极品: 0.20 } },
+  { level: '锻造等级 Lv.41-50', rates: { 下品: 0.15, 中品: 0.25, 上品: 0.30, 极品: 0.30 } },
+  { level: '锻造等级 Lv.51+', rates: { 下品: 0.10, 中品: 0.20, 上品: 0.30, 极品: 0.40 } },
+];
+
 export default function ForgingPage() {
   const { data, loading, error } = useGameData<Record<string, ForgingRecipe>>('forging_recipes');
   const [typeFilter, setTypeFilter] = useState<'全部' | 'weapon' | 'armor'>('全部');
-
-  // 计算不同的品质配置档位
-  const qualityProfiles = useMemo(() => {
-    if (!data) return [];
-    const seen = new Set<string>();
-    const profiles: Array<{ label: string; rates: Record<string, number>; examples: string[] }> = [];
-    for (const recipe of Object.values(data)) {
-      const key = JSON.stringify(Object.entries(recipe.quality_rates).sort());
-      if (!seen.has(key)) {
-        seen.add(key);
-        const ranks = Object.values(data)
-          .filter(r => JSON.stringify(Object.entries(r.quality_rates).sort()) === key)
-          .map(r => `${r.name}(需求${r.rank_required}级)`);
-        profiles.push({
-          label: Object.entries(recipe.quality_rates)
-            .map(([k, v]) => `${k}${pct(v)}`)
-            .join(' / '),
-          rates: recipe.quality_rates,
-          examples: ranks.slice(0, 3),
-        });
-      }
-    }
-    return profiles.sort((a, b) => {
-      const aLow = a.rates['下品'] ?? 0;
-      const bLow = b.rates['下品'] ?? 0;
-      return bLow - aLow;
-    });
-  }, [data]);
 
   // 表格列定义
   const columns = [
@@ -73,19 +54,6 @@ export default function ForgingPage() {
     { key: 'ingredients', label: '材料' },
     { key: 'output', label: '产出' },
     { key: 'forgeExp', label: '锻造经验' },
-    { key: 'qualityRates', label: '品质概率', render: (_v: unknown, row: Record<string, unknown>) => {
-      const rates = row._rates as Record<string, number>;
-      if (!rates) return '-';
-      return (
-        <span style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-          {Object.entries(rates).map(([q, r]) => (
-            <span key={q} style={{ color: QUALITY_COLORS[q] ?? '#aaa', fontSize: 12 }}>
-              {q}{pct(r)}
-            </span>
-          ))}
-        </span>
-      );
-    }},
   ];
 
   // 过滤 + 排序后的数据行
@@ -102,7 +70,6 @@ export default function ForgingPage() {
         ingredients: renderIngredients(r.ingredients),
         output: r.output_template,
         forgeExp: r.forge_exp,
-        _rates: r.quality_rates,
       }));
   }, [data, typeFilter]);
 
@@ -126,43 +93,40 @@ export default function ForgingPage() {
     <PageLayout title="装备锻造" pageId="forging" subtitle={`共 ${data ? Object.keys(data).length : 0} 个锻造配方`}>
       <p className="info-box">
         锻造系统通过收集材料打造装备，产出随机品质（下品/中品/上品/极品）。
-        低阶配方基础概率为下品40%/中品35%/上品20%/极品5%，高阶配方极品率最高可达40%。
+        品质概率由玩家锻造等级决定（各配方共用同一档表）：Lv.1 时为下品40%/中品35%/上品20%/极品5%，Lv.51 起极品率可达 40%。
         锻造经验用于提升锻造等级，解锁更高级配方。
       </p>
 
-      {/* 品质概率概况 */}
+      {/* 品质概率概况（按锻造等级档表，与 core/forging_manager.py QUALITY_RATES_TIERS 一致） */}
       <div className="section-title">
-        <span className="jade-dot" />品质概率配置
+        <span className="jade-dot" />品质概率（按锻造等级）
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12, marginBottom: 32 }}>
-        {qualityProfiles.map((profile, i) => (
+        {QUALITY_TIERS.map((profile) => (
           <div
-            key={i}
+            key={profile.level}
             className="bg-surface rounded-xl border border-white/5 p-4 hover:border-[rgba(212,175,55,0.15)] transition-all duration-300"
           >
             <div style={{ fontSize: 13, color: '#E1E0CC', fontWeight: 600, marginBottom: 8 }}>
-              {profile.label}
+              {profile.level}
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
-              {Object.entries(profile.rates).map(([q, r]) => {
-                const gradePct = r * 100;
-                return (
-                  <div
-                    key={q}
-                    className="flex-1 rounded-lg text-center p-2"
-                    style={{
-                      background: `linear-gradient(180deg, ${QUALITY_COLORS[q] ?? '#aaa'}22 0%, transparent 100%)`,
-                      border: `1px solid ${QUALITY_COLORS[q] ?? '#aaa'}22`,
-                    }}
-                  >
-                    <div style={{ fontSize: 16, fontWeight: 700, color: QUALITY_COLORS[q] ?? '#aaa' }}>{pct(r)}</div>
-                    <div style={{ fontSize: 11, color: 'rgba(222,219,200,0.4)', marginTop: 2 }}>{q}</div>
-                  </div>
-                );
-              })}
+              {Object.entries(profile.rates).map(([q, r]) => (
+                <div
+                  key={q}
+                  className="flex-1 rounded-lg text-center p-2"
+                  style={{
+                    background: `linear-gradient(180deg, ${QUALITY_COLORS[q] ?? '#aaa'}22 0%, transparent 100%)`,
+                    border: `1px solid ${QUALITY_COLORS[q] ?? '#aaa'}22`,
+                  }}
+                >
+                  <div style={{ fontSize: 16, fontWeight: 700, color: QUALITY_COLORS[q] ?? '#aaa' }}>{pct(r)}</div>
+                  <div style={{ fontSize: 11, color: 'rgba(222,219,200,0.4)', marginTop: 2 }}>{q}</div>
+                </div>
+              ))}
             </div>
             <div style={{ fontSize: 11, color: 'rgba(222,219,200,0.3)', marginTop: 8 }}>
-              {profile.examples.join('、')}
+              对全部配方生效
             </div>
           </div>
         ))}

@@ -42,7 +42,8 @@ FORGE_AFFIXES: List[dict] = [
     {"name": "铁壁", "attr": "def_buff", "val": 0.03},
     {"name": "闪避", "attr": "dodge_rate", "val": 3},
     {"name": "暴伤", "attr": "crit_damage", "val": 0.1},
-    {"name": "回春", "attr": "hp_regen_pct", "val": 0.02},
+    # 回春：战斗端按百分比整数使用（1 + hp_regen_pct/100），val=2 即每回合回复 2%
+    {"name": "回春", "attr": "hp_regen_pct", "val": 2},
 ]
 
 # ── 品质概率档位（按锻造等级分段） ──

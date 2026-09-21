@@ -226,7 +226,8 @@ class EquipmentHandler:
 
             hp_regen_pct = total_attrs.get("hp_regen_pct", 0.0)
             if hp_regen_pct > 0:
-                equipment_lines.append(f"💚 回血 +{hp_regen_pct:.0%}\n")
+                # hp_regen_pct 为百分比数值（战斗端按 /100 使用），用 :g 去尾零：2 → "+2%"，1.13 → "+1.13%"
+                equipment_lines.append(f"💚 回血 +{hp_regen_pct:g}%\n")
 
             # 突破类加成
             breakthrough_bonus = total_attrs.get("breakthrough_bonus", 0.0)

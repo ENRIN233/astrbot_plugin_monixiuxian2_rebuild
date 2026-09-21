@@ -104,8 +104,7 @@ export function PageLayout({ title, subtitle, children, pageId }: { title: strin
         {/* Back button */}
         <button
           onClick={() => navigate('/', { state: { scrollTo: 'data' } })}
-          className="group inline-flex items-center gap-2 text-xs tracking-wider mb-8 cursor-pointer bg-transparent border-none rounded-lg px-3 py-2 -ml-3 transition-all duration-300 hover:bg-[rgba(212,175,55,0.05)]"
-          className="tc-med"
+          className="group inline-flex items-center gap-2 text-xs tracking-wider mb-8 cursor-pointer bg-transparent border-none rounded-lg px-3 py-2 -ml-3 transition-all duration-300 hover:bg-[rgba(212,175,55,0.05)] tc-med"
         >
           <ArrowLeft className="w-3.5 h-3.5 transition-all duration-300 group-hover:-translate-x-1" />
           <span className="transition-colors duration-300 group-hover:text-[#d4af37]">返回首页</span>

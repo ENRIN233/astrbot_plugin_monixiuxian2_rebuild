@@ -7,7 +7,6 @@ import {
   DataTable,
   SubTabs,
   FilterBar,
-  RankBadge,
   SearchBar,
 } from '../components/DataComponents';
 
