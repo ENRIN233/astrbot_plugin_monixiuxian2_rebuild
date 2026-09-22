@@ -3,7 +3,10 @@ from pathlib import Path
 from typing import List, Dict, Any
 
 from astrbot.api import logger
-from .data.default_configs import SECT_CONFIG, BOSS_CONFIG, RIFT_CONFIG, ALCHEMY_CONFIG, ENCOUNTER_CONFIG_DEFAULT
+from .data.default_configs import (
+    SECT_CONFIG, BOSS_CONFIG, RIFT_CONFIG, ALCHEMY_CONFIG,
+    ENCOUNTER_CONFIG_DEFAULT, GARDEN_CROPS_DEFAULT,
+)
 
 class ConfigManager:
     """配置管理器，加载境界、物品、武器和丹药配置"""
@@ -181,6 +184,7 @@ class ConfigManager:
         self.furnaces_data = self._load_json_data(config_dir / "furnaces.json")
         self.breakthrough_rates_data = self._load_json_data(config_dir / "breakthrough_rates.json")
         self.encounter_config = self._load_config_with_default(config_dir / "encounter_config.json", ENCOUNTER_CONFIG_DEFAULT)
+        self.garden_crops = self._load_config_with_default(config_dir / "garden_crops.json", GARDEN_CROPS_DEFAULT)
 
         # 加载游戏配置（包含各系统的硬编码参数）
         self.game_config = self._load_config_with_default(config_dir / "game_config.json", {})

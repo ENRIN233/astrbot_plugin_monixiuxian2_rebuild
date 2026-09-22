@@ -1,0 +1,32 @@
+{
+  "tiers": [
+    {"tier": 1, "label": "凡品", "rank_min": 48, "rank_max": 999, "growth_hours": 12, "seed_cost": 50000, "yield_min": 1, "yield_max": 2, "perfect_window_hours": 24, "wither_step_pct": 25},
+    {"tier": 2, "label": "良品", "rank_min": 40, "rank_max": 47, "growth_hours": 24, "seed_cost": 250000, "yield_min": 2, "yield_max": 2, "perfect_window_hours": 24, "wither_step_pct": 25},
+    {"tier": 3, "label": "珍品", "rank_min": 32, "rank_max": 39, "growth_hours": 24, "seed_cost": 800000, "yield_min": 2, "yield_max": 3, "perfect_window_hours": 18, "wither_step_pct": 25},
+    {"tier": 4, "label": "灵品", "rank_min": 25, "rank_max": 31, "growth_hours": 36, "seed_cost": 2000000, "yield_min": 3, "yield_max": 3, "perfect_window_hours": 18, "wither_step_pct": 30},
+    {"tier": 5, "label": "仙品", "rank_min": 0, "rank_max": 24, "growth_hours": 48, "seed_cost": 5000000, "yield_min": 3, "yield_max": 4, "perfect_window_hours": 12, "wither_step_pct": 30}
+  ],
+  "wild_growth_hours": 48,
+  "wild_perfect_window_hours": 24,
+  "wild_yield_min": 1,
+  "wild_yield_max": 1,
+  "empty_to_wild_hours": 24,
+  "ripen_cost_per_hour": 100000,
+  "ripen_cost_min": 150000,
+  "dead_after_overripe_hours": 48,
+  "wither_floor_pct": 40,
+  "steal_limit_thief": 3,
+  "steal_limit_victim": 5,
+  "steal_fine": 500000,
+  "beast_costs": [0, 3000000, 2000000, 5000000],
+  "beast_rates": [0.0, 0.15, 0.25, 0.35],
+  "garden_exp_sow_per_plot": 5,
+  "garden_exp_harvest": 10,
+  "garden_levels": [
+    {"level": 1, "exp": 0, "max_tier": 1, "perks": []},
+    {"level": 2, "exp": 200, "max_tier": 2, "perks": ["perfect_plus6"]},
+    {"level": 3, "exp": 600, "max_tier": 3, "perks": ["wild_no_wither"]},
+    {"level": 4, "exp": 1500, "max_tier": 4, "perks": ["yield_plus10"]},
+    {"level": 5, "exp": 3000, "max_tier": 5, "perks": ["double_chance"]}
+  ]
+}

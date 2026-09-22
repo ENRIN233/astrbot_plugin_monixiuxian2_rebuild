@@ -1,11 +1,13 @@
 # data/migration.py
 
+import json
+
 import aiosqlite
 from typing import Dict, Callable, Awaitable
 from astrbot.api import logger
 from ..config_manager import ConfigManager
 
-LATEST_DB_VERSION = 42  # v42: 奇遇机缘系统（karma/奇遇字段）
+LATEST_DB_VERSION = 43  # v43: 灵植园 v2（地块/园圃/灵兽/偷菜）
 
 MIGRATION_TASKS: Dict[int, Callable[[aiosqlite.Connection, ConfigManager], Awaitable[None]]] = {}
 
@@ -174,16 +176,57 @@ async def _ensure_table_integrity(conn: aiosqlite.Connection):
         repaired.append("blessed_lands")
 
     if "spirit_farms" not in existing_tables:
+        # v43: 与 spirit_farm_manager._ensure_table 保持一致的完整 schema
         await conn.execute("""
             CREATE TABLE IF NOT EXISTS spirit_farms (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id TEXT NOT NULL UNIQUE,
-                level INTEGER NOT NULL DEFAULT 1,
-                crops TEXT NOT NULL DEFAULT '[]'
+                user_id TEXT PRIMARY KEY,
+                farm_level INTEGER DEFAULT 1,
+                herb_fields INTEGER DEFAULT 1,
+                harvest_level INTEGER DEFAULT 0,
+                harvest_speed INTEGER DEFAULT 0,
+                last_harvest_time TEXT DEFAULT '',
+                alchemy_exp INTEGER DEFAULT 0,
+                fire_control INTEGER DEFAULT 0,
+                plots TEXT DEFAULT '[]',
+                garden_exp INTEGER DEFAULT 0,
+                garden_level INTEGER DEFAULT 1,
+                beast_level INTEGER DEFAULT 0,
+                steal_out_date TEXT DEFAULT '',
+                steal_out_count INTEGER DEFAULT 0,
+                steal_in_date TEXT DEFAULT '',
+                steal_in_count INTEGER DEFAULT 0,
+                grudge_log TEXT DEFAULT '[]'
             )
         """)
         await conn.execute("CREATE INDEX IF NOT EXISTS idx_spirit_farms_user ON spirit_farms(user_id)")
         repaired.append("spirit_farms")
+    else:
+        # v1.2 修复：旧 schema（id/level/crops）的库补齐灵植园 v2 所需列
+        async with conn.execute("PRAGMA table_info(spirit_farms)") as cursor:
+            sf_cols = {row[1] for row in await cursor.fetchall()}
+        for col_name, col_type, col_default in [
+            ("farm_level", "INTEGER", "1"),
+            ("herb_fields", "INTEGER", "1"),
+            ("harvest_level", "INTEGER", "0"),
+            ("harvest_speed", "INTEGER", "0"),
+            ("last_harvest_time", "TEXT", "''"),
+            ("alchemy_exp", "INTEGER", "0"),
+            ("fire_control", "INTEGER", "0"),
+            ("plots", "TEXT", "'[]'"),
+            ("garden_exp", "INTEGER", "0"),
+            ("garden_level", "INTEGER", "1"),
+            ("beast_level", "INTEGER", "0"),
+            ("steal_out_date", "TEXT", "''"),
+            ("steal_out_count", "INTEGER", "0"),
+            ("steal_in_date", "TEXT", "''"),
+            ("steal_in_count", "INTEGER", "0"),
+            ("grudge_log", "TEXT", "'[]'"),
+        ]:
+            if col_name not in sf_cols:
+                await conn.execute(
+                    f"ALTER TABLE spirit_farms ADD COLUMN {col_name} {col_type} DEFAULT {col_default}"
+                )
+                repaired.append(f"spirit_farms.{col_name}")
 
     if "dual_cultivation" not in existing_tables:
         await conn.execute("""
@@ -902,13 +945,26 @@ async def _create_all_tables_v2(conn: aiosqlite.Connection):
     """)
     await conn.execute("CREATE INDEX IF NOT EXISTS idx_blessed_lands_user ON blessed_lands(user_id)")
 
-    # 创建灵田表
+    # 创建灵田表（v43: 与 spirit_farm_manager._ensure_table 保持一致的完整 schema）
     await conn.execute("""
         CREATE TABLE IF NOT EXISTS spirit_farms (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id TEXT NOT NULL UNIQUE,
-            level INTEGER NOT NULL DEFAULT 1,
-            crops TEXT NOT NULL DEFAULT '[]'
+            user_id TEXT PRIMARY KEY,
+            farm_level INTEGER DEFAULT 1,
+            herb_fields INTEGER DEFAULT 1,
+            harvest_level INTEGER DEFAULT 0,
+            harvest_speed INTEGER DEFAULT 0,
+            last_harvest_time TEXT DEFAULT '',
+            alchemy_exp INTEGER DEFAULT 0,
+            fire_control INTEGER DEFAULT 0,
+            plots TEXT DEFAULT '[]',
+            garden_exp INTEGER DEFAULT 0,
+            garden_level INTEGER DEFAULT 1,
+            beast_level INTEGER DEFAULT 0,
+            steal_out_date TEXT DEFAULT '',
+            steal_out_count INTEGER DEFAULT 0,
+            steal_in_date TEXT DEFAULT '',
+            steal_in_count INTEGER DEFAULT 0,
+            grudge_log TEXT DEFAULT '[]'
         )
     """)
     await conn.execute("CREATE INDEX IF NOT EXISTS idx_spirit_farms_user ON spirit_farms(user_id)")
@@ -2097,3 +2153,91 @@ async def v42_add_encounter_system(conn: aiosqlite.Connection, config_manager: C
 
     await conn.commit()
     logger.info("v42迁移完成：奇遇机缘系统（karma/last_encounter_date/daily_encounter_count/encounter_history）")
+
+
+@migration(43)
+async def v43_spirit_garden_v2(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """v43: 灵植园 v2 — 逐块地块（播种/枯萎）/园圃等级/护园灵兽/偷菜计数/恩怨簿
+
+    迁移折算（防收益跳变）：把旧"全田 48h 单冷却 last_harvest_time"折算为等量野生地块，
+    planted_at = now − (48h − 剩余冷却)，玩家等待节奏完全不变。
+    """
+    from datetime import datetime, timedelta
+
+    BASE_HARVEST_COOLDOWN_SEC = 48 * 3600  # 与 spirit_farm_manager.BASE_HARVEST_COOLDOWN 保持一致
+
+    # 1) 确保 spirit_farms 表存在（全新库）
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS spirit_farms (
+            user_id TEXT PRIMARY KEY,
+            farm_level INTEGER DEFAULT 1,
+            herb_fields INTEGER DEFAULT 1,
+            harvest_level INTEGER DEFAULT 0,
+            harvest_speed INTEGER DEFAULT 0,
+            last_harvest_time TEXT DEFAULT '',
+            alchemy_exp INTEGER DEFAULT 0,
+            fire_control INTEGER DEFAULT 0,
+            plots TEXT DEFAULT '[]',
+            garden_exp INTEGER DEFAULT 0,
+            garden_level INTEGER DEFAULT 1,
+            beast_level INTEGER DEFAULT 0,
+            steal_out_date TEXT DEFAULT '',
+            steal_out_count INTEGER DEFAULT 0,
+            steal_in_date TEXT DEFAULT '',
+            steal_in_count INTEGER DEFAULT 0,
+            grudge_log TEXT DEFAULT '[]'
+        )
+    """)
+
+    # 2) 旧库补列
+    for col, typedef in [
+        ("plots", "TEXT NOT NULL DEFAULT '[]'"),
+        ("garden_exp", "INTEGER NOT NULL DEFAULT 0"),
+        ("garden_level", "INTEGER NOT NULL DEFAULT 1"),
+        ("beast_level", "INTEGER NOT NULL DEFAULT 0"),
+        ("steal_out_date", "TEXT NOT NULL DEFAULT ''"),
+        ("steal_out_count", "INTEGER NOT NULL DEFAULT 0"),
+        ("steal_in_date", "TEXT NOT NULL DEFAULT ''"),
+        ("steal_in_count", "INTEGER NOT NULL DEFAULT 0"),
+        ("grudge_log", "TEXT NOT NULL DEFAULT '[]'"),
+    ]:
+        try:
+            await conn.execute(f"ALTER TABLE spirit_farms ADD COLUMN {col} {typedef}")
+        except Exception:
+            pass  # 列已存在
+
+    # 3) 收取冷却 → 野生地块折算（仅处理 plots 仍为空的行）
+    async with conn.execute(
+        "SELECT user_id, herb_fields, last_harvest_time FROM spirit_farms WHERE plots = '[]' OR plots IS NULL"
+    ) as cursor:
+        rows = await cursor.fetchall()
+
+    now = datetime.now()
+    converted = 0
+    for user_id, herb_fields, last_str in rows:
+        remaining = 0.0
+        if last_str:
+            try:
+                last_dt = datetime.strptime(last_str, "%Y-%m-%d %H:%M:%S")
+                remaining = max(0.0, BASE_HARVEST_COOLDOWN_SEC - (now - last_dt).total_seconds())
+            except (ValueError, TypeError):
+                remaining = 0.0
+        # 折算：野生地块 planted_at = now − (48h − 剩余冷却)，48h 后恰好转成熟
+        planted_at = (now - timedelta(seconds=BASE_HARVEST_COOLDOWN_SEC - remaining)).strftime("%Y-%m-%d %H:%M:%S")
+        plots = [
+            {
+                "slot": i + 1, "herb_id": "auto", "herb_name": "", "mode": "wild",
+                "planted_at": planted_at, "growth_hours": 48,
+                "perfect_window_hours": 24, "wither_step_pct": 25,
+                "yield_min": 1, "yield_max": 1,
+            }
+            for i in range(int(herb_fields or 1))
+        ]
+        await conn.execute(
+            "UPDATE spirit_farms SET plots = ? WHERE user_id = ?",
+            (json.dumps(plots, ensure_ascii=False), user_id),
+        )
+        converted += 1
+
+    await conn.commit()
+    logger.info(f"v43迁移完成：灵植园 v2（{converted} 个农场折算为野生地块）")

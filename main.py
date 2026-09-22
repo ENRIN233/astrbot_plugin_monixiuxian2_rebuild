@@ -167,6 +167,12 @@ CMD_SPIRIT_FARM_UPGRADE_FIELDS = "灵田开垦"
 CMD_SPIRIT_FARM_HARVEST = "灵田收取"
 CMD_SPIRIT_FARM_UPGRADE_HARVEST = "升级收取"
 CMD_SPIRIT_FARM_UPGRADE_FIRE = "升级控火"
+# 灵植园 v2
+CMD_SPIRIT_FARM_SOW = "灵田播种"
+CMD_SPIRIT_FARM_RIPEN = "灵田催熟"
+CMD_SPIRIT_FARM_CLEAR = "灵田清理"
+CMD_STEAL_HERB = "偷菜"
+CMD_GARDEN_BEAST = "护园"
 
 # Phase 4: 双修
 CMD_DUAL_CULT_REQUEST = "双修"
@@ -1839,6 +1845,43 @@ class XiuXianPlugin(Star):
             msg = await self.encounter_mgr.try_trigger(player, "farm_harvest")
             if msg:
                 yield event.plain_result(msg)
+
+    # ===== 灵植园 v2（播种/催熟/清理/偷菜/护园） =====
+    @filter.command(CMD_SPIRIT_FARM_SOW, "播种灵植", aliases={"播种"})
+    @require_whitelist
+    async def handle_spirit_farm_sow(self, event: AstrMessageEvent, herb_name: str = "", count: str = "1"):
+        async for r in self.spirit_farm_handlers.handle_sow(event, herb_name, count):
+            yield r
+        # 奇遇钩子：播种后尝试触发（8%）
+        player = await self.db.get_player_by_id(event.get_sender_id())
+        if player:
+            msg = await self.encounter_mgr.try_trigger(player, "farm_sow")
+            if msg:
+                yield event.plain_result(msg)
+
+    @filter.command(CMD_SPIRIT_FARM_RIPEN, "催熟灵植")
+    @require_whitelist
+    async def handle_spirit_farm_ripen(self, event: AstrMessageEvent):
+        async for r in self.spirit_farm_handlers.handle_ripen(event):
+            yield r
+
+    @filter.command(CMD_SPIRIT_FARM_CLEAR, "清理枯死灵植")
+    @require_whitelist
+    async def handle_spirit_farm_clear(self, event: AstrMessageEvent):
+        async for r in self.spirit_farm_handlers.handle_clear(event):
+            yield r
+
+    @filter.command(CMD_STEAL_HERB, "偷取群友灵田灵植")
+    @require_whitelist
+    async def handle_steal_herb(self, event: AstrMessageEvent, target: str = ""):
+        async for r in self.spirit_farm_handlers.handle_steal(event, target):
+            yield r
+
+    @filter.command(CMD_GARDEN_BEAST, "查看/升级护园灵兽")
+    @require_whitelist
+    async def handle_garden_beast(self, event: AstrMessageEvent, action: str = ""):
+        async for r in self.spirit_farm_handlers.handle_beast(event, action):
+            yield r
 
     @filter.command(CMD_SPIRIT_FARM_UPGRADE_HARVEST, "升级收取等级")
     @require_whitelist

@@ -1092,7 +1092,8 @@
     "bounty_complete": 0.25,
     "boss_fight": 0.30,
     "dungeon_advance": 0.15,
-    "farm_harvest": 0.10
+    "farm_harvest": 0.10,
+    "farm_sow": 0.08
   },
   "settings": {
     "daily_limit": 3,
