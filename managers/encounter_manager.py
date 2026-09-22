@@ -130,14 +130,20 @@ class EncounterManager:
                 self.settings[setting_key] = section[schema_key]
         if "KARMA_DAILY_DECAY" in section:
             self.karma_settings["daily_decay"] = section["KARMA_DAILY_DECAY"]
-        webui_chances = section.get("TRIGGER_CHANCES")
-        if isinstance(webui_chances, dict):
-            for action, pct in webui_chances.items():
-                if action in self.trigger_chances or action in (
-                    "check_in", "end_cultivation", "rift_complete", "bounty_complete",
-                    "boss_fight", "dungeon_advance", "farm_harvest", "farm_sow",
-                ):
-                    self.trigger_chances[action] = float(pct)
+        # 触发概率为拍平的独立配置项（TRIGGER_*，避免 schema 两层 object 嵌套）
+        trigger_map = {
+            "TRIGGER_CHECK_IN": "check_in",
+            "TRIGGER_END_CULTIVATION": "end_cultivation",
+            "TRIGGER_RIFT_COMPLETE": "rift_complete",
+            "TRIGGER_BOUNTY_COMPLETE": "bounty_complete",
+            "TRIGGER_BOSS_FIGHT": "boss_fight",
+            "TRIGGER_DUNGEON_ADVANCE": "dungeon_advance",
+            "TRIGGER_FARM_HARVEST": "farm_harvest",
+            "TRIGGER_FARM_SOW": "farm_sow",
+        }
+        for schema_key, action in trigger_map.items():
+            if schema_key in section:
+                self.trigger_chances[action] = float(section[schema_key])
 
     # ── 修为占比锁定（events pool v2 §1.3）──
 

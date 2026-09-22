@@ -409,7 +409,8 @@ def test_webui_overrides_settings():
             "GOLD_SCALE": 0.8,
             "LEGENDARY_BROADCAST": False,
             "KARMA_DAILY_DECAY": 5,
-            "TRIGGER_CHANCES": {"check_in": 0.5, "farm_sow": 0.01},
+            "TRIGGER_CHECK_IN": 0.5,
+            "TRIGGER_FARM_SOW": 0.01,
         }}
         mgr, db, _ = make_manager()
         mgr._apply_webui_overrides(webui)
