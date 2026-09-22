@@ -17,7 +17,7 @@ from .handlers import (
     TradeHandler, ConsignmentHandler, GMHandlers, AchievementHandler,
     GamblingHandler, ForgingHandler,
 )
-from .handlers.utils import get_related_commands_footer
+from .handlers.utils import get_related_commands_footer, resolve_plugin_data_dirname
 from .core.forging_manager import ForgingManager
 from .data.database_extended import DatabaseExtended
 from .managers import (
@@ -255,7 +255,10 @@ class XiuXianPlugin(Star):
 
         files_config = self.config.get("FILES", {})
         db_filename = files_config.get("DATABASE_FILE", "xiuxian_data_v2.db")
-        plugin_data_path = StarTools.get_data_dir("astrbot_plugin_monixiuxian2")
+        # 存档目录：优先 FILES.DATABASE_DIR 显式指定，否则跟随 metadata.yaml 的插件名
+        # （此前硬编码旧名导致改名后新插件仍读写旧目录存档）
+        data_dirname = files_config.get("DATABASE_DIR") or resolve_plugin_data_dirname(_current_dir)
+        plugin_data_path = StarTools.get_data_dir(data_dirname)
         plugin_data_path.mkdir(parents=True, exist_ok=True)
         db_path = plugin_data_path / db_filename
         self.db = DataBase(str(db_path))

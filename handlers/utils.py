@@ -1,13 +1,33 @@
 # handlers/utils.py
 # 通用工具函数和装饰器
 
+import re
 import time
 from functools import wraps
+from pathlib import Path
 from typing import Callable, Coroutine, AsyncGenerator
 
 from astrbot.api.event import AstrMessageEvent
 from ..models import Player
 from ..models_extended import UserStatus
+
+
+def resolve_plugin_data_dirname(current_dir: Path) -> str:
+    """解析插件数据目录名：跟随 metadata.yaml 的 name 字段。
+
+    历史遗留问题：main.py 曾硬编码旧插件名 "astrbot_plugin_monixiuxian2"，
+    插件改名 _rebuild 后数据目录未跟随，导致新插件仍读写旧目录存档。
+    改为运行时读 metadata.yaml，改名后目录自动一致；解析失败回退旧名兜底。
+    """
+    fallback = "astrbot_plugin_monixiuxian2"
+    try:
+        text = (Path(current_dir) / "metadata.yaml").read_text(encoding="utf-8")
+        m = re.search(r"^name:\s*([^\s#]+)", text, re.MULTILINE)
+        if m:
+            return m.group(1)
+    except Exception:
+        pass
+    return fallback
 
 # 指令常量
 CMD_START_XIUXIAN = "我要修仙"

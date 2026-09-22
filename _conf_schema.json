@@ -230,6 +230,12 @@
         "type": "string",
         "default": "xiuxian_data_lite.db",
         "hint": "存储玩家数据的SQLite数据库文件名，数据库将存储在 data/plugin_data/{插件名}/ 目录下。"
+      },
+      "DATABASE_DIR": {
+        "description": "存档目录名（留空=跟随插件名）",
+        "type": "string",
+        "default": "",
+        "hint": "数据库存储在 data/plugin_data/{此名}/ 下。留空则自动使用 metadata.yaml 的插件名；更换目录名即切换到全新存档，旧目录原样保留可随时改回。"
       }
     }
   },
