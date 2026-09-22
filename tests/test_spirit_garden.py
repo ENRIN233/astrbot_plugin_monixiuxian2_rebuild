@@ -349,6 +349,28 @@ def test_steal_no_karma_change():
     asyncio.run(run())
 
 
+def test_steal_disabled_by_webui():
+    async def run():
+        db = FarmTestDB()
+        await db.connect()
+        cm = FakeConfigManager()
+        mgr = SpiritFarmManager(db, cm, storage_ring_manager=FakeStorageRing(),
+                                astrbot_config={"GARDEN": {"STEAL_ENABLED": False,
+                                                           "STEAL_LIMIT_THIEF": 5,
+                                                           "STEAL_FINE": 100000}})
+        player = make_player("u1")
+        thief = make_player("u2")
+        await mgr.create_farm(player)
+        await mgr.create_farm(thief)
+        assert mgr.steal_enabled is False
+        assert mgr.crops_cfg["steal_limit_thief"] == 5
+        assert mgr.crops_cfg["steal_fine"] == 100000
+        ok, msg = await mgr.steal(thief, player)
+        assert not ok and "关闭" in msg
+        await db.close()
+    asyncio.run(run())
+
+
 # ── 灵兽拦截 ──
 
 def test_beast_catch_and_fine_split():

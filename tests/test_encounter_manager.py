@@ -397,6 +397,45 @@ def test_karma_decay_toward_zero():
     asyncio.run(run())
 
 
+# ── WebUI 配置覆盖（_conf_schema.json ENCOUNTER 节）──
+
+def test_webui_overrides_settings():
+    async def run():
+        webui = {"ENCOUNTER": {
+            "ENABLED": True,
+            "DAILY_LIMIT": 5,
+            "CHOICE_TIMEOUT_SECONDS": 300,
+            "EXP_RATIO": 0.10,
+            "GOLD_SCALE": 0.8,
+            "LEGENDARY_BROADCAST": False,
+            "KARMA_DAILY_DECAY": 5,
+            "TRIGGER_CHANCES": {"check_in": 0.5, "farm_sow": 0.01},
+        }}
+        mgr, db, _ = make_manager()
+        mgr._apply_webui_overrides(webui)
+        assert mgr.settings["daily_limit"] == 5
+        assert mgr.settings["choice_timeout_seconds"] == 300
+        assert mgr.settings["exp_ratio"] == 0.10
+        assert mgr.settings["gold_scale"] == 0.8
+        assert mgr.settings["legendary_broadcast"] is False
+        assert mgr.karma_settings["daily_decay"] == 5
+        assert mgr.trigger_chances["check_in"] == 0.5
+        assert mgr.trigger_chances["farm_sow"] == 0.01
+    asyncio.run(run())
+
+
+def test_enabled_false_blocks_trigger():
+    async def run():
+        mgr, db, _ = make_manager()
+        mgr.enabled = False
+        mgr.trigger_chances["check_in"] = 1.0
+        player = make_player()
+        result = await mgr.try_trigger(player, "check_in")
+        assert result is None, "总开关关闭后不应触发奇遇"
+        assert player.daily_encounter_count == 0
+    asyncio.run(run())
+
+
 # ── 端到端冒烟 ──
 
 def test_end_to_end_flow():

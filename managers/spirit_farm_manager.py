@@ -106,6 +106,7 @@ class SpiritFarmManager:
         config_manager: "ConfigManager" = None,
         storage_ring_manager: "StorageRingManager" = None,
         activity_tracker=None,
+        astrbot_config=None,
     ):
         self.db = db
         self.config_manager = config_manager
@@ -114,6 +115,20 @@ class SpiritFarmManager:
         self.crops_cfg = dict(_GARDEN_CROPS_FALLBACK)
         if config_manager is not None and getattr(config_manager, "garden_crops", None):
             self.crops_cfg.update(config_manager.garden_crops)
+        self.steal_enabled = True
+        # WebUI 配置覆盖（_conf_schema.json 的 GARDEN 节，运营常调项）
+        if isinstance(astrbot_config, dict):
+            section = astrbot_config.get("GARDEN")
+            if isinstance(section, dict):
+                if "STEAL_ENABLED" in section:
+                    self.steal_enabled = bool(section["STEAL_ENABLED"])
+                for schema_key, cfg_key in (
+                    ("STEAL_LIMIT_THIEF", "steal_limit_thief"),
+                    ("STEAL_LIMIT_VICTIM", "steal_limit_victim"),
+                    ("STEAL_FINE", "steal_fine"),
+                ):
+                    if schema_key in section:
+                        self.crops_cfg[cfg_key] = section[schema_key]
 
     # ── 数据库 ──
 
@@ -729,6 +744,8 @@ class SpiritFarmManager:
         """偷菜：从目标园子偷 1 株成熟药材（纯娱乐，不扣因果）"""
         today = datetime.now().strftime("%Y-%m-%d")
 
+        if not self.steal_enabled:
+            return False, "🛡️ 偷菜玩法已由管理员关闭，安心种自己的田吧。"
         if thief.user_id == target.user_id:
             return False, "❌ 偷自己的园子？你的灵犬正在看你。"
 

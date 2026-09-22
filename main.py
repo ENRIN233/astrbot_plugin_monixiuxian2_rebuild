@@ -283,7 +283,7 @@ class XiuXianPlugin(Star):
         self.boss_mgr = BossManager(self.db, self.combat_mgr, self.config_manager, self.storage_ring_mgr, self.skill_mgr)
         self.rift_mgr = RiftManager(self.db, self.config_manager, self.storage_ring_mgr)
         self.rank_mgr = RankingManager(self.db, self.combat_mgr, self.config_manager)
-        self.spirit_farm_mgr = SpiritFarmManager(self.db, self.config_manager, self.storage_ring_mgr, self.activity_tracker)
+        self.spirit_farm_mgr = SpiritFarmManager(self.db, self.config_manager, self.storage_ring_mgr, self.activity_tracker, astrbot_config=self.config)
         self.alchemy_mgr = AlchemyManager(self.db, self.config_manager, self.storage_ring_mgr, self.spirit_farm_mgr, self.activity_tracker)
         self.impart_mgr = ImpartManager(self.db)
 
@@ -315,12 +315,13 @@ class XiuXianPlugin(Star):
         self.dual_cult_mgr = DualCultivationManager(self.db, self.pill_handler.pill_manager)
         self.dual_cult_handlers = DualCultivationHandlers(self.db, self.dual_cult_mgr)
 
-        # 奇遇机缘系统（broadcast_fn 挂全群广播，用于传说级奇遇）
+        # 奇遇机缘系统（broadcast_fn 挂全群广播，用于传说级奇遇；ENCOUNTER 节 WebUI 覆盖运行参数）
         self.encounter_mgr = EncounterManager(
             self.db, self.config_manager, self.storage_ring_mgr,
             activity_tracker=self.activity_tracker,
             cultivation_manager=self.player_handler.cultivation_manager,
             broadcast_fn=self._broadcast_to_whitelist_groups,
+            astrbot_config=self.config,
         )
         self.encounter_handler = EncounterHandler(self.db, self.encounter_mgr)
 

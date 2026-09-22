@@ -268,5 +268,121 @@
         "hint": "后台定时检查寄售过期的间隔。默认 3600 秒（1 小时）。"
       }
     }
+  },
+  "ENCOUNTER": {
+    "ENABLED": {
+      "description": "奇遇系统总开关",
+      "type": "bool",
+      "default": true,
+      "hint": "关闭后所有玩家不再触发奇遇（因果与历史保留）"
+    },
+    "DAILY_LIMIT": {
+      "description": "每人每日奇遇次数上限",
+      "type": "int",
+      "default": 3,
+      "hint": "推荐 3 次；超限后当天不再触发"
+    },
+    "CHOICE_TIMEOUT_SECONDS": {
+      "description": "奇遇选择超时（秒）",
+      "type": "int",
+      "default": 180,
+      "hint": "超时不消耗当日次数"
+    },
+    "EXP_RATIO": {
+      "description": "奇遇修为占比系数",
+      "type": "float",
+      "default": 0.15,
+      "obvious_hint": true,
+      "hint": "每天全部奇遇的修为期望 ≈ 玩家每日修为 × 此系数；建议 0.10~0.20"
+    },
+    "GOLD_SCALE": {
+      "description": "奇遇灵石全局倍率",
+      "type": "float",
+      "default": 1.0,
+      "obvious_hint": true,
+      "hint": "应急旋钮：1.0 为设计值，可在 0.6~1.5 间调节"
+    },
+    "LEGENDARY_BROADCAST": {
+      "description": "传说级奇遇全服匿名广播",
+      "type": "bool",
+      "default": true
+    },
+    "KARMA_DAILY_DECAY": {
+      "description": "因果每日衰减（向中立靠拢）",
+      "type": "int",
+      "default": 2
+    },
+    "TRIGGER_CHANCES": {
+      "description": "各操作触发奇遇的概率",
+      "type": "object",
+      "hint": "每项为 0~1 的概率；活跃玩家日期望约 1~3 次",
+      "items": {
+        "check_in": {
+          "description": "签到后",
+          "type": "float",
+          "default": 0.15
+        },
+        "end_cultivation": {
+          "description": "出关后",
+          "type": "float",
+          "default": 0.1
+        },
+        "rift_complete": {
+          "description": "秘境探索完成后",
+          "type": "float",
+          "default": 0.2
+        },
+        "bounty_complete": {
+          "description": "悬赏完成后",
+          "type": "float",
+          "default": 0.25
+        },
+        "boss_fight": {
+          "description": "Boss战斗后",
+          "type": "float",
+          "default": 0.3
+        },
+        "dungeon_advance": {
+          "description": "副本推进后（预留）",
+          "type": "float",
+          "default": 0.15
+        },
+        "farm_harvest": {
+          "description": "灵田收取后",
+          "type": "float",
+          "default": 0.1
+        },
+        "farm_sow": {
+          "description": "灵田播种后",
+          "type": "float",
+          "default": 0.08
+        }
+      }
+    }
+  },
+  "GARDEN": {
+    "STEAL_ENABLED": {
+      "description": "偷菜玩法开关",
+      "type": "bool",
+      "default": true,
+      "hint": "关闭后 /偷菜 不可用，其余灵植园功能不受影响"
+    },
+    "STEAL_LIMIT_THIEF": {
+      "description": "每人每日可偷次数",
+      "type": "int",
+      "default": 3
+    },
+    "STEAL_LIMIT_VICTIM": {
+      "description": "每人每日被偷上限",
+      "type": "int",
+      "default": 5,
+      "hint": "超过后园子灵气封闭，当日免疫偷菜"
+    },
+    "STEAL_FINE": {
+      "description": "被护园灵兽逮住的罚款（灵石）",
+      "type": "int",
+      "default": 500000,
+      "hint": "园主分得 50%，其余沉没"
+    }
   }
 }

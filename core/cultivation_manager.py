@@ -375,12 +375,23 @@ class CultivationManager:
 
         other_multiplier = root_speed * (1.0 + technique_bonus) * (1.0 + closing_exp_bonus) * (1.0 + land_bonus) * (1.0 + permanent_cultivation_mult) * realm_mult
 
-        # 因果修炼加成（奇遇系统）：偏正 +4% / 正道修士 +8%
+        # 因果修炼加成（奇遇系统）：偏正 +4% / 正道修士 +8%（比例可在 encounter_config.json 调整）
         karma = int(getattr(player, "karma", 0) or 0)
+        karma_cult_pct = 0.0
         if karma >= 500:
-            other_multiplier *= (1.0 + 0.08)
+            karma_cult_pct = 0.08
         elif karma >= 100:
-            other_multiplier *= (1.0 + 0.04)
+            karma_cult_pct = 0.04
+        if karma_cult_pct > 0:
+            # 若可读取奇遇配置，则用配置中的比例
+            try:
+                bonuses = (self.config_manager.encounter_config or {}).get("karma_settings", {}).get("bonuses", {})
+                tier = "saint" if karma >= 500 else "good"
+                configured = float(bonuses.get(tier, {}).get("cultivation_pct", karma_cult_pct))
+                karma_cult_pct = configured
+            except Exception:
+                pass
+            other_multiplier *= (1.0 + karma_cult_pct)
 
         # 从丹药效果中提取修炼加成和过期时间
         pill_segments = []  # [(expiry_time, cultivation_multiplier)]

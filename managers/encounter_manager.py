@@ -90,7 +90,7 @@ class EncounterManager:
 
     def __init__(self, db, config_manager, storage_ring_mgr=None,
                  activity_tracker=None, cultivation_manager=None,
-                 broadcast_fn=None):
+                 broadcast_fn=None, astrbot_config=None):
         self.db = db
         self.config_manager = config_manager
         self.storage_ring_mgr = storage_ring_mgr
@@ -104,6 +104,40 @@ class EncounterManager:
         self.trigger_chances: Dict[str, float] = cfg.get("trigger_chances", {})
         self.settings: Dict[str, dict] = cfg.get("settings", {})
         self.karma_settings: Dict[str, dict] = cfg.get("karma_settings", {})
+        self.enabled: bool = True
+
+        # WebUI 配置覆盖（_conf_schema.json 的 ENCOUNTER 节，运营常调项）
+        self._apply_webui_overrides(astrbot_config)
+
+    def _apply_webui_overrides(self, astrbot_config=None):
+        """用 AstrBot WebUI 插件配置覆盖 encounter_config.json 中的同名运行参数"""
+        if not astrbot_config:
+            return
+        section = astrbot_config.get("ENCOUNTER")
+        if not isinstance(section, dict):
+            return
+        if "ENABLED" in section:
+            self.enabled = bool(section["ENABLED"])
+        mapping = {
+            "DAILY_LIMIT": "daily_limit",
+            "CHOICE_TIMEOUT_SECONDS": "choice_timeout_seconds",
+            "EXP_RATIO": "exp_ratio",
+            "GOLD_SCALE": "gold_scale",
+            "LEGENDARY_BROADCAST": "legendary_broadcast",
+        }
+        for schema_key, setting_key in mapping.items():
+            if schema_key in section:
+                self.settings[setting_key] = section[schema_key]
+        if "KARMA_DAILY_DECAY" in section:
+            self.karma_settings["daily_decay"] = section["KARMA_DAILY_DECAY"]
+        webui_chances = section.get("TRIGGER_CHANCES")
+        if isinstance(webui_chances, dict):
+            for action, pct in webui_chances.items():
+                if action in self.trigger_chances or action in (
+                    "check_in", "end_cultivation", "rift_complete", "bounty_complete",
+                    "boss_fight", "dungeon_advance", "farm_harvest", "farm_sow",
+                ):
+                    self.trigger_chances[action] = float(pct)
 
     # ── 修为占比锁定（events pool v2 §1.3）──
 
@@ -144,6 +178,8 @@ class EncounterManager:
 
     async def try_trigger(self, player: Player, action_type: str) -> Optional[str]:
         """尝试触发奇遇，成功返回奇遇描述文本（传说级同时全服广播），否则 None"""
+        if not self.enabled:
+            return None
         today = datetime.now().strftime("%Y-%m-%d")
         self._reset_daily_if_new_day(player, today)
         if player.daily_encounter_count >= int(self.settings.get("daily_limit", 3)):

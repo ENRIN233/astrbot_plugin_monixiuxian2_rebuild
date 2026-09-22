@@ -237,12 +237,23 @@ class CombatManager:
         flat_atk_bonus = permanent_gains.get("_global", {}).get("flat_atk_bonus", 0)
         final_atk = int(base_atk * atk_practice_mult * (1 + technique_atk_bonus) * (1 + equip_bonus["atk_pct"]) * (1 + equip_bonus.get("armor_atk_pct", 0.0))) + int(atk_buff) + flat_atk_bonus
 
-        # 因果攻击加成（奇遇系统）：偏邪 +4% / 魔道修士 +8%
+        # 因果攻击加成（奇遇系统）：偏邪 +4% / 魔道修士 +8%（比例可在 encounter_config.json 调整）
         karma = int(getattr(player, "karma", 0) or 0)
+        karma_atk_pct = 0.0
         if karma <= -500:
-            final_atk = int(final_atk * (1 + 0.08))
+            karma_atk_pct = 0.08
         elif karma <= -100:
-            final_atk = int(final_atk * (1 + 0.04))
+            karma_atk_pct = 0.04
+        if karma_atk_pct > 0:
+            # 若可读取奇遇配置，则用配置中的比例
+            try:
+                bonuses = (config_manager.encounter_config or {}).get("karma_settings", {}).get("bonuses", {})
+                tier = "demon" if karma <= -500 else "evil"
+                configured = float(bonuses.get(tier, {}).get("atk_pct", karma_atk_pct))
+                karma_atk_pct = configured
+            except Exception:
+                pass
+            final_atk = int(final_atk * (1 + karma_atk_pct))
 
         # 获取辅修功法加成
         sub_buff_type = 0
