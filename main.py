@@ -36,7 +36,8 @@ def require_whitelist(func):
     @wraps(func)
     async def wrapper(self, event: AstrMessageEvent, *args, **kwargs):
         if not self._check_access(event):
-            await self._send_access_denied_message(event)
+            # 规范被动回复（此前误用非规范的直接发送且参数类型不符，导致提示静默失败）
+            yield event.plain_result("抱歉，此群聊未在修仙插件的白名单中，无法使用相关功能。")
             return
         async for result in func(self, event, *args, **kwargs):
             yield result
@@ -391,13 +392,9 @@ class XiuXianPlugin(Star):
         sender_id = str(event.get_sender_id())
         return sender_id in self.boss_admins
 
-    async def _send_access_denied_message(self, event: AstrMessageEvent):
-        """发送访问被拒绝的提示消息"""
-        try:
-            await event.send("抱歉，此群聊未在修仙插件的白名单中，无法使用相关功能。")
-        except:
-            # 如果发送失败，静默处理
-            pass
+    async def _send_access_denied_message(self, event: AstrMessageEvent) -> str:
+        """白名单拒绝提示文本（由 require_whitelist 装饰器以 plain_result 被动回复）"""
+        return "抱歉，此群聊未在修仙插件的白名单中，无法使用相关功能。"
 
     async def initialize(self):
         await self.db.connect()
