@@ -2189,8 +2189,16 @@ async def v43_spirit_garden_v2(conn: aiosqlite.Connection, config_manager: Confi
         )
     """)
 
-    # 2) 旧库补列
+    # 2) 旧库补列（覆盖所有历史 schema：最老四列 id/user_id/level/crops
+    #    与旧"收取模型"7 列都缺部分基础列，须与 _ensure_table_integrity 同口径补全）
     for col, typedef in [
+        ("farm_level", "INTEGER NOT NULL DEFAULT 1"),
+        ("herb_fields", "INTEGER NOT NULL DEFAULT 1"),
+        ("harvest_level", "INTEGER NOT NULL DEFAULT 0"),
+        ("harvest_speed", "INTEGER NOT NULL DEFAULT 0"),
+        ("last_harvest_time", "TEXT NOT NULL DEFAULT ''"),
+        ("alchemy_exp", "INTEGER NOT NULL DEFAULT 0"),
+        ("fire_control", "INTEGER NOT NULL DEFAULT 0"),
         ("plots", "TEXT NOT NULL DEFAULT '[]'"),
         ("garden_exp", "INTEGER NOT NULL DEFAULT 0"),
         ("garden_level", "INTEGER NOT NULL DEFAULT 1"),
