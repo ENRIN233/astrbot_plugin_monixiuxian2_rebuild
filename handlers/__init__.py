@@ -28,6 +28,7 @@ from .gm_handlers import GMHandlers
 from .achievement_handler import AchievementHandler
 from .gambling_handler import GamblingHandler
 from .forging_handler import ForgingHandler
+from .encounter_handler import EncounterHandler
 
 __all__ = [
     "PlayerHandler",
@@ -57,4 +58,5 @@ __all__ = [
     "AchievementHandler",
     "GamblingHandler",
     "ForgingHandler",
+    "EncounterHandler",
 ]

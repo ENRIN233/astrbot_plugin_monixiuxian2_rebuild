@@ -1,6 +1,7 @@
 # managers/achievement_manager.py
 
 from typing import Dict, List, Optional, Tuple
+import json
 from astrbot.api import logger
 from ..models import Player
 
@@ -62,6 +63,21 @@ class AchievementManager:
             return player.sect_contribution >= value
         elif cond_type == "lifespan":
             return player.lifespan >= value
+        elif cond_type == "encounter_count":
+            # 奇遇总次数（从 encounter_history 统计，仅保留最近20条，故上限成就以20为实际可达上限内取值）
+            try:
+                history = json.loads(getattr(player, 'encounter_history', '[]') or '[]')
+            except json.JSONDecodeError:
+                history = []
+            return len(history) >= value
+        elif cond_type == "karma":
+            karma = int(getattr(player, 'karma', 0) or 0)
+            direction = condition.get("direction", "absolute")
+            if direction == "positive":
+                return karma >= value
+            elif direction == "negative":
+                return karma <= -value
+            return abs(karma) >= value
 
         return False
 

@@ -134,3 +134,40 @@ ALCHEMY_CONFIG = {
     }
 }
 
+
+
+# 奇遇机缘系统默认配置（完整事件池见 config/encounter_config.json，此处为缺失时兜底骨架）
+ENCOUNTER_CONFIG_DEFAULT = {
+    "encounters": [],
+    "trigger_chances": {
+        "check_in": 0.15,
+        "end_cultivation": 0.10,
+        "rift_complete": 0.20,
+        "bounty_complete": 0.25,
+        "boss_fight": 0.30,
+        "dungeon_advance": 0.15,
+        "farm_harvest": 0.10
+    },
+    "settings": {
+        "daily_limit": 3,
+        "choice_timeout_seconds": 180,
+        "karma_event_bias_threshold": 500,
+        "karma_event_bias_pct": 25,
+        "legendary_broadcast": True,
+        "exp_ratio": 0.15,
+        "gold_scale": 1.0
+    },
+    "karma_settings": {
+        "min": -1000,
+        "max": 1000,
+        "initial": 0,
+        "daily_decay": 2,
+        "bonuses": {
+            "demon":   {"min": -1000, "max": -500, "title": "魔道修士", "atk_pct": 0.08},
+            "evil":    {"min": -499,  "max": -100, "title": "偏邪",     "atk_pct": 0.04},
+            "neutral": {"min": -99,   "max": 99,   "title": "中立"},
+            "good":    {"min": 100,   "max": 499,  "title": "偏正",     "cultivation_pct": 0.04},
+            "saint":   {"min": 500,   "max": 1000, "title": "正道修士", "cultivation_pct": 0.08}
+        }
+    }
+}

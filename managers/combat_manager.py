@@ -237,6 +237,13 @@ class CombatManager:
         flat_atk_bonus = permanent_gains.get("_global", {}).get("flat_atk_bonus", 0)
         final_atk = int(base_atk * atk_practice_mult * (1 + technique_atk_bonus) * (1 + equip_bonus["atk_pct"]) * (1 + equip_bonus.get("armor_atk_pct", 0.0))) + int(atk_buff) + flat_atk_bonus
 
+        # 因果攻击加成（奇遇系统）：偏邪 +4% / 魔道修士 +8%
+        karma = int(getattr(player, "karma", 0) or 0)
+        if karma <= -500:
+            final_atk = int(final_atk * (1 + 0.08))
+        elif karma <= -100:
+            final_atk = int(final_atk * (1 + 0.04))
+
         # 获取辅修功法加成
         sub_buff_type = 0
         sub_buff_value = 0

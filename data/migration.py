@@ -5,7 +5,7 @@ from typing import Dict, Callable, Awaitable
 from astrbot.api import logger
 from ..config_manager import ConfigManager
 
-LATEST_DB_VERSION = 41  # v41: Boss伤害贡献系统（boss_damage_log表）
+LATEST_DB_VERSION = 42  # v42: 奇遇机缘系统（karma/奇遇字段）
 
 MIGRATION_TASKS: Dict[int, Callable[[aiosqlite.Connection, ConfigManager], Awaitable[None]]] = {}
 
@@ -125,6 +125,10 @@ async def _ensure_table_integrity(conn: aiosqlite.Connection):
             ("equipped_armor", "TEXT", "''"),
             ("forging_exp", "INTEGER", "0"),
             ("forging_level", "INTEGER", "0"),
+            ("karma", "INTEGER", "0"),
+            ("last_encounter_date", "TEXT", "''"),
+            ("daily_encounter_count", "INTEGER", "0"),
+            ("encounter_history", "TEXT", "'[]'"),
         ]
         for col_name, col_type, col_default in players_columns:
             if col_name not in existing_cols:
@@ -2075,3 +2079,21 @@ async def v41_add_boss_damage_log(conn: aiosqlite.Connection, config_manager: Co
     """)
     await conn.commit()
     logger.info("v41迁移完成：Boss伤害贡献表 boss_damage_log")
+
+
+@migration(42)
+async def v42_add_encounter_system(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """v42: 奇遇机缘系统 — karma 因果值 + 奇遇触发/历史字段"""
+    for col, typedef in [
+        ("karma", "INTEGER NOT NULL DEFAULT 0"),
+        ("last_encounter_date", "TEXT NOT NULL DEFAULT ''"),
+        ("daily_encounter_count", "INTEGER NOT NULL DEFAULT 0"),
+        ("encounter_history", "TEXT NOT NULL DEFAULT '[]'"),
+    ]:
+        try:
+            await conn.execute(f"ALTER TABLE players ADD COLUMN {col} {typedef}")
+        except Exception:
+            pass  # 字段可能已存在
+
+    await conn.commit()
+    logger.info("v42迁移完成：奇遇机缘系统（karma/last_encounter_date/daily_encounter_count/encounter_history）")

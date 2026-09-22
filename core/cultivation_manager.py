@@ -375,6 +375,13 @@ class CultivationManager:
 
         other_multiplier = root_speed * (1.0 + technique_bonus) * (1.0 + closing_exp_bonus) * (1.0 + land_bonus) * (1.0 + permanent_cultivation_mult) * realm_mult
 
+        # 因果修炼加成（奇遇系统）：偏正 +4% / 正道修士 +8%
+        karma = int(getattr(player, "karma", 0) or 0)
+        if karma >= 500:
+            other_multiplier *= (1.0 + 0.08)
+        elif karma >= 100:
+            other_multiplier *= (1.0 + 0.04)
+
         # 从丹药效果中提取修炼加成和过期时间
         pill_segments = []  # [(expiry_time, cultivation_multiplier)]
         if raw_pill_effects:

@@ -213,7 +213,11 @@ class DataBase:
                 equipped_weapon = ?,
                 equipped_armor = ?,
                 forging_exp = ?,
-                forging_level = ?
+                forging_level = ?,
+                karma = ?,
+                last_encounter_date = ?,
+                daily_encounter_count = ?,
+                encounter_history = ?
             WHERE user_id = ?
             """,
             (
@@ -269,6 +273,10 @@ class DataBase:
                 player.equipped_armor,
                 player.forging_exp,
                 player.forging_level,
+                player.karma,
+                player.last_encounter_date,
+                player.daily_encounter_count,
+                player.encounter_history,
                 player.user_id
             )
         )

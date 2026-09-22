@@ -412,5 +412,52 @@
       "value": 20000
     },
     "bonus": {}
+  },
+  "first_encounter": {
+    "name": "初遇机缘",
+    "description": "首次触发奇遇",
+    "condition": {
+      "type": "encounter_count",
+      "value": 1
+    },
+    "bonus": {}
+  },
+  "encounter_series": {
+    "name": "奇遇连连",
+    "description": "累计触发10次奇遇",
+    "condition": {
+      "type": "encounter_count",
+      "value": 10
+    },
+    "bonus": {}
+  },
+  "child_of_fate": {
+    "name": "奇遇之子",
+    "description": "累计触发20次奇遇",
+    "condition": {
+      "type": "encounter_count",
+      "value": 20
+    },
+    "bonus": {}
+  },
+  "demon_path_title": {
+    "name": "魔道修士",
+    "description": "因果值达到-500",
+    "condition": {
+      "type": "karma",
+      "value": 500,
+      "direction": "negative"
+    },
+    "bonus": {}
+  },
+  "saint_path_title": {
+    "name": "正道修士",
+    "description": "因果值达到+500",
+    "condition": {
+      "type": "karma",
+      "value": 500,
+      "direction": "positive"
+    },
+    "bonus": {}
   }
 }

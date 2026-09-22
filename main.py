@@ -27,6 +27,8 @@ from .managers import (
     BlessedLandManager, SpiritFarmManager, DualCultivationManager,
     TradeManager, ConsignmentManager, AchievementManager,
 )
+from .managers.encounter_manager import EncounterManager
+from .handlers.encounter_handler import EncounterHandler
 
 
 def require_whitelist(func):
@@ -171,6 +173,11 @@ CMD_DUAL_CULT_REQUEST = "双修"
 CMD_DUAL_CULT_ACCEPT = "接受双修"
 CMD_DUAL_CULT_REJECT = "拒绝双修"
 
+# 奇遇机缘系统
+CMD_ENCOUNTER_CHOOSE = "奇遇"
+CMD_ENCOUNTER_INFO = "奇遇信息"
+CMD_ENCOUNTER_HISTORY = "奇遇记录"
+
 # 玩家交易系统
 CMD_TRADE_START = "交易"
 CMD_TRADE_ACCEPT = "接受交易"
@@ -300,6 +307,15 @@ class XiuXianPlugin(Star):
         self.spirit_farm_handlers = SpiritFarmHandlers(self.db, self.spirit_farm_mgr, self.config_manager)
         self.dual_cult_mgr = DualCultivationManager(self.db, self.pill_handler.pill_manager)
         self.dual_cult_handlers = DualCultivationHandlers(self.db, self.dual_cult_mgr)
+
+        # 奇遇机缘系统（broadcast_fn 挂全群广播，用于传说级奇遇）
+        self.encounter_mgr = EncounterManager(
+            self.db, self.config_manager, self.storage_ring_mgr,
+            activity_tracker=self.activity_tracker,
+            cultivation_manager=self.player_handler.cultivation_manager,
+            broadcast_fn=self._broadcast_to_whitelist_groups,
+        )
+        self.encounter_handler = EncounterHandler(self.db, self.encounter_mgr)
 
         # 神通系统
         from .handlers.skill_handler import SkillHandler
@@ -1067,12 +1083,31 @@ class XiuXianPlugin(Star):
     async def handle_end_cultivation(self, event: AstrMessageEvent):
         async for r in self.player_handler.handle_end_cultivation(event):
             yield r
+        # 奇遇钩子：出关后尝试触发（10%）
+        player = await self.db.get_player_by_id(event.get_sender_id())
+        if player:
+            msg = await self.encounter_mgr.try_trigger(player, "end_cultivation")
+            if msg:
+                yield event.plain_result(msg)
 
     @filter.command(CMD_CHECK_IN, "每日签到领取灵石")
     @require_whitelist
     async def handle_check_in(self, event: AstrMessageEvent):
         async for r in self.player_handler.handle_check_in(event):
             yield r
+        user_id = event.get_sender_id()
+        player = await self.db.get_player_by_id(user_id)
+        if player:
+            # 因果每日衰减（向中立靠拢 2 点）
+            try:
+                await self.encounter_mgr.apply_karma_decay(player)
+                await self.db.update_player(player)
+            except Exception:
+                pass
+            # 奇遇钩子：签到后尝试触发（15%）
+            msg = await self.encounter_mgr.try_trigger(player, "check_in")
+            if msg:
+                yield event.plain_result(msg)
 
     @filter.command(CMD_DAILY_ACTIVITY, "查看每日活跃度任务进度")
     @require_whitelist
@@ -1424,6 +1459,13 @@ class XiuXianPlugin(Star):
             player_name = player.user_name if player and player.user_name else f"道友{str(user_id)[:6]}"
             await self._broadcast_boss_defeat(player_name, battle_result)
 
+        # 奇遇钩子：Boss战斗结束后尝试触发（30%）
+        player = await self.db.get_player_by_id(user_id)
+        if player:
+            msg = await self.encounter_mgr.try_trigger(player, "boss_fight")
+            if msg:
+                yield event.plain_result(msg)
+
     @filter.command(CMD_SPAWN_BOSS, "生成世界Boss(管理员)")
     @require_whitelist
     async def handle_spawn_boss(self, event: AstrMessageEvent):
@@ -1581,6 +1623,14 @@ class XiuXianPlugin(Star):
 
         yield event.plain_result(msg)
 
+        # 奇遇钩子：秘境探索完成后尝试触发（20%）
+        if success:
+            player = await self.db.get_player_by_id(user_id)
+            if player:
+                enc_msg = await self.encounter_mgr.try_trigger(player, "rift_complete")
+                if enc_msg:
+                    yield event.plain_result(enc_msg)
+
     @filter.command(CMD_RIFT_EXIT, "退出秘境")
     @require_whitelist
     async def handle_rift_exit(self, event: AstrMessageEvent):
@@ -1715,6 +1765,12 @@ class XiuXianPlugin(Star):
     async def handle_bounty_complete(self, event: AstrMessageEvent):
         async for r in self.bounty_handlers.handle_complete_bounty(event):
             yield r
+        # 奇遇钩子：悬赏完成后尝试触发（25%）
+        player = await self.db.get_player_by_id(event.get_sender_id())
+        if player:
+            msg = await self.encounter_mgr.try_trigger(player, "bounty_complete")
+            if msg:
+                yield event.plain_result(msg)
 
     @filter.command(CMD_BOUNTY_ABANDON, "放弃悬赏任务")
     @require_whitelist
@@ -1777,6 +1833,12 @@ class XiuXianPlugin(Star):
     async def handle_spirit_farm_harvest(self, event: AstrMessageEvent):
         async for r in self.spirit_farm_handlers.handle_harvest(event):
             yield r
+        # 奇遇钩子：灵田收取后尝试触发（10%）
+        player = await self.db.get_player_by_id(event.get_sender_id())
+        if player:
+            msg = await self.encounter_mgr.try_trigger(player, "farm_harvest")
+            if msg:
+                yield event.plain_result(msg)
 
     @filter.command(CMD_SPIRIT_FARM_UPGRADE_HARVEST, "升级收取等级")
     @require_whitelist
@@ -1788,6 +1850,25 @@ class XiuXianPlugin(Star):
     @require_whitelist
     async def handle_spirit_farm_upgrade_fire(self, event: AstrMessageEvent):
         async for r in self.spirit_farm_handlers.handle_upgrade_fire_control(event):
+            yield r
+
+    # ===== 奇遇机缘系统 =====
+    @filter.command(CMD_ENCOUNTER_CHOOSE, "回复当前奇遇选择")
+    @require_whitelist
+    async def handle_encounter_choose(self, event: AstrMessageEvent, choice: str = ""):
+        async for r in self.encounter_handler.handle_choose(event, choice):
+            yield r
+
+    @filter.command(CMD_ENCOUNTER_INFO, "查看因果值和奇遇信息")
+    @require_whitelist
+    async def handle_encounter_info(self, event: AstrMessageEvent):
+        async for r in self.encounter_handler.handle_info(event):
+            yield r
+
+    @filter.command(CMD_ENCOUNTER_HISTORY, "查看奇遇历史记录")
+    @require_whitelist
+    async def handle_encounter_history(self, event: AstrMessageEvent):
+        async for r in self.encounter_handler.handle_history(event):
             yield r
 
     # ===== Phase 4: 双修 =====

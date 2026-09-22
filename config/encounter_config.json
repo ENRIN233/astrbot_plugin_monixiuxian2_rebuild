@@ -1,0 +1,1119 @@
+{
+  "encounters": [
+    {
+      "id": "common_01", "name": "山涧灵草", "rarity": "common",
+      "min_level": 0, "max_level": 9, "weight": 100,
+      "description": "山涧修炼时，发现一株散发微光的灵草，旁有低阶妖兽正打盹。",
+      "choices": [
+        {"id": "a", "text": "强行采摘", "risk": 0.30, "karma_delta": -5, "cost": {},
+         "success_text": "你趁妖兽不备，迅速采摘了灵草！",
+         "success_rewards": {"gold_center": 11000, "exp_pct": 3.7, "item_chance": 0.5, "item_pool": ["@herbs"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "妖兽被惊醒，你不得不狼狈逃窜，受了些轻伤。",
+         "fail_penalty": {"hp_pct": 0.15}},
+        {"id": "b", "text": "悄悄绕过", "risk": 0.0, "karma_delta": 0, "cost": {},
+         "success_text": "你小心翼翼地绕过了妖兽，虽然没有收获，但也没有危险。",
+         "success_rewards": {"gold_center": 5000, "exp_pct": 1.7, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}},
+        {"id": "c", "text": "灵石引开妖兽", "risk": 0.10, "karma_delta": 3, "cost": {"gold": 5000},
+         "success_text": "妖兽被灵石吸引离开，你从容地采摘了灵草。",
+         "success_rewards": {"gold_center": 8000, "exp_pct": 2.7, "item_chance": 0.6, "item_pool": ["@herbs"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "妖兽叼走了灵石却没有离开，你白费了一笔。",
+         "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "common_02", "name": "路遇乞丐", "rarity": "common",
+      "min_level": 0, "max_level": 9, "weight": 100,
+      "description": "城镇破庙前，一名衣衫褴褛的老乞丐向你伸出手，眼底却闪过一丝精光。",
+      "choices": [
+        {"id": "a", "text": "施舍灵石", "risk": 0.0, "karma_delta": 8, "cost": {"gold": 5000},
+         "success_text": "老乞丐双手合十，你只觉心头一片澄明。",
+         "success_rewards": {"gold_center": 0, "exp_pct": 1.7, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}},
+        {"id": "b", "text": "漠然走开", "risk": 0.0, "karma_delta": -3, "cost": {},
+         "success_text": "你绕过乞丐继续赶路，隐约觉得今日道心蒙尘。",
+         "success_rewards": {"gold_center": 0, "exp_pct": 0.8, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}},
+        {"id": "c", "text": "抢夺他的破碗", "risk": 0.50, "karma_delta": -15, "cost": {},
+         "success_text": "破碗里竟藏着几块碎灵石——这老乞丐不简单。",
+         "success_rewards": {"gold_center": 15000, "exp_pct": 5.1, "item_chance": 0.25, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "老乞丐身形一晃避开你的手，啐了你一口。",
+         "fail_penalty": {"hp_pct": 0.10}}
+      ]
+    },
+    {
+      "id": "common_03", "name": "迷途小妖", "rarity": "common",
+      "min_level": 0, "max_level": 9, "weight": 100,
+      "description": "一只狐妖幼崽困在猎户陷阱里，冲你吱吱作揖。",
+      "choices": [
+        {"id": "a", "text": "放它并送一程", "risk": 0.10, "karma_delta": 5, "cost": {"gold": 2500},
+         "success_text": "你拆了陷阱。小妖临别时衔来一枚妖丹塞进你手里。",
+         "success_rewards": {"gold_center": 8000, "exp_pct": 2.7, "item_chance": 0.3, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "陷阱机关反咬一口，小妖趁机溜了。",
+         "fail_penalty": {"hp_pct": 0.05}},
+        {"id": "b", "text": "驱赶了事", "risk": 0.0, "karma_delta": -5, "cost": {},
+         "success_text": "你驱散了围观人群，小妖瑟缩着跑了。",
+         "success_rewards": {"gold_center": 2500, "exp_pct": 0.8, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "common_04", "name": "古树灵果", "rarity": "rare",
+      "min_level": 0, "max_level": 9, "weight": 60,
+      "description": "千年古树垂下一枚流光溢彩的灵果，树下爪痕遍布——有守护兽出没。",
+      "choices": [
+        {"id": "a", "text": "攀树抢摘", "risk": 0.25, "karma_delta": -5, "cost": {},
+         "success_text": "你抢在守护兽回头前摘下灵果，拔腿就跑！",
+         "success_rewards": {"gold_center": 25000, "exp_pct": 8.4, "item_chance": 0.5, "item_pool": ["@herbs"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "守护兽一声咆哮，你被拍落在地。",
+         "fail_penalty": {"hp_pct": 0.15}},
+        {"id": "b", "text": "树下等落果", "risk": 0.0, "karma_delta": 0, "cost": {},
+         "success_text": "守了一夜，一枚熟透的灵果自己落了下来。",
+         "success_rewards": {"gold_center": 12500, "exp_pct": 4.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}},
+        {"id": "c", "text": "灵石供奉古树", "risk": 0.10, "karma_delta": 5, "cost": {"gold": 5000},
+         "success_text": "古树枝叶轻摇，一枚灵果连同几分谢意落在你掌心。",
+         "success_rewards": {"gold_center": 20000, "exp_pct": 6.7, "item_chance": 0.6, "item_pool": ["@herbs"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "灵石被树根悄悄收走，古树毫无回应。",
+         "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "common_05", "name": "山洞秘籍", "rarity": "common",
+      "min_level": 0, "max_level": 9, "weight": 100,
+      "description": "山洞里躺着一册残破功法，扉页写着一个陌生的名字。",
+      "choices": [
+        {"id": "a", "text": "原地研读残页", "risk": 0.15, "karma_delta": 0, "cost": {},
+         "success_text": "残页上几式基础吐纳法门，让你受益匪浅。",
+         "success_rewards": {"gold_center": 8500, "exp_pct": 2.9, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "残页中残存的杂念冲撞你的神识。",
+         "fail_penalty": {"hp_pct": 0.10}},
+        {"id": "b", "text": "寻主归还", "risk": 0.0, "karma_delta": 15, "cost": {},
+         "success_text": "失主的老仆千恩万谢，奉上谢礼。",
+         "success_rewards": {"gold_center": 5000, "exp_pct": 1.7, "item_chance": 0.5, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "common_06", "name": "受伤散修", "rarity": "common",
+      "min_level": 0, "max_level": 9, "weight": 100,
+      "description": "官道旁一名散修重伤倒地，储物袋半敞着，隐约可见灵光。",
+      "choices": [
+        {"id": "a", "text": "赠药救治", "risk": 0.0, "karma_delta": 3, "cost": {"gold": 5000},
+         "success_text": "散修服下你购的伤药，挣扎着塞给你一株灵草作谢礼。",
+         "success_rewards": {"gold_center": 0, "exp_pct": 2.7, "item_chance": 0.5, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}},
+        {"id": "b", "text": "搜身夺袋", "risk": 0.20, "karma_delta": -3, "cost": {},
+         "success_text": "你从他储物袋里摸出了几块灵石和材料。",
+         "success_rewards": {"gold_center": 9500, "exp_pct": 3.2, "item_chance": 0.3, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "散修拼死反击，你只抢到半块碎玉。",
+         "fail_penalty": {"hp_pct": 0.10}}
+      ]
+    },
+    {
+      "id": "common_07", "name": "灵泉之水", "rarity": "common",
+      "min_level": 0, "max_level": 9, "weight": 100,
+      "description": "岩缝间涌出一汪灵泉，雾气氤氲，饮一口百骸俱畅。",
+      "choices": [
+        {"id": "a", "text": "掬泉直饮", "risk": 0.10, "karma_delta": 0, "cost": {},
+         "success_text": "清泉入喉，伤势竟好了三分。",
+         "success_rewards": {"gold_center": 0, "exp_pct": 2.7, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": [], "hp_restore_pct": 0.30},
+         "fail_text": "泉水暴冲经脉，你呛了几大口。",
+         "fail_penalty": {"hp_pct": 0.10}},
+        {"id": "b", "text": "装瓶带走", "risk": 0.0, "karma_delta": 0, "cost": {},
+         "success_text": "你装了满满一瓶灵泉水，转手便是好价。",
+         "success_rewards": {"gold_center": 8500, "exp_pct": 1.7, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "common_08", "name": "铁矿脉", "rarity": "rare",
+      "min_level": 0, "max_level": 9, "weight": 60,
+      "description": "山体塌方露出一截铁矿脉，矿脉深处传来妖兽的低吼。",
+      "choices": [
+        {"id": "a", "text": "深入采一车", "risk": 0.20, "karma_delta": -5, "cost": {},
+         "success_text": "你满载精铁而归，身后妖兽的咆哮渐渐远去。",
+         "success_rewards": {"gold_center": 23750, "exp_pct": 8.0, "item_chance": 0.7, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "深处的妖兽扑出，你丢下矿镐就跑。",
+         "fail_penalty": {"hp_pct": 0.15}},
+        {"id": "b", "text": "浅采留记号", "risk": 0.0, "karma_delta": 5, "cost": {},
+         "success_text": "你采了几块表层精铁，并给后来者留了警示记号。",
+         "success_rewards": {"gold_center": 12500, "exp_pct": 4.2, "item_chance": 0.5, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "common_09", "name": "渡劫修士", "rarity": "epic",
+      "min_level": 0, "max_level": 9, "weight": 30,
+      "description": "前方山谷雷云压顶——有修士正在渡劫！天地灵气疯狂震荡。",
+      "choices": [
+        {"id": "a", "text": "远观感悟雷法", "risk": 0.15, "karma_delta": 0, "cost": {},
+         "success_text": "你远远观摩雷霆落下之势，隐有所悟。",
+         "success_rewards": {"gold_center": 51000, "exp_pct": 17.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "余波震来，你被掀翻在地。",
+         "fail_penalty": {"hp_pct": 0.10}},
+        {"id": "b", "text": "出手护法", "risk": 0.40, "karma_delta": 20, "cost": {},
+         "success_text": "你挡住了趁乱袭来的妖兽。渡劫者渡劫成功，掷来一枚谢礼丹药。",
+         "success_rewards": {"gold_center": 75000, "exp_pct": 25.3, "item_chance": 0, "item_pool": [], "pill_chance": 0.4, "pill_pool": ["@pills"]},
+         "fail_text": "妖兽爪风扫过，你重伤倒地，被人拖离战场。",
+         "fail_penalty": {"hp_pct": 0.25}},
+        {"id": "c", "text": "趁乱窃取雷劫遗物", "risk": 0.50, "karma_delta": -10, "cost": {},
+         "success_text": "你摸到几片雷劫淬炼过的遗物，发了一笔横财。",
+         "success_rewards": {"gold_center": 90000, "exp_pct": 30.4, "item_chance": 0.3, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "雷劫余威轰然落下，你焦黑地滚下山坡。",
+         "fail_penalty": {"hp_pct": 0.35}}
+      ]
+    },
+    {
+      "id": "common_10", "name": "神秘商人", "rarity": "common",
+      "min_level": 0, "max_level": 9, "weight": 100,
+      "description": "一位蒙面商人摊开兽皮，上面摆着几件看不出门道的物件。",
+      "choices": [
+        {"id": "a", "text": "买下神秘锦囊", "risk": 0.10, "karma_delta": 0, "cost": {"gold": 5000},
+         "success_text": "锦囊里是几样材料——不亏，也不算赚。",
+         "success_rewards": {"gold_center": 0, "exp_pct": 1.7, "item_chance": 0.5, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "锦囊里只有一块破布。商人已不见踪影。",
+         "fail_penalty": {}},
+        {"id": "b", "text": "以物易物", "risk": 0.0, "karma_delta": 0, "cost": {"gold": 5000},
+         "success_text": "你用灵石换了商人一件旧物件，双方都称满意。",
+         "success_rewards": {"gold_center": 0, "exp_pct": 1.7, "item_chance": 0.6, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "common_11", "name": "悬崖灵药", "rarity": "rare",
+      "min_level": 0, "max_level": 9, "weight": 60,
+      "description": "绝壁石缝里生着一丛灵药，崖下云海翻涌，深不见底。",
+      "choices": [
+        {"id": "a", "text": "绳降绝壁采摘", "risk": 0.30, "karma_delta": 0, "cost": {},
+         "success_text": "你吊着绳索采下整丛灵药，惊出一身冷汗。",
+         "success_rewards": {"gold_center": 27500, "exp_pct": 9.3, "item_chance": 0.6, "item_pool": ["@herbs"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "绳索在半空断了。你侥幸挂在枯树上捡回一命。",
+         "fail_penalty": {"hp_pct": 0.20}},
+        {"id": "b", "text": "安全采集崖边散株", "risk": 0.0, "karma_delta": 5, "cost": {},
+         "success_text": "你在崖边安稳采了几株散生的灵药。",
+         "success_rewards": {"gold_center": 12500, "exp_pct": 4.2, "item_chance": 0.5, "item_pool": ["@herbs"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "common_12", "name": "兽王幼崽", "rarity": "common",
+      "min_level": 0, "max_level": 9, "weight": 100,
+      "description": "一头受伤的兽王幼崽蜷在草丛里，远山中传来母兽焦躁的咆哮。",
+      "choices": [
+        {"id": "a", "text": "救助并放归", "risk": 0.10, "karma_delta": 10, "cost": {},
+         "success_text": "你为幼崽敷上伤药放归山林。母兽在远处长啸致意。",
+         "success_rewards": {"gold_center": 8000, "exp_pct": 2.7, "item_chance": 0.3, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "幼崽惊惶挣扎，爪子在你手臂上留下几道血痕。",
+         "fail_penalty": {"hp_pct": 0.10}},
+        {"id": "b", "text": "捕获贩卖", "risk": 0.25, "karma_delta": -3, "cost": {},
+         "success_text": "你制住幼崽装进笼子——坊市里有人出好价。",
+         "success_rewards": {"gold_center": 10000, "exp_pct": 3.4, "item_chance": 0.4, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "母兽循味而至，你扔下笼子亡命而逃。",
+         "fail_penalty": {"hp_pct": 0.15}}
+      ]
+    },
+    {
+      "id": "mid_01", "name": "古修士洞府", "rarity": "rare",
+      "min_level": 10, "max_level": 18, "weight": 60,
+      "description": "荒山腹中发现一座封印完好的古修洞府，石门上禁制流转。",
+      "choices": [
+        {"id": "a", "text": "硬撼禁制破门", "risk": 0.40, "karma_delta": -10, "cost": {},
+         "success_text": "禁制应声而碎！洞府中的遗物尽归你手。",
+         "success_rewards": {"gold_center": 50000, "exp_pct": 10.5, "item_chance": 0.4, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "禁制反震，你被弹飞数十丈。",
+         "fail_penalty": {"hp_pct": 0.20}},
+        {"id": "b", "text": "静心参悟石碑", "risk": 0.0, "karma_delta": 15, "cost": {},
+         "success_text": "你在石碑前枯坐三日，悟得古修一丝道韵。",
+         "success_rewards": {"gold_center": 20000, "exp_pct": 4.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}},
+        {"id": "c", "text": "顺手加固封印离开", "risk": 0.0, "karma_delta": 8, "cost": {"gold": 8000},
+         "success_text": "你加固封印转身离去。身后似有一声跨越千年的叹息致谢。",
+         "success_rewards": {"gold_center": 20000, "exp_pct": 4.2, "item_chance": 0.5, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "mid_02", "name": "灵草市场", "rarity": "common",
+      "min_level": 10, "max_level": 18, "weight": 100,
+      "description": "坊市里一位老药农守着卖不出去的灵草唉声叹气。",
+      "choices": [
+        {"id": "a", "text": "死命压价", "risk": 0.20, "karma_delta": 0, "cost": {},
+         "success_text": "你把价钱压到三成，收购了整车灵草。",
+         "success_rewards": {"gold_center": 15200, "exp_pct": 3.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "同行们识破你的把戏，围着你指点了一炷香。",
+         "fail_penalty": {}},
+        {"id": "b", "text": "高价收购解困", "risk": 0.0, "karma_delta": 5, "cost": {"gold": 8000},
+         "success_text": "你按市价收购了灵草。老药农感激之余，多送了你一把种子。",
+         "success_rewards": {"gold_center": 0, "exp_pct": 1.7, "item_chance": 0.6, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "mid_03", "name": "妖兽巢穴", "rarity": "common",
+      "min_level": 10, "max_level": 18, "weight": 100,
+      "description": "一处妖兽巢穴盘踞要道，过往行商苦不堪言。",
+      "choices": [
+        {"id": "a", "text": "端掉巢穴", "risk": 0.30, "karma_delta": -10, "cost": {},
+         "success_text": "你血洗巢穴，妖丹与赃物尽入囊中。",
+         "success_rewards": {"gold_center": 17600, "exp_pct": 3.7, "item_chance": 0.4, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "妖王回巢，你且战且退，狼狈不堪。",
+         "fail_penalty": {"hp_pct": 0.20}},
+        {"id": "b", "text": "绕道而行", "risk": 0.0, "karma_delta": 0, "cost": {},
+         "success_text": "你多走了半日山路，平安绕过巢穴。",
+         "success_rewards": {"gold_center": 8000, "exp_pct": 1.7, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}},
+        {"id": "c", "text": "布阵封印巢穴", "risk": 0.15, "karma_delta": 5, "cost": {"gold": 8000},
+         "success_text": "阵成，妖兽被封在山中。行商们对你称谢不已。",
+         "success_rewards": {"gold_center": 13600, "exp_pct": 2.9, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "阵眼被妖兽一爪拍碎，灵石打了水漂。",
+         "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "mid_04", "name": "采药人被困", "rarity": "common",
+      "min_level": 10, "max_level": 18, "weight": 100,
+      "description": "悬崖藤蔓间挂着一名采药人，呼救声越来越弱。",
+      "choices": [
+        {"id": "a", "text": "舍身救援", "risk": 0.25, "karma_delta": 15, "cost": {"gold": 5000},
+         "success_text": "你冒死将人拉了上来。采药人倾囊相赠。",
+         "success_rewards": {"gold_center": 16000, "exp_pct": 3.4, "item_chance": 0.6, "item_pool": ["@herbs"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "藤蔓断裂，你们双双坠入深潭，险险保命。",
+         "fail_penalty": {"hp_pct": 0.15}},
+        {"id": "b", "text": "先谈报酬再救", "risk": 0.15, "karma_delta": 5, "cost": {},
+         "success_text": "谈妥价钱，你把人拽了上来，一手交钱一手交货。",
+         "success_rewards": {"gold_center": 13600, "exp_pct": 2.9, "item_chance": 0.5, "item_pool": ["@herbs"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "采药人手一松，坠入云海。你分文未得。",
+         "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "mid_05", "name": "灵脉裂缝", "rarity": "rare",
+      "min_level": 10, "max_level": 18, "weight": 60,
+      "description": "地底灵脉裂开一道缝，磅礴灵气外泄，也在慢慢污染周围草木。",
+      "choices": [
+        {"id": "a", "text": "张口吞噬灵气", "risk": 0.20, "karma_delta": -10, "cost": {},
+         "success_text": "你贪婪地吞吐外泄灵气，修为精进了几分。",
+         "success_rewards": {"gold_center": 38000, "exp_pct": 8.0, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "灵气暴走，在你经脉里横冲直撞。",
+         "fail_penalty": {"hp_pct": 0.15}},
+        {"id": "b", "text": "耗灵石修复裂缝", "risk": 0.0, "karma_delta": 5, "cost": {"gold": 8000},
+         "success_text": "裂缝在你手中缓缓弥合，周遭草木重现生机。",
+         "success_rewards": {"gold_center": 20000, "exp_pct": 4.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "mid_06", "name": "散修追杀", "rarity": "epic",
+      "min_level": 10, "max_level": 18, "weight": 30,
+      "description": "前方三名黑衣修士围杀一名女子，女子手中玉盒寒光流转。",
+      "choices": [
+        {"id": "a", "text": "拔刀相助", "risk": 0.40, "karma_delta": 15, "cost": {},
+         "success_text": "你一剑逼退三人。女子打开玉盒，分你一半谢礼。",
+         "success_rewards": {"gold_center": 120000, "exp_pct": 25.3, "item_chance": 0.5, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "黑衣修士人多势众，你护着女子且战且退，负伤逃离。",
+         "fail_penalty": {"hp_pct": 0.25}},
+        {"id": "b", "text": "冷眼旁观，事后捡漏", "risk": 0.0, "karma_delta": -20, "cost": {},
+         "success_text": "尘埃落定后，你从残局里捡到些零碎。",
+         "success_rewards": {"gold_center": 24000, "exp_pct": 5.1, "item_chance": 0.2, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "mid_07", "name": "上古遗阵", "rarity": "common",
+      "min_level": 10, "max_level": 18, "weight": 100,
+      "description": "荒野中一座上古阵法仍在运转，阵纹间灵光吞吐。",
+      "choices": [
+        {"id": "a", "text": "盘坐参悟阵法", "risk": 0.15, "karma_delta": 10, "cost": {},
+         "success_text": "你从阵纹中读得上古阵道一角，受益匪浅。",
+         "success_rewards": {"gold_center": 13600, "exp_pct": 2.9, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "阵纹灵光反噬，你被震出数丈。",
+         "fail_penalty": {"hp_pct": 0.10}},
+        {"id": "b", "text": "破阵取走阵基", "risk": 0.30, "karma_delta": -5, "cost": {},
+         "success_text": "你挖出阵基灵石，身后再无古阵。",
+         "success_rewards": {"gold_center": 17600, "exp_pct": 3.7, "item_chance": 0.5, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "阵法自毁前重重反噬了破阵之人。",
+         "fail_penalty": {"hp_pct": 0.20}}
+      ]
+    },
+    {
+      "id": "mid_08", "name": "炼丹材料", "rarity": "common",
+      "min_level": 10, "max_level": 18, "weight": 100,
+      "description": "一株药农梦寐以求的主药就在眼前，旁边还有守株待兔的同行。",
+      "choices": [
+        {"id": "a", "text": "抢先动手采集", "risk": 0.20, "karma_delta": 0, "cost": {},
+         "success_text": "你手快一步，连根采下主药。",
+         "success_rewards": {"gold_center": 15200, "exp_pct": 3.2, "item_chance": 0.6, "item_pool": ["@herbs"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "同行眼疾手快，一记肘撞把你顶开，扬长而去。",
+         "fail_penalty": {"hp_pct": 0.05}},
+        {"id": "b", "text": "加钱从药农手里买", "risk": 0.0, "karma_delta": 5, "cost": {"gold": 8000},
+         "success_text": "药农感激你的公道价，又搭了几株配角药材。",
+         "success_rewards": {"gold_center": 0, "exp_pct": 1.7, "item_chance": 0.7, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "mid_09", "name": "灵兽报恩", "rarity": "rare",
+      "min_level": 10, "max_level": 18, "weight": 60,
+      "description": "一头灵狐衔来一枚果实，轻轻放在你脚边——它记得你当日的援手。",
+      "choices": [
+        {"id": "a", "text": "收留照料", "risk": 0.10, "karma_delta": 10, "cost": {},
+         "success_text": "灵狐留了下来，时不时叼些天材地宝回来。",
+         "success_rewards": {"gold_center": 32000, "exp_pct": 6.7, "item_chance": 0.5, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "灵狐旧伤发作，突然暴起抓伤了你，逃入林中。",
+         "fail_penalty": {"hp_pct": 0.10}},
+        {"id": "b", "text": "目送它归山", "risk": 0.0, "karma_delta": 0, "cost": {},
+         "success_text": "灵狐绕你三圈，恋恋不舍地消失在山道尽头。",
+         "success_rewards": {"gold_center": 20000, "exp_pct": 4.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "mid_10", "name": "神秘石碑", "rarity": "epic",
+      "min_level": 10, "max_level": 18, "weight": 30,
+      "description": "浓雾中一座石碑若隐若现，碑文似在游动，直勾勾\"看\"着你。",
+      "choices": [
+        {"id": "a", "text": "滴血认主", "risk": 0.50, "karma_delta": -15, "cost": {},
+         "success_text": "血珠没入石碑，一段蛮荒传承轰入识海！",
+         "success_rewards": {"gold_center": 144000, "exp_pct": 30.4, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "碑中残魂顺势夺舍，你拼死才将其逼出。",
+         "fail_penalty": {"hp_pct": 0.30}},
+        {"id": "b", "text": "静心感悟碑文", "risk": 0.15, "karma_delta": 20, "cost": {},
+         "success_text": "你以道心应碑文，得铭文三行，字字珠玑。",
+         "success_rewards": {"gold_center": 81600, "exp_pct": 17.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "道纹冲撞神识，你头痛欲裂地退开。",
+         "fail_penalty": {"hp_pct": 0.10}}
+      ]
+    },
+    {
+      "id": "mid_11", "name": "地下密室", "rarity": "common",
+      "min_level": 10, "max_level": 18, "weight": 100,
+      "description": "后山地动，露出一间尘封的地下密室，门上结着蛛网般的灰。",
+      "choices": [
+        {"id": "a", "text": "独自探索", "risk": 0.25, "karma_delta": -10, "cost": {},
+         "success_text": "密室里几件旧物，够你小赚一笔。",
+         "success_rewards": {"gold_center": 16000, "exp_pct": 3.4, "item_chance": 0.4, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "机关连环发动，你带伤逃出，密室轰然塌陷。",
+         "fail_penalty": {"hp_pct": 0.20}},
+        {"id": "b", "text": "报告宗门", "risk": 0.0, "karma_delta": 5, "cost": {},
+         "success_text": "宗门勘探后按例分你一份。",
+         "success_rewards": {"gold_center": 8000, "exp_pct": 1.7, "item_chance": 0.3, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "mid_12", "name": "拍卖盛会", "rarity": "common",
+      "min_level": 10, "max_level": 18, "weight": 100,
+      "description": "坊市百年一次的拍卖会开锣，压轴品名录不为人知。",
+      "choices": [
+        {"id": "a", "text": "参与竞拍", "risk": 0.20, "karma_delta": 0, "cost": {"gold": 8000},
+         "success_text": "你以低价拍得一件无底价的拍品。",
+         "success_rewards": {"gold_center": 0, "exp_pct": 1.7, "item_chance": 0.5, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "竞价失利，保证金被没收。",
+         "fail_penalty": {}},
+        {"id": "b", "text": "场外观察行情", "risk": 0.0, "karma_delta": 0, "cost": {},
+         "success_text": "你把各家珍品行情记了个大概，心里有底了。",
+         "success_rewards": {"gold_center": 8000, "exp_pct": 1.7, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "high_01", "name": "天降异象", "rarity": "epic",
+      "min_level": 19, "max_level": 27, "weight": 30,
+      "description": "夜空炸开一道赤色流星，坠入百里外的荒谷，异象经久不散。",
+      "choices": [
+        {"id": "a", "text": "强取陨铁", "risk": 0.30, "karma_delta": -10, "cost": {},
+         "success_text": "你从焦土中剥出大块陨铁，转身就走。",
+         "success_rewards": {"gold_center": 99000, "exp_pct": 22.3, "item_chance": 0.4, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "陨铁余温爆裂，你被气浪掀出荒谷。",
+         "fail_penalty": {"hp_pct": 0.20}},
+        {"id": "b", "text": "探查异象本源", "risk": 0.15, "karma_delta": 0, "cost": {},
+         "success_text": "你追至落点，从异象余韵中参详出几分天道轨迹。",
+         "success_rewards": {"gold_center": 76500, "exp_pct": 17.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "异象本源一触即溃，反震得你气血翻腾。",
+         "fail_penalty": {"hp_pct": 0.15}},
+        {"id": "c", "text": "布阵缓引炼化", "risk": 0.0, "karma_delta": 20, "cost": {"gold": 7500},
+         "success_text": "你以大阵徐徐引导异象归于天地，顺带炼化了几缕余韵。",
+         "success_rewards": {"gold_center": 45000, "exp_pct": 10.1, "item_chance": 0.7, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "high_02", "name": "魂修遗迹", "rarity": "rare",
+      "min_level": 19, "max_level": 27, "weight": 60,
+      "description": "一座黑石殿半埋沙中，殿门上\"炼魂\"二字森然欲动。",
+      "choices": [
+        {"id": "a", "text": "深入探索", "risk": 0.40, "karma_delta": -20, "cost": {},
+         "success_text": "你从殿中搜出魂修遗藏，且避开了主殿禁制。",
+         "success_rewards": {"gold_center": 46875, "exp_pct": 10.5, "item_chance": 0.4, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "魂修残念缠上身来，你烧掉半条命才挣脱。",
+         "fail_penalty": {"hp_pct": 0.25}},
+        {"id": "b", "text": "布下法阵封印", "risk": 0.0, "karma_delta": 10, "cost": {"gold": 7500},
+         "success_text": "法阵落成，黑石殿的森然之气被牢牢锁住。",
+         "success_rewards": {"gold_center": 18750, "exp_pct": 4.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "high_03", "name": "万年灵乳", "rarity": "rare",
+      "min_level": 19, "max_level": 27, "weight": 60,
+      "description": "石乳尖端悬着一滴万年灵乳，将坠未坠，灵气逼人。",
+      "choices": [
+        {"id": "a", "text": "全部收取", "risk": 0.25, "karma_delta": -5, "cost": {},
+         "success_text": "你以玉瓶收尽灵乳，石乳当场枯竭。",
+         "success_rewards": {"gold_center": 37500, "exp_pct": 8.4, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "收取时灵乳崩碎，割得你满手是血。",
+         "fail_penalty": {"hp_pct": 0.20}},
+        {"id": "b", "text": "取一半留一半", "risk": 0.0, "karma_delta": 5, "cost": {},
+         "success_text": "你取了一半，留一半滋养石乳来日再生。",
+         "success_rewards": {"gold_center": 18750, "exp_pct": 4.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}},
+        {"id": "c", "text": "留根滋养，只在旁守护", "risk": 0.0, "karma_delta": 15, "cost": {},
+         "success_text": "你守了灵乳三日，替它挡下几波觊觎，空手而归却心境圆融。",
+         "success_rewards": {"gold_center": 9375, "exp_pct": 2.1, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "high_04", "name": "魔修偷袭", "rarity": "common",
+      "min_level": 19, "max_level": 27, "weight": 100,
+      "description": "一道黑影从林间暴起，直取你识海——是魔修的摄魂钉！",
+      "choices": [
+        {"id": "a", "text": "反手反击", "risk": 0.30, "karma_delta": 5, "cost": {},
+         "success_text": "你反手一剑震碎摄魂钉，魔修丢下赃物遁走。",
+         "success_rewards": {"gold_center": 16500, "exp_pct": 3.7, "item_chance": 0.4, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "摄魂钉擦过识海，你重伤击退了魔修。",
+         "fail_penalty": {"hp_pct": 0.20}},
+        {"id": "b", "text": "破财免灾", "risk": 0.10, "karma_delta": -10, "cost": {"gold": 7500},
+         "success_text": "你丢出灵石袋，魔修掂了掂，放你离去。",
+         "success_rewards": {"gold_center": 12000, "exp_pct": 2.7, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "灵石照付，摄魂钉还是在你背上留了个记号。",
+         "fail_penalty": {"hp_pct": 0.05}}
+      ]
+    },
+    {
+      "id": "high_05", "name": "天道感悟", "rarity": "epic",
+      "min_level": 19, "max_level": 27, "weight": 30,
+      "description": "云层裂开一线，冥冥中传来一缕大道之音，直指你道途上的瓶颈。",
+      "choices": [
+        {"id": "a", "text": "原地闭关苦悟", "risk": 0.20, "karma_delta": 0, "cost": {},
+         "success_text": "你枯坐七日，硬生生把瓶颈磨薄了一层。",
+         "success_rewards": {"gold_center": 85500, "exp_pct": 19.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "强行牵引道韵反噬己身，你吐血出关。",
+         "fail_penalty": {"hp_pct": 0.15}},
+        {"id": "b", "text": "出关后向同道倾囊相授", "risk": 0.0, "karma_delta": 30, "cost": {},
+         "success_text": "你把感悟讲给同道听。教学相长，你的道基反而更稳了。",
+         "success_rewards": {"gold_center": 45000, "exp_pct": 10.1, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "high_06", "name": "灵脉之源", "rarity": "rare",
+      "min_level": 19, "max_level": 27, "weight": 60,
+      "description": "万里灵脉在此结成一眼灵泉，泉眼中隐有龙形光影游动。",
+      "choices": [
+        {"id": "a", "text": "抽取灵髓", "risk": 0.40, "karma_delta": -15, "cost": {},
+         "success_text": "你以秘法抽出一缕灵髓，龙影哀鸣着沉入地底。",
+         "success_rewards": {"gold_center": 46875, "exp_pct": 10.5, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "灵脉反噬，龙影一尾将你抽飞百里。",
+         "fail_penalty": {"hp_pct": 0.25}},
+        {"id": "b", "text": "留下来守护灵脉", "risk": 0.0, "karma_delta": 10, "cost": {},
+         "success_text": "你守灵泉一月，击退数波盗髓者，龙影绕你三匝致意。",
+         "success_rewards": {"gold_center": 18750, "exp_pct": 4.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "high_07", "name": "药园秘境", "rarity": "common",
+      "min_level": 19, "max_level": 27, "weight": 100,
+      "description": "一座无主药园洞开，园中灵药株株成熟，药香扑面。",
+      "choices": [
+        {"id": "a", "text": "收取全部成熟药材", "risk": 0.15, "karma_delta": -5, "cost": {},
+         "success_text": "你满载而归，身后药园一片狼藉。",
+         "success_rewards": {"gold_center": 12750, "exp_pct": 2.9, "item_chance": 0.7, "item_pool": ["@herbs"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "护园大阵轰然启动，你被灵光弹了出去。",
+         "fail_penalty": {"hp_pct": 0.10}},
+        {"id": "b", "text": "只取几株，留种封园", "risk": 0.0, "karma_delta": 5, "cost": {},
+         "success_text": "你取了几株，立碑封园留种。药园灵气反而馈赠了你。",
+         "success_rewards": {"gold_center": 7500, "exp_pct": 1.7, "item_chance": 0.4, "item_pool": ["@herbs"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "high_08", "name": "法宝碎片", "rarity": "common",
+      "min_level": 19, "max_level": 27, "weight": 100,
+      "description": "荒坟土里翻出半块法宝碎片，其上禁制未灭，隐有主人的神识烙印。",
+      "choices": [
+        {"id": "a", "text": "抹去烙印占为己有", "risk": 0.20, "karma_delta": -10, "cost": {},
+         "success_text": "烙印尽碎，碎片归你所有。",
+         "success_rewards": {"gold_center": 14250, "exp_pct": 3.2, "item_chance": 0.3, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "烙印反噬，你的识海被刺得生疼。",
+         "fail_penalty": {"hp_pct": 0.15}},
+        {"id": "b", "text": "循着烙印归还失主后人", "risk": 0.0, "karma_delta": 0, "cost": {},
+         "success_text": "失主后人执礼甚恭，奉上酬谢。",
+         "success_rewards": {"gold_center": 7500, "exp_pct": 1.7, "item_chance": 0.5, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "high_09", "name": "宗门遗迹", "rarity": "rare",
+      "min_level": 19, "max_level": 27, "weight": 60,
+      "description": "一座没落宗门的遗迹重见天日，藏经阁的轮廓依稀可辨。",
+      "choices": [
+        {"id": "a", "text": "独探藏经宝库", "risk": 0.30, "karma_delta": -5, "cost": {},
+         "success_text": "你从藏经阁夹层里翻出一批遗物。",
+         "success_rewards": {"gold_center": 41250, "exp_pct": 9.3, "item_chance": 0.4, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "护阁傀儡苏醒，你砸开墙才逃出来。",
+         "fail_penalty": {"hp_pct": 0.20}},
+        {"id": "b", "text": "清扫修缮，立碑纪念", "risk": 0.0, "karma_delta": 15, "cost": {},
+         "success_text": "你带人修缮遗迹、立碑纪宗。夜梦里似有老者拱手致谢。",
+         "success_rewards": {"gold_center": 18750, "exp_pct": 4.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "high_10", "name": "异火奇遇", "rarity": "epic",
+      "min_level": 19, "max_level": 27, "weight": 30,
+      "description": "一缕青莲色异火从地缝里窜出，见风就长，灼得空气噼啪作响。",
+      "choices": [
+        {"id": "a", "text": "强行收服异火", "risk": 0.50, "karma_delta": -10, "cost": {},
+         "success_text": "你以神魂为炉硬生生吞下异火，丹道之路豁然开阔！",
+         "success_rewards": {"gold_center": 135000, "exp_pct": 30.4, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "异火焚身，你滚进寒潭才保住性命。",
+         "fail_penalty": {"hp_pct": 0.40}},
+        {"id": "b", "text": "以丹炉借火炼丹", "risk": 0.20, "karma_delta": 20, "cost": {"gold": 15000},
+         "success_text": "异火入炉，一炉丹药成色惊人。",
+         "success_rewards": {"gold_center": 85500, "exp_pct": 19.2, "item_chance": 0, "item_pool": [], "pill_chance": 0.5, "pill_pool": ["@pills"]},
+         "fail_text": "丹毁炉裂，异火也消失在地缝深处。",
+         "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "high_11", "name": "古修传承", "rarity": "legendary",
+      "min_level": 19, "max_level": 27, "weight": 10,
+      "description": "一方传承玉简破空而至，悬在你面前，简中一道苍老神念开口：\"老夫坐等有缘者三千年。\"",
+      "choices": [
+        {"id": "a", "text": "接受三关传承考验", "risk": 0.40, "karma_delta": 50, "cost": {},
+         "success_text": "三关皆过！古修神念含笑而散，传承尽归你身。",
+         "success_rewards": {"gold_center": 281250, "exp_pct": 48.1, "item_chance": 0.6, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "第三关功亏一篑。神念散去前，仍赠你一份行囊。",
+         "fail_penalty": {"hp_pct": 0.35}},
+        {"id": "b", "text": "强夺玉简", "risk": 0.50, "karma_delta": -30, "cost": {},
+         "success_text": "你以蛮力破开玉简禁制，夺走传承。",
+         "success_rewards": {"gold_center": 337500, "exp_pct": 50, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "传承自爆，玉简化作飞灰，你也重伤吐血。",
+         "fail_penalty": {"hp_pct": 0.45}}
+      ]
+    },
+    {
+      "id": "high_12", "name": "符箓大师", "rarity": "common",
+      "min_level": 19, "max_level": 27, "weight": 100,
+      "description": "摆摊的老者一笔符纸画得龙飞凤舞，摊前却门可罗雀。",
+      "choices": [
+        {"id": "a", "text": "拜师求教符道", "risk": 0.10, "karma_delta": 5, "cost": {"gold": 7500},
+         "success_text": "老者收了你的拜师礼，传你三道护身符的画法。",
+         "success_rewards": {"gold_center": 12000, "exp_pct": 2.7, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "老者摆摆手婉拒了，只收钱卖了你两张符。",
+         "fail_penalty": {}},
+        {"id": "b", "text": "买几张护身符", "risk": 0.0, "karma_delta": 0, "cost": {"gold": 7500},
+         "success_text": "你买了几张符纸。老者又搭了一枚丹药做添头。",
+         "success_rewards": {"gold_center": 0, "exp_pct": 1.7, "item_chance": 0.4, "item_pool": ["@mats"], "pill_chance": 0.3, "pill_pool": ["@pills"]},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "peak_01", "name": "魔修交易", "rarity": "rare",
+      "min_level": 28, "max_level": 36, "weight": 60,
+      "description": "黑市角落，魔修向你兜售一册禁术，封皮上血纹隐隐蠕动。",
+      "choices": [
+        {"id": "a", "text": "重金购入禁术", "risk": 0.25, "karma_delta": -30, "cost": {"gold": 60000},
+         "success_text": "禁术入手，你连夜参悟，杀伐之道精进。",
+         "success_rewards": {"gold_center": 75000, "exp_pct": 8.4, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "灵石骗光，禁术是废纸。魔修早已不见踪影。",
+         "fail_penalty": {}},
+        {"id": "b", "text": "当面出言警告", "risk": 0.10, "karma_delta": 25, "cost": {},
+         "success_text": "你正色警告，魔修冷笑离去。正道盟记下了你这一次挺身。",
+         "success_rewards": {"gold_center": 60000, "exp_pct": 6.7, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "魔修记恨在心，一道血咒暗中落在了你身上。",
+         "fail_penalty": {"hp_pct": 0.10}},
+        {"id": "c", "text": "擒拿移交正道盟", "risk": 0.30, "karma_delta": 15, "cost": {},
+         "success_text": "你一举擒下魔修移交正道盟，悬赏分润颇丰。",
+         "success_rewards": {"gold_center": 82500, "exp_pct": 9.3, "item_chance": 0.4, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "魔修拼死反抗，你负伤才将其制服。",
+         "fail_penalty": {"hp_pct": 0.25}}
+      ]
+    },
+    {
+      "id": "peak_02", "name": "天道碑文", "rarity": "epic",
+      "min_level": 28, "max_level": 36, "weight": 30,
+      "description": "一块丈高石碑从天外坠入东海之滨，碑文记载着一段天道法则。",
+      "choices": [
+        {"id": "a", "text": "顶礼虔诚感悟", "risk": 0.0, "karma_delta": 30, "cost": {},
+         "success_text": "你顶礼三日，天道法则入心，修为水涨船高。",
+         "success_rewards": {"gold_center": 90000, "exp_pct": 10.1, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}},
+        {"id": "b", "text": "拓印碑文回去慢慢研究", "risk": 0.15, "karma_delta": 10, "cost": {},
+         "success_text": "拓印完成。回家细研之下，竟从碑文中剥出几缕法则之力。",
+         "success_rewards": {"gold_center": 153000, "exp_pct": 17.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "碑文道韵灼伤神魂，拓印只成了一半。",
+         "fail_penalty": {"hp_pct": 0.15}}
+      ]
+    },
+    {
+      "id": "peak_03", "name": "域外天魔", "rarity": "rare",
+      "min_level": 28, "max_level": 36, "weight": 60,
+      "description": "天幕裂开一道细缝，一尊域外天魔的投影探出半只手掌。",
+      "choices": [
+        {"id": "a", "text": "挥剑力战", "risk": 0.40, "karma_delta": 20, "cost": {},
+         "success_text": "你一剑斩落半只魔掌，天幕裂口应声闭合！",
+         "success_rewards": {"gold_center": 93750, "exp_pct": 10.5, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "魔气侵体，你且战且退，斩落几缕魔气侥幸保命。",
+         "fail_penalty": {"hp_pct": 0.35}},
+        {"id": "b", "text": "与天魔做交易", "risk": 0.15, "karma_delta": -25, "cost": {"gold": 30000},
+         "success_text": "你以灵石换得魔修秘录，天魔满意地缩回了手。",
+         "success_rewards": {"gold_center": 63750, "exp_pct": 7.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "交易反噬，人财两空，天魔的笑声在识海回荡了三天。",
+         "fail_penalty": {"hp_pct": 0.15}},
+        {"id": "c", "text": "舍身布下封印", "risk": 0.40, "karma_delta": 20, "cost": {"gold": 30000},
+         "success_text": "封印落成，天幕重归澄澈。天地灵气为你一清。",
+         "success_rewards": {"gold_center": 93750, "exp_pct": 10.5, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "封印被冲开一角，你以血肉之躯硬扛魔气，重伤封成。",
+         "fail_penalty": {"hp_pct": 0.40}}
+      ]
+    },
+    {
+      "id": "peak_04", "name": "先天灵宝", "rarity": "legendary",
+      "min_level": 28, "max_level": 36, "weight": 10,
+      "description": "虚空震颤，一件先天灵宝破界而出，宝光冲霄——方圆十万里修士齐齐侧目。",
+      "choices": [
+        {"id": "a", "text": "拼死收取", "risk": 0.50, "karma_delta": -40, "cost": {},
+         "success_text": "你顶着十方目光将灵宝收入怀中，遁光千里！",
+         "success_rewards": {"gold_center": 675000, "exp_pct": 50, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "宝光反噬，你被十万里修士的抢夺浪潮碾成重伤。",
+         "fail_penalty": {"hp_pct": 0.45}},
+        {"id": "b", "text": "留下守护，静待有缘人", "risk": 0.0, "karma_delta": 30, "cost": {},
+         "success_text": "你守灵宝七日，直到一位面容模糊的修士来取。他留下一缕仙缘予你。",
+         "success_rewards": {"gold_center": 225000, "exp_pct": 25.3, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "peak_05", "name": "混沌之气", "rarity": "epic",
+      "min_level": 28, "max_level": 36, "weight": 30,
+      "description": "地脉深处渗出一缕灰蒙蒙的混沌之气，万物触之即朽又即生。",
+      "choices": [
+        {"id": "a", "text": "强行吸入体内", "risk": 0.40, "karma_delta": -10, "cost": {},
+         "success_text": "混沌入体，你的根基被洗礼了一遍。",
+         "success_rewards": {"gold_center": 225000, "exp_pct": 25.3, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "混沌之气在体内暴乱，你朽了半边身子又缓过来。",
+         "fail_penalty": {"hp_pct": 0.40}},
+        {"id": "b", "text": "以大阵缓缓炼化", "risk": 0.20, "karma_delta": 15, "cost": {"gold": 15000},
+         "success_text": "大阵运转七日，混沌之气化为点滴道韵归入你身。",
+         "success_rewards": {"gold_center": 171000, "exp_pct": 19.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "阵法承受不住，混沌之气散于天地。",
+         "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "peak_06", "name": "破碎虚空", "rarity": "rare",
+      "min_level": 28, "max_level": 36, "weight": 60,
+      "description": "空间壁垒裂开一道口子，缝隙后隐约是另一方小世界。",
+      "choices": [
+        {"id": "a", "text": "一头扎进裂缝", "risk": 0.40, "karma_delta": -20, "cost": {},
+         "success_text": "你在小世界边缘摸到几件遗物，全须全尾地回来了。",
+         "success_rewards": {"gold_center": 93750, "exp_pct": 10.5, "item_chance": 0.4, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "空间乱流撕扯，你迷失虚空三日方归。",
+         "fail_penalty": {"hp_pct": 0.40}},
+        {"id": "b", "text": "联手同道修补壁垒", "risk": 0.0, "karma_delta": 20, "cost": {"gold": 30000},
+         "success_text": "壁垒补全，小世界安然。天道之力悄然为你记了一功。",
+         "success_rewards": {"gold_center": 37500, "exp_pct": 4.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "peak_07", "name": "上古战场", "rarity": "common",
+      "min_level": 28, "max_level": 36, "weight": 100,
+      "description": "一场上古大战的遗迹刚刚显露，断剑残旗绵延十里，亡魂未散。",
+      "choices": [
+        {"id": "a", "text": "搜刮战魂遗物", "risk": 0.25, "karma_delta": -10, "cost": {},
+         "success_text": "你从尸骸间摸出几件养了万年的遗物。",
+         "success_rewards": {"gold_center": 30000, "exp_pct": 3.4, "item_chance": 0.5, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "战魂缠身，亡者的怨念追着你跑出战场。",
+         "fail_penalty": {"hp_pct": 0.20}},
+        {"id": "b", "text": "立坛超度亡魂", "risk": 0.10, "karma_delta": 15, "cost": {},
+         "success_text": "超度法坛立起，十里亡魂安然消散。残旗向你低垂致意。",
+         "success_rewards": {"gold_center": 24000, "exp_pct": 2.7, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "怨气冲撞法坛，你强撑着补完最后一道咒。",
+         "fail_penalty": {"hp_pct": 0.10}}
+      ]
+    },
+    {
+      "id": "peak_08", "name": "大道之音", "rarity": "rare",
+      "min_level": 28, "max_level": 36, "weight": 60,
+      "description": "雷雨夜，苍穹之上隐约传来吟诵之声，字字如钟。",
+      "choices": [
+        {"id": "a", "text": "凝神聆听大道", "risk": 0.15, "karma_delta": 25, "cost": {},
+         "success_text": "你听到三千字大道真言，字字砸进道基。",
+         "success_rewards": {"gold_center": 63750, "exp_pct": 7.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "道音灌顶，神魂刺痛，你只听清了七个字。",
+         "fail_penalty": {"hp_pct": 0.15}},
+        {"id": "b", "text": "以玉简全力记录", "risk": 0.0, "karma_delta": 0, "cost": {},
+         "success_text": "玉简记下千字残音，虽是管窥，也够参详数月。",
+         "success_rewards": {"gold_center": 37500, "exp_pct": 4.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "peak_09", "name": "灵山宝刹", "rarity": "epic",
+      "min_level": 28, "max_level": 36, "weight": 30,
+      "description": "云雾深处现出一座灵山宝刹，钟声悠扬，供桌上灵物生辉。",
+      "choices": [
+        {"id": "a", "text": "入刹礼佛，听经三日", "risk": 0.0, "karma_delta": 30, "cost": {},
+         "success_text": "三日经文入耳，你的杀伐之气尽数化为澄明。",
+         "success_rewards": {"gold_center": 90000, "exp_pct": 10.1, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}},
+        {"id": "b", "text": "盗取供桌灵物", "risk": 0.25, "karma_delta": -15, "cost": {},
+         "success_text": "你袖走供桌灵物，钟声在你身后久久不息。",
+         "success_rewards": {"gold_center": 180000, "exp_pct": 20.2, "item_chance": 0.4, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "罗汉金身反震，你被一掌拍出山门。",
+         "fail_penalty": {"hp_pct": 0.25}}
+      ]
+    },
+    {
+      "id": "peak_10", "name": "仙器碎片", "rarity": "legendary",
+      "min_level": 28, "max_level": 36, "weight": 10,
+      "description": "一片仙器碎片自九天坠落，方圆百里灵气倒卷，各方大能闻风而动。",
+      "choices": [
+        {"id": "a", "text": "抢在所有人前争夺", "risk": 0.50, "karma_delta": -30, "cost": {},
+         "success_text": "你从三位大能眼皮底下抢走碎片，全身而退！",
+         "success_rewards": {"gold_center": 675000, "exp_pct": 50, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "大能一袖将你扫飞百里，碎片也与你无缘。",
+         "fail_penalty": {"hp_pct": 0.45}},
+        {"id": "b", "text": "退让，撮合碎片归于有缘者", "risk": 0.0, "karma_delta": 50, "cost": {},
+         "success_text": "你引各方相争的碎片归于一心向道的散修。他拜谢而去，留你一片仙缘。",
+         "success_rewards": {"gold_center": 225000, "exp_pct": 25.3, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "trans_01", "name": "天道考验", "rarity": "legendary",
+      "min_level": 37, "max_level": 45, "weight": 10,
+      "description": "天穹之上垂下一道金色光影，一个不分男女的声音响起：\"尔之道心，可敢受验？\"",
+      "choices": [
+        {"id": "a", "text": "顺应天道，坦然受验", "risk": 0.30, "karma_delta": 50, "cost": {},
+         "success_text": "三重心魔幻境皆被你坦然走过。天道降下嘉赏。",
+         "success_rewards": {"gold_center": 792000, "exp_pct": 50, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "心魔幻境中你惊惶失措，考验中止。天道留了一线，未伤你性命。",
+         "fail_penalty": {"hp_pct": 0.30}},
+        {"id": "b", "text": "逆天而行，夺天地造化", "risk": 0.50, "karma_delta": -50, "cost": {},
+         "success_text": "你一拳打碎金色光影，硬生生夺走一缕造化之力！",
+         "success_rewards": {"gold_center": 1080000, "exp_pct": 50, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "天道之怒倾泻而下，你被雷霆钉在原地良久。",
+         "fail_penalty": {"hp_pct": 0.45}},
+        {"id": "c", "text": "不迎不拒，守住本心", "risk": 0.15, "karma_delta": 10, "cost": {},
+         "success_text": "你只是盘坐如常。光影凝视你良久，化作一场甘霖落下。",
+         "success_rewards": {"gold_center": 612000, "exp_pct": 43.0, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "光影的注视令你神魂摇曳，汗透重衣。",
+         "fail_penalty": {"hp_pct": 0.15}}
+      ]
+    },
+    {
+      "id": "trans_02", "name": "飞升之谜", "rarity": "epic",
+      "min_level": 37, "max_level": 45, "weight": 30,
+      "description": "一卷上古飞升者的手记残篇流落坊市，字里行间藏着飞升的真相。",
+      "choices": [
+        {"id": "a", "text": "闭关参悟飞升真相", "risk": 0.20, "karma_delta": 30, "cost": {},
+         "success_text": "你读罢手记，对自己脚下的道更加笃定。",
+         "success_rewards": {"gold_center": 273600, "exp_pct": 19.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "真相冲击道心，你闭关月余才缓过来。",
+         "fail_penalty": {"hp_pct": 0.20}},
+        {"id": "b", "text": "公之于众，广而告之", "risk": 0.0, "karma_delta": 0, "cost": {},
+         "success_text": "手记传抄天下，你的名字也随之传开。",
+         "success_rewards": {"gold_center": 144000, "exp_pct": 10.1, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "trans_03", "name": "上古封印", "rarity": "rare",
+      "min_level": 37, "max_level": 45, "weight": 60,
+      "description": "一道上古封印濒临崩溃，封印之下传来令人心悸的搏动。",
+      "choices": [
+        {"id": "a", "text": "耗尽修为加固封印", "risk": 0.10, "karma_delta": 20, "cost": {},
+         "success_text": "封印重固。封印之下传来一声若有若无的叹息。",
+         "success_rewards": {"gold_center": 96000, "exp_pct": 6.7, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "封印之力反噬，你重伤不退，好在封印续上了。",
+         "fail_penalty": {"hp_pct": 0.25}},
+        {"id": "b", "text": "解开封印探取宝物", "risk": 0.40, "karma_delta": -20, "cost": {},
+         "success_text": "封印开处宝光溢出，你满载而逃。",
+         "success_rewards": {"gold_center": 150000, "exp_pct": 10.5, "item_chance": 0.5, "item_pool": ["@mats"], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "封印之物脱困，顺手把你拍成了重伤。",
+         "fail_penalty": {"hp_pct": 0.35}}
+      ]
+    },
+    {
+      "id": "trans_04", "name": "因果追溯", "rarity": "epic",
+      "min_level": 37, "max_level": 45, "weight": 30,
+      "description": "铜镜古镜现世，照之可见自身因果丝线，蜿蜒伸向来世前生。",
+      "choices": [
+        {"id": "a", "text": "顺线追溯前世", "risk": 0.25, "karma_delta": 30, "cost": {},
+         "success_text": "你看见了前世种种，恩怨豁然，道心通透。",
+         "success_rewards": {"gold_center": 288000, "exp_pct": 20.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "前世记忆冲垮神智，你昏睡三日方醒。",
+         "fail_penalty": {"hp_pct": 0.25}},
+        {"id": "b", "text": "挥剑斩断因果", "risk": 0.10, "karma_delta": 0, "cost": {},
+         "success_text": "丝线应剑而断。从此你是你，前世是前世。",
+         "success_rewards": {"gold_center": 244800, "exp_pct": 17.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "因果岂是剑能斩断的？丝线反弹，你口吐鲜血。",
+         "fail_penalty": {"hp_pct": 0.10}}
+      ]
+    },
+    {
+      "id": "trans_05", "name": "鸿蒙紫气", "rarity": "legendary",
+      "min_level": 37, "max_level": 45, "weight": 10,
+      "description": "东方天际涌起三万里紫气，紫气东来三万里——鸿蒙紫气现世！",
+      "choices": [
+        {"id": "a", "text": "张口吞纳", "risk": 0.40, "karma_delta": -30, "cost": {},
+         "success_text": "你一口吞下三丈紫气，道基熠熠生辉！",
+         "success_rewards": {"gold_center": 720000, "exp_pct": 50, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "紫气暴烈如龙，在你体内横冲直撞方才散去。",
+         "fail_penalty": {"hp_pct": 0.40}},
+        {"id": "b", "text": "守护紫气不受染指", "risk": 0.0, "karma_delta": 40, "cost": {},
+         "success_text": "你驱散了三波抢夺者。紫气散尽前，馈赠了你一缕。",
+         "success_rewards": {"gold_center": 360000, "exp_pct": 25.3, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "trans_06", "name": "万法归宗", "rarity": "rare",
+      "min_level": 37, "max_level": 45, "weight": 60,
+      "description": "一座无名古殿中，万道法痕悬浮交织，如百川归海。",
+      "choices": [
+        {"id": "a", "text": "广纳万法，博采众长", "risk": 0.20, "karma_delta": 0, "cost": {},
+         "success_text": "你囫囵吞下百道法痕，驳杂却丰厚。",
+         "success_rewards": {"gold_center": 114000, "exp_pct": 8.0, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "法痕冲体，诸法在经脉里打架。",
+         "fail_penalty": {"hp_pct": 0.20}},
+        {"id": "b", "text": "只取一道，专精极致", "risk": 0.0, "karma_delta": 15, "cost": {},
+         "success_text": "你只取一道法痕，却把它看到了底。",
+         "success_rewards": {"gold_center": 60000, "exp_pct": 4.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "trans_07", "name": "天地大劫", "rarity": "epic",
+      "min_level": 37, "max_level": 45, "weight": 30,
+      "description": "天地大劫将至，煞气汇成滔天黑云压向人间，生灵哀鸣。",
+      "choices": [
+        {"id": "a", "text": "舍身入劫眼，代众生受过", "risk": 0.50, "karma_delta": 30, "cost": {},
+         "success_text": "你在劫眼中枯坐七日，大劫竟真的散了。天下修士齐感此恩。",
+         "success_rewards": {"gold_center": 432000, "exp_pct": 30.4, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "劫气几乎将你碾碎。你被同门抬了回来，大劫延迟了三日。",
+         "fail_penalty": {"hp_pct": 0.45}},
+        {"id": "b", "text": "独善其身，闭关避劫", "risk": 0.0, "karma_delta": -30, "cost": {},
+         "success_text": "你闭死关避过大劫。出关时，人间已换了三分气象。",
+         "success_rewards": {"gold_center": 144000, "exp_pct": 10.1, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "trans_08", "name": "道果成熟", "rarity": "rare",
+      "min_level": 37, "max_level": 45, "weight": 60,
+      "description": "你证道时种下的道树结果了——一枚道果，一人证道之钥。",
+      "choices": [
+        {"id": "a", "text": "摘果自用", "risk": 0.20, "karma_delta": 10, "cost": {},
+         "success_text": "道果入腹，道基再凝一分。",
+         "success_rewards": {"gold_center": 114000, "exp_pct": 8.0, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "道果早熟，入口苦涩，效力大打折扣。",
+         "fail_penalty": {"hp_pct": 0.15}},
+        {"id": "b", "text": "分果予同道", "risk": 0.0, "karma_delta": 20, "cost": {},
+         "success_text": "你把道果分给数位同道。他们各自证道之日，都记你一情。",
+         "success_rewards": {"gold_center": 60000, "exp_pct": 4.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "reinc_01", "name": "前世记忆", "rarity": "epic",
+      "min_level": 46, "max_level": 57, "weight": 30,
+      "reincarnation_required": 1,
+      "description": "铜镜中浮现一张似你非你的脸，一段不属于此生的记忆汹涌而来。",
+      "choices": [
+        {"id": "a", "text": "顺记忆追寻前世", "risk": 0.25, "karma_delta": 20, "cost": {},
+         "success_text": "你追回前世一段修行感悟，今世道基为之一宽。",
+         "success_rewards": {"gold_center": 720000, "exp_pct": 20.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "记忆如潮反噬，你神魂剧痛三日。",
+         "fail_penalty": {"hp_pct": 0.25}},
+        {"id": "b", "text": "铜镜封存，斩断记忆", "risk": 0.15, "karma_delta": -20, "cost": {},
+         "success_text": "你封了铜镜。前尘种种，与你何干。",
+         "success_rewards": {"gold_center": 612000, "exp_pct": 17.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "记忆斩不断，反在识海里烙下裂痕。",
+         "fail_penalty": {"hp_pct": 0.30}},
+        {"id": "c", "text": "静观其变", "risk": 0.0, "karma_delta": 0, "cost": {},
+         "success_text": "你只是静静看着。铜镜自明，缓缓淡去。",
+         "success_rewards": {"gold_center": 360000, "exp_pct": 10.1, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "reinc_02", "name": "轮回之河", "rarity": "legendary",
+      "min_level": 46, "max_level": 57, "weight": 10,
+      "reincarnation_required": 5,
+      "description": "梦境尽头横亘一条暗金色大河，河上亡魂如织——传说中的轮回之河。",
+      "choices": [
+        {"id": "a", "text": "强渡轮回之河", "risk": 0.40, "karma_delta": 50, "cost": {},
+         "success_text": "你踏浪而渡！对岸回望，一眼看尽三世。",
+         "success_rewards": {"gold_center": 1800000, "exp_pct": 50, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "河水倒卷，你被冲回此岸，神魂受创。",
+         "fail_penalty": {"hp_pct": 0.40}},
+        {"id": "b", "text": "沿岸修桥，渡人亦渡己", "risk": 0.0, "karma_delta": 30, "cost": {},
+         "success_text": "桥成之日，无数亡魂踏桥而过，齐齐向你一拜。河水馈你一瓢。",
+         "success_rewards": {"gold_center": 900000, "exp_pct": 25.3, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}},
+        {"id": "c", "text": "盗取一瓢河水", "risk": 0.50, "karma_delta": -30, "cost": {},
+         "success_text": "你偷得轮回之水一瓢，其中蕴着他人的一世。",
+         "success_rewards": {"gold_center": 2700000, "exp_pct": 50, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "河灵现形追责，你被罚入河中泡了三日。",
+         "fail_penalty": {"hp_pct": 0.45}}
+      ]
+    },
+    {
+      "id": "reinc_03", "name": "因果循环", "rarity": "rare",
+      "min_level": 46, "max_level": 57, "weight": 60,
+      "reincarnation_required": 1,
+      "description": "一位陌生人拦住你：\"上辈子你欠我一条命。\"因果丝线在你们之间清晰可见。",
+      "choices": [
+        {"id": "a", "text": "如数偿还", "risk": 0.0, "karma_delta": 25, "cost": {"gold": 60000},
+         "success_text": "你倾囊相还。丝线应声而断，对方化风而去。",
+         "success_rewards": {"gold_center": 150000, "exp_pct": 4.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}},
+        {"id": "b", "text": "冷笑讨还旧债", "risk": 0.30, "karma_delta": -15, "cost": {},
+         "success_text": "你反手讨要前世他欠你的。两人各执一词，不欢而散。",
+         "success_rewards": {"gold_center": 330000, "exp_pct": 9.3, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "前世仇怨反噬，你被自己的因果丝线勒得鲜血直流。",
+         "fail_penalty": {"hp_pct": 0.25}}
+      ]
+    },
+    {
+      "id": "reinc_04", "name": "业火红莲", "rarity": "epic",
+      "min_level": 46, "max_level": 57, "weight": 30,
+      "reincarnation_required": 10,
+      "description": "一朵业火红莲在因果线上燃起，焚烧你累世的罪孽与功德。",
+      "choices": [
+        {"id": "a", "text": "渡火摘莲", "risk": 0.40, "karma_delta": 20, "cost": {},
+         "success_text": "你踏业火而入，摘莲而出——累世罪孽烧尽，功德凝于莲心。",
+         "success_rewards": {"gold_center": 900000, "exp_pct": 25.3, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "业火焚身，你抱着焦黑的身躯退了出来。",
+         "fail_penalty": {"hp_pct": 0.40}},
+        {"id": "b", "text": "吞下整朵业火", "risk": 0.50, "karma_delta": -40, "cost": {},
+         "success_text": "你连罪孽带功德一口吞了。是福是祸，来日方长。",
+         "success_rewards": {"gold_center": 1080000, "exp_pct": 30.4, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "业火在你五脏六腑里横烧，你差点当场坐化。",
+         "fail_penalty": {"hp_pct": 0.50}}
+      ]
+    },
+    {
+      "id": "reinc_05", "name": "轮回印记", "rarity": "rare",
+      "min_level": 46, "max_level": 57, "weight": 60,
+      "reincarnation_required": 5,
+      "description": "你腕上浮现一枚淡金色印记——那是轮回留给摆渡过它的人的凭证。",
+      "choices": [
+        {"id": "a", "text": "强行解锁印记", "risk": 0.20, "karma_delta": 10, "cost": {},
+         "success_text": "印记开启，其中封存的轮回感悟尽归你用。",
+         "success_rewards": {"gold_center": 285000, "exp_pct": 8.0, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "印记反锁，你腕上烙痕三日不褪。",
+         "fail_penalty": {"hp_pct": 0.25}},
+        {"id": "b", "text": "以灵气温养印记", "risk": 0.0, "karma_delta": 30, "cost": {},
+         "success_text": "印记在你温养下自行开启，回馈以更纯的感悟。",
+         "success_rewards": {"gold_center": 150000, "exp_pct": 4.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    },
+    {
+      "id": "reinc_06", "name": "前世因果", "rarity": "legendary",
+      "min_level": 46, "max_level": 57, "weight": 10,
+      "reincarnation_required": 10,
+      "description": "前世的至亲与仇敌一齐入梦，隔着生死看着今生的你。",
+      "choices": [
+        {"id": "a", "text": "与前世尊者和解", "risk": 0.0, "karma_delta": 40, "cost": {},
+         "success_text": "你一一作揖。恩怨在梦中化解，醒来时枕上微湿，道心却前所未有地明净。",
+         "success_rewards": {"gold_center": 900000, "exp_pct": 25.3, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}},
+        {"id": "b", "text": "一剑了断前世因果", "risk": 0.40, "karma_delta": -50, "cost": {},
+         "success_text": "你梦中一剑斩尽前世恩怨。醒来时剑气犹在指尖。",
+         "success_rewards": {"gold_center": 1710000, "exp_pct": 50, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "因果岂容了断？怨念反噬，你大病一场。",
+         "fail_penalty": {"hp_pct": 0.45}},
+        {"id": "c", "text": "带着恩怨继续走下去", "risk": 0.25, "karma_delta": -20, "cost": {},
+         "success_text": "你转身走出梦境。恩怨随行，道途未改。",
+         "success_rewards": {"gold_center": 1350000, "exp_pct": 22.3, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "恩怨缠身，你久久走不出这场梦。",
+         "fail_penalty": {"hp_pct": 0.30}}
+      ]
+    },
+    {
+      "id": "reinc_07", "name": "轮回之力", "rarity": "epic",
+      "min_level": 46, "max_level": 57, "weight": 30,
+      "reincarnation_required": 10,
+      "description": "一缕轮回本源之力缠上你的剑锋，用之可破境，也可崩基。",
+      "choices": [
+        {"id": "a", "text": "借轮回之力强行突破", "risk": 0.40, "karma_delta": -20, "cost": {},
+         "success_text": "你借力硬生生破开一重桎梏！根基虽损，境界是真。",
+         "success_rewards": {"gold_center": 900000, "exp_pct": 25.3, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "力量暴走，境界不进反跌了一小层。",
+         "fail_penalty": {"hp_pct": 0.40}},
+        {"id": "b", "text": "送还本源，稳固自身根基", "risk": 0.15, "karma_delta": 35, "cost": {},
+         "success_text": "你双手奉还本源之力。轮回冥冥中为你把道基补得更厚。",
+         "success_rewards": {"gold_center": 612000, "exp_pct": 17.2, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "送还途中本源之力暴走，震伤你的经脉。",
+         "fail_penalty": {"hp_pct": 0.15}}
+      ]
+    },
+    {
+      "id": "reinc_08", "name": "超脱轮回", "rarity": "legendary",
+      "min_level": 46, "max_level": 57, "weight": 10,
+      "reincarnation_required": 20,
+      "description": "轮回之河尽头有一道门，门后是连\"来世\"四个字都不再适用的彼岸。",
+      "choices": [
+        {"id": "a", "text": "踏入彼岸，寻求超脱", "risk": 0.50, "karma_delta": 60, "cost": {},
+         "success_text": "你踏过门槛。片刻后你回来了，谁也没看见门后的景象，但你的气息变了。",
+         "success_rewards": {"gold_center": 2700000, "exp_pct": 50, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "门缝里透出的\"虚无\"几乎把你同化，你拼死退了回来。",
+         "fail_penalty": {"hp_pct": 0.40}},
+        {"id": "b", "text": "回身守护轮回众生", "risk": 0.0, "karma_delta": 30, "cost": {},
+         "success_text": "你在门前转身，坐成了一道渡口。此后经你摆渡的亡魂，无不称一声恩公。",
+         "success_rewards": {"gold_center": 900000, "exp_pct": 25.3, "item_chance": 0, "item_pool": [], "pill_chance": 0, "pill_pool": []},
+         "fail_text": "", "fail_penalty": {}}
+      ]
+    }
+  ],
+  "trigger_chances": {
+    "check_in": 0.15,
+    "end_cultivation": 0.10,
+    "rift_complete": 0.20,
+    "bounty_complete": 0.25,
+    "boss_fight": 0.30,
+    "dungeon_advance": 0.15,
+    "farm_harvest": 0.10
+  },
+  "settings": {
+    "daily_limit": 3,
+    "choice_timeout_seconds": 180,
+    "karma_event_bias_threshold": 500,
+    "karma_event_bias_pct": 25,
+    "legendary_broadcast": true,
+    "exp_ratio": 0.15,
+    "gold_scale": 1.0
+  },
+  "karma_settings": {
+    "min": -1000,
+    "max": 1000,
+    "initial": 0,
+    "daily_decay": 2,
+    "bonuses": {
+      "demon": {"min": -1000, "max": -500, "title": "魔道修士", "atk_pct": 0.08},
+      "evil": {"min": -499, "max": -100, "title": "偏邪", "atk_pct": 0.04},
+      "neutral": {"min": -99, "max": 99, "title": "中立"},
+      "good": {"min": 100, "max": 499, "title": "偏正", "cultivation_pct": 0.04},
+      "saint": {"min": 500, "max": 1000, "title": "正道修士", "cultivation_pct": 0.08}
+    }
+  }
+}

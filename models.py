@@ -167,6 +167,12 @@ class Player:
     # 银行会员系统
     bank_vip_tier: int = 0  # 银行VIP等级（0初级 1中级 2高级 3顶级 4至尊）
 
+    # 奇遇/因果系统字段（v42）
+    karma: int = 0                      # 因果值 [-1000, +1000]，影响称号/战斗/修炼
+    last_encounter_date: str = ""       # 上次奇遇触发日期（YYYY-MM-DD）
+    daily_encounter_count: int = 0      # 今日奇遇触发次数
+    encounter_history: str = "[]"       # 最近20条奇遇记录（JSON字符串）
+
     def get_level(self, config_manager: "ConfigManager") -> str:
         """获取境界名称"""
         level_data = config_manager.get_level_data()

@@ -15,10 +15,11 @@ TASK_DEFINITIONS = {
     "smelt":     ("炼金",       30, 1),
     "interest":  ("领取利息",   10, 1),
     "sect":      ("宗门贡献",   20, 1),
+    "encounter": ("触发奇遇",   15, 1),
 }
 
 # 任务顺序（用于显示）
-TASK_ORDER = ["check_in", "rift", "bounty", "harvest", "alchemy", "smelt", "interest", "sect"]
+TASK_ORDER = ["check_in", "rift", "bounty", "harvest", "alchemy", "smelt", "interest", "sect", "encounter"]
 
 __all__ = ["ActivityTracker", "TASK_DEFINITIONS", "TASK_ORDER"]
 
@@ -113,6 +114,12 @@ class ActivityTracker:
         today = datetime.now().strftime("%Y-%m-%d")
         self._reset_if_new_day(player, today)
         await self._add_progress(player, "sect")
+
+    async def track_encounter(self, player: Player):
+        """触发奇遇（个人奇遇触发或群体窗口参与，任一方式当日 1 次即计满）"""
+        today = datetime.now().strftime("%Y-%m-%d")
+        self._reset_if_new_day(player, today)
+        await self._add_progress(player, "encounter")
 
     # ===== 展示和领奖 =====
 
