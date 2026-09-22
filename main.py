@@ -302,7 +302,7 @@ class XiuXianPlugin(Star):
         
         # Phase 2: 灵石银行和悬赏令
         self.bank_mgr = BankManager(self.db, self.config_manager.game_config, self.activity_tracker)
-        self.bounty_mgr = BountyManager(self.db, self.storage_ring_mgr, self.config_manager.items_data, self.config_manager.skills_data, self.activity_tracker, game_config=self.config_manager.game_config, config_manager=self.config_manager)
+        self.bounty_mgr = BountyManager(self.db, self.storage_ring_mgr, self.config_manager.items_data, self.config_manager.skills_data, self.activity_tracker, game_config=self.config_manager.game_config, config_manager=self.config_manager, astrbot_config=self.config)
         self.bank_handlers = BankHandlers(self.db, self.bank_mgr)
         self.gambling_handler = GamblingHandler(self.db)
         self.bounty_handlers = BountyHandlers(self.db, self.bounty_mgr)

@@ -399,5 +399,36 @@
         "hint": "园主分得 50%，其余沉没"
       }
     }
+  },
+  "BOUNTY": {
+    "description": "悬赏幸运阶梯（高稀有爆率按境界加成）",
+    "type": "object",
+    "items": {
+      "T2_MIN_LEVEL": {
+        "description": "进阶阶梯起始境界（元婴）",
+        "type": "int",
+        "default": 19,
+        "hint": "达到该境界起，天阶以上功法权重乘 T2 倍率"
+      },
+      "T3_MIN_LEVEL": {
+        "description": "高阶阶梯起始境界（大乘）",
+        "type": "int",
+        "default": 37,
+        "hint": "达到该境界起，仙阶以上功法权重乘 T3 倍率"
+      },
+      "T2_MULTIPLIER": {
+        "description": "进阶阶梯幸运倍率",
+        "type": "float",
+        "default": 3.0,
+        "hint": "天阶以上品阶的权重乘数，期望约 13.6 天一张天阶以上"
+      },
+      "T3_MULTIPLIER": {
+        "description": "高阶阶梯幸运倍率",
+        "type": "float",
+        "default": 20.0,
+        "obvious_hint": true,
+        "hint": "仙阶以上品阶的权重乘数，期望约 6.7 天一张仙阶；失败信号：周获取超 2 张即下调"
+      }
+    }
   }
 }

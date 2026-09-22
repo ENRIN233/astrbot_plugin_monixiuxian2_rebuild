@@ -57,7 +57,8 @@ class BountyManager:
     def __init__(self, db: DataBase, storage_ring_manager: Optional["StorageRingManager"] = None,
                  items_data: Optional[Dict[str, dict]] = None,
                  skills_data: Optional[Dict[str, dict]] = None,
-                 activity_tracker=None, game_config=None, config_manager=None):
+                 activity_tracker=None, game_config=None, config_manager=None,
+                 astrbot_config: Optional[dict] = None):
         self.db = db
         self.storage_ring_manager = storage_ring_manager
         self.activity_tracker = activity_tracker
@@ -70,6 +71,26 @@ class BountyManager:
         self.item_tables: Dict[str, List[dict]] = {}
         self.items_data = items_data or {}
         self.skills_data = skills_data or {}
+        # 幸运阶梯默认值（rationale 见 docs/superpowers/specs/2026-09-22-bounty-luck-tiers-design.md）
+        self.luck_t2_min_level = 19
+        self.luck_t3_min_level = 37
+        self.luck_t2_multiplier = 3.0
+        self.luck_t3_multiplier = 20.0
+        # WebUI 配置覆盖（_conf_schema.json 的 BOUNTY 节）
+        if isinstance(astrbot_config, dict):
+            section = astrbot_config.get("BOUNTY")
+            if isinstance(section, dict):
+                try:
+                    if "T2_MIN_LEVEL" in section:
+                        self.luck_t2_min_level = int(section["T2_MIN_LEVEL"])
+                    if "T3_MIN_LEVEL" in section:
+                        self.luck_t3_min_level = int(section["T3_MIN_LEVEL"])
+                    if "T2_MULTIPLIER" in section:
+                        self.luck_t2_multiplier = float(section["T2_MULTIPLIER"])
+                    if "T3_MULTIPLIER" in section:
+                        self.luck_t3_multiplier = float(section["T3_MULTIPLIER"])
+                except (TypeError, ValueError):
+                    logger.warning("BOUNTY 幸运阶梯配置项类型无效，使用默认值")
         self.reload_config()
 
     # -------- 配置 --------
@@ -100,14 +121,38 @@ class BountyManager:
         else:
             logger.warning("bounty_drop_config.json 不存在，使用旧掉落机制")
 
+    def _get_luck_tier(self, level_index: int) -> tuple:
+        """按玩家境界返回 (阈值品阶, 幸运倍率)：阈值品阶起（含）权重乘以倍率
+
+        T1(札基, <T2级) 原表不变 / T2(进阶, 元婴~天神) 天阶以上 x3
+        / T3(高阶, 大乘~轮回) 仙阶以上 x20。倍率与边界可由 WebUI BOUNTY 节覆盖。
+        """
+        if level_index >= self.luck_t3_min_level:
+            return "仙阶下品", self.luck_t3_multiplier
+        if level_index >= self.luck_t2_min_level:
+            return "天阶下品", self.luck_t2_multiplier
+        return "", 1.0
+
     def _roll_bounty_drop(self, player: Player) -> Optional[dict]:
-        """100%掉落功法或神通：按 type_rate 权重选品阶，再随机选功法或神通"""
+        """100%掉落功法或神通：按 type_rate 权重选品阶，再随机选功法或神通
+
+        v4.3.10 幸运阶梯：按玩家境界对高稀有品阶权重乘系数，权重自动归一化。
+        """
         if not self._drop_config:
             return None
 
-        # 按 type_rate 权重选择品阶
+        # 按 type_rate 权重选择品阶（幸运阶梯：阈值品阶起权重乘系数）
+        rank_threshold, multiplier = self._get_luck_tier(player.level_index)
         ranks = list(self._drop_config.keys())
-        weights = [self._drop_config[r]["type_rate"] for r in ranks]
+        if rank_threshold and multiplier != 1.0 and rank_threshold in ranks:
+            boost_from = ranks.index(rank_threshold)
+            weights = [
+                self._drop_config[r]["type_rate"] * multiplier if i >= boost_from
+                else self._drop_config[r]["type_rate"]
+                for i, r in enumerate(ranks)
+            ]
+        else:
+            weights = [self._drop_config[r]["type_rate"] for r in ranks]
         chosen_rank = random.choices(ranks, weights=weights, k=1)[0]
         rank_data = self._drop_config[chosen_rank]
 
