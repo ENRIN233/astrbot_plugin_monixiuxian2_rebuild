@@ -1,0 +1,746 @@
+[
+  {
+    "id": "4011",
+    "name": "吐纳功法",
+    "rank": "人阶下品",
+    "special": true,
+    "old_exp": 2.0,
+    "new_exp": 1.32,
+    "old_atk": 0.03,
+    "new_atk": 0.015,
+    "old_crit_rate": 0.0,
+    "new_crit_rate": 0,
+    "old_crit_damage": 0.0,
+    "new_crit_damage": 0.0,
+    "old_hp": 0.03,
+    "new_hp": 0.021
+  },
+  {
+    "id": "4012",
+    "name": "冰心诀",
+    "rank": "人阶下品",
+    "special": true,
+    "old_exp": 2.0,
+    "new_exp": 1.28,
+    "old_atk": 0.0,
+    "new_atk": 0.0,
+    "old_crit_rate": 0.0,
+    "new_crit_rate": 0,
+    "old_crit_damage": 0.0,
+    "new_crit_damage": 0.0,
+    "old_hp": 0.06,
+    "new_hp": 0.042
+  },
+  {
+    "id": "4013",
+    "name": "飞云劲",
+    "rank": "人阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.07
+  },
+  {
+    "id": "4014",
+    "name": "沛然决",
+    "rank": "人阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.16
+  },
+  {
+    "id": "4015",
+    "name": "练体术",
+    "rank": "人阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.0
+  },
+  {
+    "id": "4016",
+    "name": "禾山经",
+    "rank": "人阶上品",
+    "special": true,
+    "old_exp": 2.0,
+    "new_exp": 1.33,
+    "old_atk": 0.06,
+    "new_atk": 0.03,
+    "old_crit_rate": 0.0,
+    "new_crit_rate": 0,
+    "old_crit_damage": 0.0,
+    "new_crit_damage": 0.0,
+    "old_hp": 0.06,
+    "new_hp": 0.042
+  },
+  {
+    "id": "4017",
+    "name": "浪击决",
+    "rank": "人阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.26
+  },
+  {
+    "id": "4018",
+    "name": "地元炼体功",
+    "rank": "人阶上品",
+    "special": true,
+    "old_exp": 2.0,
+    "new_exp": 1.4,
+    "old_atk": 0.0,
+    "new_atk": 0.0,
+    "old_crit_rate": 0.0,
+    "new_crit_rate": 0,
+    "old_crit_damage": 0.0,
+    "new_crit_damage": 0.0,
+    "old_hp": 0.06,
+    "new_hp": 0.042
+  },
+  {
+    "id": "4019",
+    "name": "上青诀",
+    "rank": "人阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.15
+  },
+  {
+    "id": "4020",
+    "name": "化焰诀",
+    "rank": "人阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.27
+  },
+  {
+    "id": "4021",
+    "name": "弄焰诀",
+    "rank": "人阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.25
+  },
+  {
+    "id": "4022",
+    "name": "烈焰诀",
+    "rank": "黄阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.4
+  },
+  {
+    "id": "4023",
+    "name": "幽魂录",
+    "rank": "黄阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.43
+  },
+  {
+    "id": "4024",
+    "name": "魑魅鬼卷",
+    "rank": "黄阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.4
+  },
+  {
+    "id": "4025",
+    "name": "万木诀",
+    "rank": "黄阶上品",
+    "special": true,
+    "old_exp": 2.0,
+    "new_exp": 1.68,
+    "old_atk": 0.1,
+    "new_atk": 0.05,
+    "old_crit_rate": 0.0,
+    "new_crit_rate": 0,
+    "old_crit_damage": 0.0,
+    "new_crit_damage": 0.0,
+    "old_hp": 0.1,
+    "new_hp": 0.07
+  },
+  {
+    "id": "4026",
+    "name": "真阳功",
+    "rank": "黄阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.46
+  },
+  {
+    "id": "4027",
+    "name": "龟息术",
+    "rank": "黄阶上品",
+    "special": true,
+    "old_exp": 2.0,
+    "new_exp": 1.73,
+    "old_atk": 0.0,
+    "new_atk": 0.0,
+    "old_crit_rate": 0.0,
+    "new_crit_rate": 0,
+    "old_crit_damage": 0.0,
+    "new_crit_damage": 0.0,
+    "old_hp": 0.1,
+    "new_hp": 0.07
+  },
+  {
+    "id": "4028",
+    "name": "天晶诀",
+    "rank": "黄阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.51
+  },
+  {
+    "id": "4029",
+    "name": "水灵妙法",
+    "rank": "玄阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.58
+  },
+  {
+    "id": "4030",
+    "name": "五藏炼尘功",
+    "rank": "玄阶下品",
+    "special": true,
+    "old_exp": 2.0,
+    "new_exp": 1.84,
+    "old_atk": 0.15,
+    "new_atk": 0.075,
+    "old_crit_rate": 0.0,
+    "new_crit_rate": 0,
+    "old_crit_damage": 0.0,
+    "new_crit_damage": 0.0,
+    "old_hp": 0.2,
+    "new_hp": 0.14
+  },
+  {
+    "id": "4031",
+    "name": "游神御水诀",
+    "rank": "玄阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.6
+  },
+  {
+    "id": "4032",
+    "name": "聚尘诀",
+    "rank": "玄阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.59
+  },
+  {
+    "id": "4033",
+    "name": "流光真诀",
+    "rank": "玄阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.73
+  },
+  {
+    "id": "4034",
+    "name": "混元引气诀",
+    "rank": "玄阶上品",
+    "special": true,
+    "old_exp": 2.0,
+    "new_exp": 2.02,
+    "old_atk": 0.2,
+    "new_atk": 0.1,
+    "old_crit_rate": 0.0,
+    "new_crit_rate": 0,
+    "old_crit_damage": 0.0,
+    "new_crit_damage": 0.0,
+    "old_hp": 0.2,
+    "new_hp": 0.14
+  },
+  {
+    "id": "4035",
+    "name": "焚心诀",
+    "rank": "玄阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.72
+  },
+  {
+    "id": "4036",
+    "name": "怒涛诀",
+    "rank": "玄阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.81
+  },
+  {
+    "id": "4037",
+    "name": "三才化甲诀",
+    "rank": "玄阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.87
+  },
+  {
+    "id": "4038",
+    "name": "混元尘引录",
+    "rank": "玄阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.71
+  },
+  {
+    "id": "4039",
+    "name": "紫阳混元劲",
+    "rank": "地阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.86
+  },
+  {
+    "id": "4040",
+    "name": "浑天术",
+    "rank": "地阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.9
+  },
+  {
+    "id": "4041",
+    "name": "七杀剑诀",
+    "rank": "地阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.88
+  },
+  {
+    "id": "4042",
+    "name": "重水普渡诀",
+    "rank": "地阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.85
+  },
+  {
+    "id": "4043",
+    "name": "九龙引雷诀",
+    "rank": "地阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.9
+  },
+  {
+    "id": "4044",
+    "name": "大罗千幻诀",
+    "rank": "地阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.09
+  },
+  {
+    "id": "4045",
+    "name": "神威录",
+    "rank": "地阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 1.98
+  },
+  {
+    "id": "4046",
+    "name": "幻影神行诀",
+    "rank": "地阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.01
+  },
+  {
+    "id": "4047",
+    "name": "天星润水诀",
+    "rank": "地阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.09
+  },
+  {
+    "id": "4048",
+    "name": "太乙玄功",
+    "rank": "地阶上品",
+    "special": true,
+    "old_exp": 2.0,
+    "new_exp": 2.24,
+    "old_atk": 0.5,
+    "new_atk": 0.25,
+    "old_crit_rate": 0.0,
+    "new_crit_rate": 0,
+    "old_crit_damage": 0.0,
+    "new_crit_damage": 0.0,
+    "old_hp": 0.4,
+    "new_hp": 0.28
+  },
+  {
+    "id": "4049",
+    "name": "朝元御金诀",
+    "rank": "天阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.3
+  },
+  {
+    "id": "4050",
+    "name": "太上化龙诀",
+    "rank": "天阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.15
+  },
+  {
+    "id": "4051",
+    "name": "玄阳哺焰诀",
+    "rank": "天阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.28
+  },
+  {
+    "id": "4052",
+    "name": "太阴六虚功",
+    "rank": "天阶下品",
+    "special": true,
+    "old_exp": 2.0,
+    "new_exp": 2.31,
+    "old_atk": 0.3,
+    "new_atk": 0.15,
+    "old_crit_rate": 0.0,
+    "new_crit_rate": 0,
+    "old_crit_damage": 0.0,
+    "new_crit_damage": 0.0,
+    "old_hp": 0.9,
+    "new_hp": 0.63
+  },
+  {
+    "id": "4053",
+    "name": "三阳玄火变",
+    "rank": "天阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.27
+  },
+  {
+    "id": "4054",
+    "name": "玄清天衍录",
+    "rank": "天阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.25
+  },
+  {
+    "id": "4055",
+    "name": "玄武吐纳术",
+    "rank": "天阶上品",
+    "special": true,
+    "old_exp": 2.0,
+    "new_exp": 2.43,
+    "old_atk": 0.6,
+    "new_atk": 0.3,
+    "old_crit_rate": 0.0,
+    "new_crit_rate": 0,
+    "old_crit_damage": 0.0,
+    "new_crit_damage": 0.0,
+    "old_hp": 1.5,
+    "new_hp": 1.05
+  },
+  {
+    "id": "4056",
+    "name": "太上化龙真诀",
+    "rank": "天阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.35
+  },
+  {
+    "id": "4057",
+    "name": "煮海诀",
+    "rank": "天阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.26
+  },
+  {
+    "id": "4058",
+    "name": "万尘归灵诀",
+    "rank": "天阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.22
+  },
+  {
+    "id": "4059",
+    "name": "百兵寂滅诀",
+    "rank": "天阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.33
+  },
+  {
+    "id": "4060",
+    "name": "万象诀",
+    "rank": "天阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.24
+  },
+  {
+    "id": "4077",
+    "name": "神合大法",
+    "rank": "无上仙法",
+    "special": false,
+    "old_exp": 3.0,
+    "new_exp": 3.4
+  },
+  {
+    "id": "4078",
+    "name": "渡劫天功",
+    "rank": "无上仙法",
+    "special": false,
+    "old_exp": 3.4,
+    "new_exp": 3.8
+  },
+  {
+    "id": "4079",
+    "name": "混沌经",
+    "rank": "无上仙法",
+    "special": true,
+    "old_exp": 2.6,
+    "new_exp": 3.81,
+    "old_atk": 1.5,
+    "new_atk": 0.75,
+    "old_crit_rate": 20.0,
+    "new_crit_rate": 10,
+    "old_crit_damage": 0.5,
+    "new_crit_damage": 0.25,
+    "old_hp": 2.0,
+    "new_hp": 1.4
+  },
+  {
+    "id": "4080",
+    "name": "太清丹经",
+    "rank": "无上仙法",
+    "special": false,
+    "old_exp": 2.8,
+    "new_exp": 3.2
+  },
+  {
+    "id": "4081",
+    "name": "天地玄功",
+    "rank": "无上仙法",
+    "special": false,
+    "old_exp": 2.9,
+    "new_exp": 3.3
+  },
+  {
+    "id": "4082",
+    "name": "自在天功",
+    "rank": "无上仙法",
+    "special": false,
+    "old_exp": 3.0,
+    "new_exp": 3.4
+  },
+  {
+    "id": "4083",
+    "name": "太乙神功",
+    "rank": "无上仙法",
+    "special": false,
+    "old_exp": 2.4,
+    "new_exp": 2.8
+  },
+  {
+    "id": "4084",
+    "name": "八九玄功",
+    "rank": "无上仙法",
+    "special": false,
+    "old_exp": 3.0,
+    "new_exp": 3.4
+  },
+  {
+    "id": "4085",
+    "name": "无始仙经",
+    "rank": "无上仙法",
+    "special": false,
+    "old_exp": 3.1,
+    "new_exp": 3.5
+  },
+  {
+    "id": "4086",
+    "name": "暗渊灭世功",
+    "rank": "无上仙法",
+    "special": false,
+    "old_exp": 2.8,
+    "new_exp": 3.2
+  },
+  {
+    "id": "4087",
+    "name": "轮回诀",
+    "rank": "无上仙法",
+    "special": false,
+    "old_exp": 3.3,
+    "new_exp": 3.7
+  },
+  {
+    "id": "4088",
+    "name": "弑仙魔典",
+    "rank": "无上仙法",
+    "special": false,
+    "old_exp": 2.8,
+    "new_exp": 3.2
+  },
+  {
+    "id": "4089",
+    "name": "一气化三清",
+    "rank": "无上仙法",
+    "special": false,
+    "old_exp": 3.0,
+    "new_exp": 3.4
+  },
+  {
+    "id": "4061",
+    "name": "真长生诀",
+    "rank": "仙阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.4
+  },
+  {
+    "id": "4062",
+    "name": "元磁神光",
+    "rank": "仙阶下品",
+    "special": false,
+    "old_exp": 2.2,
+    "new_exp": 2.6
+  },
+  {
+    "id": "4063",
+    "name": "天罗真功",
+    "rank": "仙阶下品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.4
+  },
+  {
+    "id": "4064",
+    "name": "吞天魔功",
+    "rank": "仙阶上品",
+    "special": false,
+    "old_exp": 2.4,
+    "new_exp": 2.8
+  },
+  {
+    "id": "4065",
+    "name": "不灭天功",
+    "rank": "仙阶上品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.4
+  },
+  {
+    "id": "4066",
+    "name": "无始经",
+    "rank": "仙阶上品",
+    "special": true,
+    "old_exp": 2.0,
+    "new_exp": 2.98,
+    "old_atk": 1.5,
+    "new_atk": 0.75,
+    "old_crit_rate": 10.0,
+    "new_crit_rate": 5,
+    "old_crit_damage": 0.25,
+    "new_crit_damage": 0.12,
+    "old_hp": 1.0,
+    "new_hp": 0.7
+  },
+  {
+    "id": "4067",
+    "name": "度难医经",
+    "rank": "仙阶上品",
+    "special": false,
+    "old_exp": 2.5,
+    "new_exp": 2.9
+  },
+  {
+    "id": "4068",
+    "name": "紫阳天书",
+    "rank": "仙阶上品",
+    "special": false,
+    "old_exp": 2.4,
+    "new_exp": 2.8
+  },
+  {
+    "id": "4069",
+    "name": "金璇波纹功",
+    "rank": "仙阶上品",
+    "special": false,
+    "old_exp": 2.2,
+    "new_exp": 2.6
+  },
+  {
+    "id": "4070",
+    "name": "三丰丹经",
+    "rank": "仙阶极品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.4
+  },
+  {
+    "id": "4071",
+    "name": "道师符经",
+    "rank": "仙阶极品",
+    "special": false,
+    "old_exp": 2.6,
+    "new_exp": 3.0
+  },
+  {
+    "id": "4072",
+    "name": "洞玄仙篆",
+    "rank": "仙阶极品",
+    "special": false,
+    "old_exp": 3.0,
+    "new_exp": 3.4
+  },
+  {
+    "id": "4073",
+    "name": "离尘仙法",
+    "rank": "仙阶极品",
+    "special": false,
+    "old_exp": 2.4,
+    "new_exp": 2.8
+  },
+  {
+    "id": "4074",
+    "name": "万魔渡",
+    "rank": "仙阶极品",
+    "special": false,
+    "old_exp": 2.0,
+    "new_exp": 2.4
+  },
+  {
+    "id": "4075",
+    "name": "两仪心经",
+    "rank": "仙阶极品",
+    "special": true,
+    "old_exp": 2.6,
+    "new_exp": 3.45,
+    "old_atk": 1.5,
+    "new_atk": 0.75,
+    "old_crit_rate": 20.0,
+    "new_crit_rate": 10,
+    "old_crit_damage": 0.0,
+    "new_crit_damage": 0.0,
+    "old_hp": 2.7,
+    "new_hp": 1.89
+  },
+  {
+    "id": "4076",
+    "name": "风神诀",
+    "rank": "仙阶极品",
+    "special": false,
+    "old_exp": 2.6,
+    "new_exp": 3.0
+  }
+]
