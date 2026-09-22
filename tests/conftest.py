@@ -54,11 +54,20 @@ if "astrbot" not in sys.modules:
     astrbot_api_message_components.At = _At
     astrbot_api_message_components.Plain = _Plain
 
+    # astrbot.api.all 转发模块（部分 handler 从此导入组件）
+    astrbot_api_all = _make_stub("astrbot.api.all")
+    astrbot_api_all.At = _At
+    astrbot_api_all.Plain = _Plain
+    astrbot_api_all.MessageChain = _MessageChain
+    astrbot_api_all.AstrMessageEvent = _AstrMessageEvent
+
     sys.modules["astrbot"] = astrbot
     sys.modules["astrbot.api"] = astrbot_api
     sys.modules["astrbot.api.event"] = astrbot_api_event
     sys.modules["astrbot.api.star"] = astrbot_api_star
     sys.modules["astrbot.api.message_components"] = astrbot_api_message_components
+    sys.modules["astrbot.api.all"] = astrbot_api_all
+    astrbot_api.all = astrbot_api_all
 
 # ============== 把插件目录注册为 astrbot_plugin_monixiuxian2 包 ==============
 _PLUGIN_DIR = Path(__file__).resolve().parent.parent

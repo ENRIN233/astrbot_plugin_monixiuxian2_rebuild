@@ -1073,10 +1073,10 @@ class XiuXianPlugin(Star):
         async for r in self.player_handler.handle_rebirth(event, confirm):
             yield r
 
-    @filter.command(CMD_REROLL_ROOT, "重铸灵根（25万灵石）")
+    @filter.command(CMD_REROLL_ROOT, "重铸灵根（25万/次，可连抽生效最稀有）")
     @require_whitelist
-    async def handle_reroll_root(self, event: AstrMessageEvent):
-        async for r in self.player_handler.handle_reroll_root(event):
+    async def handle_reroll_root(self, event: AstrMessageEvent, count: str = "1"):
+        async for r in self.player_handler.handle_reroll_root(event, count):
             yield r
 
     @filter.command(CMD_START_CULTIVATION, "开始闭关修炼")

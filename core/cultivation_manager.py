@@ -312,6 +312,22 @@ class CultivationManager:
             atk=100,
         )
 
+    def get_root_speed_by_name(self, root_name: str) -> float:
+        """按灵根名（不带"灵根"后缀）查询修炼速度倍率
+
+        亦作为灵根稀有度比较基准（倍率越高越稀有）。
+        """
+        # 获取对应的配置键
+        config_key = self.root_to_config_key.get(root_name)
+        if not config_key:
+            logger.warning(f"未找到灵根 {root_name} 的速度配置，使用默认倍率 1.0")
+            return 1.0
+
+        # 从配置中获取速度倍率
+        speeds_config = self.config.get("SPIRIT_ROOT_SPEEDS", {})
+        speed = speeds_config.get(config_key, 1.0)
+        return speed
+
     def get_spiritual_root_speed(self, player: Player) -> float:
         """获取玩家灵根的修炼速度倍率
 
@@ -323,17 +339,7 @@ class CultivationManager:
         """
         # 从 player.spiritual_root 中提取灵根名称（去掉"灵根"两个字）
         root_name = player.spiritual_root.replace("灵根", "")
-
-        # 获取对应的配置键
-        config_key = self.root_to_config_key.get(root_name)
-        if not config_key:
-            logger.warning(f"未找到灵根 {root_name} 的速度配置，使用默认倍率 1.0")
-            return 1.0
-
-        # 从配置中获取速度倍率
-        speeds_config = self.config.get("SPIRIT_ROOT_SPEEDS", {})
-        speed = speeds_config.get(config_key, 1.0)
-        return speed
+        return self.get_root_speed_by_name(root_name)
 
     def calculate_cultivation_exp_with_segments(
         self,

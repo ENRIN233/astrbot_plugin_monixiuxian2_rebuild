@@ -21,6 +21,7 @@ CMD_CHECK_IN = "签到"
 CMD_REROLL_ROOT = "重铸灵根"
 REBIRTH_COOLDOWN = 7 * 24 * 3600
 REROLL_ROOT_COST = 250000
+REROLL_ROOT_MAX_COUNT = 10  # 重铸灵根单次连抽上限（防误输入与刷屏）
 
 __all__ = ["PlayerHandler"]
 
@@ -611,31 +612,68 @@ class PlayerHandler:
         )
 
     @player_required
-    async def handle_reroll_root(self, player: Player, event: AstrMessageEvent):
-        """重铸灵根"""
-        if player.gold < REROLL_ROOT_COST:
+    async def handle_reroll_root(self, player: Player, event: AstrMessageEvent, count: str = "1"):
+        """重铸灵根（/重铸灵根 [数量]：多次抽取，生效最稀有的那个）"""
+        try:
+            n = int(count)
+        except (TypeError, ValueError):
+            yield event.plain_result("❌ 数量参数无效，示例：/重铸灵根 或 /重铸灵根 5")
+            return
+        if n < 1:
+            n = 1
+        if n > REROLL_ROOT_MAX_COUNT:
             yield event.plain_result(
-                f"❌ 灵石不足！重铸灵根需要 {REROLL_ROOT_COST:,} 灵石。\n"
+                f"⚠️ 单次最多连抽 {REROLL_ROOT_MAX_COUNT} 次，已自动调整。"
+            )
+            n = REROLL_ROOT_MAX_COUNT
+
+        total_cost = REROLL_ROOT_COST * n
+        if player.gold < total_cost:
+            yield event.plain_result(
+                f"❌ 灵石不足！重铸灵根 {n} 次共需 {total_cost:,} 灵石。\n"
                 f"当前灵石：{player.gold:,}"
             )
             return
 
         old_root = player.spiritual_root
-        old_root_name = old_root.replace("灵根", "")
-        old_desc = self.cultivation_manager._get_root_description(old_root_name)
+        old_desc = self.cultivation_manager._get_root_description(old_root.replace("灵根", ""))
 
-        player.gold -= REROLL_ROOT_COST
-        new_root = self.cultivation_manager._get_random_spiritual_root()
-        player.spiritual_root = f"{new_root}灵根"
+        player.gold -= total_cost
+        # 多次抽取，全部结算后生效最稀有的（稀有度 = 灵根速度倍率）
+        results = [self.cultivation_manager._get_random_spiritual_root() for _ in range(n)]
+        best = max(results, key=self.cultivation_manager.get_root_speed_by_name)
+        player.spiritual_root = f"{best}灵根"
         await self.db.update_player(player)
 
-        new_desc = self.cultivation_manager._get_root_description(new_root)
+        best_desc = self.cultivation_manager._get_root_description(best)
 
+        if n == 1:
+            yield event.plain_result(
+                "✨ 重铸灵根成功！\n"
+                "━━━━━━━━━━━━━━━\n"
+                f"旧灵根：{old_root}（{old_desc}）\n"
+                f"新灵根：{player.spiritual_root}（{best_desc}）\n"
+                f"消耗灵石：{total_cost:,}\n"
+                f"当前灵石：{player.gold:,}"
+            )
+            return
+
+        # 多抽：聚合统计防止刷屏（按稀有度降序展示）
+        tally = {}
+        for r in results:
+            tally[r] = tally.get(r, 0) + 1
+        ranked = sorted(
+            tally.items(),
+            key=lambda kv: self.cultivation_manager.get_root_speed_by_name(kv[0]),
+            reverse=True,
+        )
+        stat_line = "、".join(f"{name}灵根×{cnt}" for name, cnt in ranked)
         yield event.plain_result(
-            "✨ 重铸灵根成功！\n"
+            f"✨ 重铸灵根 ×{n}！\n"
             "━━━━━━━━━━━━━━━\n"
             f"旧灵根：{old_root}（{old_desc}）\n"
-            f"新灵根：{player.spiritual_root}（{new_desc}）\n"
-            f"消耗灵石：{REROLL_ROOT_COST:,}\n"
+            f"抽取结果：{stat_line}\n"
+            f"生效灵根：{player.spiritual_root}（{best_desc}）\n"
+            f"消耗灵石：{total_cost:,}\n"
             f"当前灵石：{player.gold:,}"
         )
