@@ -47,6 +47,14 @@ class Item:
     lifesteal: int = 0  # 吸血（百分比整数）
     double_hit: int = 0  # 连击（百分比整数）
 
+    # 防具战斗属性（equipment_manager.parse_item_from_name 会传入，缺失会导致 Item() TypeError）
+    def_buff: float = 0.0  # 百分比减伤（如 0.1 = 10%减伤）
+    dodge_rate: int = 0  # 闪避（百分比整数）
+    crit_resist: int = 0  # 会心抵抗（百分比整数）
+    reflect_pct: int = 0  # 反伤（百分比整数）
+    block_value: int = 0  # 格挡（百分比整数）
+    hp_regen_pct: float = 0.0  # 每回合回血比例（如 0.02 = 2%最大生命）
+
     def get_attribute_display(self) -> str:
         """获取属性加成的显示文本（武器只显示战斗属性）"""
         attrs = []
@@ -82,6 +90,19 @@ class Item:
                 attrs.append(f"暴击率+{self.crit_rate}%")
             if self.crit_damage > 0:
                 attrs.append(f"暴击伤害+{self.crit_damage:.0%}")
+            # 防具战斗属性
+            if self.def_buff > 0:
+                attrs.append(f"减伤+{self.def_buff:.0%}")
+            if self.dodge_rate > 0:
+                attrs.append(f"闪避+{self.dodge_rate}%")
+            if self.crit_resist > 0:
+                attrs.append(f"会心抵抗+{self.crit_resist}%")
+            if self.reflect_pct > 0:
+                attrs.append(f"反伤+{self.reflect_pct}%")
+            if self.block_value > 0:
+                attrs.append(f"格挡+{self.block_value}%")
+            if self.hp_regen_pct > 0:
+                attrs.append(f"回血+{self.hp_regen_pct:.0%}/回合")
         return "、".join(attrs) if attrs else "无属性加成"
 
 @dataclass
