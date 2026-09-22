@@ -2041,7 +2041,7 @@ async def _migrate_to_v36(conn: aiosqlite.Connection, config_manager: ConfigMana
 
 
 @migration(37)
-async def v37_remove_flat_attrs(conn):
+async def v37_remove_flat_attrs(conn: aiosqlite.Connection, config_manager: ConfigManager):
     """v37: 移除物攻/魔攻/物防/魔防/灵力 5 个平铺属性"""
     await conn.execute(
         "UPDATE players SET physical_damage = 0, magic_damage = 0, "
@@ -2052,7 +2052,7 @@ async def v37_remove_flat_attrs(conn):
 
 
 @migration(38)
-async def v38_drop_spirit_eyes(conn):
+async def v38_drop_spirit_eyes(conn: aiosqlite.Connection, config_manager: ConfigManager):
     """v38: 删除 spirit_eyes 表（灵眼系统已移除）"""
     await conn.execute("DROP TABLE IF EXISTS spirit_eyes")
     await conn.commit()
@@ -2060,7 +2060,7 @@ async def v38_drop_spirit_eyes(conn):
 
 
 @migration(39)
-async def v39_add_sub_technique(conn):
+async def v39_add_sub_technique(conn: aiosqlite.Connection, config_manager: ConfigManager):
     """v39: 添加辅修功法字段 sub_technique"""
     await conn.execute("ALTER TABLE players ADD COLUMN sub_technique TEXT NOT NULL DEFAULT ''")
     await conn.commit()
