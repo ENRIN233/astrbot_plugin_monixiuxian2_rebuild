@@ -2080,7 +2080,7 @@ class XiuXianPlugin(Star):
 
     # ===== GM管理员指令 =====
 
-    @filter.command(CMD_GM_HELP, "GM指令帮助")
+    @filter.command(CMD_GM_HELP, "GM指令帮助", aliases={"gm指令帮助"})
     async def handle_gm_help(self, event: AstrMessageEvent):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
@@ -2088,7 +2088,7 @@ class XiuXianPlugin(Star):
         msg = await self.gm_handlers.handle_help()
         yield event.plain_result(msg)
 
-    @filter.command(CMD_GM_ADD_GOLD, "GM增加灵石")
+    @filter.command(CMD_GM_ADD_GOLD, "GM增加灵石", aliases={"gm加灵石"})
     async def handle_gm_add_gold(self, event: AstrMessageEvent, args: str = ""):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
@@ -2097,7 +2097,7 @@ class XiuXianPlugin(Star):
         msg = await self.gm_handlers.handle_add_gold(target_id, extra)
         yield event.plain_result(msg)
 
-    @filter.command(CMD_GM_SUB_GOLD, "GM扣除灵石")
+    @filter.command(CMD_GM_SUB_GOLD, "GM扣除灵石", aliases={"gm扣灵石"})
     async def handle_gm_sub_gold(self, event: AstrMessageEvent, args: str = ""):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
@@ -2106,7 +2106,7 @@ class XiuXianPlugin(Star):
         msg = await self.gm_handlers.handle_sub_gold(target_id, extra)
         yield event.plain_result(msg)
 
-    @filter.command(CMD_GM_ADD_EXP, "GM增加修为")
+    @filter.command(CMD_GM_ADD_EXP, "GM增加修为", aliases={"gm加修为"})
     async def handle_gm_add_exp(self, event: AstrMessageEvent, args: str = ""):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
@@ -2115,7 +2115,7 @@ class XiuXianPlugin(Star):
         msg = await self.gm_handlers.handle_add_exp(target_id, extra)
         yield event.plain_result(msg)
 
-    @filter.command(CMD_GM_SET_LEVEL, "GM设置境界")
+    @filter.command(CMD_GM_SET_LEVEL, "GM设置境界", aliases={"gm设置境界"})
     async def handle_gm_set_level(self, event: AstrMessageEvent, args: str = ""):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
@@ -2124,7 +2124,7 @@ class XiuXianPlugin(Star):
         msg = await self.gm_handlers.handle_set_level(target_id, extra)
         yield event.plain_result(msg)
 
-    @filter.command(CMD_GM_ADD_ITEM, "GM添加物品")
+    @filter.command(CMD_GM_ADD_ITEM, "GM添加物品", aliases={"gm加物品"})
     async def handle_gm_add_item(self, event: AstrMessageEvent, args: str = ""):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
@@ -2133,7 +2133,7 @@ class XiuXianPlugin(Star):
         msg = await self.gm_handlers.handle_add_item(target_id, extra)
         yield event.plain_result(msg)
 
-    @filter.command(CMD_GM_SUB_ITEM, "GM扣除物品")
+    @filter.command(CMD_GM_SUB_ITEM, "GM扣除物品", aliases={"gm扣物品"})
     async def handle_gm_sub_item(self, event: AstrMessageEvent, args: str = ""):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
@@ -2142,7 +2142,7 @@ class XiuXianPlugin(Star):
         msg = await self.gm_handlers.handle_sub_item(target_id, extra)
         yield event.plain_result(msg)
 
-    @filter.command(CMD_GM_ADD_PILL, "GM添加丹药")
+    @filter.command(CMD_GM_ADD_PILL, "GM添加丹药", aliases={"gm加丹药"})
     async def handle_gm_add_pill(self, event: AstrMessageEvent, args: str = ""):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
@@ -2151,7 +2151,7 @@ class XiuXianPlugin(Star):
         msg = await self.gm_handlers.handle_add_pill(target_id, extra)
         yield event.plain_result(msg)
 
-    @filter.command(CMD_GM_SUB_PILL, "GM扣除丹药")
+    @filter.command(CMD_GM_SUB_PILL, "GM扣除丹药", aliases={"gm扣丹药"})
     async def handle_gm_sub_pill(self, event: AstrMessageEvent, args: str = ""):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
@@ -2160,7 +2160,7 @@ class XiuXianPlugin(Star):
         msg = await self.gm_handlers.handle_sub_pill(target_id, extra)
         yield event.plain_result(msg)
 
-    @filter.command(CMD_GM_VIEW_PLAYER, "GM查看玩家")
+    @filter.command(CMD_GM_VIEW_PLAYER, "GM查看玩家", aliases={"gm查看玩家"})
     async def handle_gm_view_player(self, event: AstrMessageEvent, args: str = ""):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
@@ -2169,7 +2169,7 @@ class XiuXianPlugin(Star):
         msg = await self.gm_handlers.handle_view_player(target_id)
         yield event.plain_result(msg)
 
-    @filter.command(CMD_GM_REFRESH_RIFT, "GM强制刷新秘境")
+    @filter.command(CMD_GM_REFRESH_RIFT, "GM强制刷新秘境", aliases={"gm刷新秘境"})
     async def handle_gm_refresh_rift(self, event: AstrMessageEvent):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
@@ -2179,7 +2179,7 @@ class XiuXianPlugin(Star):
         if success and rift_def:
             await self._broadcast_rift_open(rift_def)
 
-    @filter.command(CMD_GM_COMPENSATION, "GM创建全服补偿包")
+    @filter.command(CMD_GM_COMPENSATION, "GM创建全服补偿包", aliases={"gm补偿"})
     async def handle_gm_compensation(self, event: AstrMessageEvent, args: str = ""):
         if not self._check_boss_admin(event):
             yield event.plain_result("❌ 你没有权限！此指令仅限管理员使用。")
