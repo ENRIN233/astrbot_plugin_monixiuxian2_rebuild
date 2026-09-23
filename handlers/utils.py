@@ -168,14 +168,41 @@ COMMAND_FOOTERS: dict = {
 def get_related_commands_footer(command: str) -> str:
     """获取指定命令的相关指令提示，无则返回空字符串"""
     return COMMAND_FOOTERS.get(command, "")
-
-
 def inject_footer(response: str, command: str) -> str:
     """将板块相关指令 footer 附加到响应末尾"""
     footer = COMMAND_FOOTERS.get(command)
     if footer:
         return f"{response}\n━━━━━━━━━━━━━━━\n{footer}"
     return response
+
+
+async def _sync_cultivation_state(db, player: Player) -> None:
+    """闭关双源状态一致性自愈（修复假忙碌/假空闲）。
+
+    闭关是双源状态：player.state（权威，出关认它）+ user_cd.type（拦截器认它）。
+    异常中断（进程崩溃/迁移/装卸插件）可能造成单边残留：
+    - user_cd=CULTIVATING 但 state 非"修炼中" → 其他指令全被拦截显示"闭关中"，
+      出关却报"并未闭关"——清 user_cd 残留（以 state 为准）
+    - state="修炼中" 但 user_cd 非 CULTIVATING → 补写 user_cd（保持拦截语义）
+    仅处理 CULTIVATING：秘境/交易/宗门任务以 user_cd 为唯一权威，有自己的生命周期。
+    """
+    try:
+        user_cd = await db.ext.get_user_cd(player.user_id)
+    except Exception:
+        return
+    cd_cultivating = bool(user_cd and user_cd.type == UserStatus.CULTIVATING)
+    state_cultivating = (player.state == "修炼中")
+
+    if cd_cultivating and not state_cultivating:
+        try:
+            await db.ext.set_user_free(player.user_id)
+        except Exception:
+            pass
+    elif state_cultivating and not cd_cultivating:
+        try:
+            await db.ext.set_user_busy(player.user_id, UserStatus.CULTIVATING, 0)
+        except Exception:
+            pass
 
 
 def player_required(func: Callable[..., Coroutine[any, any, AsyncGenerator[any, None]]]):
@@ -202,7 +229,10 @@ def player_required(func: Callable[..., Coroutine[any, any, AsyncGenerator[any, 
                 return
         
         message_text = event.get_message_str().strip()
-        
+
+        # 闭关双源状态自愈（user_cd 与 player.state 不同步时自动校准，防假忙碌）
+        await _sync_cultivation_state(self.db, player)
+
         # 检查 user_cd 表的忙碌状态
         user_cd = await self.db.ext.get_user_cd(player.user_id)
         if user_cd and user_cd.type != UserStatus.IDLE:
