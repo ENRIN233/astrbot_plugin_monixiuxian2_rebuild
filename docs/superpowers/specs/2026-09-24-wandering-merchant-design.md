@@ -1,7 +1,7 @@
 # 云游商人系统设计文档
 
 > 版本: v1.1（2026-09-24）
-> 状态: 方案待审核（未实施）
+> 状态: 已实施（首轮经济模拟已跑，待真实数据校准）
 > 边界定案: 功法/神通/辅修**可卖**；武器/防具成品**不卖**；材料/药材/丹药可卖
 >
 > **v1.1 修订**（用户拍板）：
@@ -10,6 +10,8 @@
 > 3. 捡漏位保留 ✅ 定案
 > 4. 广播默认开 ✅ 定案
 > 5. 重复持有**允许购买**（可转卖寄售行）——撤销 v1.0 的拦截设计，套利分析见 §6.1
+>
+> **实施状态（2026-09-24）**：v1.1 已接入插件：migration v44、窗口调度、两条指令、购买/入库/限购、配置面板与 25 项商人测试均已完成。首轮 Monte Carlo 命中信号 D（模拟 sink 占比偏高），暂不擅自改价，保留 `PRICE_SCALE` 作为线上数据校准入口。
 
 ---
 
@@ -212,12 +214,13 @@
 ## 8. 数据模型（migration v44）
 
 ```
-merchant_windows   id, opened_at, closed_at, status(0=open,1=closed)
+merchant_windows   id, merchant_name, opened_at, closed_at, status(0=open,1=closed), goods_count
 merchant_goods     id, window_id, slot_type(regular/tech/bargain),
                    item_kind(material/herb/pill/tech/skill/subtech),
                    item_name, rank_idx, price, stock_total, stock_left
 merchant_purchases id, window_id, user_id, item_kind, item_name,
-                   price, created_at        ← 限购判定 + 经济分析双用
+                   quantity, price, total_price, created_at
+                   ← 限购判定 + 经济分析双用
 ```
 
 - `LATEST_DB_VERSION = 44`，迁移任务双参 `(conn, config_manager)`（铁律）
@@ -277,9 +280,22 @@ MERCHANT (type=object, items 平铺——结构铁律，勿嵌套):
 ### 10.2 验证脚本
 
 `scripts/merchant_economy_sim.py`（Monte Carlo，沿 encounter/ROI 校验脚本先例）：
-- 模拟 30 天 × 20 玩家的购买行为（按价格敏感度分布）
-- 输出：sink 占比 / 修炼位售罄率 / 品阶成交分布 / 捡漏套利规模
-- 数值定案前必跑
+- 独立运行，直接加载仓库真实配置，不依赖 AstrBot 启动环境
+- 模拟 30 天 × 20 玩家 × N runs 的购买行为（按价格敏感度分布）
+- 输出：sink 占比 / 修炼位售罄率 / 品阶成交分布
+- 调参前必跑；脚本异常时先看退出码，不把空货架当成经济结论
+
+**首轮运行记录（2026-09-24，30 天 × 20 人 × 10 runs，`price_scale=1.0`）**：
+
+| 指标 | 结果 | 判定 |
+|---|---:|---|
+| 日均 sink | 98,353,873 灵石 | 信号 D：超过 15% |
+| sink 占比 | 106.9% | 收入模型与真实产出尚未校准 |
+| 修炼位日均成交 | 0.7 件 | 低于预估，但非连续零成交 |
+| 修炼位售罄率 | 11% | 未触发“秒空” |
+| 品阶成交 | 天上 ×132 / 仙下 ×59 / 仙上 ×27 | 高段位已开始成交 |
+
+> 首轮结果只说明 **[PLACEHOLDER] 收入/购买意愿模型偏激进**，不是直接改价结论。上线后应采集真实玩家收入、purchases 与寄售关联数据，再决定是否下调 `PRICE_SCALE`、收紧常规位购买意愿或调整目标区间。
 
 ### 10.3 Playtest 失败信号（先定义"坏掉长什么样"）
 
@@ -319,7 +335,7 @@ MERCHANT (type=object, items 平铺——结构铁律，勿嵌套):
 | `handlers/merchant_handler.py` | 2 指令 | ~80 行 |
 | `main.py` | 注册命令 ×2、后台任务 #9、白名单、构造注入 | 小 |
 | `_conf_schema.json` | MERCHANT 节（标准 object 分组） | 小 |
-| `tests/test_merchant_manager.py` | 选品分布/定价缩放/限购/重复放行与标注/CAS 并发/窗口过期/品阶带锚定 | ~15-18 用例 |
+| `tests/test_merchant_manager.py` | 选品分布/定价缩放/限购/重复放行与标注/CAS 并发/窗口过期/品阶带锚定/限购按件数统计/列表药材配置 | 25 用例 |
 | `scripts/merchant_economy_sim.py` | Monte Carlo sink 验证 | ~150 行 |
 
 预估：一个开发会话可完成主体 + 测试。

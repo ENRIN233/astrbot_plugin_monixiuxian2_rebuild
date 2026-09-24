@@ -430,5 +430,112 @@
         "hint": "仙阶以上品阶的权重乘数，期望约 6.7 天一张仙阶；失败信号：周获取超 2 张即下调"
       }
     }
+  },
+  "MERCHANT": {
+    "description": "云游商人配置",
+    "type": "object",
+    "items": {
+      "MERCHANT_ENABLED": {
+        "description": "云游商人总开关",
+        "type": "bool",
+        "default": true,
+        "hint": "关闭后不再开窗，历史窗口自然过期"
+      },
+      "BROADCAST_ENABLED": {
+        "description": "全服广播",
+        "type": "bool",
+        "default": true,
+        "hint": "开窗/关窗/修炼位售出播报；关闭后仍可正常购买"
+      },
+      "WINDOWS_PER_DAY_MIN": {
+        "description": "每日窗口数下限",
+        "type": "int",
+        "default": 2
+      },
+      "WINDOWS_PER_DAY_MAX": {
+        "description": "每日窗口数上限",
+        "type": "int",
+        "default": 3
+      },
+      "WINDOW_DURATION_MIN": {
+        "description": "窗口时长下限（分钟）",
+        "type": "int",
+        "default": 30
+      },
+      "WINDOW_DURATION_MAX": {
+        "description": "窗口时长上限（分钟）",
+        "type": "int",
+        "default": 60
+      },
+      "REGULAR_SLOTS": {
+        "description": "每窗口常规货位数",
+        "type": "int",
+        "default": 3
+      },
+      "TECH_SLOTS_MIN": {
+        "description": "每窗口修炼位下限",
+        "type": "int",
+        "default": 1,
+        "hint": "功法/神通/辅修，全服库存 1 件"
+      },
+      "TECH_SLOTS_MAX": {
+        "description": "每窗口修炼位上限",
+        "type": "int",
+        "default": 2
+      },
+      "BARGAIN_CHANCE": {
+        "description": "捡漏位出现概率",
+        "type": "float",
+        "default": 0.15,
+        "hint": "仅常规品折扣，不出折扣功法"
+      },
+      "PRICE_SCALE": {
+        "description": "全局价格倍率",
+        "type": "float",
+        "default": 1.0,
+        "obvious_hint": true,
+        "hint": "应急旋钮：1.0 为设计值（无上 5 亿）"
+      },
+      "PREMIUM_MIN": {
+        "description": "常规品溢价下限",
+        "type": "float",
+        "default": 1.1
+      },
+      "PREMIUM_MAX": {
+        "description": "常规品溢价上限",
+        "type": "float",
+        "default": 1.5
+      },
+      "REGULAR_STOCK_MIN": {
+        "description": "常规品库存下限",
+        "type": "int",
+        "default": 3
+      },
+      "REGULAR_STOCK_MAX": {
+        "description": "常规品库存上限",
+        "type": "int",
+        "default": 5
+      },
+      "WINDOW_BUY_LIMIT": {
+        "description": "每人每期购买上限（件）",
+        "type": "int",
+        "default": 2
+      },
+      "DAILY_BUY_LIMIT": {
+        "description": "每人每日购买上限（件）",
+        "type": "int",
+        "default": 4
+      },
+      "TECH_WINDOW_BUY_LIMIT": {
+        "description": "修炼位每人每期限购（件）",
+        "type": "int",
+        "default": 1
+      },
+      "TICK_INTERVAL_SECONDS": {
+        "description": "调度 tick 间隔（秒）",
+        "type": "int",
+        "default": 60
+      }
+    }
   }
 }

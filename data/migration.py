@@ -7,7 +7,7 @@ from typing import Dict, Callable, Awaitable
 from astrbot.api import logger
 from ..config_manager import ConfigManager
 
-LATEST_DB_VERSION = 43  # v43: 灵植园 v2（地块/园圃/灵兽/偷菜）
+LATEST_DB_VERSION = 44  # v44: 云游商人（窗口/商品/购买记录）
 
 MIGRATION_TASKS: Dict[int, Callable[[aiosqlite.Connection, ConfigManager], Awaitable[None]]] = {}
 
@@ -2249,3 +2249,60 @@ async def v43_spirit_garden_v2(conn: aiosqlite.Connection, config_manager: Confi
 
     await conn.commit()
     logger.info(f"v43迁移完成：灵植园 v2（{converted} 个农场折算为野生地块）")
+
+
+@migration(44)
+async def v44_wandering_merchant(conn: aiosqlite.Connection, config_manager: ConfigManager):
+    """v44: 云游商人 — 窗口/货架商品/购买记录 三张表
+
+    全新表（CREATE TABLE IF NOT EXISTS），旧库/新库均幂等。
+    - merchant_windows:  开窗记录（merchant_name flavor / opened_at / closed_at / status）
+    - merchant_goods:    货架商品（slot_type regular|tech|bargain, item_kind, 价格, 库存 CAS 扣减）
+    - merchant_purchases: 购买流水（窗口限购/每日限购判定 + 经济 sink 分析双用）
+    """
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS merchant_windows (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            merchant_name TEXT NOT NULL DEFAULT '',
+            opened_at REAL NOT NULL,
+            closed_at REAL NOT NULL,
+            status INTEGER NOT NULL DEFAULT 0,
+            goods_count INTEGER NOT NULL DEFAULT 0
+        )
+    """)
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS merchant_goods (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            window_id INTEGER NOT NULL,
+            slot_type TEXT NOT NULL DEFAULT 'regular',
+            item_kind TEXT NOT NULL DEFAULT 'material',
+            item_name TEXT NOT NULL,
+            rank_idx INTEGER NOT NULL DEFAULT -1,
+            price INTEGER NOT NULL DEFAULT 0,
+            stock_total INTEGER NOT NULL DEFAULT 1,
+            stock_left INTEGER NOT NULL DEFAULT 1
+        )
+    """)
+    await conn.execute("""
+        CREATE TABLE IF NOT EXISTS merchant_purchases (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            window_id INTEGER NOT NULL,
+            user_id TEXT NOT NULL,
+            item_kind TEXT NOT NULL DEFAULT 'material',
+            item_name TEXT NOT NULL,
+            quantity INTEGER NOT NULL DEFAULT 1,
+            price INTEGER NOT NULL DEFAULT 0,
+            total_price INTEGER NOT NULL DEFAULT 0,
+            created_at REAL NOT NULL
+        )
+    """)
+    await conn.execute(
+        "CREATE INDEX IF NOT EXISTS idx_merchant_purchases_user_time "
+        "ON merchant_purchases(user_id, created_at)"
+    )
+    await conn.execute(
+        "CREATE INDEX IF NOT EXISTS idx_merchant_goods_window "
+        "ON merchant_goods(window_id)"
+    )
+    await conn.commit()
+    logger.info("v44迁移完成：云游商人（merchant_windows/merchant_goods/merchant_purchases）")

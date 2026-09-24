@@ -28,7 +28,9 @@ from .managers import (
     TradeManager, ConsignmentManager, AchievementManager,
 )
 from .managers.encounter_manager import EncounterManager
+from .managers.merchant_manager import MerchantManager
 from .handlers.encounter_handler import EncounterHandler
+from .handlers.merchant_handler import MerchantHandler
 
 
 def require_whitelist(func):
@@ -185,6 +187,10 @@ CMD_ENCOUNTER_CHOOSE = "奇遇"
 CMD_ENCOUNTER_INFO = "奇遇信息"
 CMD_ENCOUNTER_HISTORY = "奇遇记录"
 
+# 云游商人
+CMD_MERCHANT = "云游商人"
+CMD_MERCHANT_BUY = "购买商品"
+
 # 玩家交易系统
 CMD_TRADE_START = "交易"
 CMD_TRADE_ACCEPT = "接受交易"
@@ -328,6 +334,14 @@ class XiuXianPlugin(Star):
         )
         self.encounter_handler = EncounterHandler(self.db, self.encounter_mgr)
 
+        # 云游商人（broadcast_fn 挂全群广播，开窗/关窗/修炼位售出播报；MERCHANT 节 WebUI 覆盖运行参数）
+        self.merchant_mgr = MerchantManager(
+            self.db, self.config_manager, self.storage_ring_mgr,
+            broadcast_fn=self._broadcast_to_whitelist_groups,
+            astrbot_config=self.config,
+        )
+        self.merchant_handler = MerchantHandler(self.db, self.merchant_mgr)
+
         # 神通系统
         from .handlers.skill_handler import SkillHandler
         self.skill_handler = SkillHandler(
@@ -440,8 +454,31 @@ class XiuXianPlugin(Star):
         self.rift_daily_task = asyncio.create_task(self._schedule_rift_daily())
         self.sect_material_task = asyncio.create_task(self._schedule_sect_material_distribution())
         self.sect_owner_change_task = asyncio.create_task(self._schedule_auto_sect_owner_change())
+        self.merchant_task = asyncio.create_task(self._schedule_merchant())
         
         logger.info("【修仙插件】已加载。")
+
+    async def _schedule_merchant(self):
+        """云游商人调度任务（每分钟 tick：按当日计划开窗 / 关闭过期窗口 / 生成广播），支持指数退避"""
+        retry_count = 0
+        max_retry_delay = 3600
+        while True:
+            try:
+                await self.db.ensure_connection()
+                interval = int(self.merchant_mgr.settings.get("tick_interval_seconds", 60))
+                await asyncio.sleep(interval)
+                messages = await self.merchant_mgr.tick()
+                for msg in messages:
+                    await self._broadcast_to_whitelist_groups(msg)
+                retry_count = 0
+            except asyncio.CancelledError:
+                break
+            except Exception as e:
+                logger.error(f"云游商人调度任务异常: {e}")
+                retry_count += 1
+                delay = min(60 * (2 ** retry_count), max_retry_delay)
+                logger.info(f"【修仙插件】云游商人调度将在 {delay} 秒后重试（第{retry_count}次）")
+                await asyncio.sleep(delay)
 
     async def terminate(self):
         """优雅关闭：取消所有后台任务 → 等待完成 → 关闭数据库"""
@@ -454,6 +491,7 @@ class XiuXianPlugin(Star):
             "rift_daily_task": self.rift_daily_task,
             "sect_material_task": self.sect_material_task,
             "sect_owner_change_task": self.sect_owner_change_task,
+            "merchant_task": self.merchant_task,
         }
         pending_tasks = []
         for name, task in task_map.items():
@@ -1913,6 +1951,19 @@ class XiuXianPlugin(Star):
     @require_whitelist
     async def handle_encounter_history(self, event: AstrMessageEvent):
         async for r in self.encounter_handler.handle_history(event):
+            yield r
+
+    # ===== 云游商人 =====
+    @filter.command(CMD_MERCHANT, "查看云游商人的货架")
+    @require_whitelist
+    async def handle_merchant_view(self, event: AstrMessageEvent):
+        async for r in self.merchant_handler.handle_view(event):
+            yield r
+
+    @filter.command(CMD_MERCHANT_BUY, "购买云游商人商品")
+    @require_whitelist
+    async def handle_merchant_buy(self, event: AstrMessageEvent, goods_id: str = "", quantity: str = "1"):
+        async for r in self.merchant_handler.handle_buy(event, goods_id, quantity):
             yield r
 
     # ===== Phase 4: 双修 =====
